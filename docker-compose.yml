@@ -6,5 +6,6 @@ services:
     image: kotauth-website:latest
     container_name: kotauth-website
     ports:
-      - "${PORT:-8080}:8080"
+      - "${PORT:-3004}"
+      - 8080
     restart: unless-stopped
