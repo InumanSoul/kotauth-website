@@ -5,7 +5,6 @@ services:
       dockerfile: Dockerfile
     image: kotauth-website:latest
     container_name: kotauth-website
-    ports:
-      - 3004
-      - 8080
+    expose:
+      - "${PORT:-3004}"
     restart: unless-stopped
