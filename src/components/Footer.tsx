@@ -1,5 +1,7 @@
 import { Github, Twitter, MessageCircle } from 'lucide-react';
 
+const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
+
 const footerLinks = {
   product: [
     { label: 'Features', href: '#features' },
@@ -9,7 +11,7 @@ const footerLinks = {
   resources: [
     { label: 'Documentation', href: '#docs' },
     { label: 'API Reference', href: '#api' },
-    { label: 'GitHub', href: '#github' },
+    { label: 'GitHub', href: GITHUB_URL },
     { label: 'Community', href: '#community' },
   ],
   company: [
@@ -21,7 +23,7 @@ const footerLinks = {
 
 const socialLinks = [
   { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Github, href: '#', label: 'GitHub' },
+  { icon: Github, href: GITHUB_URL, label: 'GitHub' },
   { icon: MessageCircle, href: '#', label: 'Discord' },
 ];
 
@@ -43,6 +45,8 @@ export function Footer() {
                 <a
                   key={social.label}
                   href={social.href}
+                  target={social.href.startsWith('http') ? '_blank' : undefined}
+                  rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className="w-10 h-10 bg-kotauth-surface-1 flex items-center justify-center text-kotauth-text-tertiary hover:text-kotauth-text-primary hover:bg-kotauth-surface-2 transition-all"
                   aria-label={social.label}
                 >
@@ -81,6 +85,8 @@ export function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
+                    target={link.href.startsWith('http') ? '_blank' : undefined}
+                    rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                     className="text-sm text-kotauth-text-tertiary hover:text-kotauth-text-primary transition-colors font-mono"
                   >
                     {link.label}

@@ -11,6 +11,8 @@ const navLinks = [
   { label: 'Blog', href: '#blog' },
 ];
 
+const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -58,12 +60,15 @@ export function Navbar() {
           {/* Desktop CTAs */}
           <div className="hidden md:flex items-center gap-3">
             <Button
+              asChild
               variant="ghost"
               size="sm"
               className="text-kotauth-text-secondary hover:text-kotauth-text-primary hover:bg-kotauth-surface-1 font-mono"
             >
-              <Github className="w-4 h-4 mr-2" />
-              GitHub
+              <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
+                <Github className="w-4 h-4 mr-2" />
+                GitHub
+              </a>
             </Button>
             <Button
               size="sm"
@@ -97,11 +102,19 @@ export function Navbar() {
                 ))}
                 <hr className="border-kotauth-surface-2" />
                 <Button
+                  asChild
                   variant="ghost"
                   className="justify-start text-kotauth-text-secondary hover:text-kotauth-text-primary font-mono"
                 >
-                  <Github className="w-4 h-4 mr-2" />
-                  GitHub
+                  <a
+                    href={GITHUB_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    <Github className="w-4 h-4 mr-2" />
+                    GitHub
+                  </a>
                 </Button>
                 <Button className="bg-kotauth-primary hover:bg-kotauth-primary-light text-white font-mono">
                   Get Started

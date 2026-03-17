@@ -1,0 +1,10 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kotauth-website:latest
+    container_name: kotauth-website
+    ports:
+      - "${PORT:-8080}:8080"
+    restart: unless-stopped

@@ -3,6 +3,8 @@ import { ArrowRight, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { FloatingOrb } from '@/components/GradientGlow';
 
+const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
+
 export function CTASection() {
   return (
     <section className="py-24 lg:py-32 relative overflow-hidden">
@@ -60,12 +62,15 @@ export function CTASection() {
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
               <Button 
+                asChild
                 variant="outline"
                 size="lg"
                 className="border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-2 px-8 h-12 font-mono"
               >
-                <Github className="w-4 h-4 mr-2" />
-                Star on GitHub
+                <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
+                  <Github className="w-4 h-4 mr-2" />
+                  Star on GitHub
+                </a>
               </Button>
             </motion.div>
           </div>
