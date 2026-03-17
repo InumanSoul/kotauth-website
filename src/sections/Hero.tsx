@@ -26,7 +26,8 @@ const itemVariants = {
   },
 };
 
-const codeContent = `$ docker run -p 8080:8080 kotauth/kotauth
+const codeContent = `$ docker pull inumansoul/kotauth:latest
+$ docker run -p 8080:8080 inumansoul/kotauth:latest
 
 Starting Kotauth Server v1.0.0...
 ✓ Identity server ready on port 8080
