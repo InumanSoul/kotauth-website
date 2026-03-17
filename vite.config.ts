@@ -7,7 +7,7 @@ import { inspectAttr } from 'kimi-plugin-inspect-react'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   const port = Number(env.PORT || 5173);
-  const allowedHosts = (env.VITE_ALLOWED_HOSTS || "localhost,127.0.0.1")
+  const allowedHosts = (env.VITE_ALLOWED_HOSTS || "localhost,0.0.0.0")
     .split(",")
     .map((host) => host.trim())
     .filter(Boolean);
