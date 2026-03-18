@@ -10,11 +10,7 @@ interface FeatureCardProps {
 export function FeatureCard({ icon: Icon, title, description }: FeatureCardProps) {
   return (
     <motion.div
-      className="group p-8 bg-kotauth-surface-1 border border-kotauth-surface-2 transition-all duration-300"
-      whileHover={{ 
-        y: -4,
-        transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }
-      }}
+      className="group p-8 bg-kotauth-surface-1 border border-kotauth-surface-2 transition-all duration-300 min-h-80"
     >
       <div className="mb-5">
         <motion.div

@@ -1,20 +1,17 @@
-import { 
-  Container, 
-  Shield, 
-  Building2, 
-  Key, 
-  Clock, 
-  ShieldCheck 
+import {
+  Container,
+  Shield,
+  Building2,
+  Key,
+  Clock,
+  ShieldCheck,
+  Webhook,
+  Palette,
 } from 'lucide-react';
 import { FeatureCard } from '@/components/FeatureCard';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/AnimatedSection';
 
 const features = [
-  {
-    icon: Container,
-    title: 'Docker-Native Deployment',
-    description: 'One command deployment with Docker. No complex configuration, no dependencies to manage.',
-  },
   {
     icon: Shield,
     title: 'OAuth 2.0 & OpenID Connect',
@@ -40,6 +37,21 @@ const features = [
     title: 'Enterprise Security',
     description: 'MFA, rate limiting, brute force protection, and comprehensive audit logs.',
   },
+  {
+    icon: Webhook,
+    title: 'Real-time Webhooks',
+    description: 'HMAC-signed event delivery for every identity action. React to logins, registrations, and revocations without polling.',
+  },
+  {
+    icon: Palette,
+    title: 'White-label Auth Pages',
+    description: 'Full brand control over login and registration screens. Custom colors, logo, and favicon — per tenant, no rebuild required.',
+  },
+  {
+    icon: Container,
+    title: 'Docker-Native Deployment',
+    description: 'One command deployment with Docker. No complex configuration, no dependencies to manage.',
+  },
 ];
 
 export function FeaturesGrid() {
@@ -59,7 +71,7 @@ export function FeaturesGrid() {
 
         {/* Features Grid */}
         <StaggerContainer 
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-0"
           staggerDelay={0.1}
         >
           {features.map((feature, index) => (

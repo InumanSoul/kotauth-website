@@ -68,7 +68,7 @@ const shippedPhases: Phase[] = [
       'TOTP MFA (RFC 6238) with QR enrollment, verification, and recovery codes',
       'MFA policy per workspace: optional, required, required_for_admins',
       'REST API v1 — 30+ endpoints, OpenAPI 3.1 spec, Swagger UI',
-      'Per-tenant branding — logo, primary color, workspace name on all auth pages',
+      'Per-tenant white-label theming — TenantTheme injects 9 CSS custom properties server-side into every auth page; 3 built-in presets (DEFAULT dark, LIGHT, SIMPLE rounded); custom logo and favicon per workspace; no rebuild required',
     ],
   },
   {
@@ -86,12 +86,15 @@ const shippedPhases: Phase[] = [
   },
   {
     number: 5,
-    title: 'Documentation & Release',
-    tagline: 'The external surface that makes adoption possible',
+    title: 'Frontend Architecture & Documentation',
+    tagline: 'The build pipeline, brand surface, and external docs that make adoption possible',
     items: [
+      'Two-bundle CSS build pipeline — LightningCSS (Rust native) compiles kotauth-admin.css (fixed dark theme) and kotauth-auth.css (no :root defaults — tokens injected at runtime by TenantTheme)',
+      '3-stage Docker build — Stage 1: Node/LightningCSS; Stage 2: Gradle fat JAR (CSS injected before JAR assembly); Stage 3: eclipse-temurin:17-jre runtime (~85 MB, no Node or Gradle)',
+      'Public documentation site — Astro Starlight; 29 pages covering API reference, auth flows, OIDC/OAuth2 protocol, deployment, webhooks, and white-label theming',
+      'Marketing website — React + Vite + Tailwind; feature grid, roadmap, and public-facing brand presence',
       'README with Docker quickstart — running in under five minutes',
       'Full environment variable reference with production guidance',
-      'React SPA + TanStack Router integration guide (oidc-client-ts, auth guards, silent refresh)',
       'CONTRIBUTING guide — local setup, architecture constraints, migration conventions',
       'Security hardening: cookie.secure derived from KAUTH_BASE_URL at startup',
     ],
@@ -209,7 +212,7 @@ export function RoadmapPage() {
               { label: 'Phases Shipped', value: '6' },
               { label: 'DB Migrations', value: '21' },
               { label: 'REST Endpoints', value: '30+' },
-              { label: 'Architecture ADRs', value: '21' },
+              { label: 'Architecture ADRs', value: '23' },
             ].map((stat) => (
               <div key={stat.label} className="text-center sm:text-left">
                 <p className="text-2xl font-bold text-kotauth-text-primary font-mono">{stat.value}</p>
@@ -308,7 +311,7 @@ export function RoadmapPage() {
           >
             <span className="eyebrow mb-3 block">Architecture</span>
             <h2 className="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
-              21 Architecture Decision Records
+              23 Architecture Decision Records
             </h2>
             <p className="text-kotauth-text-secondary max-w-xl">
               Key decisions made during development, documented for contributors and auditors.
@@ -347,6 +350,8 @@ export function RoadmapPage() {
                   { id: '19', decision: 'API keys use SHA-256, not bcrypt', rationale: '256-bit key entropy makes brute force infeasible; SHA-256 eliminates bcrypt latency per call' },
                   { id: '20', decision: 'API key prefix stored for display — first 16 chars of raw key', rationale: 'Human-friendly identification in admin UI without exposing the full credential' },
                   { id: '21', decision: 'Swagger UI loaded from CDN, not bundled', rationale: 'Saves ~7 MB from the fat JAR; no new Gradle dependencies required' },
+                  { id: '22', decision: 'Auth CSS carries no :root defaults — TenantTheme injects all tokens server-side at render time', rationale: 'Enables per-tenant theming with zero client-side JS; theme changes take effect on next page load with no rebuild' },
+                  { id: '23', decision: 'LightningCSS (Rust native) compiled in a dedicated Docker stage before the Gradle build', rationale: 'Produces minified, cross-browser bundles without Node.js in the JRE runtime image; CSS output is injected into the JAR during Stage 2' },
                 ].map((adr) => (
                   <tr key={adr.id} className="border-b border-kotauth-surface-1 hover:bg-kotauth-surface-1/40 transition-colors">
                     <td className="py-3 pr-6 text-kotauth-primary text-xs">ADR-{adr.id}</td>
