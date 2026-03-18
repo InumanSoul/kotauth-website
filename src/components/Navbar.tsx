@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
-const QUICKSTART_URL = `${GITHUB_URL}#quick-start`;
-const DOCS_URL = 'https://docs.kotauth.com/';
+const QUICKSTART_URL = 'https://docs.kotauth.com/getting-started/quickstart/';
+const DOCS_URL = 'https://docs.kotauth.com/getting-started/introduction/';
 
 type NavLink = {
   label: string;

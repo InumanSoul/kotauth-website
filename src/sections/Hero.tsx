@@ -88,7 +88,7 @@ export function Hero() {
                 size="lg"
                 className="bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-12 font-mono"
               >
-                <a href={`${DOCS_URL}/getting-started/quickstart`} target="_blank" rel="noopener noreferrer">
+                <a className='flex items-center' href={`${DOCS_URL}/getting-started/quickstart`} target="_blank" rel="noopener noreferrer">
                   Get Started
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </a>
@@ -98,7 +98,7 @@ export function Hero() {
                 size="lg"
                 className="border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-12 font-mono"
               >
-                <a href={`${DOCS_URL}/getting-started/core-concepts`} target="_blank" rel="noopener noreferrer">
+                <a className='flex items-center' href={`${DOCS_URL}/getting-started/core-concepts`} target="_blank" rel="noopener noreferrer">
                     <BookOpen className="w-4 h-4 mr-2" />
                     View Documentation
                 </a>
