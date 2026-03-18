@@ -81,34 +81,63 @@ export function CodeBlock({
   );
 }
 
-// Simple syntax highlighting
+// Single-pass tokenizer — avoids multi-pass regex corruption where later patterns
+// match class names and attribute values inserted by earlier passes.
 function highlightCode(line: string): string {
-  // Comments
-  line = line.replace(/(#.*$)/gm, '<span class="text-kotauth-text-muted">$1</span>');
-  
-  // Strings
-  line = line.replace(/(".*?"|'.*?')/g, '<span class="text-green-400">$1</span>');
-  
-  // Keywords
-  const keywords = ['const', 'let', 'var', 'function', 'async', 'await', 'import', 'from', 'export', 'default', 'return', 'if', 'else', 'for', 'while', 'class', 'interface', 'type'];
-  keywords.forEach(keyword => {
-    const regex = new RegExp(`\\b(${keyword})\\b`, 'g');
-    line = line.replace(regex, '<span class="text-purple-400">$1</span>');
-  });
-  
-  // Functions
-  line = line.replace(/(\w+)(\()/g, '<span class="text-blue-400">$1</span>$2');
-  
-  // Numbers
-  line = line.replace(/\b(\d+)\b/g, '<span class="text-orange-400">$1</span>');
-  
-  // Success indicators
-  line = line.replace(/(✓)/g, '<span class="text-kotauth-success">$1</span>');
-  
-  // Docker command prompt
-  line = line.replace(/^(\$)/, '<span class="text-kotauth-primary">$1</span>');
-  
-  return line;
+  const esc = (s: string) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  const span = (cls: string, text: string) =>
+    `<span class="${cls}">${esc(text)}</span>`;
+
+  const KEYWORDS = new Set([
+    // JS / TS
+    'const', 'let', 'var', 'function', 'async', 'await', 'import', 'export',
+    'from', 'default', 'return', 'if', 'else', 'for', 'while', 'new',
+    'class', 'interface', 'type', 'true', 'false', 'null', 'undefined',
+    // Python
+    'def', 'as', 'in', 'not', 'and', 'or', 'with', 'print',
+    // Go
+    'func', 'package', 'main',
+    // Bash
+    'curl', 'echo',
+  ]);
+
+  // Priority order: comment > string > number > identifier > any-other-char.
+  // First alternative that matches wins — already-inserted HTML never gets re-scanned.
+  const TOKEN_RE = new RegExp(
+    '(\\/\\/[^\\n]*)' +                   // 1  JS/Go line comment
+    '|(#[^\\n]*)' +                        // 2  Bash/Python line comment
+    '|(`[^`\\n]*`)' +                      // 3  Template literal (whole, incl. ${})
+    '|("(?:[^"\\\\\\n]|\\\\.)*")' +        // 4  Double-quoted string
+    "|('(?:[^'\\\\\\n]|\\\\.)*')" +        // 5  Single-quoted string
+    '|(\\b\\d+\\b)' +                      // 6  Integer literal
+    '|([a-zA-Z_$][\\w$]*)' +              // 7  Identifier / keyword
+    '|([\\s\\S])',                         // 8  Any other character (one at a time)
+    'g'
+  );
+
+  let result = '';
+  let m: RegExpExecArray | null;
+
+  while ((m = TOKEN_RE.exec(line)) !== null) {
+    const [, c1, c2, tmpl, dq, sq, num, ident, other] = m;
+
+    if (c1 !== undefined)     result += span('text-kotauth-text-muted', c1);
+    else if (c2 !== undefined) result += span('text-kotauth-text-muted', c2);
+    else if (tmpl !== undefined) result += span('text-green-400', tmpl);
+    else if (dq !== undefined)   result += span('text-green-400', dq);
+    else if (sq !== undefined)   result += span('text-green-400', sq);
+    else if (num !== undefined)  result += span('text-orange-400', num);
+    else if (ident !== undefined)
+      result += KEYWORDS.has(ident) ? span('text-purple-400', ident) : esc(ident);
+    else if (other !== undefined) {
+      if (other === '✓') result += span('text-kotauth-success', other);
+      else result += esc(other);
+    }
+  }
+
+  return result;
 }
 
 // Tabbed Code Block for multiple languages

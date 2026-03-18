@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
     .filter(Boolean);
 
   return {
-    base: './',
+    base: '/',
     plugins: [inspectAttr(), react()],
     resolve: {
       alias: {

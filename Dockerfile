@@ -10,8 +10,8 @@ RUN npm run build
 
 FROM nginxinc/nginx-unprivileged:1.27-alpine AS runtime
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --chown=nginx:nginx nginx.conf /etc/nginx/conf.d/default.conf
+COPY --chown=nginx:nginx --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 8080
 

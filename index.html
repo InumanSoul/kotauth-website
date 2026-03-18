@@ -4,18 +4,76 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kotauth - Identity Infrastructure for Modern Applications</title>
-    <meta name="keywords" content="authentication, identity management, self-hosted auth, open-source auth, secure authentication, user management, developer-friendly auth" />
+    <meta name="keywords" content="authentication, identity management, self-hosted auth, open-source auth, OAuth2, OIDC, SSO, JWT, multi-tenant, MFA, Docker auth" />
     <meta name="author" content="@InumanSoul, Kotauth Team" />
-    <meta name="description" content="The self-hosted authentication platform that combines enterprise power with developer experience. Deploy in seconds, scale with confidence." />
-    
+    <meta name="description" content="The self-hosted authentication platform that combines enterprise power with developer experience. OAuth2, OIDC, Multi-Tenancy, MFA — deploy in under a minute." />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kotauth.com/" />
+    <meta property="og:title" content="Kotauth - Identity Infrastructure for Modern Applications" />
+    <meta property="og:description" content="The self-hosted authentication platform that combines enterprise power with developer experience. OAuth2, OIDC, Multi-Tenancy, MFA — deploy in under a minute." />
+    <meta property="og:image" content="https://kotauth.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Kotauth" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@kotauth" />
+    <meta name="twitter:creator" content="@InumanSoul" />
+    <meta name="twitter:title" content="Kotauth - Identity Infrastructure for Modern Applications" />
+    <meta name="twitter:description" content="The self-hosted authentication platform that combines enterprise power with developer experience. OAuth2, OIDC, Multi-Tenancy, MFA — deploy in under a minute." />
+    <meta name="twitter:image" content="https://kotauth.com/og-image.png" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://kotauth.com/" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Kotauth",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Linux, Docker",
+      "description": "Open-source, self-hosted authentication and identity management platform. OAuth2/OIDC compliant, multi-tenant, Docker-native.",
+      "url": "https://kotauth.dev",
+      "softwareVersion": "1.0.0",
+      "license": "https://opensource.org/licenses/MIT",
+      "codeRepository": "https://github.com/InumanSoul/kotauth",
+      "programmingLanguage": "Kotlin",
+      "author": {
+        "@type": "Person",
+        "name": "Anderson",
+        "url": "https://github.com/InumanSoul"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "OAuth 2.0 and OpenID Connect",
+        "Multi-tenant workspaces",
+        "MFA / TOTP support",
+        "Social login (Google, GitHub)",
+        "RBAC with roles and groups",
+        "Docker-native deployment",
+        "REST API with OpenAPI spec",
+        "Audit logging and webhooks"
+      ]
+    }
+    </script>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/kotauth-favicon.png" />
-    
+
     <style>
       /* Critical CSS for initial load */
       html {
@@ -41,7 +99,6 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-PENV1QC7L1');
   </script>
   <body>

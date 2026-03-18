@@ -1,28 +1,24 @@
-import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
-import { Hero } from '@/sections/Hero';
-import { FeaturesGrid } from '@/sections/FeaturesGrid';
-import { CodeShowcase } from '@/sections/CodeShowcase';
-import { ComparisonTable } from '@/sections/ComparisonTable';
-import { Architecture } from '@/sections/Architecture';
-import { CTASection } from '@/sections/CTASection';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { MainLayout } from '@/layouts/MainLayout';
+import { HomePage } from '@/pages/HomePage';
+import { ContactPage } from '@/pages/ContactPage';
+import { RoadmapPage } from '@/pages/RoadmapPage';
+import { PrivacyPage } from '@/pages/PrivacyPage';
+import { TermsPage } from '@/pages/TermsPage';
 
 function App() {
   return (
-    <div className="min-h-screen bg-kotauth-bg-primary">
-      <Navbar />
-      
-      <main>
-        <Hero />
-        <FeaturesGrid />
-        <CodeShowcase />
-        <ComparisonTable />
-        <Architecture />
-        <CTASection />
-      </main>
-      
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/roadmap" element={<RoadmapPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
