@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { CodeBlock } from '@/components/CodeBlock';
 import { GradientGlow } from '@/components/GradientGlow';
 
+const DOCS_URL = 'https://docs.kotauth.com';
+
 const containerVariants = {
   hidden: {},
   visible: {
@@ -86,16 +88,20 @@ export function Hero() {
                 size="lg"
                 className="bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-12 font-mono"
               >
-                Get Started
-                <ArrowRight className="w-4 h-4 ml-2" />
+                <a href={`${DOCS_URL}/getting-started/quickstart`} target="_blank" rel="noopener noreferrer">
+                  Get Started
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </a>
               </Button>
               <Button 
                 variant="outline"
                 size="lg"
                 className="border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-12 font-mono"
               >
-                <BookOpen className="w-4 h-4 mr-2" />
-                View Documentation
+                <a href={`${DOCS_URL}/getting-started/core-concepts`} target="_blank" rel="noopener noreferrer">
+                    <BookOpen className="w-4 h-4 mr-2" />
+                    View Documentation
+                </a>
               </Button>
             </motion.div>
           </motion.div>

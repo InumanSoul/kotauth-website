@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Github, Twitter, MessageCircle } from 'lucide-react';
 
 const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
+const DOCS_URL = 'https://docs.kotauth.com/';
 
 type FooterLink = {
   label: string;
@@ -16,7 +17,7 @@ const footerLinks: Record<string, FooterLink[]> = {
     { label: 'Changelog', href: `${GITHUB_URL}/releases`, external: true },
   ],
   resources: [
-    { label: 'Documentation', href: `${GITHUB_URL}#readme`, external: true },
+    { label: 'Documentation', href: DOCS_URL, external: true },
     { label: 'API Reference', href: `${GITHUB_URL}#rest-api`, external: true },
     { label: 'GitHub', href: GITHUB_URL, external: true },
     { label: 'Community', href: `${GITHUB_URL}/discussions`, external: true },

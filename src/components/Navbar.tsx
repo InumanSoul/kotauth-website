@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, Github } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
 const QUICKSTART_URL = `${GITHUB_URL}#quick-start`;
+const DOCS_URL = 'https://docs.kotauth.com/';
 
 type NavLink = {
   label: string;
@@ -17,7 +18,7 @@ type NavLink = {
 const navLinks: NavLink[] = [
   { label: 'Features', href: '/#features', external: false },
   { label: 'Roadmap', href: '/roadmap', external: false },
-  { label: 'Docs', href: `${GITHUB_URL}#readme`, external: true },
+  { label: 'Docs', href: DOCS_URL, external: true },
   { label: 'Contact', href: '/contact', external: false },
 ];
 
@@ -53,18 +54,12 @@ function NavLinkItem({
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [location.pathname]);
 
   return (
     <motion.header
