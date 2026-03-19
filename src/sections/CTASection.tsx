@@ -3,7 +3,7 @@ import { ArrowRight, Github } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { FloatingOrb } from '@/components/GradientGlow';
 
-const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
+const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 
 export function CTASection() {
   return (
@@ -54,12 +54,15 @@ export function CTASection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <Button 
+              <Button
+                asChild
                 size="lg"
                 className="bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-8 h-12 font-mono"
               >
-                Get Started Free
-                <ArrowRight className="w-4 h-4 ml-2" />
+                <a href={`${GITHUB_URL}#quick-start`} target="_blank" rel="noopener noreferrer">
+                  Get Started Free
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </a>
               </Button>
               <Button 
                 asChild

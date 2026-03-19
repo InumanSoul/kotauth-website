@@ -3,6 +3,7 @@ import { Github, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { GradientGlow } from '@/components/GradientGlow';
 import { PhaseCard, containerVariants, type Phase } from '@/components/PhaseCard';
+import { PageSEO } from '@/components/PageSEO';
 
 const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
 
@@ -155,6 +156,11 @@ const plannedPhases: Phase[] = [
 export function RoadmapPage() {
   return (
     <div className="pt-[72px]">
+      <PageSEO
+        title="Roadmap — Kotauth"
+        description="See what's shipped and what's coming in Kotauth. Phases 0–5 are live in v1.0.2 — covering OAuth 2.0, OIDC, multi-tenancy, RBAC, webhooks, and white-label theming. Enterprise SSO, WebAuthn, and more are on the way."
+        path="/roadmap"
+      />
       {/* Hero */}
       <section className="py-20 lg:py-28 relative overflow-hidden">
         <GradientGlow

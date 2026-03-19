@@ -1,12 +1,12 @@
+import { Link } from 'react-router-dom';
 import {
   Container,
   Shield,
   Building2,
   Key,
-  Clock,
   ShieldCheck,
   Webhook,
-  Palette,
+  ArrowRight,
 } from 'lucide-react';
 import { FeatureCard } from '@/components/FeatureCard';
 import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/AnimatedSection';
@@ -15,42 +15,38 @@ const features = [
   {
     icon: Shield,
     title: 'OAuth 2.0 & OpenID Connect',
-    description: 'Full standards compliance. Be an identity provider for your entire application ecosystem.',
+    description:
+      'Authorization Code + PKCE, Client Credentials, token introspection (RFC 7662), revocation (RFC 7009), and OIDC Discovery — all out of the box.',
   },
   {
     icon: Building2,
-    title: 'Multi-Tenant Organizations',
-    description: 'Built-in organization management with role-based access control for B2B applications.',
+    title: 'Multi-Tenant by Design',
+    description:
+      'Every workspace gets its own RS256 key pair, isolated user base, and slug-routed API — /t/{workspace}/api/v1. Zero cross-tenant data leakage by design.',
   },
   {
     icon: Key,
     title: 'Flexible Authentication',
-    description: 'Password, TOTP MFA, and social login (Google, GitHub). Secure and flexible from day one.',
-  },
-  {
-    icon: Clock,
-    title: 'Advanced Session Control',
-    description: 'JWT tokens with refresh rotation. Revoke sessions instantly across all devices.',
+    description:
+      'Password + TOTP with recovery codes, Google and GitHub OAuth with automatic account linking by email. MFA enforced per workspace.',
   },
   {
     icon: ShieldCheck,
-    title: 'Enterprise Security',
-    description: 'MFA, rate limiting, brute force protection, and comprehensive audit logs.',
+    title: 'Security That Ships by Default',
+    description:
+      'bcrypt passwords, AES-256-GCM SMTP credentials, SHA-256 API key hashing, HSTS headers, CSRF protection, and 5 req/min login rate limiting — hardened before your first deploy.',
   },
   {
     icon: Webhook,
     title: 'Real-time Webhooks',
-    description: 'HMAC-signed event delivery for every identity action. React to logins, registrations, and revocations without polling.',
-  },
-  {
-    icon: Palette,
-    title: 'White-label Auth Pages',
-    description: 'Full brand control over login and registration screens. Custom colors, logo, and favicon — per tenant, no rebuild required.',
+    description:
+      'HMAC-SHA256 signed payloads for 8 event types — user created, login, MFA enabled, password changed, and more. Exponential backoff retries built in.',
   },
   {
     icon: Container,
     title: 'Docker-Native Deployment',
-    description: 'One command deployment with Docker. No complex configuration, no dependencies to manage.',
+    description:
+      '120 MB multi-stage image on GHCR. Bring your own .env, run docker compose up -d. Flyway migrations run automatically — no init scripts.',
   },
 ];
 
@@ -70,12 +66,12 @@ export function FeaturesGrid() {
         </AnimatedSection>
 
         {/* Features Grid */}
-        <StaggerContainer 
+        <StaggerContainer
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-0"
           staggerDelay={0.1}
         >
           {features.map((feature, index) => (
-            <StaggerItem key={index}>
+            <StaggerItem key={index} className="h-full">
               <FeatureCard
                 icon={feature.icon}
                 title={feature.title}
@@ -84,6 +80,17 @@ export function FeaturesGrid() {
             </StaggerItem>
           ))}
         </StaggerContainer>
+
+        {/* See All Features CTA */}
+        <AnimatedSection className="text-center mt-12">
+          <Link
+            to="/features"
+            className="inline-flex items-center gap-2 text-sm font-mono text-kotauth-primary hover:text-kotauth-primary-light transition-colors group"
+          >
+            Explore all features and technical details
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </AnimatedSection>
       </div>
     </section>
   );

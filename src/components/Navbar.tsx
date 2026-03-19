@@ -1,58 +1,103 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, Github } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Menu, Github, ExternalLink } from 'lucide-react';
+import { Link, NavLink } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
-const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
+const GITHUB_URL    = 'https://github.com/inumansoul/kotauth';
 const QUICKSTART_URL = 'https://docs.kotauth.com/getting-started/quickstart/';
-const DOCS_URL = 'https://docs.kotauth.com/getting-started/introduction/';
+const DOCS_URL      = 'https://docs.kotauth.com/getting-started/introduction/';
 
-type NavLink = {
+type NavLinkDef = {
   label: string;
   href: string;
   external: boolean;
 };
 
-const navLinks: NavLink[] = [
-  { label: 'Features', href: '/#features', external: false },
-  { label: 'Roadmap', href: '/roadmap', external: false },
-  { label: 'Docs', href: DOCS_URL, external: true },
-  { label: 'Contact', href: '/contact', external: false },
+const navLinks: NavLinkDef[] = [
+  { label: 'Features', href: '/features', external: false },
+  { label: 'Roadmap', href: '/roadmap',   external: false },
+  { label: 'Docs',    href: DOCS_URL,     external: true  },
+  { label: 'Contact', href: '/contact',   external: false },
 ];
 
-function NavLinkItem({
-  link,
-  className,
-  onClick,
-}: {
-  link: NavLink;
-  className?: string;
-  onClick?: () => void;
-}) {
+// ─── Desktop nav item ─────────────────────────────────────────────────────────
+
+function DesktopNavItem({ link }: { link: NavLinkDef }) {
+  const base = 'text-sm font-mono transition-colors duration-150';
+
   if (link.external) {
     return (
       <a
         href={link.href}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={onClick}
-        className={className}
+        className={`${base} inline-flex items-center gap-1 text-kotauth-text-secondary hover:text-kotauth-text-primary`}
       >
         {link.label}
+        <ExternalLink className="w-3 h-3 opacity-50" />
       </a>
     );
   }
+
   return (
-    <Link to={link.href} onClick={onClick} className={className}>
+    <NavLink
+      to={link.href}
+      className={({ isActive }) =>
+        `${base} ${
+          isActive
+            ? 'text-kotauth-primary'
+            : 'text-kotauth-text-secondary hover:text-kotauth-text-primary'
+        }`
+      }
+    >
       {link.label}
-    </Link>
+    </NavLink>
   );
 }
 
+// ─── Mobile nav item ──────────────────────────────────────────────────────────
+
+function MobileNavItem({ link, onClose }: { link: NavLinkDef; onClose: () => void }) {
+  const base = 'text-lg font-mono transition-colors duration-150';
+
+  if (link.external) {
+    return (
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={onClose}
+        className={`${base} inline-flex items-center gap-1.5 text-kotauth-text-secondary hover:text-kotauth-text-primary`}
+      >
+        {link.label}
+        <ExternalLink className="w-3.5 h-3.5 opacity-50" />
+      </a>
+    );
+  }
+
+  return (
+    <NavLink
+      to={link.href}
+      onClick={onClose}
+      className={({ isActive }) =>
+        `${base} ${
+          isActive
+            ? 'text-kotauth-primary'
+            : 'text-kotauth-text-secondary hover:text-kotauth-text-primary'
+        }`
+      }
+    >
+      {link.label}
+    </NavLink>
+  );
+}
+
+// ─── Navbar ───────────────────────────────────────────────────────────────────
+
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled]     = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
@@ -76,17 +121,19 @@ export function Navbar() {
         <nav className="flex items-center justify-between h-[72px]">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5">
-            <img src='/brand/kotauth-negative.svg' alt="KotAuth Logo" className="h-10" height={'40px'} width={'160px'} />
+            <img
+              src="/brand/kotauth-negative.svg"
+              alt="KotAuth Logo"
+              className="h-10"
+              height="40px"
+              width="160px"
+            />
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <NavLinkItem
-                key={link.label}
-                link={link}
-                className="text-sm text-kotauth-text-secondary hover:text-kotauth-text-primary transition-colors font-mono"
-              />
+              <DesktopNavItem key={link.label} link={link} />
             ))}
           </div>
 
@@ -123,15 +170,14 @@ export function Navbar() {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-[300px] bg-kotauth-bg-secondary border-kotauth-surface-2"
+              className="w-[300px] bg-kotauth-bg-secondary border-kotauth-surface-2 p-10"
             >
               <div className="flex flex-col gap-6 mt-8">
                 {navLinks.map((link) => (
-                  <NavLinkItem
+                  <MobileNavItem
                     key={link.label}
                     link={link}
-                    onClick={() => setMobileOpen(false)}
-                    className="text-lg text-kotauth-text-secondary hover:text-kotauth-text-primary transition-colors font-mono"
+                    onClose={() => setMobileOpen(false)}
                   />
                 ))}
                 <hr className="border-kotauth-surface-2" />

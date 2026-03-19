@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { PageSEO } from '@/components/PageSEO';
 
 const LAST_UPDATED = 'March 2026';
-const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
+const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -20,6 +21,11 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 export function TermsPage() {
   return (
     <div className="pt-[72px]">
+      <PageSEO
+        title="Terms of Service — Kotauth"
+        description="Kotauth's terms of service. Kotauth is open-source software provided under the MIT License. Review the terms governing use of the kotauth.com website and related services."
+        path="/terms"
+      />
       <div className="section-container py-20 max-w-3xl">
         <motion.div
           initial={{ opacity: 0, y: 16 }}

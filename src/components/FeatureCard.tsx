@@ -10,7 +10,7 @@ interface FeatureCardProps {
 export function FeatureCard({ icon: Icon, title, description }: FeatureCardProps) {
   return (
     <motion.div
-      className="group p-8 bg-kotauth-surface-1 border border-kotauth-surface-2 transition-all duration-300 min-h-80"
+      className="group p-8 bg-kotauth-surface-1 border border-kotauth-surface-2 transition-all duration-300 h-full min-h-64"
     >
       <div className="mb-5">
         <motion.div

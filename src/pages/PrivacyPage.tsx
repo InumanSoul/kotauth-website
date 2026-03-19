@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { PageSEO } from '@/components/PageSEO';
 
 const LAST_UPDATED = 'March 2026';
-const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
+const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -20,6 +21,11 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 export function PrivacyPage() {
   return (
     <div className="pt-[72px]">
+      <PageSEO
+        title="Privacy Policy — Kotauth"
+        description="Kotauth's privacy policy. We use Google Analytics for anonymous usage data. No personal data is sold or shared with third parties."
+        path="/privacy"
+      />
       <div className="section-container py-20 max-w-3xl">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
