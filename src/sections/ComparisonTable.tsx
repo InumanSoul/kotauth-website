@@ -8,7 +8,7 @@ const comparisons = [
   { feature: 'Docker-native', kotauth: true, keycloak: false, saas: null },
   { feature: 'Modern UI', kotauth: true, keycloak: false, saas: true },
   { feature: 'Developer experience', kotauth: true, keycloak: false, saas: true },
-  { feature: 'Enterprise SSO', kotauth: true, keycloak: true, saas: 'paid' },
+  { feature: 'Enterprise SSO (LDAP/SAML)', kotauth: null, keycloak: true, saas: 'paid' },
   { feature: 'OAuth/OIDC provider', kotauth: true, keycloak: true, saas: true },
   { feature: 'Multi-tenant orgs', kotauth: true, keycloak: true, saas: true },
   { feature: 'Free for self-hosting', kotauth: true, keycloak: true, saas: false },

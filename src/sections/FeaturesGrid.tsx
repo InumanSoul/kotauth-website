@@ -25,7 +25,7 @@ const features = [
   {
     icon: Key,
     title: 'Flexible Authentication',
-    description: 'Password, magic links, passkeys, social login. Support every user preference.',
+    description: 'Password, TOTP MFA, and social login (Google, GitHub). Secure and flexible from day one.',
   },
   {
     icon: Clock,

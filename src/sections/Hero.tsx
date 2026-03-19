@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { CodeBlock } from '@/components/CodeBlock';
 import { GradientGlow } from '@/components/GradientGlow';
 
-const DOCS_URL = 'https://docs.kotauth.com';
+const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 
 const containerVariants = {
   hidden: {},
@@ -28,13 +28,18 @@ const itemVariants = {
   },
 };
 
-const codeContent = `$ docker pull inumansoul/kotauth:latest
-$ docker run -p 8080:8080 inumansoul/kotauth:latest
+const codeContent = `# Download the compose stack
+$ curl -O https://raw.githubusercontent.com/inumansoul/kotauth/main/docker/docker-compose.yml
+$ curl -O https://raw.githubusercontent.com/inumansoul/kotauth/main/docker/.env.example
+$ cp .env.example .env
 
-Starting Kotauth Server v1.0.0...
+# Start Kotauth
+$ docker compose up -d
+
+Starting Kotauth Server v1.0.2...
 ✓ Identity server ready on port 8080
 ✓ Admin dashboard available at /admin
-✓ API documentation at /docs`;
+✓ API documentation at /swagger`;
 
 export function Hero() {
   return (
@@ -88,17 +93,17 @@ export function Hero() {
                 size="lg"
                 className="bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-12 font-mono"
               >
-                <a className='flex items-center' href={`${DOCS_URL}/getting-started/quickstart`} target="_blank" rel="noopener noreferrer">
+                <a className='flex items-center' href={`${GITHUB_URL}#quick-start`} target="_blank" rel="noopener noreferrer">
                   Get Started
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </a>
               </Button>
-              <Button 
+              <Button
                 variant="outline"
                 size="lg"
                 className="border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-12 font-mono"
               >
-                <a className='flex items-center' href={`${DOCS_URL}/getting-started/core-concepts`} target="_blank" rel="noopener noreferrer">
+                <a className='flex items-center' href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
                     <BookOpen className="w-4 h-4 mr-2" />
                     View Documentation
                 </a>
