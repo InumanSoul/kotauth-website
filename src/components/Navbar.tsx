@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Menu, Github, ExternalLink } from 'lucide-react';
+import { Menu, Github, ExternalLink, Play } from 'lucide-react';
 import { Link, NavLink } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 const GITHUB_URL    = 'https://github.com/inumansoul/kotauth';
 const QUICKSTART_URL = 'https://docs.kotauth.com/getting-started/quickstart/';
 const DOCS_URL      = 'https://docs.kotauth.com/getting-started/introduction/';
+const DEMO_URL      = 'https://demo.kotauth.com';
 
 type NavLinkDef = {
   label: string;
@@ -152,6 +153,17 @@ export function Navbar() {
             </Button>
             <Button
               asChild
+              variant="outline"
+              size="sm"
+              className="border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 font-mono"
+            >
+              <a href={DEMO_URL} target="_blank" rel="noopener noreferrer">
+                <Play className="w-3.5 h-3.5 mr-1.5" />
+                Demo
+              </a>
+            </Button>
+            <Button
+              asChild
               size="sm"
               className="bg-kotauth-primary hover:bg-kotauth-primary-light text-white font-mono"
             >
@@ -194,6 +206,21 @@ export function Navbar() {
                   >
                     <Github className="w-4 h-4 mr-2" />
                     GitHub
+                  </a>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 font-mono"
+                >
+                  <a
+                    href={DEMO_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    <Play className="w-4 h-4 mr-2" />
+                    Try the Demo
                   </a>
                 </Button>
                 <Button

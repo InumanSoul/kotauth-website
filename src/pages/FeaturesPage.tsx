@@ -10,7 +10,7 @@ import {
   Users,
   Palette,
   ArrowRight,
-  Github,
+  Play,
   Lock,
   FileCode,
   Fingerprint,
@@ -24,6 +24,7 @@ import { AuthShowcase } from '@/sections/AuthShowcase';
 import { PageSEO } from '@/components/PageSEO';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
+const DEMO_URL = 'https://demo.kotauth.com';
 
 // ─── All Features ─────────────────────────────────────────────────────────────
 
@@ -74,7 +75,7 @@ const allFeatures = [
     icon: Container,
     title: 'Docker-Native Deployment',
     description:
-      '120 MB multi-stage image published to GHCR (ghcr.io/inumansoul/kotauth). Bring your own .env and run docker compose up -d. Flyway migrations run automatically on startup — no init scripts, no manual schema setup. Compose stack includes PostgreSQL with a health check so Kotauth only starts when the database is ready.',
+      '120 MB multi-stage image published to GHCR (ghcr.io/inumansoul/kotauth). Bring your own .env and run docker compose up -d. Flyway migrations run automatically on startup — no init scripts, no manual schema setup. Compose stack includes PostgreSQL with a health check so Kotauth only starts when the database is ready. Set KAUTH_DEMO_MODE=true to deploy a public showcase instance with pre-seeded workspaces, users, roles, and applications — try it at demo.kotauth.com.',
   },
 ];
 
@@ -254,7 +255,7 @@ export function FeaturesPage() {
             </h2>
             <p className="text-kotauth-text-secondary mb-8">
               Everything above ships in a single Docker image. No licensing, no per-seat cost,
-              no SaaS dependency.
+              no SaaS dependency. See it running before you deploy.
             </p>
             <div className="flex flex-wrap gap-4">
               <Button
@@ -262,9 +263,9 @@ export function FeaturesPage() {
                 size="lg"
                 className="bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-12 font-mono"
               >
-                <a href={`${GITHUB_URL}#quick-start`} target="_blank" rel="noopener noreferrer">
-                  Get Started
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                <a href={DEMO_URL} target="_blank" rel="noopener noreferrer">
+                  <Play className="w-4 h-4 mr-2" />
+                  Try the Demo
                 </a>
               </Button>
               <Button
@@ -273,9 +274,9 @@ export function FeaturesPage() {
                 size="lg"
                 className="border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-12 font-mono"
               >
-                <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-                  <Github className="w-4 h-4 mr-2" />
-                  View on GitHub
+                <a href={`${GITHUB_URL}#quick-start`} target="_blank" rel="noopener noreferrer">
+                  Get Started
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </a>
               </Button>
             </div>

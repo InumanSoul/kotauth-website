@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, BookOpen } from 'lucide-react';
+import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CodeBlock } from '@/components/CodeBlock';
 import { GradientGlow } from '@/components/GradientGlow';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
+const DEMO_URL = 'https://demo.kotauth.com';
 
 const containerVariants = {
   hidden: {},
@@ -85,17 +86,17 @@ export function Hero() {
               developer experience. Deploy in seconds, scale with confidence.
             </motion.p>
 
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="flex flex-wrap gap-4"
             >
-              <Button 
+              <Button
                 size="lg"
                 className="bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-12 font-mono"
               >
-                <a className='flex items-center' href={`${GITHUB_URL}#quick-start`} target="_blank" rel="noopener noreferrer">
-                  Get Started
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                <a className='flex items-center' href={DEMO_URL} target="_blank" rel="noopener noreferrer">
+                  <Play className="w-4 h-4 mr-2" />
+                  Try the Demo
                 </a>
               </Button>
               <Button
@@ -103,9 +104,9 @@ export function Hero() {
                 size="lg"
                 className="border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-12 font-mono"
               >
-                <a className='flex items-center' href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-                    <BookOpen className="w-4 h-4 mr-2" />
-                    View Documentation
+                <a className='flex items-center' href={`${GITHUB_URL}#quick-start`} target="_blank" rel="noopener noreferrer">
+                  Get Started
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </a>
               </Button>
             </motion.div>

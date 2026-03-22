@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion';
-import { Github, ArrowRight } from 'lucide-react';
+import { Github, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { GradientGlow } from '@/components/GradientGlow';
 import { PhaseCard, containerVariants, type Phase } from '@/components/PhaseCard';
 import { PageSEO } from '@/components/PageSEO';
 
 const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
+const DEMO_URL = 'https://demo.kotauth.com';
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -98,6 +99,7 @@ const shippedPhases: Phase[] = [
       'Full environment variable reference with production guidance',
       'CONTRIBUTING guide — local setup, architecture constraints, migration conventions',
       'Security hardening: cookie.secure derived from KAUTH_BASE_URL at startup',
+      'Demo mode (KAUTH_DEMO_MODE=true) — seeds two workspaces with users, roles, groups, applications, webhooks, and audit history; renders a credential banner on all pages; designed for public showcase deployments at demo.kotauth.com',
     ],
   },
 ];
@@ -190,9 +192,9 @@ export function RoadmapPage() {
                 asChild
                 className="bg-kotauth-primary hover:bg-kotauth-primary-light text-white font-mono h-11 px-6"
               >
-                <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-                  <Github className="w-4 h-4 mr-2" />
-                  View on GitHub
+                <a href={DEMO_URL} target="_blank" rel="noopener noreferrer">
+                  <Play className="w-4 h-4 mr-2" />
+                  Try the Demo
                 </a>
               </Button>
               <Button
@@ -200,9 +202,9 @@ export function RoadmapPage() {
                 variant="outline"
                 className="border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-2 font-mono h-11 px-6"
               >
-                <a href={`${GITHUB_URL}/discussions`} target="_blank" rel="noopener noreferrer">
-                  Request a Feature
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
+                  <Github className="w-4 h-4 mr-2" />
+                  View on GitHub
                 </a>
               </Button>
             </div>
@@ -218,7 +220,7 @@ export function RoadmapPage() {
               { label: 'Phases Shipped', value: '6' },
               { label: 'DB Migrations', value: '21' },
               { label: 'REST Endpoints', value: '30+' },
-              { label: 'Architecture ADRs', value: '23' },
+              { label: 'Architecture ADRs', value: '24' },
             ].map((stat) => (
               <div key={stat.label} className="text-center sm:text-left">
                 <p className="text-2xl font-bold text-kotauth-text-primary font-mono">{stat.value}</p>
@@ -317,7 +319,7 @@ export function RoadmapPage() {
           >
             <span className="eyebrow mb-3 block">Architecture</span>
             <h2 className="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
-              23 Architecture Decision Records
+              24 Architecture Decision Records
             </h2>
             <p className="text-kotauth-text-secondary max-w-xl">
               Key decisions made during development, documented for contributors and auditors.
@@ -358,6 +360,7 @@ export function RoadmapPage() {
                   { id: '21', decision: 'Swagger UI loaded from CDN, not bundled', rationale: 'Saves ~7 MB from the fat JAR; no new Gradle dependencies required' },
                   { id: '22', decision: 'Auth CSS carries no :root defaults — TenantTheme injects all tokens server-side at render time', rationale: 'Enables per-tenant theming with zero client-side JS; theme changes take effect on next page load with no rebuild' },
                   { id: '23', decision: 'LightningCSS (Rust native) compiled in a dedicated Docker stage before the Gradle build', rationale: 'Produces minified, cross-browser bundles without Node.js in the JRE runtime image; CSS output is injected into the JAR during Stage 2' },
+                  { id: '24', decision: 'Demo mode as a single env flag (KAUTH_DEMO_MODE) with idempotent seed service', rationale: 'Public showcase deployments get realistic data without manual setup; idempotent seeding allows periodic container restarts without duplicate data' },
                 ].map((adr) => (
                   <tr key={adr.id} className="border-b border-kotauth-surface-1 hover:bg-kotauth-surface-1/40 transition-colors">
                     <td className="py-3 pr-6 text-kotauth-primary text-xs">ADR-{adr.id}</td>

@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Github } from 'lucide-react';
+import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { FloatingOrb } from '@/components/GradientGlow';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
+const DEMO_URL = 'https://demo.kotauth.com';
 
 export function CTASection() {
   return (
@@ -59,20 +60,20 @@ export function CTASection() {
                 size="lg"
                 className="bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-8 h-12 font-mono"
               >
-                <a href={`${GITHUB_URL}#quick-start`} target="_blank" rel="noopener noreferrer">
-                  Get Started Free
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                <a href={DEMO_URL} target="_blank" rel="noopener noreferrer">
+                  <Play className="w-4 h-4 mr-2" />
+                  Try the Demo
                 </a>
               </Button>
-              <Button 
+              <Button
                 asChild
                 variant="outline"
                 size="lg"
                 className="border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-2 px-8 h-12 font-mono"
               >
-                <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-                  <Github className="w-4 h-4 mr-2" />
-                  Star on GitHub
+                <a href={`${GITHUB_URL}#quick-start`} target="_blank" rel="noopener noreferrer">
+                  Get Started Free
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </a>
               </Button>
             </motion.div>
