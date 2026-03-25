@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { Github, Play } from 'lucide-react';
+import { Play } from '@lucide/astro';
+import GithubIcon from '@/components/icons/GithubIcon.astro';
 import GradientGlow from '@/components/GradientGlow.astro';
 import PhaseCard from '@/components/PhaseCard.astro';
 
@@ -193,7 +194,7 @@ const stats = [
   <div class="pt-[72px]">
     <!-- Hero -->
     <section class="py-20 lg:py-28 relative overflow-hidden">
-      <GradientGlow className="top-0 right-1/4" size={600} color="rgba(0, 119, 168, 0.18)" />
+      <GradientGlow class="top-0 right-1/4" size={600} color="rgba(0, 119, 168, 0.18)" />
       <div class="section-container relative z-10">
         <div class="max-w-2xl">
           <span class="eyebrow mb-4 block">Roadmap</span>
@@ -213,7 +214,7 @@ const stats = [
               rel="noopener noreferrer"
               class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-11 font-mono text-sm transition-colors"
             >
-              <Play className="w-4 h-4" />
+              <Play class="w-4 h-4" />
               Try the Demo
             </a>
             <a
@@ -222,7 +223,7 @@ const stats = [
               rel="noopener noreferrer"
               class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-11 font-mono text-sm transition-colors"
             >
-              <Github className="w-4 h-4" />
+              <GithubIcon class="w-4 h-4" />
               View on GitHub
             </a>
           </div>

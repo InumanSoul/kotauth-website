@@ -1,5 +1,6 @@
 ---
-import { Github, MessageCircle, Bug, Mail, ArrowRight, CheckCircle } from 'lucide-react';
+import { MessageCircle, Bug, Mail, ArrowRight, CircleCheck } from '@lucide/astro';
+import GithubIcon from '@/components/icons/GithubIcon.astro';
 
 const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
 const ISSUES_URL = `${GITHUB_URL}/issues`;
@@ -21,7 +22,7 @@ const channels = [
     href: DISCUSSIONS_URL,
   },
   {
-    Icon: Github,
+    Icon: GithubIcon,
     title: 'Contribute',
     description: 'Want to add a feature or improve the codebase? Start by reading the contribution guide.',
     cta: 'View Repo',
@@ -56,7 +57,7 @@ const channels = [
             class="group flex gap-5 p-6 bg-kotauth-surface-1 border border-kotauth-surface-2 hover:border-kotauth-primary/50 transition-all duration-200"
           >
             <div class="flex-shrink-0 w-11 h-11 bg-kotauth-primary/10 flex items-center justify-center group-hover:bg-kotauth-primary/20 transition-colors">
-              <Icon className="w-5 h-5 text-kotauth-primary" />
+              <Icon class="w-5 h-5 text-kotauth-primary" />
             </div>
             <div class="flex-1 min-w-0">
               <h3 class="font-semibold text-kotauth-text-primary font-mono mb-1 group-hover:text-kotauth-primary-light transition-colors">
@@ -67,7 +68,7 @@ const channels = [
               </p>
               <span class="inline-flex items-center gap-1.5 text-xs font-mono text-kotauth-primary group-hover:text-kotauth-primary-light transition-colors">
                 {cta}
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </span>
             </div>
           </a>
@@ -88,7 +89,7 @@ const channels = [
         <!-- Success state -->
         <div data-contact-success class="h-full flex-col items-center justify-center text-center p-12 bg-kotauth-surface-1 border border-kotauth-surface-2 gap-4" style="display: none;">
           <div class="w-14 h-14 bg-kotauth-success/10 flex items-center justify-center mb-2">
-            <CheckCircle className="w-7 h-7 text-kotauth-success" />
+            <CircleCheck class="w-7 h-7 text-kotauth-success" />
           </div>
           <h3 class="text-xl font-semibold text-kotauth-text-primary font-mono">
             Message ready
@@ -178,7 +179,7 @@ const channels = [
             type="submit"
             class="w-full bg-kotauth-primary hover:bg-kotauth-primary-light text-white font-mono h-11 transition-all inline-flex items-center justify-center gap-2 text-sm"
           >
-            <Mail className="w-4 h-4" />
+            <Mail class="w-4 h-4" />
             Send Message
           </button>
 

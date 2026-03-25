@@ -1,5 +1,5 @@
 ---
-import { Play, Users, Shield, Building2, KeyRound } from 'lucide-react';
+import { Play, Users, Shield, Building2, KeyRound } from '@lucide/astro';
 
 const DEMO_URL = 'https://demo.kotauth.com';
 
@@ -46,7 +46,7 @@ const demoHighlights = [
         <div data-reveal data-reveal-delay={index * 70}>
           <div class="bg-kotauth-surface-1 border border-kotauth-surface-2 p-5 h-full hover:border-kotauth-primary/30 transition-colors">
             <div class="w-9 h-9 bg-kotauth-primary/10 flex items-center justify-center mb-4">
-              <item.icon className="w-4 h-4 text-kotauth-primary" />
+              <item.icon class="w-4 h-4 text-kotauth-primary" />
             </div>
             <p class="text-sm font-semibold text-kotauth-text-primary font-mono mb-1.5">
               {item.title}
@@ -66,7 +66,7 @@ const demoHighlights = [
         rel="noopener noreferrer"
         class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-8 h-12 font-mono text-sm transition-colors"
       >
-        <Play className="w-4 h-4" />
+        <Play class="w-4 h-4" />
         Launch the Demo
       </a>
     </div>

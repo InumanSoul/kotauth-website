@@ -1,5 +1,5 @@
 ---
-import { Check, X, Minus } from 'lucide-react';
+import { Check, X, Minus } from '@lucide/astro';
 import GradientGlow from '@/components/GradientGlow.astro';
 
 const comparisons = [
@@ -17,7 +17,7 @@ const comparisons = [
 
 <section class="py-24 lg:py-32 relative overflow-hidden">
   <GradientGlow
-    className="top-1/2 right-0 translate-x-1/2 -translate-y-1/2"
+    class="top-1/2 right-0 translate-x-1/2 -translate-y-1/2"
     size={600}
     color="rgba(0, 119, 168, 0.15)"
   />
@@ -62,17 +62,17 @@ const comparisons = [
                   <div class="flex justify-center">
                     {row.kotauth === true && (
                       <div class="w-6 h-6 bg-kotauth-success/10 flex items-center justify-center">
-                        <Check className="w-4 h-4 text-kotauth-success" />
+                        <Check class="w-4 h-4 text-kotauth-success" />
                       </div>
                     )}
                     {row.kotauth === false && (
                       <div class="w-6 h-6 bg-kotauth-error/10 flex items-center justify-center">
-                        <X className="w-4 h-4 text-kotauth-error" />
+                        <X class="w-4 h-4 text-kotauth-error" />
                       </div>
                     )}
                     {row.kotauth === null && (
                       <div class="w-6 h-6 bg-kotauth-surface-2 flex items-center justify-center">
-                        <Minus className="w-3 h-3 text-kotauth-text-muted" />
+                        <Minus class="w-3 h-3 text-kotauth-text-muted" />
                       </div>
                     )}
                   </div>
@@ -81,12 +81,12 @@ const comparisons = [
                   <div class="flex justify-center">
                     {row.keycloak === true && (
                       <div class="w-6 h-6 bg-kotauth-success/10 flex items-center justify-center">
-                        <Check className="w-4 h-4 text-kotauth-success" />
+                        <Check class="w-4 h-4 text-kotauth-success" />
                       </div>
                     )}
                     {row.keycloak === false && (
                       <div class="w-6 h-6 bg-kotauth-error/10 flex items-center justify-center">
-                        <X className="w-4 h-4 text-kotauth-error" />
+                        <X class="w-4 h-4 text-kotauth-error" />
                       </div>
                     )}
                   </div>
@@ -95,12 +95,12 @@ const comparisons = [
                   <div class="flex justify-center">
                     {row.saas === true && (
                       <div class="w-6 h-6 bg-kotauth-success/10 flex items-center justify-center">
-                        <Check className="w-4 h-4 text-kotauth-success" />
+                        <Check class="w-4 h-4 text-kotauth-success" />
                       </div>
                     )}
                     {row.saas === false && (
                       <div class="w-6 h-6 bg-kotauth-error/10 flex items-center justify-center">
-                        <X className="w-4 h-4 text-kotauth-error" />
+                        <X class="w-4 h-4 text-kotauth-error" />
                       </div>
                     )}
                     {row.saas === 'paid' && (

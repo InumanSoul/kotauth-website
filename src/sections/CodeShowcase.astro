@@ -1,5 +1,5 @@
 ---
-import { Check } from 'lucide-react';
+import { Check } from '@lucide/astro';
 import TabbedCodeBlock from '@/components/TabbedCodeBlock.astro';
 import GradientGlow from '@/components/GradientGlow.astro';
 
@@ -160,7 +160,7 @@ const features = [
 
 <section class="py-24 lg:py-32 relative overflow-hidden">
   <GradientGlow
-    className="top-1/2 left-0 -translate-y-1/2"
+    class="top-1/2 left-0 -translate-y-1/2"
     size={700}
     color="rgba(0, 119, 168, 0.18)"
   />
@@ -188,7 +188,7 @@ const features = [
             <div data-reveal data-reveal-delay={index * 100}>
               <div class="flex items-start gap-3">
                 <div class="w-5 h-5 bg-kotauth-success/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Check className="w-3 h-3 text-kotauth-success" />
+                  <Check class="w-3 h-3 text-kotauth-success" />
                 </div>
                 <span class="text-kotauth-text-secondary font-mono text-sm leading-relaxed">
                   {feature}

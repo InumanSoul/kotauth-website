@@ -1,5 +1,7 @@
 ---
-import { Github, Twitter, MessageCircle } from 'lucide-react';
+import { MessageCircle } from '@lucide/astro';
+import GithubIcon from '@/components/icons/GithubIcon.astro';
+import TwitterIcon from '@/components/icons/TwitterIcon.astro';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const DOCS_URL = 'https://docs.kotauth.com/';
@@ -32,8 +34,8 @@ const footerLinks: Record<string, FooterLink[]> = {
 };
 
 const socialLinks = [
-  { Icon: Twitter, href: 'https://twitter.com/InumanSoul', label: 'Twitter' },
-  { Icon: Github, href: GITHUB_URL, label: 'GitHub' },
+  { Icon: TwitterIcon, href: 'https://twitter.com/InumanSoul', label: 'Twitter' },
+  { Icon: GithubIcon, href: GITHUB_URL, label: 'GitHub' },
   { Icon: MessageCircle, href: `${GITHUB_URL}/discussions`, label: 'Community' },
 ];
 
@@ -60,7 +62,7 @@ const linkClass = 'text-sm text-kotauth-text-tertiary hover:text-kotauth-text-pr
               class="w-10 h-10 bg-kotauth-surface-1 flex items-center justify-center text-kotauth-text-tertiary hover:text-kotauth-text-primary hover:bg-kotauth-surface-2 transition-all"
               aria-label={label}
             >
-              <Icon className="w-5 h-5" />
+              <Icon class="w-5 h-5" />
             </a>
           ))}
         </div>

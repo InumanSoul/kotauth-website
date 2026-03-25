@@ -1,5 +1,5 @@
 ---
-import { CheckCircle2, Circle } from 'lucide-react';
+import { CircleCheck, Circle } from '@lucide/astro';
 
 interface Props {
   phase: {
@@ -27,9 +27,9 @@ const { phase, shipped } = Astro.props;
       }`}
     >
       {shipped ? (
-        <CheckCircle2 className="w-5 h-5" />
+        <CircleCheck class="w-5 h-5" />
       ) : (
-        <Circle className="w-5 h-5" />
+        <Circle class="w-5 h-5" />
       )}
     </div>
     <div class="w-px flex-1 mt-2 bg-kotauth-surface-2" />

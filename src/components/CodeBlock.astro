@@ -1,5 +1,5 @@
 ---
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check } from '@lucide/astro';
 
 interface Props {
   code: string;
@@ -79,22 +79,22 @@ const lines = code.split('\n');
       data-copy
       class="flex items-center gap-1.5 text-xs text-kotauth-text-tertiary hover:text-kotauth-text-secondary transition-colors font-mono"
     >
-      <span data-copy-icon><Copy className="w-3.5 h-3.5" /></span>
-      <span data-check-icon class="hidden"><Check className="w-3.5 h-3.5 text-kotauth-success" /></span>
+      <span data-copy-icon><Copy class="w-3.5 h-3.5" /></span>
+      <span data-check-icon class="hidden"><Check class="w-3.5 h-3.5 text-kotauth-success" /></span>
       <span data-copy-label>Copy</span>
     </button>
   </div>
 
   <div class="p-4 overflow-x-auto">
-    <pre class="font-mono text-xs sm:text-sm leading-relaxed"><code>{lines.map((line, index) => (
-        <div class="flex">
-          {showLineNumbers && (
-            <span class="w-8 text-right text-kotauth-text-muted select-none mr-4 flex-shrink-0">
-              {index + 1}
-            </span>
-          )}
-          <span class="text-kotauth-text-secondary" set:html={highlightCode(line)} />
-        </div>
-      ))}</code></pre>
+    {lines.map((line, index) => (
+      <div class="flex font-mono text-xs sm:text-sm leading-relaxed">
+        {showLineNumbers && (
+          <span class="w-8 text-right text-kotauth-text-muted select-none mr-4 flex-shrink-0">
+            {index + 1}
+          </span>
+        )}
+        <span class="text-kotauth-text-secondary whitespace-pre" set:html={highlightCode(line)} />
+      </div>
+    ))}
   </div>
 </div>
