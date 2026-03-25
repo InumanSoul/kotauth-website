@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import GradientGlow from '@/components/GradientGlow.astro';
 import FeatureCard from '@/components/FeatureCard.astro';
-import { AuthShowcase } from '@/sections/AuthShowcase';
+import AuthShowcase from '@/sections/AuthShowcase.astro';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const DEMO_URL = 'https://demo.kotauth.com';
@@ -116,7 +116,7 @@ const securityPrimitives = [
       </div>
     </section>
 
-    <AuthShowcase client:visible />
+    <AuthShowcase />
 
     <section class="py-8 pb-24">
       <div class="section-container">

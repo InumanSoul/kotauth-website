@@ -114,9 +114,10 @@ const canonicalUrl = `${BASE_URL}${path}`;
     </main>
     <Footer />
 
-    <!-- Scroll-reveal observer — handles all [data-reveal] elements site-wide -->
+    <!-- Site-wide interactions — scroll reveal, copy, tabs, themes, contact form -->
     <script is:inline>
       (function () {
+        // ── Scroll-reveal observer ──
         var io = new IntersectionObserver(
           function (entries) {
             entries.forEach(function (e) {
@@ -134,6 +135,102 @@ const canonicalUrl = `${BASE_URL}${path}`;
           { rootMargin: '-80px 0px' }
         );
         document.querySelectorAll('[data-reveal]').forEach(function (el) { io.observe(el); });
+
+        // ── Copy buttons (CodeBlock) ──
+        document.addEventListener('click', function (e) {
+          var btn = e.target.closest('[data-copy]');
+          if (!btn) return;
+          var block = btn.closest('[data-code-block]');
+          var raw = block.querySelector('textarea').value;
+          navigator.clipboard.writeText(raw).then(function () {
+            btn.querySelector('[data-copy-icon]').classList.add('hidden');
+            btn.querySelector('[data-check-icon]').classList.remove('hidden');
+            var label = btn.querySelector('[data-copy-label]');
+            label.textContent = 'Copied!';
+            label.classList.add('text-kotauth-success');
+            setTimeout(function () {
+              btn.querySelector('[data-copy-icon]').classList.remove('hidden');
+              btn.querySelector('[data-check-icon]').classList.add('hidden');
+              label.textContent = 'Copy';
+              label.classList.remove('text-kotauth-success');
+            }, 2000);
+          });
+        });
+
+        // ── Tab switching (TabbedCodeBlock) ──
+        document.addEventListener('click', function (e) {
+          var btn = e.target.closest('[data-tab-btn]');
+          if (!btn) return;
+          var container = btn.closest('[data-tabbed]');
+          var idx = btn.dataset.tabBtn;
+          container.querySelectorAll('[data-tab-btn]').forEach(function (b) {
+            var active = b.dataset.tabBtn === idx;
+            b.classList.toggle('text-kotauth-text-primary', active);
+            b.classList.toggle('text-kotauth-text-tertiary', !active);
+            b.classList.toggle('hover:text-kotauth-text-secondary', !active);
+            var ind = b.querySelector('[data-tab-indicator]');
+            if (ind) ind.classList.toggle('hidden', !active);
+          });
+          container.querySelectorAll('[data-tab-panel]').forEach(function (p) {
+            var active = p.dataset.tabPanel === idx;
+            p.classList.toggle('hidden', !active);
+            if (active) {
+              p.classList.remove('crossfade-enter');
+              void p.offsetWidth;
+              p.classList.add('crossfade-enter');
+            }
+          });
+        });
+
+        // ── Theme switching (AuthShowcase) ──
+        document.addEventListener('click', function (e) {
+          var btn = e.target.closest('[data-theme-btn]');
+          if (!btn) return;
+          var showcase = btn.closest('[data-auth-showcase]');
+          var theme = btn.dataset.themeBtn;
+          showcase.querySelectorAll('[data-theme-btn]').forEach(function (b) {
+            var active = b.dataset.themeBtn === theme;
+            b.classList.toggle('bg-kotauth-primary', active);
+            b.classList.toggle('text-white', active);
+            b.classList.toggle('text-kotauth-text-muted', !active);
+            b.classList.toggle('hover:text-kotauth-text-secondary', !active);
+          });
+          showcase.querySelectorAll('[data-login-mockup]').forEach(function (m) {
+            var active = m.dataset.loginMockup === theme;
+            m.classList.toggle('hidden', !active);
+            if (active) {
+              m.classList.remove('crossfade-enter');
+              void m.offsetWidth;
+              m.classList.add('crossfade-enter');
+            }
+          });
+        });
+
+        // ── Contact form (mailto) ──
+        document.addEventListener('submit', function (e) {
+          var form = e.target.closest('#contact-form');
+          if (!form) return;
+          e.preventDefault();
+          var d = new FormData(form);
+          var subject = encodeURIComponent('[Kotauth] ' + d.get('subject'));
+          var body = encodeURIComponent(
+            'Name: ' + d.get('name') + '\nEmail: ' + d.get('email') + '\n\n' + d.get('message')
+          );
+          var container = form.closest('[data-contact]');
+          form.style.display = 'none';
+          container.querySelector('[data-contact-success]').style.display = 'flex';
+          window.location.href = 'mailto:inumansoul@gmail.com?subject=' + subject + '&body=' + body;
+        });
+
+        document.addEventListener('click', function (e) {
+          var btn = e.target.closest('[data-contact-reset]');
+          if (!btn) return;
+          var container = btn.closest('[data-contact]');
+          container.querySelector('[data-contact-success]').style.display = 'none';
+          var form = container.querySelector('#contact-form');
+          form.style.display = '';
+          form.reset();
+        });
       })();
     </script>
   </body>

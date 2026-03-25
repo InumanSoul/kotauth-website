@@ -1,6 +1,6 @@
 ---
 import { ArrowRight, Play } from 'lucide-react';
-import { CodeBlock } from '@/components/CodeBlock';
+import CodeBlock from '@/components/CodeBlock.astro';
 import GradientGlow from '@/components/GradientGlow.astro';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
@@ -87,8 +87,7 @@ Starting Kotauth Server v1.1.2...
           <CodeBlock
             code={codeContent}
             language="bash"
-            className="relative shadow-2xl shadow-kotauth-primary/5"
-            client:visible
+            class="relative shadow-2xl shadow-kotauth-primary/5"
           />
         </div>
       </div>

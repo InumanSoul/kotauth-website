@@ -2,7 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from '@/sections/Hero.astro';
 import FeaturesGrid from '@/sections/FeaturesGrid.astro';
-import { AuthShowcase } from '@/sections/AuthShowcase';
+import AuthShowcase from '@/sections/AuthShowcase.astro';
 import CodeShowcase from '@/sections/CodeShowcase.astro';
 import LiveDemo from '@/sections/LiveDemo.astro';
 import ComparisonTable from '@/sections/ComparisonTable.astro';
@@ -16,7 +16,7 @@ import CTASection from '@/sections/CTASection.astro';
 >
   <Hero />
   <FeaturesGrid />
-  <AuthShowcase client:visible />
+  <AuthShowcase />
   <CodeShowcase />
   <LiveDemo />
   <ComparisonTable />

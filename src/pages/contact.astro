@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { ContactSection } from '@/sections/ContactSection';
+import ContactSection from '@/sections/ContactSection.astro';
 ---
 
 <BaseLayout
@@ -9,6 +9,6 @@ import { ContactSection } from '@/sections/ContactSection';
   path="/contact"
 >
   <div class="pt-[72px]">
-    <ContactSection client:load />
+    <ContactSection />
   </div>
 </BaseLayout>

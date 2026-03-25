@@ -1,6 +1,5 @@
 ---
 import { ExternalLink, Github, Play } from 'lucide-react';
-import MobileMenu from '@/components/MobileMenu';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const QUICKSTART_URL = 'https://docs.kotauth.com/getting-started/quickstart/';
@@ -22,6 +21,7 @@ const navLinks: NavLinkDef[] = [
 
 const currentPath = Astro.url.pathname;
 const linkBase = 'text-sm font-mono transition-colors duration-150';
+const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
 ---
 
 <header
@@ -99,8 +99,69 @@ const linkBase = 'text-sm font-mono transition-colors duration-150';
         </a>
       </div>
 
-      <!-- Mobile Menu (React island) -->
-      <MobileMenu client:media="(max-width: 767px)" />
+      <!-- Mobile Menu (CSS-only, zero JS) -->
+      <input type="checkbox" id="mob-toggle" class="mob-toggle" aria-hidden="true" />
+      <label for="mob-toggle" class="mob-hamburger md:hidden" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <label for="mob-toggle" class="mob-overlay" aria-hidden="true"></label>
+      <div class="mob-panel">
+        <div class="flex flex-col gap-6 mt-16 p-10">
+          {navLinks.map((link) => (
+            link.external ? (
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={`${mobLinkBase} inline-flex items-center gap-1.5 text-kotauth-text-secondary hover:text-kotauth-text-primary`}
+              >
+                {link.label}
+                <ExternalLink className="w-3.5 h-3.5 opacity-50" />
+              </a>
+            ) : (
+              <a
+                href={link.href}
+                class={`${mobLinkBase} ${
+                  currentPath === link.href
+                    ? 'text-kotauth-primary'
+                    : 'text-kotauth-text-secondary hover:text-kotauth-text-primary'
+                }`}
+              >
+                {link.label}
+              </a>
+            )
+          ))}
+          <hr class="border-kotauth-surface-2" />
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-kotauth-text-secondary hover:text-kotauth-text-primary font-mono transition-colors"
+          >
+            <Github className="w-4 h-4" />
+            GitHub
+          </a>
+          <a
+            href={DEMO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 py-2.5 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 font-mono text-sm transition-colors"
+          >
+            <Play className="w-4 h-4" />
+            Try the Demo
+          </a>
+          <a
+            href={QUICKSTART_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 py-2.5 bg-kotauth-primary hover:bg-kotauth-primary-light text-white font-mono text-sm transition-colors"
+          >
+            Get Started
+          </a>
+        </div>
+      </div>
     </nav>
   </div>
 </header>
@@ -111,6 +172,85 @@ const linkBase = 'text-sm font-mono transition-colors duration-150';
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--kotauth-surface-2);
+  }
+
+  .mob-toggle {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  .mob-hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 60;
+    position: relative;
+  }
+
+  .mob-hamburger span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--kotauth-text-primary);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+  }
+
+  .mob-toggle:checked ~ .mob-hamburger span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .mob-toggle:checked ~ .mob-hamburger span:nth-child(2) {
+    opacity: 0;
+  }
+  .mob-toggle:checked ~ .mob-hamburger span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .mob-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 40;
+    display: none;
+  }
+
+  .mob-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 300px;
+    background: var(--kotauth-bg-secondary);
+    border-left: 1px solid var(--kotauth-surface-2);
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 50;
+    overflow-y: auto;
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .mob-overlay { display: block; }
+    .mob-panel { display: block; }
+  }
+
+  .mob-toggle:checked ~ .mob-overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .mob-toggle:checked ~ .mob-panel {
+    transform: translateX(0);
   }
 </style>
 

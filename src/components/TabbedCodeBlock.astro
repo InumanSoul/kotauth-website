@@ -1,0 +1,54 @@
+---
+import CodeBlock from '@/components/CodeBlock.astro';
+
+interface Props {
+  tabs: {
+    label: string;
+    language: string;
+    code: string;
+  }[];
+  class?: string;
+}
+
+const { tabs, class: className = '' } = Astro.props;
+---
+
+<div data-tabbed class={`overflow-hidden bg-kotauth-bg-code border border-kotauth-surface-2 ${className}`}>
+  <div class="flex items-center border-b border-kotauth-surface-2 bg-kotauth-surface-1/50">
+    <div class="flex">
+      {tabs.map((tab, index) => (
+        <button
+          data-tab-btn={String(index)}
+          class={`px-4 py-3 text-xs font-mono transition-colors relative ${
+            index === 0
+              ? 'text-kotauth-text-primary'
+              : 'text-kotauth-text-tertiary hover:text-kotauth-text-secondary'
+          }`}
+        >
+          {tab.label}
+          <div
+            data-tab-indicator
+            class={`absolute bottom-0 left-0 right-0 h-0.5 bg-kotauth-primary transition-all ${
+              index !== 0 ? 'hidden' : ''
+            }`}
+          ></div>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div class="p-4">
+    {tabs.map((tab, index) => (
+      <div
+        data-tab-panel={String(index)}
+        class={index !== 0 ? 'hidden' : ''}
+      >
+        <CodeBlock
+          code={tab.code}
+          language={tab.language}
+          showLineNumbers={false}
+        />
+      </div>
+    ))}
+  </div>
+</div>

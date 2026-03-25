@@ -1,0 +1,195 @@
+---
+import { Github, MessageCircle, Bug, Mail, ArrowRight, CheckCircle } from 'lucide-react';
+
+const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
+const ISSUES_URL = `${GITHUB_URL}/issues`;
+const DISCUSSIONS_URL = `${GITHUB_URL}/discussions`;
+
+const channels = [
+  {
+    Icon: Bug,
+    title: 'Bug Reports',
+    description: "Found something broken? Open a GitHub issue with reproduction steps and we'll triage it.",
+    cta: 'Open an Issue',
+    href: ISSUES_URL,
+  },
+  {
+    Icon: MessageCircle,
+    title: 'Community',
+    description: 'Questions, ideas, and general discussion. GitHub Discussions is where the community lives.',
+    cta: 'Join Discussions',
+    href: DISCUSSIONS_URL,
+  },
+  {
+    Icon: Github,
+    title: 'Contribute',
+    description: 'Want to add a feature or improve the codebase? Start by reading the contribution guide.',
+    cta: 'View Repo',
+    href: GITHUB_URL,
+  },
+];
+---
+
+<section id="contact" class="py-24 lg:py-32 bg-kotauth-bg-secondary relative">
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-kotauth-primary/40 to-transparent"></div>
+
+  <div class="section-container">
+    <div data-reveal class="text-center max-w-2xl mx-auto mb-16">
+      <span class="eyebrow mb-4 block">Contact</span>
+      <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-kotauth-text-primary leading-tight font-mono mb-4">
+        Get in touch
+      </h2>
+      <p class="text-kotauth-text-secondary text-lg">
+        Kotauth is an open source project. Most conversations happen in public — that's intentional. Pick the right channel below.
+      </p>
+    </div>
+
+    <div data-contact class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+      <div class="flex flex-col gap-6">
+        {channels.map(({ Icon, title, description, cta, href }, index) => (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-reveal
+            data-reveal-delay={index * 100}
+            class="group flex gap-5 p-6 bg-kotauth-surface-1 border border-kotauth-surface-2 hover:border-kotauth-primary/50 transition-all duration-200"
+          >
+            <div class="flex-shrink-0 w-11 h-11 bg-kotauth-primary/10 flex items-center justify-center group-hover:bg-kotauth-primary/20 transition-colors">
+              <Icon className="w-5 h-5 text-kotauth-primary" />
+            </div>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-semibold text-kotauth-text-primary font-mono mb-1 group-hover:text-kotauth-primary-light transition-colors">
+                {title}
+              </h3>
+              <p class="text-sm text-kotauth-text-tertiary leading-relaxed mb-3">
+                {description}
+              </p>
+              <span class="inline-flex items-center gap-1.5 text-xs font-mono text-kotauth-primary group-hover:text-kotauth-primary-light transition-colors">
+                {cta}
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </span>
+            </div>
+          </a>
+        ))}
+
+        <div
+          data-reveal
+          data-reveal-delay={300}
+          class="p-5 border border-kotauth-surface-2 bg-kotauth-bg-primary/50"
+        >
+          <p class="text-xs text-kotauth-text-muted font-mono leading-relaxed">
+            <span class="text-kotauth-text-tertiary">Note:</span> This is an open source project maintained in spare time. Response times vary. For security disclosures, use the contact form with subject "Security".
+          </p>
+        </div>
+      </div>
+
+      <div data-reveal data-reveal-delay={150}>
+        <!-- Success state -->
+        <div data-contact-success class="h-full flex-col items-center justify-center text-center p-12 bg-kotauth-surface-1 border border-kotauth-surface-2 gap-4" style="display: none;">
+          <div class="w-14 h-14 bg-kotauth-success/10 flex items-center justify-center mb-2">
+            <CheckCircle className="w-7 h-7 text-kotauth-success" />
+          </div>
+          <h3 class="text-xl font-semibold text-kotauth-text-primary font-mono">
+            Message ready
+          </h3>
+          <p class="text-kotauth-text-secondary text-sm max-w-xs">
+            Your mail client should have opened with your message pre-filled. If it didn't, reach out directly on GitHub Discussions.
+          </p>
+          <button
+            data-contact-reset
+            class="mt-2 inline-flex items-center px-3 py-1.5 text-sm border border-kotauth-surface-2 text-kotauth-text-secondary hover:bg-kotauth-surface-2 font-mono transition-colors"
+          >
+            Send another
+          </button>
+        </div>
+
+        <!-- Form -->
+        <form
+          id="contact-form"
+          class="bg-kotauth-surface-1 border border-kotauth-surface-2 p-8 flex flex-col gap-5"
+        >
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div class="flex flex-col gap-2">
+              <label for="contact-name" class="text-xs font-mono text-kotauth-text-tertiary uppercase tracking-wider">
+                Name <span class="text-kotauth-primary">*</span>
+              </label>
+              <input
+                id="contact-name"
+                name="name"
+                type="text"
+                required
+                autocomplete="name"
+                placeholder="Your name"
+                class="w-full bg-kotauth-bg-primary border border-kotauth-surface-2 px-4 py-2.5 text-sm text-kotauth-text-primary placeholder:text-kotauth-text-muted font-mono focus:outline-none focus:border-kotauth-primary transition-colors"
+              />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="contact-email" class="text-xs font-mono text-kotauth-text-tertiary uppercase tracking-wider">
+                Email <span class="text-kotauth-primary">*</span>
+              </label>
+              <input
+                id="contact-email"
+                name="email"
+                type="email"
+                required
+                autocomplete="email"
+                placeholder="you@example.com"
+                class="w-full bg-kotauth-bg-primary border border-kotauth-surface-2 px-4 py-2.5 text-sm text-kotauth-text-primary placeholder:text-kotauth-text-muted font-mono focus:outline-none focus:border-kotauth-primary transition-colors"
+              />
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="contact-subject" class="text-xs font-mono text-kotauth-text-tertiary uppercase tracking-wider">
+              Subject <span class="text-kotauth-primary">*</span>
+            </label>
+            <select
+              id="contact-subject"
+              name="subject"
+              required
+              class="w-full bg-kotauth-bg-primary border border-kotauth-surface-2 px-4 py-2.5 text-sm text-kotauth-text-primary font-mono focus:outline-none focus:border-kotauth-primary transition-colors appearance-none cursor-pointer"
+            >
+              <option value="" disabled selected>Select a topic...</option>
+              <option value="General Inquiry">General Inquiry</option>
+              <option value="Integration Help">Integration Help</option>
+              <option value="Feature Request">Feature Request</option>
+              <option value="Security">Security</option>
+              <option value="Partnership">Partnership</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="contact-message" class="text-xs font-mono text-kotauth-text-tertiary uppercase tracking-wider">
+              Message <span class="text-kotauth-primary">*</span>
+            </label>
+            <textarea
+              id="contact-message"
+              name="message"
+              required
+              rows="5"
+              placeholder="Describe your question or request in detail..."
+              class="w-full bg-kotauth-bg-primary border border-kotauth-surface-2 px-4 py-2.5 text-sm text-kotauth-text-primary placeholder:text-kotauth-text-muted font-mono focus:outline-none focus:border-kotauth-primary transition-colors resize-none leading-relaxed"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-kotauth-primary hover:bg-kotauth-primary-light text-white font-mono h-11 transition-all inline-flex items-center justify-center gap-2 text-sm"
+          >
+            <Mail className="w-4 h-4" />
+            Send Message
+          </button>
+
+          <p class="text-xs text-kotauth-text-muted font-mono text-center">
+            This will open your mail client. For urgent issues, use{' '}
+            <a href={DISCUSSIONS_URL} target="_blank" rel="noopener noreferrer" class="text-kotauth-primary hover:text-kotauth-primary-light underline underline-offset-2">
+              GitHub Discussions
+            </a>.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
