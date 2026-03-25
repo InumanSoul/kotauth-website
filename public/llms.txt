@@ -1,0 +1,57 @@
+# Kotauth
+
+> Kotauth is an open-source, self-hosted identity and authentication platform. It provides OAuth 2.0, OpenID Connect, multi-tenant workspaces, white-label auth screens, RBAC, webhooks, and MFA — packaged as a single Docker image deployable with one command.
+
+Kotauth is built with Kotlin/Ktor and backed by PostgreSQL. It targets teams who want full control over their auth infrastructure without depending on third-party SaaS. Each workspace is fully isolated with its own RSA key pair, user base, and slug-routed API at `/t/{workspace}/api/v1`.
+
+- License: MIT
+- Source: [GitHub](https://github.com/InumanSoul/kotauth)
+- Live demo: [demo.kotauth.com](https://demo.kotauth.com)
+
+## Getting Started
+
+- [Introduction](https://docs.kotauth.com/getting-started/introduction/): What Kotauth is and who it's for
+- [Quickstart](https://docs.kotauth.com/getting-started/quickstart/): Deploy Kotauth with a single docker compose command
+- [Core Concepts](https://docs.kotauth.com/getting-started/core-concepts/): Workspaces, users, roles, groups, applications, and API keys
+- [Demo Mode](https://docs.kotauth.com/getting-started/demo/): KAUTH_DEMO_MODE for public showcase deployments
+
+## Authentication
+
+- [Overview](https://docs.kotauth.com/authentication/overview/): Supported authentication methods
+- [Email & Password](https://docs.kotauth.com/authentication/email-password/): Password-based auth with bcrypt hashing
+- [Social Login](https://docs.kotauth.com/authentication/social-login/): Google and GitHub OAuth with automatic account linking
+- [MFA / TOTP](https://docs.kotauth.com/authentication/mfa/): Multi-factor authentication with recovery codes
+- [Authorization Code + PKCE](https://docs.kotauth.com/authentication/authorization-code/): OAuth 2.0 Authorization Code flow
+- [Client Credentials](https://docs.kotauth.com/authentication/client-credentials/): Machine-to-machine auth
+- [Token Lifecycle](https://docs.kotauth.com/authentication/token-lifecycle/): Access tokens, refresh tokens, expiration, and revocation
+
+## OpenID Connect
+
+- [Overview](https://docs.kotauth.com/oidc/overview/): OIDC support and compliance
+- [Discovery](https://docs.kotauth.com/oidc/discovery/): .well-known/openid-configuration endpoint
+- [Authorization](https://docs.kotauth.com/oidc/authorization/): Authorization endpoint details
+- [Token](https://docs.kotauth.com/oidc/token/): Token endpoint and grant types
+- [UserInfo](https://docs.kotauth.com/oidc/userinfo/): UserInfo endpoint and claims
+- [Introspection & Revocation](https://docs.kotauth.com/oidc/introspection-revocation/): RFC 7662 and RFC 7009 support
+
+## REST API
+
+- [API Overview](https://docs.kotauth.com/api/overview/): Authentication, pagination, error format
+- [Users](https://docs.kotauth.com/api/users/): CRUD operations for user management
+- [Roles](https://docs.kotauth.com/api/roles/): Role-based access control
+- [Groups](https://docs.kotauth.com/api/groups/): Group management and membership
+- [Applications](https://docs.kotauth.com/api/applications/): OAuth client/application management
+- [Sessions](https://docs.kotauth.com/api/sessions/): Active session management
+- [Audit Logs](https://docs.kotauth.com/api/audit-logs/): Audit trail with event filtering
+
+## Deployment
+
+- [Docker](https://docs.kotauth.com/deployment/docker/): Docker image, compose files, and container config
+- [Environment Variables](https://docs.kotauth.com/deployment/environment-variables/): Full configuration reference
+- [External Database](https://docs.kotauth.com/deployment/external-database/): Connect to RDS, Supabase, Neon, or any PostgreSQL
+- [Production](https://docs.kotauth.com/deployment/production/): Production hardening and best practices
+
+## Customization
+
+- [Theming](https://docs.kotauth.com/customization/theming/): Per-tenant CSS variables for white-label auth screens
+- [Webhooks](https://docs.kotauth.com/customization/webhooks/): HMAC-SHA256 signed event payloads with retry logic
