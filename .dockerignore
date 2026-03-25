@@ -9,6 +9,10 @@ node_modules
 .gitignore
 .vscode
 
+# Documentation
+*.md
+LICENSE
+
 # Runtime and log artifacts
 npm-debug.log*
 yarn-debug.log*
@@ -19,3 +23,7 @@ pnpm-debug.log*
 # Local environment files
 .env
 .env.*
+
+# Docker files (avoid recursive context)
+Dockerfile
+docker-compose.yml
