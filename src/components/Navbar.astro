@@ -1,6 +1,7 @@
 ---
 import { ExternalLink, Play } from '@lucide/astro';
 import GithubIcon from '@/components/icons/GithubIcon.astro';
+import { Image } from 'astro:assets';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const QUICKSTART_URL = 'https://docs.kotauth.com/getting-started/quickstart/';
@@ -33,12 +34,13 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
     <nav class="flex items-center justify-between h-[72px]">
       <!-- Logo -->
       <a href="/" class="flex items-center gap-2.5">
-        <img
+        <Image
           src="/brand/kotauth-negative.svg"
           alt="KotAuth Logo"
           class="h-10"
           height="40"
           width="160"
+          loading="eager"
         />
       </a>
 
