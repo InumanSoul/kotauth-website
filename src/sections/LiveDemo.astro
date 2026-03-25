@@ -1,0 +1,74 @@
+---
+import { Play, Users, Shield, Building2, KeyRound } from 'lucide-react';
+
+const DEMO_URL = 'https://demo.kotauth.com';
+
+const demoHighlights = [
+  {
+    icon: Building2,
+    title: 'Two workspaces',
+    description: 'Acme Corp and StartupLabs — each with isolated users, roles, and applications.',
+  },
+  {
+    icon: Users,
+    title: 'Pre-seeded users',
+    description: 'Admins, developers, and viewers already configured with roles and group memberships.',
+  },
+  {
+    icon: Shield,
+    title: 'Full RBAC in action',
+    description: 'Roles, groups, composite inheritance, and audit trails — all populated and visible.',
+  },
+  {
+    icon: KeyRound,
+    title: 'OAuth apps & API keys',
+    description: 'Registered applications with client credentials and scoped API keys ready to inspect.',
+  },
+];
+---
+
+<section class="py-24 lg:py-32 relative overflow-hidden bg-kotauth-bg-secondary border-y border-kotauth-surface-2">
+  <div class="section-container relative z-10">
+    <div data-reveal class="text-center max-w-2xl mx-auto mb-16">
+      <span class="eyebrow mb-4 block">Live Demo</span>
+      <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-kotauth-text-primary leading-tight mb-4 font-mono">
+        See it running —{' '}
+        <span class="gradient-text">no install required</span>
+      </h2>
+      <p class="text-lg text-kotauth-text-secondary">
+        A public instance with seeded data. Explore the admin console, user management,
+        OAuth configuration, and audit logs. Data resets periodically.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+      {demoHighlights.map((item, index) => (
+        <div data-reveal data-reveal-delay={index * 70}>
+          <div class="bg-kotauth-surface-1 border border-kotauth-surface-2 p-5 h-full hover:border-kotauth-primary/30 transition-colors">
+            <div class="w-9 h-9 bg-kotauth-primary/10 flex items-center justify-center mb-4">
+              <item.icon className="w-4 h-4 text-kotauth-primary" />
+            </div>
+            <p class="text-sm font-semibold text-kotauth-text-primary font-mono mb-1.5">
+              {item.title}
+            </p>
+            <p class="text-xs text-kotauth-text-tertiary font-mono leading-relaxed">
+              {item.description}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div data-reveal data-reveal-delay={300} class="flex justify-center">
+      <a
+        href={DEMO_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-8 h-12 font-mono text-sm transition-colors"
+      >
+        <Play className="w-4 h-4" />
+        Launch the Demo
+      </a>
+    </div>
+  </div>
+</section>

@@ -1,13 +1,8 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Palette, Server, Layers } from 'lucide-react';
-import { AnimatedSection } from '@/components/AnimatedSection';
-import { GradientGlow } from '@/components/GradientGlow';
 import LoginMockup from '@/components/LoginMockup';
 import { themes } from '@/lib/authThemes';
 import type { ThemeKey } from '@/lib/authThemes';
-
-// ─── Selling Points ───────────────────────────────────────────────────────────
 
 const points = [
   {
@@ -32,24 +27,20 @@ const points = [
   },
 ];
 
-// ─── Section ──────────────────────────────────────────────────────────────────
-
 export function AuthShowcase() {
   const [activeTheme, setActiveTheme] = useState<ThemeKey>('dark');
 
   return (
     <section className="py-24 lg:py-32 relative overflow-hidden">
-      <GradientGlow
-        className="top-1/2 left-0 -translate-x-1/2 -translate-y-1/2"
-        size={700}
-        color="rgba(0, 119, 168, 0.18)"
+      <div
+        className="absolute pointer-events-none glow-pulse top-1/2 left-0 -translate-x-1/2 -translate-y-1/2"
+        style={{ width: 700, height: 700, background: 'radial-gradient(circle, rgba(0, 119, 168, 0.18) 0%, transparent 70%)', filter: 'blur(40px)' }}
       />
 
       <div className="section-container relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-          {/* Left — Copy */}
-          <AnimatedSection>
+          <div data-reveal>
             <span className="eyebrow mb-4 block">Auth Experience</span>
             <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-kotauth-text-primary leading-tight mb-4 font-mono">
               Auth screens that{' '}
@@ -62,12 +53,10 @@ export function AuthShowcase() {
 
             <div className="space-y-6">
               {points.map((point, i) => (
-                <motion.div
+                <div
                   key={point.title}
-                  initial={{ opacity: 0, x: -16 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                  data-reveal
+                  data-reveal-delay={i * 80}
                   className="flex gap-4"
                 >
                   <div className="w-9 h-9 bg-kotauth-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -81,20 +70,16 @@ export function AuthShowcase() {
                       {point.body}
                     </p>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </AnimatedSection>
+          </div>
 
-          {/* Right — Interactive Preview */}
-          <AnimatedSection delay={0.2}>
+          <div data-reveal data-reveal-delay={200}>
             <div className="relative">
-              {/* Subtle glow behind preview */}
               <div className="absolute inset-0 bg-kotauth-primary/5 blur-3xl -z-10 rounded-3xl" />
 
-              {/* Browser chrome */}
               <div className="bg-kotauth-surface-1 border border-kotauth-surface-2 overflow-hidden shadow-2xl shadow-black/30">
-                {/* Title bar */}
                 <div className="flex items-center gap-2 px-4 py-3 border-b border-kotauth-surface-2 bg-kotauth-bg-secondary">
                   <div className="flex gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-kotauth-error/60" />
@@ -106,7 +91,6 @@ export function AuthShowcase() {
                       auth.acme.com/login
                     </div>
                   </div>
-                  {/* Theme switcher tabs */}
                   <div className="flex gap-1">
                     {(Object.keys(themes) as ThemeKey[]).map((key) => (
                       <button
@@ -124,20 +108,16 @@ export function AuthShowcase() {
                   </div>
                 </div>
 
-                {/* Preview area */}
                 <div className="h-[360px] overflow-hidden relative">
-                  <AnimatePresence mode="wait">
-                    <LoginMockup key={activeTheme} theme={activeTheme} />
-                  </AnimatePresence>
+                  <LoginMockup key={activeTheme} theme={activeTheme} />
                 </div>
               </div>
 
-              {/* Label below */}
               <p className="text-center text-xs text-kotauth-text-muted font-mono mt-3">
                 Click the theme tabs to preview — same URL, different tenant config
               </p>
             </div>
-          </AnimatedSection>
+          </div>
 
         </div>
       </div>

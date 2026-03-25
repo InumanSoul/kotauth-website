@@ -1,13 +1,13 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { Github, Play } from 'lucide-react';
-import { GradientGlow } from '@/components/GradientGlow';
-import { PhaseCard, type Phase } from '@/components/PhaseCard';
+import GradientGlow from '@/components/GradientGlow.astro';
+import PhaseCard from '@/components/PhaseCard.astro';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const DEMO_URL = 'https://demo.kotauth.com';
 
-const shippedPhases: Phase[] = [
+const shippedPhases: { number: number; title: string; tagline: string; items: string[] }[] = [
   {
     number: 0,
     title: 'Foundation',
@@ -101,7 +101,7 @@ const shippedPhases: Phase[] = [
   },
 ];
 
-const plannedPhases: Phase[] = [
+const plannedPhases: { number: number; title: string; tagline: string; items: string[] }[] = [
   {
     number: 6,
     title: 'Enterprise Federation',
@@ -193,7 +193,7 @@ const stats = [
   <div class="pt-[72px]">
     <!-- Hero -->
     <section class="py-20 lg:py-28 relative overflow-hidden">
-      <GradientGlow className="top-0 right-1/4" size={600} color="rgba(0, 119, 168, 0.18)" client:visible />
+      <GradientGlow className="top-0 right-1/4" size={600} color="rgba(0, 119, 168, 0.18)" />
       <div class="section-container relative z-10">
         <div class="max-w-2xl">
           <span class="eyebrow mb-4 block">Roadmap</span>
@@ -261,7 +261,7 @@ const stats = [
 
         <div>
           {shippedPhases.map((phase) => (
-            <PhaseCard phase={phase} shipped={true} client:visible />
+            <PhaseCard phase={phase} shipped={true} />
           ))}
         </div>
       </div>
@@ -292,7 +292,7 @@ const stats = [
 
         <div>
           {plannedPhases.map((phase) => (
-            <PhaseCard phase={phase} shipped={false} client:visible />
+            <PhaseCard phase={phase} shipped={false} />
           ))}
         </div>
       </div>

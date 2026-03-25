@@ -1,14 +1,7 @@
+---
 import { Check } from 'lucide-react';
 import { TabbedCodeBlock } from '@/components/CodeBlock';
-import { AnimatedSection, StaggerContainer, StaggerItem } from '@/components/AnimatedSection';
-import { GradientGlow } from '@/components/GradientGlow';
-
-// All examples demonstrate the same workflow:
-// 1. Provision a user in a workspace
-// 2. Assign a role for RBAC
-// 3. Pull the audit trail to verify
-// Base URL shape: {host}/t/{workspaceSlug}/api/v1
-// Auth: Bearer kauth_<slug>_<key>  (scoped API key)
+import GradientGlow from '@/components/GradientGlow.astro';
 
 const codeTabs = [
   {
@@ -163,54 +156,48 @@ const features = [
   'Paginated responses with total / offset / limit',
   'Immutable audit trail — 30+ event types',
 ];
+---
 
-export function CodeShowcase() {
-  return (
-    <section className="py-24 lg:py-32 relative overflow-hidden">
-      {/* Background glow */}
-      <GradientGlow
-        className="top-1/2 left-0 -translate-y-1/2"
-        size={700}
-        color="rgba(0, 119, 168, 0.18)"
-      />
+<section class="py-24 lg:py-32 relative overflow-hidden">
+  <GradientGlow
+    className="top-1/2 left-0 -translate-y-1/2"
+    size={700}
+    color="rgba(0, 119, 168, 0.18)"
+  />
 
-      <div className="section-container relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Code Block */}
-          <AnimatedSection>
-            <TabbedCodeBlock tabs={codeTabs} />
-          </AnimatedSection>
+  <div class="section-container relative z-10">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div data-reveal>
+        <TabbedCodeBlock tabs={codeTabs} client:visible />
+      </div>
 
-          {/* Content */}
-          <div>
-            <AnimatedSection>
-              <span className="eyebrow mb-4 block">Developer Experience</span>
-              <h2 className="text-3xl sm:text-4xl font-semibold text-kotauth-text-primary leading-tight mb-4 font-mono">
-                Provision, authorize, audit
-              </h2>
-              <p className="text-lg text-kotauth-text-secondary mb-8">
-                One consistent REST API across every resource. Scoped API keys per workspace,
-                RFC-compliant errors, and a full audit trail baked in from day one.
-              </p>
-            </AnimatedSection>
+      <div>
+        <div data-reveal>
+          <span class="eyebrow mb-4 block">Developer Experience</span>
+          <h2 class="text-3xl sm:text-4xl font-semibold text-kotauth-text-primary leading-tight mb-4 font-mono">
+            Provision, authorize, audit
+          </h2>
+          <p class="text-lg text-kotauth-text-secondary mb-8">
+            One consistent REST API across every resource. Scoped API keys per workspace,
+            RFC-compliant errors, and a full audit trail baked in from day one.
+          </p>
+        </div>
 
-            <StaggerContainer className="space-y-4" staggerDelay={0.1}>
-              {features.map((feature, index) => (
-                <StaggerItem key={index}>
-                  <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 bg-kotauth-success/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Check className="w-3 h-3 text-kotauth-success" />
-                    </div>
-                    <span className="text-kotauth-text-secondary font-mono text-sm leading-relaxed">
-                      {feature}
-                    </span>
-                  </div>
-                </StaggerItem>
-              ))}
-            </StaggerContainer>
-          </div>
+        <div class="space-y-4">
+          {features.map((feature, index) => (
+            <div data-reveal data-reveal-delay={index * 100}>
+              <div class="flex items-start gap-3">
+                <div class="w-5 h-5 bg-kotauth-success/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Check className="w-3 h-3 text-kotauth-success" />
+                </div>
+                <span class="text-kotauth-text-secondary font-mono text-sm leading-relaxed">
+                  {feature}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
-  );
-}
+    </div>
+  </div>
+</section>

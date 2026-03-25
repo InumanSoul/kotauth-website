@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Github, MessageCircle, Bug, Mail, ArrowRight, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -31,24 +30,6 @@ const channels = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
-  },
-};
-
 type FormState = 'idle' | 'sending' | 'sent';
 
 export function ContactSection() {
@@ -69,7 +50,6 @@ export function ContactSection() {
     );
     const mailtoHref = `mailto:inumansoul@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
 
-    // Brief delay for UX feedback, then open mail client
     setTimeout(() => {
       window.location.href = mailtoHref;
       setFormState('sent');
@@ -80,18 +60,10 @@ export function ContactSection() {
 
   return (
     <section id="contact" className="py-24 lg:py-32 bg-kotauth-bg-secondary relative">
-      {/* Subtle top border accent */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-kotauth-primary/40 to-transparent" />
 
       <div className="section-container">
-        {/* Section Header */}
-        <motion.div
-          className="text-center max-w-2xl mx-auto mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
+        <div data-reveal className="text-center max-w-2xl mx-auto mb-16">
           <span className="eyebrow mb-4 block">Contact</span>
           <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-kotauth-text-primary leading-tight font-mono mb-4">
             Get in touch
@@ -99,24 +71,18 @@ export function ContactSection() {
           <p className="text-kotauth-text-secondary text-lg">
             Kotauth is an open source project. Most conversations happen in public — that's intentional. Pick the right channel below.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Left — Channels */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="flex flex-col gap-6"
-          >
-            {channels.map((channel) => (
-              <motion.a
+          <div className="flex flex-col gap-6">
+            {channels.map((channel, index) => (
+              <a
                 key={channel.title}
                 href={channel.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                variants={itemVariants}
+                data-reveal
+                data-reveal-delay={index * 100}
                 className="group flex gap-5 p-6 bg-kotauth-surface-1 border border-kotauth-surface-2 hover:border-kotauth-primary/50 transition-all duration-200"
               >
                 <div className="flex-shrink-0 w-11 h-11 bg-kotauth-primary/10 flex items-center justify-center group-hover:bg-kotauth-primary/20 transition-colors">
@@ -134,27 +100,21 @@ export function ContactSection() {
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                   </span>
                 </div>
-              </motion.a>
+              </a>
             ))}
 
-            {/* Open source note */}
-            <motion.div
-              variants={itemVariants}
+            <div
+              data-reveal
+              data-reveal-delay={300}
               className="p-5 border border-kotauth-surface-2 bg-kotauth-bg-primary/50"
             >
               <p className="text-xs text-kotauth-text-muted font-mono leading-relaxed">
                 <span className="text-kotauth-text-tertiary">Note:</span> This is an open source project maintained in spare time. Response times vary. For security disclosures, use the contact form with subject "Security".
               </p>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
-          {/* Right — Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-          >
+          <div data-reveal data-reveal-delay={150}>
             {formState === 'sent' ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-12 bg-kotauth-surface-1 border border-kotauth-surface-2 gap-4">
                 <div className="w-14 h-14 bg-kotauth-success/10 flex items-center justify-center mb-2">
@@ -280,7 +240,7 @@ export function ContactSection() {
                 </p>
               </form>
             )}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -1,25 +1,25 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { Hero } from '@/sections/Hero';
-import { FeaturesGrid } from '@/sections/FeaturesGrid';
+import Hero from '@/sections/Hero.astro';
+import FeaturesGrid from '@/sections/FeaturesGrid.astro';
 import { AuthShowcase } from '@/sections/AuthShowcase';
-import { CodeShowcase } from '@/sections/CodeShowcase';
-import { LiveDemo } from '@/sections/LiveDemo';
-import { ComparisonTable } from '@/sections/ComparisonTable';
-import { Architecture } from '@/sections/Architecture';
-import { CTASection } from '@/sections/CTASection';
+import CodeShowcase from '@/sections/CodeShowcase.astro';
+import LiveDemo from '@/sections/LiveDemo.astro';
+import ComparisonTable from '@/sections/ComparisonTable.astro';
+import Architecture from '@/sections/Architecture.astro';
+import CTASection from '@/sections/CTASection.astro';
 ---
 
 <BaseLayout
   title="Kotauth — Self-hosted authentication for modern applications"
   description="The open-source, Docker-native identity platform. OAuth 2.0, OpenID Connect, multi-tenancy, white-label auth screens, and webhooks — deploy in seconds with a single docker compose up. Try the live demo at demo.kotauth.com."
 >
-  <Hero client:load />
-  <FeaturesGrid client:visible />
+  <Hero />
+  <FeaturesGrid />
   <AuthShowcase client:visible />
-  <CodeShowcase client:visible />
-  <LiveDemo client:visible />
-  <ComparisonTable client:visible />
-  <Architecture client:visible />
-  <CTASection client:visible />
+  <CodeShowcase />
+  <LiveDemo />
+  <ComparisonTable />
+  <Architecture />
+  <CTASection />
 </BaseLayout>

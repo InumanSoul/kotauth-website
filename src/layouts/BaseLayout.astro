@@ -113,5 +113,28 @@ const canonicalUrl = `${BASE_URL}${path}`;
       <slot />
     </main>
     <Footer />
+
+    <!-- Scroll-reveal observer — handles all [data-reveal] elements site-wide -->
+    <script is:inline>
+      (function () {
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                var d = +(e.target.dataset.revealDelay || 0);
+                if (d) {
+                  setTimeout(function () { e.target.classList.add('revealed'); }, d);
+                } else {
+                  e.target.classList.add('revealed');
+                }
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { rootMargin: '-80px 0px' }
+        );
+        document.querySelectorAll('[data-reveal]').forEach(function (el) { io.observe(el); });
+      })();
+    </script>
   </body>
 </html>
