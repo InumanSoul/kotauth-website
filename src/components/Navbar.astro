@@ -1,0 +1,137 @@
+---
+import { ExternalLink, Github, Play } from 'lucide-react';
+import MobileMenu from '@/components/MobileMenu';
+
+const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
+const QUICKSTART_URL = 'https://docs.kotauth.com/getting-started/quickstart/';
+const DOCS_URL = 'https://docs.kotauth.com/getting-started/introduction/';
+const DEMO_URL = 'https://demo.kotauth.com';
+
+type NavLinkDef = {
+  label: string;
+  href: string;
+  external: boolean;
+};
+
+const navLinks: NavLinkDef[] = [
+  { label: 'Features', href: '/features', external: false },
+  { label: 'Roadmap', href: '/roadmap', external: false },
+  { label: 'Docs', href: DOCS_URL, external: true },
+  { label: 'Contact', href: '/contact', external: false },
+];
+
+const currentPath = Astro.url.pathname;
+const linkBase = 'text-sm font-mono transition-colors duration-150';
+---
+
+<header
+  id="navbar"
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"
+>
+  <div class="section-container">
+    <nav class="flex items-center justify-between h-[72px]">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2.5">
+        <img
+          src="/brand/kotauth-negative.svg"
+          alt="KotAuth Logo"
+          class="h-10"
+          height="40"
+          width="160"
+        />
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-8">
+        {navLinks.map((link) => (
+          link.external ? (
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={`${linkBase} inline-flex items-center gap-1 text-kotauth-text-secondary hover:text-kotauth-text-primary`}
+            >
+              {link.label}
+              <ExternalLink className="w-3 h-3 opacity-50" />
+            </a>
+          ) : (
+            <a
+              href={link.href}
+              class={`${linkBase} ${
+                currentPath === link.href
+                  ? 'text-kotauth-primary'
+                  : 'text-kotauth-text-secondary hover:text-kotauth-text-primary'
+              }`}
+            >
+              {link.label}
+            </a>
+          )
+        ))}
+      </div>
+
+      <!-- Desktop CTAs -->
+      <div class="hidden md:flex items-center gap-3">
+        <a
+          href={GITHUB_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 text-sm font-mono px-3 h-8 text-kotauth-text-secondary hover:text-kotauth-text-primary hover:bg-kotauth-surface-1 transition-colors"
+        >
+          <Github className="w-4 h-4" />
+          GitHub
+        </a>
+        <a
+          href={DEMO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 text-sm font-mono px-3 h-8 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 transition-colors"
+        >
+          <Play className="w-3.5 h-3.5" />
+          Demo
+        </a>
+        <a
+          href={QUICKSTART_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center text-sm font-mono px-3 h-8 bg-kotauth-primary hover:bg-kotauth-primary-light text-white transition-colors"
+        >
+          Get Started
+        </a>
+      </div>
+
+      <!-- Mobile Menu (React island) -->
+      <MobileMenu client:media="(max-width: 767px)" />
+    </nav>
+  </div>
+</header>
+
+<style>
+  #navbar[data-scrolled] {
+    background-color: rgba(10, 15, 20, 0.8);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--kotauth-surface-2);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var navbar = document.getElementById('navbar');
+    if (!navbar) return;
+    var ticking = false;
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(function () {
+          if (window.scrollY > 50) {
+            navbar.setAttribute('data-scrolled', '');
+          } else {
+            navbar.removeAttribute('data-scrolled');
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>

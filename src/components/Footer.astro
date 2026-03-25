@@ -1,0 +1,141 @@
+---
+import { Github, Twitter, MessageCircle } from 'lucide-react';
+
+const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
+const DOCS_URL = 'https://docs.kotauth.com/';
+const currentYear = new Date().getFullYear();
+
+type FooterLink = {
+  label: string;
+  href: string;
+  external: boolean;
+};
+
+const footerLinks: Record<string, FooterLink[]> = {
+  product: [
+    { label: 'Features', href: '/features', external: false },
+    { label: 'Roadmap', href: '/roadmap', external: false },
+    { label: 'Changelog', href: `${GITHUB_URL}/releases`, external: true },
+  ],
+  resources: [
+    { label: 'Documentation', href: DOCS_URL, external: true },
+    { label: 'API Reference', href: `${GITHUB_URL}#rest-api`, external: true },
+    { label: 'GitHub', href: GITHUB_URL, external: true },
+    { label: 'Community', href: `${GITHUB_URL}/discussions`, external: true },
+  ],
+  company: [
+    { label: 'Blog', href: `${GITHUB_URL}/discussions/categories/announcements`, external: true },
+    { label: 'Contact', href: '/contact', external: false },
+    { label: 'Privacy Policy', href: '/privacy', external: false },
+    { label: 'Terms', href: '/terms', external: false },
+  ],
+};
+
+const socialLinks = [
+  { Icon: Twitter, href: 'https://twitter.com/InumanSoul', label: 'Twitter' },
+  { Icon: Github, href: GITHUB_URL, label: 'GitHub' },
+  { Icon: MessageCircle, href: `${GITHUB_URL}/discussions`, label: 'Community' },
+];
+
+const linkClass = 'text-sm text-kotauth-text-tertiary hover:text-kotauth-text-primary transition-colors font-mono';
+---
+
+<footer class="bg-kotauth-bg-secondary border-t border-kotauth-surface-2">
+  <div class="section-container py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+      <!-- Brand -->
+      <div class="lg:col-span-2">
+        <a href="/" class="flex items-center gap-2.5 mb-4">
+          <img src="/brand/kotauth-negative.svg" alt="KotAuth Logo" class="h-10" height="40" width="160" />
+        </a>
+        <p class="text-kotauth-text-secondary max-w-sm mb-6">
+          Identity infrastructure for modern applications. Self-hosted, Docker-native, developer-first.
+        </p>
+        <div class="flex gap-3">
+          {socialLinks.map(({ Icon, href, label }) => (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-10 h-10 bg-kotauth-surface-1 flex items-center justify-center text-kotauth-text-tertiary hover:text-kotauth-text-primary hover:bg-kotauth-surface-2 transition-all"
+              aria-label={label}
+            >
+              <Icon className="w-5 h-5" />
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Product -->
+      <div>
+        <h4 class="text-sm font-semibold text-kotauth-text-primary mb-4 font-mono">Product</h4>
+        <ul class="space-y-3">
+          {footerLinks.product.map((link) => (
+            <li>
+              {link.external ? (
+                <a href={link.href} target="_blank" rel="noopener noreferrer" class={linkClass}>{link.label}</a>
+              ) : (
+                <a href={link.href} class={linkClass}>{link.label}</a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div>
+        <h4 class="text-sm font-semibold text-kotauth-text-primary mb-4 font-mono">Resources</h4>
+        <ul class="space-y-3">
+          {footerLinks.resources.map((link) => (
+            <li>
+              {link.external ? (
+                <a href={link.href} target="_blank" rel="noopener noreferrer" class={linkClass}>{link.label}</a>
+              ) : (
+                <a href={link.href} class={linkClass}>{link.label}</a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <h4 class="text-sm font-semibold text-kotauth-text-primary mb-4 font-mono">Company</h4>
+        <ul class="space-y-3">
+          {footerLinks.company.map((link) => (
+            <li>
+              {link.external ? (
+                <a href={link.href} target="_blank" rel="noopener noreferrer" class={linkClass}>{link.label}</a>
+              ) : (
+                <a href={link.href} class={linkClass}>{link.label}</a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="mt-16 pt-8 border-t border-kotauth-surface-2 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <p class="text-sm text-kotauth-text-muted font-mono">
+        &copy; {currentYear} Kotauth. Open source under{' '}
+        <a
+          href={`${GITHUB_URL}/blob/main/LICENSE`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-kotauth-text-secondary transition-colors"
+        >
+          MIT License
+        </a>.
+      </p>
+      <div class="flex gap-6">
+        <a href="/privacy" class="text-sm text-kotauth-text-muted hover:text-kotauth-text-secondary transition-colors font-mono">
+          Privacy
+        </a>
+        <a href="/terms" class="text-sm text-kotauth-text-muted hover:text-kotauth-text-secondary transition-colors font-mono">
+          Terms
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

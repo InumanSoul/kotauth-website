@@ -1,0 +1,117 @@
+---
+import '@/styles/global.css';
+import Navbar from '@/components/Navbar.astro';
+import Footer from '@/components/Footer.astro';
+
+const BASE_URL = 'https://kotauth.com';
+const SITE_NAME = 'Kotauth';
+
+interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+  ogImage?: string;
+}
+
+const {
+  title: rawTitle = 'Kotauth - Identity Infrastructure for Modern Applications',
+  description = 'The self-hosted authentication platform that combines enterprise power with developer experience. OAuth2, OIDC, Multi-Tenancy, MFA — deploy in under a minute.',
+  path = '/',
+  ogImage = `${BASE_URL}/og-image.png`,
+} = Astro.props;
+
+const title = rawTitle.includes(SITE_NAME) ? rawTitle : `${rawTitle} — ${SITE_NAME}`;
+const canonicalUrl = `${BASE_URL}${path}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="authentication, identity management, self-hosted auth, open-source auth, OAuth2, OIDC, SSO, JWT, multi-tenant, MFA, Docker auth" />
+    <meta name="author" content="@InumanSoul, Kotauth Team" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content={SITE_NAME} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@kotauth" />
+    <meta name="twitter:creator" content="@InumanSoul" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Kotauth",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Linux, Docker",
+      "description": "Open-source, self-hosted authentication and identity management platform. OAuth2/OIDC compliant, multi-tenant, Docker-native.",
+      "url": "https://kotauth.dev",
+      "softwareVersion": "1.0.0",
+      "license": "https://opensource.org/licenses/MIT",
+      "codeRepository": "https://github.com/InumanSoul/kotauth",
+      "programmingLanguage": "Kotlin",
+      "author": {
+        "@type": "Person",
+        "name": "Anderson",
+        "url": "https://github.com/InumanSoul"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "OAuth 2.0 and OpenID Connect",
+        "Multi-tenant workspaces",
+        "MFA / TOTP support",
+        "Social login (Google, GitHub)",
+        "RBAC with roles and groups",
+        "Docker-native deployment",
+        "REST API with OpenAPI spec",
+        "Audit logging and webhooks"
+      ]
+    })} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/kotauth-favicon.png" />
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PENV1QC7L1"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PENV1QC7L1');
+    </script>
+  </head>
+  <body class="min-h-screen bg-kotauth-bg-primary">
+    <Navbar />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
