@@ -1,0 +1,109 @@
+---
+import { Users, Server, LayoutGrid, ChartBar, ArrowRight } from '@lucide/astro';
+import GradientGlow from '@/components/GradientGlow.astro';
+
+const architectureSteps = [
+  {
+    icon: Users,
+    title: 'Unified Identity',
+    description: 'One user base across all your applications',
+  },
+  {
+    icon: LayoutGrid,
+    title: 'Simple Integration',
+    description: 'Add authentication to any app in minutes',
+  },
+  {
+    icon: ChartBar,
+    title: 'Complete Visibility',
+    description: 'Monitor and manage everything from one dashboard',
+  },
+];
+---
+
+<section class="py-24 lg:py-32 relative overflow-hidden">
+  <GradientGlow
+    class="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+    size={900}
+    color="rgba(0, 119, 168, 0.14)"
+  />
+
+  <div class="section-container relative z-10">
+    <div data-reveal class="text-center max-w-2xl mx-auto mb-16">
+      <span class="eyebrow mb-4 block">Architecture</span>
+      <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-kotauth-text-primary leading-tight mb-4 font-mono">
+        Centralized identity for your entire stack
+      </h2>
+      <p class="text-lg text-kotauth-text-secondary">
+        One identity platform, unlimited applications
+      </p>
+    </div>
+
+    <div data-reveal class="mb-16">
+      <div class="relative max-w-4xl mx-auto">
+        <div class="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12">
+          <div class="flex flex-col items-center">
+            <div class="w-20 h-20 bg-kotauth-surface-1 border border-kotauth-surface-2 flex items-center justify-center mb-3">
+              <Users class="w-8 h-8 text-kotauth-primary" />
+            </div>
+            <span class="text-sm font-medium text-kotauth-text-secondary font-mono">Users</span>
+          </div>
+
+          <div class="lg:rotate-0 rotate-90">
+            <ArrowRight class="w-6 h-6 text-kotauth-primary" />
+          </div>
+
+          <div class="flex flex-col items-center">
+            <div class="w-28 h-28 bg-kotauth-primary/10 border-2 border-kotauth-primary flex items-center justify-center mb-3 relative">
+              <div class="absolute inset-0 bg-kotauth-primary/5 animate-pulse-glow"></div>
+              <Server class="w-10 h-10 text-kotauth-primary relative z-10" />
+            </div>
+            <span class="text-sm font-medium text-kotauth-text-primary font-mono">Kotauth</span>
+            <span class="text-xs text-kotauth-text-tertiary font-mono">Identity Server</span>
+          </div>
+
+          <div class="lg:rotate-0 rotate-90">
+            <ArrowRight class="w-6 h-6 text-kotauth-primary" />
+          </div>
+
+          <div class="flex flex-col items-center">
+            <div class="w-20 h-20 bg-kotauth-surface-1 border border-kotauth-surface-2 flex items-center justify-center mb-3">
+              <LayoutGrid class="w-8 h-8 text-kotauth-primary-light" />
+            </div>
+            <span class="text-sm font-medium text-kotauth-text-secondary font-mono">Applications</span>
+          </div>
+        </div>
+
+        <div class="flex justify-center mt-8">
+          <div class="flex flex-col items-center">
+            <div class="w-0.5 h-8 bg-kotauth-surface-2"></div>
+            <div class="w-20 h-20 bg-kotauth-surface-1 border border-kotauth-surface-2 flex items-center justify-center mb-3">
+              <ChartBar class="w-8 h-8 text-kotauth-text-tertiary" />
+            </div>
+            <span class="text-sm font-medium text-kotauth-text-secondary font-mono">Admin Dashboard</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      {architectureSteps.map((step, index) => (
+        <div
+          data-reveal
+          data-reveal-delay={200 + index * 100}
+          class="text-center p-6"
+        >
+          <div class="w-12 h-12 bg-kotauth-surface-1 flex items-center justify-center mx-auto mb-4">
+            <step.icon class="w-6 h-6 text-kotauth-primary" />
+          </div>
+          <h3 class="text-lg font-semibold text-kotauth-text-primary mb-2 font-mono">
+            {step.title}
+          </h3>
+          <p class="text-sm text-kotauth-text-secondary">
+            {step.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

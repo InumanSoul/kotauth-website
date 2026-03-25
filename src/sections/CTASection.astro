@@ -1,0 +1,65 @@
+---
+import { ArrowRight, Play } from '@lucide/astro';
+import FloatingOrb from '@/components/FloatingOrb.astro';
+
+const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
+const DEMO_URL = 'https://demo.kotauth.com';
+---
+
+<section class="py-24 lg:py-32 relative overflow-hidden">
+  <FloatingOrb
+    class="top-1/4 left-1/4"
+    size={300}
+    color="rgba(0, 119, 168, 0.25)"
+  />
+  <FloatingOrb
+    class="bottom-1/4 right-1/4"
+    size={250}
+    color="rgba(0, 163, 224, 0.18)"
+  />
+
+  <div class="section-container relative z-10">
+    <div class="relative max-w-3xl mx-auto text-center">
+      <div class="absolute inset-0 bg-gradient-to-br from-kotauth-primary/10 via-kotauth-surface-1/50 to-kotauth-primary/5 blur-xl"></div>
+
+      <div class="relative bg-kotauth-surface-1/80 backdrop-blur-sm border border-kotauth-surface-2 p-8 sm:p-12 lg:p-16">
+        <h2
+          data-reveal
+          class="text-3xl sm:text-4xl lg:text-5xl font-bold text-kotauth-text-primary leading-tight mb-6 font-mono"
+        >
+          Ready to simplify your{' '}
+          <span class="gradient-text">authentication</span>?
+        </h2>
+
+        <p
+          data-reveal
+          data-reveal-delay="100"
+          class="text-lg text-kotauth-text-secondary mb-8 max-w-xl mx-auto"
+        >
+          Deploy Kotauth in under a minute. No credit card required.
+        </p>
+
+        <div data-reveal data-reveal-delay="200" class="flex flex-wrap justify-center gap-4">
+          <a
+            href={DEMO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-8 h-12 font-mono text-sm transition-colors"
+          >
+            <Play class="w-4 h-4" />
+            Try the Demo
+          </a>
+          <a
+            href={`${GITHUB_URL}#try-it--one-command`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-2 px-8 h-12 font-mono text-sm transition-colors"
+          >
+            Get Started Free
+            <ArrowRight class="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

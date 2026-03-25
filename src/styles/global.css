@@ -1,0 +1,229 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Kotauth Dark Theme */
+    --background: 210 33% 4%;
+    --foreground: 210 40% 96%;
+    --card: 210 25% 8%;
+    --card-foreground: 210 40% 96%;
+    --popover: 210 25% 8%;
+    --popover-foreground: 210 40% 96%;
+    --primary: 197 100% 33%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 20% 12%;
+    --secondary-foreground: 210 40% 96%;
+    --muted: 210 20% 12%;
+    --muted-foreground: 215 16% 57%;
+    --accent: 210 20% 12%;
+    --accent-foreground: 210 40% 96%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 210 15% 15%;
+    --input: 210 15% 15%;
+    --ring: 197 100% 33%;
+    --radius: 0;
+
+    /* Custom Kotauth Properties */
+    --kotauth-primary: #0077A8;
+    --kotauth-primary-light: #00A3E0;
+    --kotauth-primary-dark: #005A80;
+    --kotauth-bg-primary: #0A0F14;
+    --kotauth-bg-secondary: #0D131A;
+    --kotauth-bg-tertiary: #111820;
+    --kotauth-bg-code: #0D1117;
+    --kotauth-surface-1: #161F28;
+    --kotauth-surface-2: #1C2733;
+    --kotauth-surface-3: #22303D;
+    --kotauth-text-primary: #F0F4F8;
+    --kotauth-text-secondary: #94A3B8;
+    --kotauth-text-tertiary: #64748B;
+    --kotauth-text-muted: #475569;
+    --kotauth-success: #10B981;
+    --kotauth-warning: #F59E0B;
+    --kotauth-error: #EF4444;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-kotauth-bg-primary text-kotauth-text-primary antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  /* Monospace font for headings/titles */
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: 'Inconsolata', monospace;
+    font-weight: 600;
+  }
+  
+  code, pre, .font-mono {
+    font-family: 'Inconsolata', monospace;
+  }
+}
+
+@layer components {
+  /* Gradient text utility */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, var(--kotauth-primary) 0%, var(--kotauth-primary-light) 100%);
+  }
+  
+  /* Glow effects */
+  .glow-primary {
+    box-shadow: 0 0 40px rgba(0, 119, 168, 0.15);
+  }
+  
+  .glow-primary-lg {
+    box-shadow: 0 0 60px rgba(0, 119, 168, 0.2);
+  }
+  
+  /* Code block styling */
+  .code-block {
+    @apply bg-kotauth-bg-code border border-kotauth-surface-2;
+  }
+  
+  /* Card hover effect */
+  .card-hover {
+    @apply transition-all duration-300;
+  }
+  
+  .card-hover:hover {
+    @apply -translate-y-1 border-kotauth-primary/30;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Button primary */
+  .btn-primary {
+    @apply bg-kotauth-primary text-white px-6 py-3 font-medium transition-all duration-200;
+  }
+  
+  .btn-primary:hover {
+    @apply bg-kotauth-primary-light -translate-y-0.5;
+    box-shadow: 0 4px 12px rgba(0, 119, 168, 0.3);
+  }
+  
+  /* Button secondary */
+  .btn-secondary {
+    @apply border border-kotauth-surface-2 text-kotauth-text-primary px-6 py-3 font-medium transition-all duration-200;
+  }
+  
+  .btn-secondary:hover {
+    @apply border-kotauth-primary text-kotauth-primary-light;
+  }
+  
+  /* Section container */
+  .section-container {
+    @apply max-w-7xl mx-auto px-5 sm:px-8 lg:px-12;
+  }
+  
+  /* Eyebrow text */
+  .eyebrow {
+    @apply text-xs font-medium tracking-widest uppercase text-kotauth-primary;
+    font-family: 'Inconsolata', monospace;
+  }
+}
+
+@layer utilities {
+  /* Animation utilities */
+  .animation-paused {
+    animation-play-state: paused;
+  }
+
+  /* Backdrop blur support */
+  .backdrop-blur-fallback {
+    @apply bg-kotauth-bg-primary/95;
+  }
+
+  @supports (backdrop-filter: blur(12px)) {
+    .backdrop-blur-fallback {
+      @apply bg-kotauth-bg-primary/80 backdrop-blur-xl;
+    }
+  }
+}
+
+/* ── Scroll-reveal animations ─────────────────────────────────────────────── */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Decorative looping animations ────────────────────────────────────────── */
+
+@keyframes glow-pulse {
+  0%, 100% { transform: scale(1);   opacity: 0.7; }
+  50%      { transform: scale(1.1); opacity: 1; }
+}
+
+@keyframes floating-orb {
+  0%, 100% { transform: translate(0, 0); }
+  50%      { transform: translate(10px, -20px); }
+}
+
+.glow-pulse  { animation: glow-pulse 8s ease-in-out infinite; }
+.floating-orb { animation: floating-orb 10s ease-in-out infinite; }
+
+/* ── CSS crossfade for theme/tab switching ─────────────────────────────────── */
+
+.crossfade-enter {
+  animation: fade-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--kotauth-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--kotauth-surface-2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--kotauth-surface-3);
+}
+
+/* Selection color */
+::selection {
+  background: rgba(0, 119, 168, 0.3);
+  color: var(--kotauth-text-primary);
+}
