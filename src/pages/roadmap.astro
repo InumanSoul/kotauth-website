@@ -1,0 +1,371 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Github, Play } from 'lucide-react';
+import { GradientGlow } from '@/components/GradientGlow';
+import { PhaseCard, type Phase } from '@/components/PhaseCard';
+
+const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
+const DEMO_URL = 'https://demo.kotauth.com';
+
+const shippedPhases: Phase[] = [
+  {
+    number: 0,
+    title: 'Foundation',
+    tagline: 'Honest production-readiness baseline',
+    items: [
+      'Email verification on registration',
+      'Password reset with signed expiring tokens',
+      'Rate limiting on /login and /register per IP',
+      'CSRF protection on all form endpoints',
+      'Startup validation — refuses unsafe defaults in production',
+      'Refresh token persistence with SHA-256 hashing',
+      'HTTPS enforcement at startup (cookies, OIDC, OAuth callbacks)',
+      'Server-side input validation across all endpoints',
+    ],
+  },
+  {
+    number: 1,
+    title: 'Multi-Tenancy Core',
+    tagline: 'The workspace model that makes Kotauth a platform',
+    items: [
+      'Flyway versioned schema migrations — safe for CI/CD and production upgrades',
+      'Workspaces with slug routing, independent issuer URLs, and token TTL config',
+      'Per-tenant OAuth2 applications with bcrypt-hashed secrets and redirect URIs',
+      'Tenant-scoped user directories — same email is independent across workspaces',
+      'Master workspace for platform admins, cleanly separated from user tenants',
+      'Per-tenant RS256 key pairs provisioned on first use — no shared signing key',
+      'Admin console — workspace list, application management, user management',
+    ],
+  },
+  {
+    number: 2,
+    title: 'OAuth 2.0 / OIDC Compliance',
+    tagline: 'Standards-compliant — any OIDC client library works without modification',
+    items: [
+      'OIDC Discovery document — GET /.well-known/openid-configuration',
+      'JWKS endpoint for offline token verification',
+      'Authorization Code + PKCE (required for all public clients)',
+      'Client Credentials grant for machine-to-machine',
+      'Refresh Token rotation — old token immediately invalidated on each use',
+      'Token revocation (RFC 7009) and introspection (RFC 7662)',
+      'Standard JWT claims: sub, iss, aud, realm_access.roles, resource_access.*',
+      'Per-user session tracking with user- and admin-initiated revocation',
+    ],
+  },
+  {
+    number: 3,
+    title: 'User Management Platform',
+    tagline: 'The UI/UX layer that distinguishes Kotauth from Keycloak',
+    items: [
+      'Admin console — search, filter, paginate users; create, edit, disable accounts',
+      'API key management — scoped keys with SHA-256 hashing, prefix stored for display',
+      'Audit log viewer — paginated, filterable by event type',
+      'Per-tenant SMTP with AES-256-GCM encryption of stored credentials',
+      'User self-service portal — profile, password change, session listing and revocation',
+      'RBAC — tenant roles, application-scoped roles, composite roles with BFS cycle detection',
+      'Groups with nested hierarchy and role inheritance',
+      'TOTP MFA (RFC 6238) with QR enrollment, verification, and recovery codes',
+      'MFA policy per workspace: optional, required, required_for_admins',
+      'REST API v1 — 30+ endpoints, OpenAPI 3.1 spec, Swagger UI',
+      'Per-tenant white-label theming — TenantTheme injects 9 CSS custom properties server-side into every auth page; 3 built-in presets (DEFAULT dark, LIGHT, SIMPLE rounded); custom logo and favicon per workspace; no rebuild required',
+    ],
+  },
+  {
+    number: 4,
+    title: 'Webhooks',
+    tagline: 'Real-time event delivery — no polling required',
+    items: [
+      'Webhook endpoint management — register URLs, select event subscriptions',
+      'HMAC-SHA256 signing on every delivery (X-KotAuth-Signature header)',
+      'Asynchronous fan-out — webhook delivery never blocks the auth flow',
+      'Exponential backoff retry — 3 attempts: immediate, 5 min, 30 min',
+      'Delivery history per endpoint — status, response code, error detail',
+      '8 event types: user.created/updated/deleted, login.success/failed, password.reset, mfa.enrolled, session.revoked',
+    ],
+  },
+  {
+    number: 5,
+    title: 'Frontend Architecture & Documentation',
+    tagline: 'The build pipeline, brand surface, and external docs that make adoption possible',
+    items: [
+      'Four-bundle CSS build pipeline — LightningCSS (Rust native) compiles kotauth-admin.css (fixed dark theme), kotauth-auth.css (no :root defaults — tokens injected at runtime by TenantTheme), kotauth-portal-sidenav.css, and kotauth-portal-tabnav.css',
+      '3-stage Docker build — Stage 1: Node/LightningCSS; Stage 2: Gradle fat JAR (CSS injected before JAR assembly); Stage 3: eclipse-temurin:17-jre runtime (~85 MB, no Node or Gradle)',
+      'Public documentation site — Astro Starlight; 29 pages covering API reference, auth flows, OIDC/OAuth2 protocol, deployment, webhooks, and white-label theming',
+      'Marketing website — React + Vite + Tailwind; feature grid, roadmap, and public-facing brand presence',
+      'README with Docker quickstart — running in under five minutes',
+      'Full environment variable reference with production guidance',
+      'CONTRIBUTING guide — local setup, architecture constraints, migration conventions',
+      'Security hardening: cookie.secure derived from KAUTH_BASE_URL at startup',
+      'Demo mode (KAUTH_DEMO_MODE=true) — seeds two workspaces with users, roles, groups, applications, webhooks, and audit history; renders a credential banner on all pages; designed for public showcase deployments at demo.kotauth.com',
+    ],
+  },
+];
+
+const plannedPhases: Phase[] = [
+  {
+    number: 6,
+    title: 'Enterprise Federation',
+    tagline: 'Connect Kotauth to corporate identity sources',
+    items: [
+      'LDAP / Active Directory user and group sync with configurable interval',
+      'SAML 2.0 — SP-initiated and IdP-initiated flows',
+      'External OIDC broker — relay to upstream providers (Azure AD, Okta)',
+      'Cross-tenant federation with configured trust',
+    ],
+  },
+  {
+    number: 7,
+    title: 'Advanced Authentication',
+    tagline: 'Modern, phishing-resistant authentication methods',
+    items: [
+      'WebAuthn / Passkeys — MfaMethod enum is already extensible for this',
+      'Magic links — passwordless email login with short-lived signed tokens',
+      'SMS OTP via pluggable provider interface (no vendor lock-in)',
+    ],
+  },
+  {
+    number: 8,
+    title: 'Observability & Operations',
+    tagline: 'Production-grade insight into a running deployment',
+    items: [
+      'Prometheus metrics — login rates, error rates, token issuance, session count',
+      'Structured JSON log output (logstash encoder in dependency tree)',
+      'Webhook retry background sweep for deliveries missed during downtime',
+      'Admin-initiated key rotation with configurable overlap window',
+      'Helm chart with configurable replicas, probes, and secret management',
+      'Zero-downtime rolling updates — session and key state compatibility guarantees',
+    ],
+  },
+  {
+    number: 9,
+    title: 'Platform Expansion',
+    tagline: 'Kotauth as a programmable identity layer',
+    items: [
+      'REST API expansion — bulk operations, user impersonation with audit trail',
+      'Typed TypeScript/JavaScript SDK wrapping the REST API and OIDC flows',
+      'Per-tenant HTML email template customization',
+      'Audit log export to S3-compatible storage or SIEM webhook',
+      'SCIM 2.0 — automated user provisioning from external HR systems',
+    ],
+  },
+];
+
+const adrs = [
+  { id: '01', decision: 'Hexagonal architecture — zero framework imports in domain', rationale: 'Domain logic is independently testable; adapters are swappable' },
+  { id: '02', decision: 'Flyway for schema migrations', rationale: 'Versioned, irreversible migrations safe for CI/CD and production upgrades' },
+  { id: '03', decision: 'Separate write-only vs. read-only audit log paths', rationale: 'Auth path never blocks on query execution; read and write independently scalable' },
+  { id: '04', decision: 'All mutations routed through domain services', rationale: 'Validation and audit logging centralized; no mutation path bypasses business rules' },
+  { id: '05', decision: 'Client secret stored as bcrypt hash only — raw value shown once', rationale: 'A database breach does not leak application secrets' },
+  { id: '06', decision: 'Domain services return AdminResult<T> sealed types, not exceptions', rationale: 'Error handling is explicit and exhaustive; no surprise runtime exceptions' },
+  { id: '07', decision: 'Portal login uses OAuth Authorization Code + PKCE via built-in client', rationale: 'Portal and third-party apps authenticate identically; no separate session mechanism' },
+  { id: '08', decision: 'Master workspace for platform admins', rationale: 'Platform operator role is cleanly separated from end-user tenants' },
+  { id: '09', decision: 'Per-tenant RS256 key pairs, auto-provisioned', rationale: 'No single point of key failure; tokens verifiable offline via JWKS' },
+  { id: '10', decision: 'Refresh token rotation on every use', rationale: 'A stolen refresh token has a limited replay window; reuse revokes entire session chain' },
+  { id: '11', decision: 'Audit events recorded eagerly in the request path', rationale: 'No auth flow succeeds without a corresponding audit record' },
+  { id: '12', decision: 'PKCE required for all public clients', rationale: 'Defense against authorization code interception and client ID enumeration' },
+  { id: '13', decision: 'User lookup by (tenant_id, username) — no global namespace', rationale: 'Same email exists independently across workspaces; no cross-tenant leakage' },
+  { id: '14', decision: 'MFA pending state via HMAC-signed cookie, not server-side session', rationale: 'Stateless; no session table bloat; HMAC prevents userId forgery' },
+  { id: '15', decision: 'OAuth state param carries HMAC-signed nonce + OAuth params as Base64', rationale: 'No extra cookie or session required; state is self-contained and tamper-evident' },
+  { id: '16', decision: 'Social login auto-links by email address', rationale: 'Reduces friction for users with both local and social accounts on the same email' },
+  { id: '17', decision: 'Social OAuth adapters use java.net.http only', rationale: 'Lean fat JAR; minimal attack surface; no transitive dependency risk' },
+  { id: '18', decision: 'Social-registered users get a random unusable password hash', rationale: 'Account exists; password auth disabled until user explicitly sets one' },
+  { id: '19', decision: 'API keys use SHA-256, not bcrypt', rationale: '256-bit key entropy makes brute force infeasible; SHA-256 eliminates bcrypt latency per call' },
+  { id: '20', decision: 'API key prefix stored for display — first 16 chars of raw key', rationale: 'Human-friendly identification in admin UI without exposing the full credential' },
+  { id: '21', decision: 'Swagger UI loaded from CDN, not bundled', rationale: 'Saves ~7 MB from the fat JAR; no new Gradle dependencies required' },
+  { id: '22', decision: 'Auth CSS carries no :root defaults — TenantTheme injects all tokens server-side at render time', rationale: 'Enables per-tenant theming with zero client-side JS; theme changes take effect on next page load with no rebuild' },
+  { id: '23', decision: 'LightningCSS (Rust native) compiled in a dedicated Docker stage before the Gradle build', rationale: 'Produces minified, cross-browser bundles without Node.js in the JRE runtime image; CSS output is injected into the JAR during Stage 2' },
+  { id: '24', decision: 'Demo mode as a single env flag (KAUTH_DEMO_MODE) with idempotent seed service', rationale: 'Public showcase deployments get realistic data without manual setup; idempotent seeding allows periodic container restarts without duplicate data' },
+];
+
+const stats = [
+  { label: 'Phases Shipped', value: '6' },
+  { label: 'DB Migrations', value: '21' },
+  { label: 'REST Endpoints', value: '30+' },
+  { label: 'Architecture ADRs', value: '24' },
+];
+---
+
+<BaseLayout
+  title="Roadmap — Kotauth"
+  description="See what's shipped and what's coming in Kotauth. Phases 0–5 are live in v1.1.2 — covering OAuth 2.0, OIDC, multi-tenancy, RBAC, webhooks, and white-label theming. Enterprise SSO, WebAuthn, and more are on the way."
+  path="/roadmap"
+>
+  <div class="pt-[72px]">
+    <!-- Hero -->
+    <section class="py-20 lg:py-28 relative overflow-hidden">
+      <GradientGlow className="top-0 right-1/4" size={600} color="rgba(0, 119, 168, 0.18)" client:visible />
+      <div class="section-container relative z-10">
+        <div class="max-w-2xl">
+          <span class="eyebrow mb-4 block">Roadmap</span>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-kotauth-text-primary leading-tight font-mono mb-6">
+            What's built.<br />
+            <span class="gradient-text">What's next.</span>
+          </h1>
+          <p class="text-lg text-kotauth-text-secondary mb-8 max-w-xl">
+            V1.0 is complete — Phases 0–5 shipped as of March 2026.
+            Every architectural decision and shipped feature is documented here.
+            No vaporware, no undated promises.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a
+              href={DEMO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-11 font-mono text-sm transition-colors"
+            >
+              <Play className="w-4 h-4" />
+              Try the Demo
+            </a>
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-11 font-mono text-sm transition-colors"
+            >
+              <Github className="w-4 h-4" />
+              View on GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats bar -->
+    <section class="border-y border-kotauth-surface-2 bg-kotauth-bg-secondary">
+      <div class="section-container py-6">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+          {stats.map((stat) => (
+            <div class="text-center sm:text-left">
+              <p class="text-2xl font-bold text-kotauth-text-primary font-mono">{stat.value}</p>
+              <p class="text-xs text-kotauth-text-muted font-mono mt-0.5">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- V1.0 Shipped -->
+    <section class="py-20 lg:py-28">
+      <div class="section-container">
+        <div class="mb-14">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="h-px flex-1 bg-kotauth-surface-2 max-w-[40px]"></div>
+            <span class="text-xs font-mono text-kotauth-success uppercase tracking-widest">
+              V1.0 Complete
+            </span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono">
+            Shipped — Phases 0 → 5
+          </h2>
+        </div>
+
+        <div>
+          {shippedPhases.map((phase) => (
+            <PhaseCard phase={phase} shipped={true} client:visible />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="section-container">
+      <div class="border-t border-kotauth-surface-2"></div>
+    </div>
+
+    <!-- Post-V1 Planned -->
+    <section class="py-20 lg:py-28">
+      <div class="section-container">
+        <div class="mb-14">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="h-px flex-1 bg-kotauth-surface-2 max-w-[40px]"></div>
+            <span class="text-xs font-mono text-kotauth-text-muted uppercase tracking-widest">
+              Post V1.0
+            </span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
+            What's next — Phases 6 → 9
+          </h2>
+          <p class="text-kotauth-text-secondary max-w-xl">
+            Planned but not yet scheduled. Priority order reflects market demand and dependency on existing foundations.
+          </p>
+        </div>
+
+        <div>
+          {plannedPhases.map((phase) => (
+            <PhaseCard phase={phase} shipped={false} client:visible />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture Decisions -->
+    <section class="py-16 lg:py-24 bg-kotauth-bg-secondary border-t border-kotauth-surface-2">
+      <div class="section-container">
+        <div class="mb-10">
+          <span class="eyebrow mb-3 block">Architecture</span>
+          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
+            24 Architecture Decision Records
+          </h2>
+          <p class="text-kotauth-text-secondary max-w-xl">
+            Key decisions made during development, documented for contributors and auditors.
+          </p>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm font-mono border-collapse">
+            <thead>
+              <tr class="border-b border-kotauth-surface-2">
+                <th class="text-left py-3 pr-6 text-xs text-kotauth-text-muted uppercase tracking-widest font-normal w-16">ADR</th>
+                <th class="text-left py-3 pr-6 text-xs text-kotauth-text-muted uppercase tracking-widest font-normal">Decision</th>
+                <th class="text-left py-3 text-xs text-kotauth-text-muted uppercase tracking-widest font-normal hidden lg:table-cell">Rationale</th>
+              </tr>
+            </thead>
+            <tbody>
+              {adrs.map((adr) => (
+                <tr class="border-b border-kotauth-surface-1 hover:bg-kotauth-surface-1/40 transition-colors">
+                  <td class="py-3 pr-6 text-kotauth-primary text-xs">ADR-{adr.id}</td>
+                  <td class="py-3 pr-6 text-kotauth-text-secondary text-xs leading-relaxed">{adr.decision}</td>
+                  <td class="py-3 text-kotauth-text-muted text-xs leading-relaxed hidden lg:table-cell">{adr.rationale}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 border-t border-kotauth-surface-2">
+      <div class="section-container">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div>
+            <h3 class="text-xl font-semibold text-kotauth-text-primary font-mono mb-1">
+              Want to shape what's next?
+            </h3>
+            <p class="text-kotauth-text-secondary text-sm">
+              Open an issue or start a discussion. This roadmap is driven by real use cases.
+            </p>
+          </div>
+          <div class="flex gap-3 flex-shrink-0">
+            <a
+              href={`${GITHUB_URL}/issues/new`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-10 font-mono text-sm transition-colors"
+            >
+              Open an Issue
+            </a>
+            <a
+              href={`${GITHUB_URL}/discussions`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-10 font-mono text-sm transition-colors"
+            >
+              Discussions
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

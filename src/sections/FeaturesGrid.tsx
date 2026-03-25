@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import {
   Container,
   Shield,
@@ -83,13 +82,13 @@ export function FeaturesGrid() {
 
         {/* See All Features CTA */}
         <AnimatedSection className="text-center mt-12">
-          <Link
-            to="/features"
+          <a
+            href="/features"
             className="inline-flex items-center gap-2 text-sm font-mono text-kotauth-primary hover:text-kotauth-primary-light transition-colors group"
           >
             Explore all features and technical details
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          </a>
         </AnimatedSection>
       </div>
     </section>
