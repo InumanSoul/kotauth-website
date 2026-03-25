@@ -42,7 +42,7 @@ export function AuthShowcase() {
       <GradientGlow
         className="top-1/2 left-0 -translate-x-1/2 -translate-y-1/2"
         size={700}
-        color="rgba(0, 119, 168, 0.08)"
+        color="rgba(0, 119, 168, 0.18)"
       />
 
       <div className="section-container relative z-10">

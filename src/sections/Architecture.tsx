@@ -28,7 +28,7 @@ export function Architecture() {
       <GradientGlow 
         className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" 
         size={900}
-        color="rgba(0, 119, 168, 0.05)"
+        color="rgba(0, 119, 168, 0.14)"
       />
 
       <div className="section-container relative z-10">

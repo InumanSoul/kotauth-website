@@ -9,7 +9,7 @@ interface GradientGlowProps {
 export function GradientGlow({ 
   className = '', 
   size = 600,
-  color = 'rgba(0, 119, 168, 0.15)'
+  color = 'rgba(0, 119, 168, 0.22)'
 }: GradientGlowProps) {
   return (
     <motion.div
@@ -22,7 +22,7 @@ export function GradientGlow({
       }}
       animate={{
         scale: [1, 1.1, 1],
-        opacity: [0.5, 0.8, 0.5],
+        opacity: [0.7, 1, 0.7],
       }}
       transition={{
         duration: 8,

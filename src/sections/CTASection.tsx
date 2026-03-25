@@ -13,12 +13,12 @@ export function CTASection() {
       <FloatingOrb 
         className="top-1/4 left-1/4" 
         size={300}
-        color="rgba(0, 119, 168, 0.15)"
+        color="rgba(0, 119, 168, 0.25)"
       />
       <FloatingOrb 
         className="bottom-1/4 right-1/4" 
         size={250}
-        color="rgba(0, 163, 224, 0.1)"
+        color="rgba(0, 163, 224, 0.18)"
       />
 
       <div className="section-container relative z-10">
@@ -71,7 +71,7 @@ export function CTASection() {
                 size="lg"
                 className="border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-2 px-8 h-12 font-mono"
               >
-                <a href={`${GITHUB_URL}#quick-start`} target="_blank" rel="noopener noreferrer">
+                <a href={`${GITHUB_URL}#try-it--one-command`} target="_blank" rel="noopener noreferrer">
                   Get Started Free
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </a>

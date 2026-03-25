@@ -29,32 +29,32 @@ const itemVariants = {
   },
 };
 
-const codeContent = `# Download the compose stack
-$ curl -O https://raw.githubusercontent.com/inumansoul/kotauth/main/docker/docker-compose.yml
-$ curl -O https://raw.githubusercontent.com/inumansoul/kotauth/main/docker/.env.example
-$ cp .env.example .env
+const codeContent = `# Try Kotauth — one command
+$ curl -O https://raw.githubusercontent.com/\\
+    inumansoul/kotauth/main/\\
+    docker-compose.quickstart.yml
+$ docker compose -f \\
+    docker-compose.quickstart.yml up -d
 
-# Start Kotauth
-$ docker compose up -d
-
-Starting Kotauth Server v1.0.2...
+Starting Kotauth Server v1.1.2...
 ✓ Identity server ready on port 8080
 ✓ Admin dashboard available at /admin
-✓ API documentation at /swagger`;
+✓ Demo data loaded — two workspaces ready
+✓ API documentation at /api/docs`;
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center pt-[72px] overflow-hidden">
+    <section className="relative min-h-[auto] lg:min-h-screen flex items-center pt-24 pb-16 lg:pt-[72px] lg:pb-0 overflow-hidden">
       {/* Background glows */}
-      <GradientGlow 
-        className="top-1/4 left-1/4 -translate-x-1/2" 
+      <GradientGlow
+        className="top-1/4 left-1/4 -translate-x-1/2"
         size={800}
-        color="rgba(0, 119, 168, 0.12)"
+        color="rgba(0, 119, 168, 0.22)"
       />
-      <GradientGlow 
-        className="bottom-1/4 right-1/4 translate-x-1/2" 
+      <GradientGlow
+        className="bottom-1/4 right-1/4 translate-x-1/2"
         size={600}
-        color="rgba(0, 163, 224, 0.08)"
+        color="rgba(0, 163, 224, 0.16)"
       />
 
       <div className="section-container relative z-10">
@@ -72,7 +72,7 @@ export function Hero() {
 
             <motion.h1 
               variants={itemVariants}
-              className="text-4xl sm:text-5xl lg:text-[56px] font-bold text-kotauth-text-primary leading-[1.1] tracking-tight mb-6 font-mono"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-kotauth-text-primary leading-[1.1] tracking-tight mb-6 font-mono"
             >
               Identity infrastructure for{' '}
               <span className="gradient-text">modern applications</span>
@@ -104,7 +104,7 @@ export function Hero() {
                 size="lg"
                 className="border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-12 font-mono"
               >
-                <a className='flex items-center' href={`${GITHUB_URL}#quick-start`} target="_blank" rel="noopener noreferrer">
+                <a className='flex items-center' href={`${GITHUB_URL}#try-it--one-command`} target="_blank" rel="noopener noreferrer">
                   Get Started
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </a>
@@ -121,9 +121,9 @@ export function Hero() {
               delay: 0.4,
               ease: [0.16, 1, 0.3, 1] as const
             }}
-            className="relative"
+            className="relative min-w-0"
           >
-            <div className="relative">
+            <div className="relative min-w-0">
               {/* Decorative elements */}
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-kotauth-primary/10 blur-2xl" />
               <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-kotauth-primary-light/10 blur-2xl" />

@@ -91,7 +91,7 @@ const shippedPhases: Phase[] = [
     title: 'Frontend Architecture & Documentation',
     tagline: 'The build pipeline, brand surface, and external docs that make adoption possible',
     items: [
-      'Two-bundle CSS build pipeline — LightningCSS (Rust native) compiles kotauth-admin.css (fixed dark theme) and kotauth-auth.css (no :root defaults — tokens injected at runtime by TenantTheme)',
+      'Four-bundle CSS build pipeline — LightningCSS (Rust native) compiles kotauth-admin.css (fixed dark theme), kotauth-auth.css (no :root defaults — tokens injected at runtime by TenantTheme), kotauth-portal-sidenav.css, and kotauth-portal-tabnav.css',
       '3-stage Docker build — Stage 1: Node/LightningCSS; Stage 2: Gradle fat JAR (CSS injected before JAR assembly); Stage 3: eclipse-temurin:17-jre runtime (~85 MB, no Node or Gradle)',
       'Public documentation site — Astro Starlight; 29 pages covering API reference, auth flows, OIDC/OAuth2 protocol, deployment, webhooks, and white-label theming',
       'Marketing website — React + Vite + Tailwind; feature grid, roadmap, and public-facing brand presence',
@@ -160,7 +160,7 @@ export function RoadmapPage() {
     <div className="pt-[72px]">
       <PageSEO
         title="Roadmap — Kotauth"
-        description="See what's shipped and what's coming in Kotauth. Phases 0–5 are live in v1.0.2 — covering OAuth 2.0, OIDC, multi-tenancy, RBAC, webhooks, and white-label theming. Enterprise SSO, WebAuthn, and more are on the way."
+        description="See what's shipped and what's coming in Kotauth. Phases 0–5 are live in v1.1.2 — covering OAuth 2.0, OIDC, multi-tenancy, RBAC, webhooks, and white-label theming. Enterprise SSO, WebAuthn, and more are on the way."
         path="/roadmap"
       />
       {/* Hero */}
@@ -168,7 +168,7 @@ export function RoadmapPage() {
         <GradientGlow
           className="top-0 right-1/4"
           size={600}
-          color="rgba(0, 119, 168, 0.1)"
+          color="rgba(0, 119, 168, 0.18)"
         />
         <div className="section-container relative z-10">
           <motion.div

@@ -75,7 +75,7 @@ const allFeatures = [
     icon: Container,
     title: 'Docker-Native Deployment',
     description:
-      '120 MB multi-stage image published to GHCR (ghcr.io/inumansoul/kotauth). Bring your own .env and run docker compose up -d. Flyway migrations run automatically on startup — no init scripts, no manual schema setup. Compose stack includes PostgreSQL with a health check so Kotauth only starts when the database is ready. Set KAUTH_DEMO_MODE=true to deploy a public showcase instance with pre-seeded workspaces, users, roles, and applications — try it at demo.kotauth.com.',
+      '~85 MB multi-stage image published to GHCR (ghcr.io/inumansoul/kotauth). One-command quickstart with demo data pre-loaded — or bring your own .env for a custom setup. Flyway migrations run automatically on startup — no init scripts, no manual schema setup. Bundled PostgreSQL included, or bring your own database (RDS, Supabase, Neon, Railway, Render) via a dedicated compose file. Set KAUTH_DEMO_MODE=true to deploy a public showcase instance with pre-seeded workspaces, users, roles, and applications — try it at demo.kotauth.com.',
   },
 ];
 
@@ -109,7 +109,7 @@ export function FeaturesPage() {
     <div className="min-h-screen">
       <PageSEO
         title="Features — Kotauth"
-        description="Every feature Kotauth ships in v1.0.2: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, HMAC webhooks, white-label auth screens, and Docker-native deployment. RFC 7009, 7662, 7636, 8414 compliant."
+        description="Every feature Kotauth ships in v1.1.2: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, HMAC webhooks, white-label auth screens, and Docker-native deployment. RFC 7009, 7662, 7636, 8414 compliant."
         path="/features"
       />
       {/* Page Hero */}
@@ -117,7 +117,7 @@ export function FeaturesPage() {
         <GradientGlow
           className="top-0 left-1/2 -translate-x-1/2"
           size={800}
-          color="rgba(0, 119, 168, 0.1)"
+          color="rgba(0, 119, 168, 0.18)"
         />
         <div className="section-container relative z-10">
           <AnimatedSection className="max-w-3xl">
@@ -135,7 +135,7 @@ export function FeaturesPage() {
             </h1>
             <p className="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
               Every feature listed here is in production today. No beta labels, no roadmap
-              promises — this is the current v1.0.2 release.
+              promises — this is the current v1.1.2 release.
             </p>
           </AnimatedSection>
         </div>
@@ -169,7 +169,7 @@ export function FeaturesPage() {
         <GradientGlow
           className="bottom-0 right-0 translate-x-1/3"
           size={600}
-          color="rgba(0, 163, 224, 0.07)"
+          color="rgba(0, 163, 224, 0.15)"
         />
         <div className="section-container relative z-10">
           <AnimatedSection className="mb-12">
@@ -274,7 +274,7 @@ export function FeaturesPage() {
                 size="lg"
                 className="border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-12 font-mono"
               >
-                <a href={`${GITHUB_URL}#quick-start`} target="_blank" rel="noopener noreferrer">
+                <a href={`${GITHUB_URL}#try-it--one-command`} target="_blank" rel="noopener noreferrer">
                   Get Started
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </a>

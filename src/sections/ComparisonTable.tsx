@@ -11,6 +11,7 @@ const comparisons = [
   { feature: 'Enterprise SSO (LDAP/SAML)', kotauth: null, keycloak: true, saas: 'paid' },
   { feature: 'OAuth/OIDC provider', kotauth: true, keycloak: true, saas: true },
   { feature: 'Multi-tenant orgs', kotauth: true, keycloak: true, saas: true },
+  { feature: 'Bring your own database', kotauth: true, keycloak: true, saas: false },
   { feature: 'Free for self-hosting', kotauth: true, keycloak: true, saas: false },
 ];
 
@@ -48,7 +49,7 @@ export function ComparisonTable() {
       <GradientGlow 
         className="top-1/2 right-0 translate-x-1/2 -translate-y-1/2" 
         size={600}
-        color="rgba(0, 119, 168, 0.06)"
+        color="rgba(0, 119, 168, 0.15)"
       />
 
       <div className="section-container relative z-10">

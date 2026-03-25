@@ -46,7 +46,7 @@ const features = [
     icon: Container,
     title: 'Docker-Native Deployment',
     description:
-      '120 MB multi-stage image on GHCR. Bring your own .env, run docker compose up -d. Flyway migrations run automatically — no init scripts.',
+      '~85 MB multi-stage image on GHCR. One-command quickstart or bring your own .env. Bundled PostgreSQL or connect to your own database (RDS, Supabase, Neon). Flyway migrations run automatically.',
   },
 ];
 
