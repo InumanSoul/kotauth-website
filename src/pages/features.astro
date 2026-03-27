@@ -15,6 +15,8 @@ import {
   FileCode,
   FingerprintPattern,
   RefreshCw,
+  ShieldAlert,
+  LogOut,
 } from '@lucide/astro';
 import GradientGlow from '@/components/GradientGlow.astro';
 import FeatureCard from '@/components/FeatureCard.astro';
@@ -27,7 +29,7 @@ const allFeatures = [
   {
     icon: Shield,
     title: 'OAuth 2.0 & OpenID Connect',
-    description: 'Authorization Code + PKCE (required for all public clients), Client Credentials for machine-to-machine, Refresh Token rotation with immediate invalidation, token introspection (RFC 7662), revocation (RFC 7009), and OIDC Discovery at /.well-known/openid-configuration. Any OIDC-compliant client library works without modification.',
+    description: 'Authorization Code + PKCE (required for all public clients), Client Credentials for machine-to-machine, Refresh Token rotation with immediate invalidation, token introspection (RFC 7662), revocation (RFC 7009), OIDC Discovery at /.well-known/openid-configuration, and RP-initiated end-session logout with id_token_hint. Any OIDC-compliant client library works without modification.',
   },
   {
     icon: Building2,
@@ -37,7 +39,12 @@ const allFeatures = [
   {
     icon: Key,
     title: 'Flexible Authentication',
-    description: 'Password authentication with history tracking, blacklist checking, and complexity enforcement. TOTP MFA (RFC 6238) with recovery codes. Google and GitHub OAuth with automatic account linking by email — users who signed up with a password can link their social account without creating a duplicate. MFA enforcement is configurable per workspace.',
+    description: 'Password authentication with history tracking (prevent reuse of last N passwords), blacklist checking, complexity enforcement, and configurable max age with forced expiry. TOTP MFA (RFC 6238) with recovery codes. Google and GitHub OAuth with automatic account linking by email — users who signed up with a password can link their social account without creating a duplicate. MFA enforcement is configurable per workspace.',
+  },
+  {
+    icon: ShieldAlert,
+    title: 'Account Lockout & Brute-Force Protection',
+    description: 'Configurable failed login threshold with automatic account lockout. Locked users receive an email notification with a password reset link. Admins can manually unlock accounts. Combined with per-IP rate limiting and per-workspace scoping, every layer of the login path is protected. Password change and account lock events trigger async security notification emails.',
   },
   {
     icon: Users,
@@ -47,12 +54,12 @@ const allFeatures = [
   {
     icon: ShieldCheck,
     title: 'Security That Ships by Default',
-    description: 'bcrypt password hashing, AES-256-GCM encrypted SMTP credentials per tenant, SHA-256 hashed API keys (plain text never stored), HSTS headers, X-Frame-Options, CSRF protection on all form endpoints, startup validation that refuses unsafe defaults in production, and 5 req/min login rate limiting per IP. Hardened before your first deploy.',
+    description: 'bcrypt password hashing, AES-256-GCM encrypted SMTP credentials per tenant, SHA-256 hashed API keys (plain text never stored), HMAC-SHA256 signed session cookies, Content-Security-Policy headers, CSRF protection on all form endpoints, SameSite cookie attributes, open redirect prevention on logout, startup validation that refuses unsafe defaults in production, and per-IP per-workspace rate limiting. Hardened before your first deploy.',
   },
   {
     icon: Webhook,
     title: 'Real-time Webhooks',
-    description: 'HMAC-SHA256 signed payloads delivered for 8 event types: user.created, user.updated, user.deleted, user.login, user.logout, mfa.enabled, password.changed, and session.revoked. Configurable endpoint URLs with exponential backoff retry logic built in. React to identity events without polling.',
+    description: 'HMAC-SHA256 signed payloads delivered for 8 event types: user.created, user.updated, user.deleted, login.success, login.failed, password.reset, mfa.enrolled, and session.revoked. Configurable endpoint URLs with exponential backoff retry logic (3 attempts: immediate, 5 min, 30 min). React to identity events without polling.',
   },
   {
     icon: Palette,
@@ -82,13 +89,15 @@ const securityPrimitives = [
   { Icon: FingerprintPattern, label: 'SHA-256', detail: 'API key hashing' },
   { Icon: FileCode, label: 'RS256', detail: 'Per-tenant JWT signing' },
   { Icon: RefreshCw, label: 'Token rotation', detail: 'Refresh token invalidation' },
-  { Icon: ShieldCheck, label: 'HSTS + CSRF', detail: 'Transport & request hardening' },
+  { Icon: ShieldAlert, label: 'Account lockout', detail: 'Brute-force protection' },
+  { Icon: ShieldCheck, label: 'CSP + CSRF', detail: 'Transport & request hardening' },
+  { Icon: LogOut, label: 'End-session logout', detail: 'RP-initiated OIDC logout' },
 ];
 ---
 
 <BaseLayout
   title="Features — Kotauth"
-  description="Every feature Kotauth ships in v1.1.2: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, HMAC webhooks, white-label auth screens, and Docker-native deployment. RFC 7009, 7662, 7636, 8414 compliant."
+  description="Every feature Kotauth ships in v1.2.0: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, HMAC webhooks, white-label auth screens, and Docker-native deployment. RFC 7009, 7662, 7636, 8414 compliant."
   path="/features"
 >
   <div class="min-h-screen">
@@ -110,7 +119,7 @@ const securityPrimitives = [
           </h1>
           <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
             Every feature listed here is in production today. No beta labels, no roadmap
-            promises — this is the current v1.1.2 release.
+            promises — this is the current v1.2.0 release.
           </p>
         </div>
       </div>

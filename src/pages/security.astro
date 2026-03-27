@@ -1,0 +1,295 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import {
+  ArrowRight,
+  Lock,
+  Shield,
+  ShieldCheck,
+  Key,
+  FileCode,
+  RefreshCw,
+  ShieldAlert,
+  LogOut,
+  Clock,
+  Eye,
+  Server,
+  AlertTriangle,
+  CheckCircle,
+} from '@lucide/astro';
+import GradientGlow from '@/components/GradientGlow.astro';
+
+const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
+const DOCS_URL = 'https://docs.kotauth.com';
+
+const cryptoPrimitives = [
+  { Icon: Lock, label: 'bcrypt (cost 12)', detail: 'Password hashing — salted, time-resistant, brute-force infeasible' },
+  { Icon: Shield, label: 'AES-256-GCM', detail: 'Encryption at rest for SMTP credentials and social provider secrets' },
+  { Icon: Key, label: 'SHA-256', detail: 'API key and token hashing — raw values never stored in the database' },
+  { Icon: FileCode, label: 'RS256 (RSA-SHA256)', detail: 'Per-tenant JWT signing with auto-provisioned key pairs' },
+  { Icon: RefreshCw, label: 'HMAC-SHA256', detail: 'Session cookie signing, webhook payload signing, OAuth state parameters' },
+];
+
+const protectionLayers = [
+  {
+    Icon: ShieldAlert,
+    title: 'Account lockout',
+    description: 'Configurable failed login threshold with automatic lockout duration. Locked users receive an email notification with a password reset link. Admins can manually unlock accounts.',
+  },
+  {
+    Icon: Clock,
+    title: 'Rate limiting',
+    description: '5 requests per minute per IP per workspace on login, registration, token exchange, and refresh endpoints. Tenant-scoped — one workspace\'s traffic never affects another.',
+  },
+  {
+    Icon: RefreshCw,
+    title: 'Token rotation',
+    description: 'Refresh tokens rotate on every use. Using an old refresh token immediately revokes the entire session chain — a stolen token has a single-use replay window at most.',
+  },
+  {
+    Icon: Eye,
+    title: 'Audit logging',
+    description: '30+ immutable event types recorded in the request path. No authentication flow succeeds without a corresponding audit record. Queryable via API and admin console.',
+  },
+  {
+    Icon: LogOut,
+    title: 'OIDC end-session logout',
+    description: 'RP-initiated logout with id_token_hint, server-side session revocation, cookie cleanup, and open redirect prevention on post_logout_redirect_uri.',
+  },
+  {
+    Icon: Server,
+    title: 'Startup validation',
+    description: 'Production mode refuses to start with HTTP base URLs, default secrets, or missing critical configuration. Unsafe defaults are rejected at boot, not discovered in production.',
+  },
+];
+
+const transportHardening = [
+  'Content-Security-Policy: default-src \'self\'; script-src \'self\'; style-src \'self\' \'unsafe-inline\'; img-src \'self\' data:; form-action \'self\'',
+  'SameSite=Lax on all session cookies (admin and portal)',
+  'Secure cookie flag derived from KAUTH_BASE_URL scheme at startup',
+  'CSRF protection via OAuth state parameter + PKCE cookie signatures',
+  'HTTPS enforcement in production mode — HTTP refused at startup',
+  'Open redirect prevention on OIDC end-session endpoint',
+  'PKCE required for all public OAuth clients (S256 only)',
+];
+
+const passwordPolicies = [
+  'Configurable minimum length (4–128 characters)',
+  'Require uppercase, lowercase, numbers, and/or special characters',
+  'Password history — prevent reuse of last N passwords (0–24)',
+  'Password max age — force expiry after N days (0–365)',
+  'Password blacklist — reject known-compromised passwords',
+  'bcrypt cost factor 12 — raw passwords never stored or logged',
+];
+
+const secretsPolicy = [
+  { what: 'User passwords', how: 'bcrypt hash (cost 12). Raw password discarded after verification.' },
+  { what: 'Client secrets', how: 'bcrypt hash. Raw value shown once at generation, never retrievable.' },
+  { what: 'API keys', how: 'SHA-256 hash. Format: kauth_{slug}_{random}. Prefix stored for display.' },
+  { what: 'Refresh tokens', how: 'SHA-256 hash. Rotate on every use. Old token revokes session.' },
+  { what: 'SMTP credentials', how: 'AES-256-GCM encrypted at rest. Key derived from KAUTH_SECRET_KEY.' },
+  { what: 'Social provider secrets', how: 'AES-256-GCM encrypted at rest. Same key derivation.' },
+  { what: 'MFA TOTP secrets', how: 'AES-256-GCM encrypted at rest. Base32-encoded for QR URI.' },
+  { what: 'Recovery codes', how: 'bcrypt hash. One-time use. 8 codes generated per MFA enrollment.' },
+];
+---
+
+<BaseLayout
+  title="Security — Kotauth"
+  description="How Kotauth protects identity data: bcrypt, AES-256-GCM, RS256, account lockout, rate limiting, token rotation, audit logging, and transport hardening. Every security decision documented."
+  path="/security"
+>
+  <div class="min-h-screen">
+    <!-- Hero -->
+    <section class="relative pt-32 pb-16 overflow-hidden">
+      <GradientGlow class="top-0 left-1/2 -translate-x-1/2" size={800} color="rgba(0, 119, 168, 0.18)" />
+      <div class="section-container relative z-10">
+        <div class="max-w-3xl">
+          <a
+            href="/"
+            class="inline-flex items-center gap-1.5 text-sm font-mono text-kotauth-text-tertiary hover:text-kotauth-primary transition-colors mb-8 group"
+          >
+            <ArrowRight class="w-3.5 h-3.5 rotate-180 group-hover:-translate-x-1 transition-transform" />
+            Back to home
+          </a>
+          <span class="eyebrow mb-4 block">Security</span>
+          <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-bold text-kotauth-text-primary leading-[1.1] tracking-tight mb-6 font-mono">
+            Security <span class="gradient-text">by default</span>
+          </h1>
+          <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
+            Security decisions are made at the framework level — not left as configuration exercises for the operator. Everything listed here ships in every Kotauth deployment with zero additional setup.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Crypto primitives -->
+    <section class="py-24 bg-kotauth-bg-secondary border-y border-kotauth-surface-2">
+      <div class="section-container">
+        <div class="mb-12">
+          <span class="eyebrow mb-4 block">Cryptography</span>
+          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
+            Cryptographic primitives
+          </h2>
+          <p class="text-kotauth-text-secondary max-w-xl">
+            Industry-standard algorithms with no custom cryptography. Every secret follows the same principle: store the minimum necessary, in the strongest available form.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {cryptoPrimitives.map(({ Icon, label, detail }) => (
+            <div class="flex items-start gap-4 p-5 bg-kotauth-surface-1 border border-kotauth-surface-2 hover:border-kotauth-primary/30 transition-colors">
+              <div class="w-9 h-9 bg-kotauth-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <Icon class="w-4 h-4 text-kotauth-primary" />
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-kotauth-text-primary font-mono mb-0.5">{label}</p>
+                <p class="text-xs text-kotauth-text-tertiary font-mono leading-relaxed">{detail}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Protection layers -->
+    <section class="py-24">
+      <div class="section-container">
+        <div class="mb-12">
+          <span class="eyebrow mb-4 block">Defense in depth</span>
+          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
+            Protection layers
+          </h2>
+          <p class="text-kotauth-text-secondary max-w-xl">
+            Multiple independent defenses — a failure in one layer doesn't compromise the system.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-0">
+          {protectionLayers.map(({ Icon, title, description }) => (
+            <div class="p-8 bg-kotauth-surface-1 border border-kotauth-surface-2 hover:border-kotauth-primary/30 transition-colors">
+              <div class="w-12 h-12 bg-kotauth-primary/10 flex items-center justify-center mb-5">
+                <Icon class="w-5 h-5 text-kotauth-primary" />
+              </div>
+              <h3 class="text-base font-semibold text-kotauth-text-primary font-mono mb-2">{title}</h3>
+              <p class="text-sm text-kotauth-text-tertiary leading-relaxed">{description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Secrets policy -->
+    <section class="py-24 bg-kotauth-bg-secondary border-y border-kotauth-surface-2">
+      <div class="section-container">
+        <div class="mb-12">
+          <span class="eyebrow mb-4 block">Data protection</span>
+          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
+            How secrets are stored
+          </h2>
+          <p class="text-kotauth-text-secondary max-w-xl">
+            A database breach should reveal nothing usable. Every credential type has its own storage strategy.
+          </p>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm font-mono border-collapse">
+            <thead>
+              <tr class="border-b border-kotauth-surface-2">
+                <th class="text-left py-3 pr-6 text-xs text-kotauth-text-muted uppercase tracking-widest font-normal">Secret</th>
+                <th class="text-left py-3 text-xs text-kotauth-text-muted uppercase tracking-widest font-normal">Storage method</th>
+              </tr>
+            </thead>
+            <tbody>
+              {secretsPolicy.map((row) => (
+                <tr class="border-b border-kotauth-surface-1 hover:bg-kotauth-surface-1/40 transition-colors">
+                  <td class="py-3 pr-6 text-kotauth-text-primary text-xs whitespace-nowrap">{row.what}</td>
+                  <td class="py-3 text-kotauth-text-tertiary text-xs leading-relaxed">{row.how}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Transport hardening -->
+    <section class="py-24">
+      <div class="section-container">
+        <div class="mb-12">
+          <span class="eyebrow mb-4 block">Transport</span>
+          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
+            Transport & request hardening
+          </h2>
+        </div>
+
+        <div class="max-w-3xl space-y-3">
+          {transportHardening.map((item) => (
+            <div class="flex items-start gap-3 p-4 bg-kotauth-surface-1 border border-kotauth-surface-2">
+              <CheckCircle class="w-4 h-4 text-kotauth-success flex-shrink-0 mt-0.5" />
+              <span class="text-sm text-kotauth-text-tertiary font-mono leading-relaxed">{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Password policy -->
+    <section class="py-24 bg-kotauth-bg-secondary border-y border-kotauth-surface-2">
+      <div class="section-container">
+        <div class="mb-12">
+          <span class="eyebrow mb-4 block">Password policy</span>
+          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
+            Configurable per workspace
+          </h2>
+          <p class="text-kotauth-text-secondary max-w-xl">
+            Every workspace defines its own password policy. All settings configurable from the admin console.
+          </p>
+        </div>
+
+        <div class="max-w-3xl space-y-3">
+          {passwordPolicies.map((item) => (
+            <div class="flex items-start gap-3 p-4 bg-kotauth-surface-1 border border-kotauth-surface-2">
+              <Shield class="w-4 h-4 text-kotauth-primary flex-shrink-0 mt-0.5" />
+              <span class="text-sm text-kotauth-text-tertiary font-mono leading-relaxed">{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Reporting -->
+    <section class="py-24">
+      <div class="section-container">
+        <div class="max-w-2xl">
+          <span class="eyebrow mb-4 block">Reporting</span>
+          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-4">
+            Report a vulnerability
+          </h2>
+          <p class="text-kotauth-text-secondary mb-8">
+            If you discover a security vulnerability, please report it privately via GitHub Security Advisories. Do not open a public issue. We take all reports seriously and will respond promptly.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a
+              href={`${GITHUB_URL}/security/advisories/new`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-12 font-mono text-sm transition-colors"
+            >
+              <AlertTriangle class="w-4 h-4" />
+              Report Privately
+            </a>
+            <a
+              href={`${DOCS_URL}/deployment/production/`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-12 font-mono text-sm transition-colors"
+            >
+              Production Checklist
+              <ArrowRight class="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

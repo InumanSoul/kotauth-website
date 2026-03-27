@@ -3,150 +3,109 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import { Play } from '@lucide/astro';
 import GithubIcon from '@/components/icons/GithubIcon.astro';
 import GradientGlow from '@/components/GradientGlow.astro';
-import PhaseCard from '@/components/PhaseCard.astro';
+import VersionCard from '@/components/VersionCard.astro';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const DEMO_URL = 'https://demo.kotauth.com';
 
-const shippedPhases: { number: number; title: string; tagline: string; items: string[] }[] = [
+const shippedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
   {
-    number: 0,
-    title: 'Foundation',
-    tagline: 'Honest production-readiness baseline',
-    items: [
-      'Email verification on registration',
-      'Password reset with signed expiring tokens',
-      'Rate limiting on /login and /register per IP',
-      'CSRF protection on all form endpoints',
-      'Startup validation — refuses unsafe defaults in production',
-      'Refresh token persistence with SHA-256 hashing',
-      'HTTPS enforcement at startup (cookies, OIDC, OAuth callbacks)',
-      'Server-side input validation across all endpoints',
+    tag: 'v1.2.0',
+    title: 'Security Hardening & Admin OAuth',
+    date: 'March 27, 2026',
+    highlights: [
+      'Admin console authenticates via OAuth Authorization Code + PKCE — eats its own dogfood',
+      'Admin role gating — only users with the admin role on the master tenant can access the console',
+      'Account lockout — configurable failed login threshold with automatic lockout duration and email notification',
+      'OIDC end-session logout — proper RP-initiated logout with id_token_hint and open redirect prevention',
+      'Break-glass admin bypass (KAUTH_ADMIN_BYPASS) for recovery scenarios',
+      'Password changed email notification on all password change paths',
+      'HMAC-signed admin cookies with dedicated key derivation',
+      'SecurityConfig extracted to dedicated table — password policy, MFA policy, and lockout config',
+      'Admin client auto-provisioning on master tenant startup',
+      'CVE patches: Netty, Jackson, Logback, PostgreSQL JDBC',
+      'Content-Security-Policy header, SameSite cookie attributes, thread-safe JWT cache',
     ],
   },
   {
-    number: 1,
-    title: 'Multi-Tenancy Core',
-    tagline: 'The workspace model that makes Kotauth a platform',
-    items: [
-      'Flyway versioned schema migrations — safe for CI/CD and production upgrades',
-      'Workspaces with slug routing, independent issuer URLs, and token TTL config',
-      'Per-tenant OAuth2 applications with bcrypt-hashed secrets and redirect URIs',
-      'Tenant-scoped user directories — same email is independent across workspaces',
-      'Master workspace for platform admins, cleanly separated from user tenants',
-      'Per-tenant RS256 key pairs provisioned on first use — no shared signing key',
-      'Admin console — workspace list, application management, user management',
+    tag: 'v1.1.x',
+    title: 'Reliability, Performance & External Databases',
+    date: 'March 24–26, 2026',
+    highlights: [
+      'HikariCP connection pooling — eliminates per-request TCP/TLS overhead',
+      'Async email delivery — SMTP calls no longer block the auth response',
+      'External database compose file — bring your own PostgreSQL (RDS, Supabase, Neon, Railway, Render)',
+      'Multi-arch Docker images (amd64 + arm64) built natively in CI',
+      'Composite database indexes for session lookups and audit log queries',
+      'Session cleanup background job — purges expired sessions hourly',
+      'Rate limit keys tenant-scoped — one tenant\'s traffic doesn\'t affect another',
+      'Route intercept pattern — eliminated ~80 duplicate database calls across route files',
+      'Zero-config quickstart with demo data pre-loaded',
     ],
   },
   {
-    number: 2,
-    title: 'OAuth 2.0 / OIDC Compliance',
-    tagline: 'Standards-compliant — any OIDC client library works without modification',
-    items: [
-      'OIDC Discovery document — GET /.well-known/openid-configuration',
-      'JWKS endpoint for offline token verification',
-      'Authorization Code + PKCE (required for all public clients)',
-      'Client Credentials grant for machine-to-machine',
-      'Refresh Token rotation — old token immediately invalidated on each use',
-      'Token revocation (RFC 7009) and introspection (RFC 7662)',
-      'Standard JWT claims: sub, iss, aud, realm_access.roles, resource_access.*',
-      'Per-user session tracking with user- and admin-initiated revocation',
-    ],
-  },
-  {
-    number: 3,
-    title: 'User Management Platform',
-    tagline: 'The UI/UX layer that distinguishes Kotauth from Keycloak',
-    items: [
-      'Admin console — search, filter, paginate users; create, edit, disable accounts',
-      'API key management — scoped keys with SHA-256 hashing, prefix stored for display',
-      'Audit log viewer — paginated, filterable by event type',
-      'Per-tenant SMTP with AES-256-GCM encryption of stored credentials',
-      'User self-service portal — profile, password change, session listing and revocation',
-      'RBAC — tenant roles, application-scoped roles, composite roles with BFS cycle detection',
-      'Groups with nested hierarchy and role inheritance',
-      'TOTP MFA (RFC 6238) with QR enrollment, verification, and recovery codes',
-      'MFA policy per workspace: optional, required, required_for_admins',
-      'REST API v1 — 30+ endpoints, OpenAPI 3.1 spec, Swagger UI',
-      'Per-tenant white-label theming — TenantTheme injects 9 CSS custom properties server-side into every auth page; 3 built-in presets (DEFAULT dark, LIGHT, SIMPLE rounded); custom logo and favicon per workspace; no rebuild required',
-    ],
-  },
-  {
-    number: 4,
-    title: 'Webhooks',
-    tagline: 'Real-time event delivery — no polling required',
-    items: [
-      'Webhook endpoint management — register URLs, select event subscriptions',
-      'HMAC-SHA256 signing on every delivery (X-KotAuth-Signature header)',
-      'Asynchronous fan-out — webhook delivery never blocks the auth flow',
-      'Exponential backoff retry — 3 attempts: immediate, 5 min, 30 min',
-      'Delivery history per endpoint — status, response code, error detail',
-      '8 event types: user.created/updated/deleted, login.success/failed, password.reset, mfa.enrolled, session.revoked',
-    ],
-  },
-  {
-    number: 5,
-    title: 'Frontend Architecture & Documentation',
-    tagline: 'The build pipeline, brand surface, and external docs that make adoption possible',
-    items: [
-      'Four-bundle CSS build pipeline — LightningCSS (Rust native) compiles kotauth-admin.css (fixed dark theme), kotauth-auth.css (no :root defaults — tokens injected at runtime by TenantTheme), kotauth-portal-sidenav.css, and kotauth-portal-tabnav.css',
-      '3-stage Docker build — Stage 1: Node/LightningCSS; Stage 2: Gradle fat JAR (CSS injected before JAR assembly); Stage 3: eclipse-temurin:17-jre runtime (~85 MB, no Node or Gradle)',
-      'Public documentation site — Astro Starlight; 29 pages covering API reference, auth flows, OIDC/OAuth2 protocol, deployment, webhooks, and white-label theming',
-      'Marketing website — React + Vite + Tailwind; feature grid, roadmap, and public-facing brand presence',
-      'README with Docker quickstart — running in under five minutes',
-      'Full environment variable reference with production guidance',
-      'CONTRIBUTING guide — local setup, architecture constraints, migration conventions',
-      'Security hardening: cookie.secure derived from KAUTH_BASE_URL at startup',
-      'Demo mode (KAUTH_DEMO_MODE=true) — seeds two workspaces with users, roles, groups, applications, webhooks, and audit history; renders a credential banner on all pages; designed for public showcase deployments at demo.kotauth.com',
+    tag: 'v1.0.0',
+    title: 'Initial Stable Release',
+    date: 'March 17, 2026',
+    highlights: [
+      'OAuth 2.0 / OIDC provider — Authorization Code + PKCE, Client Credentials, token rotation, introspection, revocation, discovery',
+      'Multi-tenancy — isolated workspaces with per-tenant RS256 key pairs, user directories, and branding',
+      'RBAC — tenant-scoped and client-scoped roles, composite inheritance with cycle detection, group hierarchy',
+      'TOTP MFA (RFC 6238) with recovery codes and per-workspace policy enforcement',
+      'Social login — Google and GitHub OAuth with automatic account linking by email',
+      'User self-service portal — profile editing, password change, session management, MFA enrollment',
+      'Admin console — workspace settings, user/application/role/group management, audit log viewer',
+      'Webhooks — HMAC-SHA256 signed delivery for 8 event types with exponential backoff retry',
+      'REST API v1 — 30+ endpoints with OpenAPI 3.1 spec and Swagger UI',
+      'White-label theming — 9 CSS custom properties injected server-side per tenant, 3 presets included',
+      'Audit logging — 30+ immutable event types, append-only, queryable via API and admin UI',
+      'Security baseline — bcrypt, AES-256-GCM, SHA-256, RS256, rate limiting, CSRF, startup validation',
+      'Docker multi-stage build — published to GHCR with Flyway auto-migrations on startup',
     ],
   },
 ];
 
-const plannedPhases: { number: number; title: string; tagline: string; items: string[] }[] = [
+const plannedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
   {
-    number: 6,
-    title: 'Enterprise Federation',
-    tagline: 'Connect Kotauth to corporate identity sources',
-    items: [
-      'LDAP / Active Directory user and group sync with configurable interval',
-      'SAML 2.0 — SP-initiated and IdP-initiated flows',
-      'External OIDC broker — relay to upstream providers (Azure AD, Okta)',
-      'Cross-tenant federation with configured trust',
-    ],
-  },
-  {
-    number: 7,
+    tag: 'v1.3.0',
     title: 'Advanced Authentication',
-    tagline: 'Modern, phishing-resistant authentication methods',
-    items: [
-      'WebAuthn / Passkeys — MfaMethod enum is already extensible for this',
+    date: '',
+    highlights: [
+      'WebAuthn / Passkeys — phishing-resistant, passwordless login',
       'Magic links — passwordless email login with short-lived signed tokens',
-      'SMS OTP via pluggable provider interface (no vendor lock-in)',
+      'SMS OTP via pluggable provider interface',
     ],
   },
   {
-    number: 8,
+    tag: 'v1.4.0',
     title: 'Observability & Operations',
-    tagline: 'Production-grade insight into a running deployment',
-    items: [
-      'Prometheus metrics — login rates, error rates, token issuance, session count',
-      'Structured JSON log output (logstash encoder in dependency tree)',
-      'Webhook retry background sweep for deliveries missed during downtime',
+    date: '',
+    highlights: [
+      'Prometheus metrics endpoint — login rates, error rates, token issuance, session count',
       'Admin-initiated key rotation with configurable overlap window',
       'Helm chart with configurable replicas, probes, and secret management',
-      'Zero-downtime rolling updates — session and key state compatibility guarantees',
     ],
   },
   {
-    number: 9,
+    tag: 'v1.5.0',
     title: 'Platform Expansion',
-    tagline: 'Kotauth as a programmable identity layer',
-    items: [
-      'REST API expansion — bulk operations, user impersonation with audit trail',
+    date: '',
+    highlights: [
       'Typed TypeScript/JavaScript SDK wrapping the REST API and OIDC flows',
       'Per-tenant HTML email template customization',
       'Audit log export to S3-compatible storage or SIEM webhook',
+    ],
+  },
+  {
+    tag: 'v2.0.0',
+    title: 'Enterprise Federation',
+    date: '',
+    highlights: [
+      'LDAP / Active Directory user and group sync with configurable interval',
+      'SAML 2.0 — SP-initiated and IdP-initiated flows',
+      'External OIDC broker — relay to upstream providers (Azure AD, Okta)',
       'SCIM 2.0 — automated user provisioning from external HR systems',
+      'Cross-tenant federation with configured trust',
     ],
   },
 ];
@@ -179,8 +138,8 @@ const adrs = [
 ];
 
 const stats = [
-  { label: 'Phases Shipped', value: '6' },
-  { label: 'DB Migrations', value: '21' },
+  { label: 'Versions Shipped', value: '11' },
+  { label: 'DB Migrations', value: '28' },
   { label: 'REST Endpoints', value: '30+' },
   { label: 'Architecture ADRs', value: '24' },
 ];
@@ -188,7 +147,7 @@ const stats = [
 
 <BaseLayout
   title="Roadmap — Kotauth"
-  description="See what's shipped and what's coming in Kotauth. Phases 0–5 are live in v1.1.2 — covering OAuth 2.0, OIDC, multi-tenancy, RBAC, webhooks, and white-label theming. Enterprise SSO, WebAuthn, and more are on the way."
+  description="See what's shipped and what's coming in Kotauth. v1.2.0 is live with OAuth admin login, account lockout, end-session logout, and CVE patches. Enterprise SSO, WebAuthn, and a TypeScript SDK are on the way."
   path="/roadmap"
 >
   <div class="pt-[72px]">
@@ -203,8 +162,7 @@ const stats = [
             <span class="gradient-text">What's next.</span>
           </h1>
           <p class="text-lg text-kotauth-text-secondary mb-8 max-w-xl">
-            V1.0 is complete — Phases 0–5 shipped as of March 2026.
-            Every architectural decision and shipped feature is documented here.
+            v1.2.0 is live — shipped March 2026. Every version, every architectural decision, and every planned feature is documented here.
             No vaporware, no undated promises.
           </p>
           <div class="flex flex-wrap gap-4">
@@ -245,24 +203,24 @@ const stats = [
       </div>
     </section>
 
-    <!-- V1.0 Shipped -->
+    <!-- Shipped Versions -->
     <section class="py-20 lg:py-28">
       <div class="section-container">
         <div class="mb-14">
           <div class="flex items-center gap-3 mb-3">
             <div class="h-px flex-1 bg-kotauth-surface-2 max-w-[40px]"></div>
             <span class="text-xs font-mono text-kotauth-success uppercase tracking-widest">
-              V1.0 Complete
+              Shipped
             </span>
           </div>
           <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono">
-            Shipped — Phases 0 → 5
+            Released versions
           </h2>
         </div>
 
         <div>
-          {shippedPhases.map((phase) => (
-            <PhaseCard phase={phase} shipped={true} />
+          {shippedVersions.map((version) => (
+            <VersionCard version={version} shipped={true} />
           ))}
         </div>
       </div>
@@ -273,18 +231,18 @@ const stats = [
       <div class="border-t border-kotauth-surface-2"></div>
     </div>
 
-    <!-- Post-V1 Planned -->
+    <!-- Planned Versions -->
     <section class="py-20 lg:py-28">
       <div class="section-container">
         <div class="mb-14">
           <div class="flex items-center gap-3 mb-3">
             <div class="h-px flex-1 bg-kotauth-surface-2 max-w-[40px]"></div>
             <span class="text-xs font-mono text-kotauth-text-muted uppercase tracking-widest">
-              Post V1.0
+              Planned
             </span>
           </div>
           <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
-            What's next — Phases 6 → 9
+            What's next
           </h2>
           <p class="text-kotauth-text-secondary max-w-xl">
             Planned but not yet scheduled. Priority order reflects market demand and dependency on existing foundations.
@@ -292,8 +250,8 @@ const stats = [
         </div>
 
         <div>
-          {plannedPhases.map((phase) => (
-            <PhaseCard phase={phase} shipped={false} />
+          {plannedVersions.map((version) => (
+            <VersionCard version={version} shipped={false} />
           ))}
         </div>
       </div>

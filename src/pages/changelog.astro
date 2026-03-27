@@ -1,0 +1,216 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { ArrowRight, Shield, Zap, Wrench, Package } from '@lucide/astro';
+import GradientGlow from '@/components/GradientGlow.astro';
+
+const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
+
+type ReleaseEntry = {
+  version: string;
+  date: string;
+  type: 'major' | 'minor' | 'patch';
+  headline: string;
+  highlights: string[];
+};
+
+const releases: ReleaseEntry[] = [
+  {
+    version: '1.2.0',
+    date: 'March 27, 2026',
+    type: 'minor',
+    headline: 'Security hardening, admin OAuth dogfooding, and account lockout protection.',
+    highlights: [
+      'Admin console now authenticates via OAuth Authorization Code + PKCE through the master tenant',
+      'Account lockout with configurable failed login threshold and duration — locked users get an email with a password reset link',
+      'OIDC end-session logout with id_token_hint and open redirect prevention',
+      'Break-glass admin bypass (KAUTH_ADMIN_BYPASS) for recovery scenarios',
+      'Password changed and account locked email notifications on all relevant paths',
+      'HMAC-signed admin cookies, Content-Security-Policy header, SameSite cookie attributes',
+      'CVE patches for Netty, Jackson, Logback, and PostgreSQL JDBC',
+    ],
+  },
+  {
+    version: '1.1.5',
+    date: 'March 26, 2026',
+    type: 'patch',
+    headline: 'Critical bug fixes for email verification, audit log parsing, and rate limiting.',
+    highlights: [
+      'Fixed broken email verification links that produced relative URLs',
+      'Audit log details now properly parsed — admin UI and API show full event context',
+      'Rate limit keys scoped per tenant — one workspace\'s traffic no longer affects another',
+      'Session cleanup background job purges expired sessions hourly',
+      'Composite database indexes for faster session and audit queries',
+    ],
+  },
+  {
+    version: '1.1.4',
+    date: 'March 26, 2026',
+    type: 'patch',
+    headline: 'Security patch release addressing 5 CVEs and adding transport hardening.',
+    highlights: [
+      'Mitigated Netty HTTP/2 DDoS (CVE-2025-55163) and native SSL crash (CVE-2025-24970)',
+      'Fixed Jackson async parser DoS, Logback RCE, and PostgreSQL JDBC MITM vulnerabilities',
+      'Added SameSite=Lax on session cookies and Content-Security-Policy header',
+      'Thread-safe JWT cache prevents data race under concurrent token issuance',
+    ],
+  },
+  {
+    version: '1.1.3',
+    date: 'March 25, 2026',
+    type: 'patch',
+    headline: 'Connection pooling, async email, and multi-architecture Docker images.',
+    highlights: [
+      'HikariCP connection pool replaces bare JDBC — eliminates 10-20ms overhead per DB call',
+      'Email delivery moved to background coroutines — login responses return immediately',
+      'Multi-arch Docker images (amd64 + arm64) built natively in CI — no QEMU emulation',
+      'Route intercept pattern eliminates ~80 duplicate database calls across admin and auth routes',
+    ],
+  },
+  {
+    version: '1.1.2',
+    date: 'March 25, 2026',
+    type: 'patch',
+    headline: 'External database support and documentation improvements.',
+    highlights: [
+      'New compose file for external databases — bring your own PostgreSQL from RDS, Supabase, Neon, Railway, or Render',
+      'Updated documentation with provider-specific connection strings and SSL configuration',
+    ],
+  },
+  {
+    version: '1.1.1',
+    date: 'March 24, 2026',
+    type: 'patch',
+    headline: 'Zero-config quickstart with pre-loaded demo data.',
+    highlights: [
+      'One-command quickstart with demo data — evaluate Kotauth without any configuration',
+      'PostgreSQL port no longer exposed to host in default compose — only accessible within Docker network',
+    ],
+  },
+  {
+    version: '1.1.0',
+    date: 'March 22, 2026',
+    type: 'minor',
+    headline: 'Major internal refactor — route splitting, composition root extraction, and injectable services.',
+    highlights: [
+      'AdminRoutes and AuthRoutes split from ~1800 lines each into 7 focused files',
+      'ServiceGraph composition root extracted with fail-fast environment validation',
+      'EncryptionService converted to injectable class — no more static System.getenv() calls',
+      'RateLimiter extracted behind domain port interface',
+    ],
+  },
+  {
+    version: '1.0.0',
+    date: 'March 17, 2026',
+    type: 'major',
+    headline: 'Initial stable release with full OAuth2/OIDC, multi-tenancy, RBAC, MFA, and audit logging.',
+    highlights: [
+      'Complete OAuth 2.0 / OIDC provider with Authorization Code + PKCE, Client Credentials, and token rotation',
+      'Multi-tenant workspaces with per-tenant RS256 key pairs, branding, and isolated user directories',
+      'RBAC with composite role inheritance, hierarchical groups, and tenant/client scoping',
+      'TOTP MFA with recovery codes, social login (Google/GitHub), and user self-service portal',
+      'Admin console, 30+ REST API endpoints with OpenAPI 3.1, HMAC-signed webhooks, and 30+ audit event types',
+    ],
+  },
+];
+
+function getTypeIcon(type: string) {
+  switch (type) {
+    case 'major': return Package;
+    case 'minor': return Zap;
+    case 'patch': return Wrench;
+    default: return Wrench;
+  }
+}
+
+function getTypeLabel(type: string) {
+  switch (type) {
+    case 'major': return 'Major';
+    case 'minor': return 'Feature';
+    case 'patch': return 'Patch';
+    default: return 'Patch';
+  }
+}
+
+function getTypeBadgeClass(type: string) {
+  switch (type) {
+    case 'major': return 'bg-kotauth-primary/10 text-kotauth-primary border-kotauth-primary/20';
+    case 'minor': return 'bg-kotauth-success/10 text-kotauth-success border-kotauth-success/20';
+    case 'patch': return 'bg-kotauth-surface-2 text-kotauth-text-muted border-kotauth-surface-3';
+    default: return 'bg-kotauth-surface-2 text-kotauth-text-muted border-kotauth-surface-3';
+  }
+}
+---
+
+<BaseLayout
+  title="Changelog — Kotauth"
+  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.2.0 — track what shipped and when."
+  path="/changelog"
+>
+  <div class="min-h-screen">
+    <section class="relative pt-32 pb-16 overflow-hidden">
+      <GradientGlow class="top-0 left-1/2 -translate-x-1/2" size={800} color="rgba(0, 119, 168, 0.18)" />
+      <div class="section-container relative z-10">
+        <div class="max-w-3xl">
+          <a
+            href="/"
+            class="inline-flex items-center gap-1.5 text-sm font-mono text-kotauth-text-tertiary hover:text-kotauth-primary transition-colors mb-8 group"
+          >
+            <ArrowRight class="w-3.5 h-3.5 rotate-180 group-hover:-translate-x-1 transition-transform" />
+            Back to home
+          </a>
+          <span class="eyebrow mb-4 block">Changelog</span>
+          <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-bold text-kotauth-text-primary leading-[1.1] tracking-tight mb-6 font-mono">
+            What <span class="gradient-text">shipped</span>
+          </h1>
+          <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
+            Every release documented. Security patches, new features, and internal improvements — all in one place.
+            For the full technical changelog, see the <a href={`${GITHUB_URL}/blob/main/CHANGELOG.md`} target="_blank" rel="noopener noreferrer" class="text-kotauth-primary hover:text-kotauth-primary-light transition-colors">CHANGELOG.md</a> in the repository.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-24">
+      <div class="section-container">
+        <div class="max-w-3xl">
+          {releases.map((release) => {
+            const Icon = getTypeIcon(release.type);
+            return (
+              <div data-reveal class="relative pl-8 pb-12 last:pb-0 border-l border-kotauth-surface-2 ml-4">
+                <div class="absolute -left-[9px] top-1 w-[18px] h-[18px] bg-kotauth-bg-primary border-2 border-kotauth-surface-2 flex items-center justify-center">
+                  <div class={`w-2 h-2 ${release.type === 'major' ? 'bg-kotauth-primary' : release.type === 'minor' ? 'bg-kotauth-success' : 'bg-kotauth-surface-3'}`} />
+                </div>
+
+                <div class="flex items-center gap-3 mb-2 flex-wrap">
+                  <h3 class="text-xl font-semibold text-kotauth-text-primary font-mono">
+                    v{release.version}
+                  </h3>
+                  <span class={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-mono border ${getTypeBadgeClass(release.type)}`}>
+                    <Icon class="w-3 h-3" />
+                    {getTypeLabel(release.type)}
+                  </span>
+                  <span class="text-xs font-mono text-kotauth-text-muted">
+                    {release.date}
+                  </span>
+                </div>
+
+                <p class="text-sm text-kotauth-text-secondary mb-4">
+                  {release.headline}
+                </p>
+
+                <ul class="space-y-2">
+                  {release.highlights.map((item) => (
+                    <li class="flex items-start gap-2.5">
+                      <span class="mt-1.5 w-1.5 h-1.5 flex-shrink-0 bg-kotauth-primary" />
+                      <span class="text-sm text-kotauth-text-tertiary leading-relaxed">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

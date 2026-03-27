@@ -1,0 +1,71 @@
+---
+import { CircleCheck, Circle, Tag } from '@lucide/astro';
+
+interface Props {
+  version: {
+    tag: string;
+    title: string;
+    date: string;
+    highlights: string[];
+  };
+  shipped: boolean;
+}
+
+const { version, shipped } = Astro.props;
+---
+
+<div
+  data-reveal
+  class={`relative flex gap-6 pb-12 last:pb-0 ${!shipped ? 'opacity-80' : ''}`}
+>
+  <div class="flex flex-col items-center flex-shrink-0">
+    <div
+      class={`w-10 h-10 flex items-center justify-center border-2 z-10 flex-shrink-0 ${
+        shipped
+          ? 'bg-kotauth-primary/15 border-kotauth-primary text-kotauth-primary'
+          : 'bg-kotauth-surface-1 border-kotauth-surface-3 text-kotauth-text-muted'
+      }`}
+    >
+      {shipped ? (
+        <CircleCheck class="w-5 h-5" />
+      ) : (
+        <Circle class="w-5 h-5" />
+      )}
+    </div>
+    <div class="w-px flex-1 mt-2 bg-kotauth-surface-2" />
+  </div>
+
+  <div class="flex-1 min-w-0 pt-1.5">
+    <div class="flex items-center gap-3 mb-1 flex-wrap">
+      <span class="inline-flex items-center gap-1.5 text-xs font-mono text-kotauth-text-muted">
+        <Tag class="w-3 h-3" />
+        {version.tag}
+      </span>
+      {shipped ? (
+        <span class="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-mono bg-kotauth-success/10 text-kotauth-success border border-kotauth-success/20">
+          {version.date}
+        </span>
+      ) : (
+        <span class="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-mono bg-kotauth-surface-2 text-kotauth-text-muted border border-kotauth-surface-3">
+          Planned
+        </span>
+      )}
+    </div>
+    <h3 class="text-xl font-semibold text-kotauth-text-primary font-mono mb-1">
+      {version.title}
+    </h3>
+
+    <ul class="space-y-2.5 mt-4">
+      {version.highlights.map((item) => (
+        <li class="flex items-start gap-2.5">
+          <span
+            class={`mt-1.5 w-1.5 h-1.5 flex-shrink-0 ${
+              shipped ? 'bg-kotauth-primary' : 'bg-kotauth-surface-3'
+            }`}
+          />
+          <span class="text-sm text-kotauth-text-tertiary leading-relaxed">{item}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

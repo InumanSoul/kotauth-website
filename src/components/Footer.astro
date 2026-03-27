@@ -17,12 +17,13 @@ type FooterLink = {
 const footerLinks: Record<string, FooterLink[]> = {
   product: [
     { label: 'Features', href: '/features', external: false },
+    { label: 'Security', href: '/security', external: false },
     { label: 'Roadmap', href: '/roadmap', external: false },
-    { label: 'Changelog', href: `${GITHUB_URL}/releases`, external: true },
+    { label: 'Changelog', href: '/changelog', external: false },
   ],
   resources: [
     { label: 'Documentation', href: DOCS_URL, external: true },
-    { label: 'API Reference', href: `${GITHUB_URL}#rest-api`, external: true },
+    { label: 'API Reference', href: `${DOCS_URL}api/overview/`, external: true },
     { label: 'GitHub', href: GITHUB_URL, external: true },
     { label: 'Community', href: `${GITHUB_URL}/discussions`, external: true },
   ],
