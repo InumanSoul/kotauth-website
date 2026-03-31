@@ -54,7 +54,7 @@ const allFeatures = [
   {
     icon: ShieldCheck,
     title: 'Security That Ships by Default',
-    description: 'bcrypt password hashing, AES-256-GCM encrypted SMTP credentials per tenant, SHA-256 hashed API keys (plain text never stored), HMAC-SHA256 signed session cookies, Content-Security-Policy headers, CSRF protection on all form endpoints, SameSite cookie attributes, open redirect prevention on logout, startup validation that refuses unsafe defaults in production, and per-IP per-workspace rate limiting. Hardened before your first deploy.',
+    description: 'bcrypt password hashing, AES-256-GCM encryption at rest (RSA private keys, SMTP credentials, TOTP secrets), SHA-256 hashed API keys, HMAC-SHA256 signed cookies, strict CSP headers with zero unsafe-inline, SRI integrity on all JS bundles, CSRF protection, SameSite cookies, open redirect prevention, mandatory KAUTH_SECRET_KEY with no dev-mode fallback, and tiered rate limiting (login, MFA, password reset) per IP per workspace. Hardened before your first deploy.',
   },
   {
     icon: Webhook,
@@ -69,7 +69,7 @@ const allFeatures = [
   {
     icon: Container,
     title: 'Docker-Native Deployment',
-    description: '~85 MB multi-stage image published to GHCR (ghcr.io/inumansoul/kotauth). One-command quickstart with demo data pre-loaded — or bring your own .env for a custom setup. Flyway migrations run automatically on startup — no init scripts, no manual schema setup. Bundled PostgreSQL included, or bring your own database (RDS, Supabase, Neon, Railway, Render) via a dedicated compose file. Set KAUTH_DEMO_MODE=true to deploy a public showcase instance with pre-seeded workspaces, users, roles, and applications — try it at demo.kotauth.com.',
+    description: '~120 MB  multi-stage image published to GHCR (ghcr.io/inumansoul/kotauth). One-command quickstart with demo data pre-loaded — or bring your own .env for a custom setup. Flyway migrations run automatically on startup — no init scripts, no manual schema setup. Built-in CLI tools (generate-secret-key, reset-admin-mfa) for key provisioning and emergency recovery. HTTP compression (gzip/deflate), static asset caching, and bundled Swagger UI for air-gapped environments. Bundled PostgreSQL included, or bring your own database (RDS, Supabase, Neon, Railway, Render) via a dedicated compose file.',
   },
 ];
 
@@ -85,9 +85,10 @@ const rfcBadges = [
 
 const securityPrimitives = [
   { Icon: Lock, label: 'bcrypt', detail: 'Password hashing' },
-  { Icon: Shield, label: 'AES-256-GCM', detail: 'SMTP credential encryption' },
+  { Icon: Shield, label: 'AES-256-GCM', detail: 'RSA keys + secrets at rest' },
   { Icon: FingerprintPattern, label: 'SHA-256', detail: 'API key hashing' },
   { Icon: FileCode, label: 'RS256', detail: 'Per-tenant JWT signing' },
+  { Icon: Key, label: 'SRI', detail: 'JS bundle integrity' },
   { Icon: RefreshCw, label: 'Token rotation', detail: 'Refresh token invalidation' },
   { Icon: ShieldAlert, label: 'Account lockout', detail: 'Brute-force protection' },
   { Icon: ShieldCheck, label: 'CSP + CSRF', detail: 'Transport & request hardening' },
@@ -97,7 +98,7 @@ const securityPrimitives = [
 
 <BaseLayout
   title="Features — Kotauth"
-  description="Every feature Kotauth ships in v1.2.0: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, HMAC webhooks, white-label auth screens, and Docker-native deployment. RFC 7009, 7662, 7636, 8414 compliant."
+  description="Every feature Kotauth ships in v1.3.1: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, encrypted RSA keys, CLI tools, HMAC webhooks, white-label auth screens, and Docker-native deployment."
   path="/features"
 >
   <div class="min-h-screen">
@@ -119,7 +120,7 @@ const securityPrimitives = [
           </h1>
           <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
             Every feature listed here is in production today. No beta labels, no roadmap
-            promises — this is the current v1.2.0 release.
+            promises — this is the current v1.3.1 release.
           </p>
         </div>
       </div>

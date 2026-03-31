@@ -10,6 +10,45 @@ const DEMO_URL = 'https://demo.kotauth.com';
 
 const shippedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
   {
+    tag: 'v1.3.1',
+    title: 'Client-Side Polish & CSP Compliance',
+    date: 'March 30, 2026',
+    highlights: [
+      'Real-time inline password validation checklist on all password fields — shows per-tenant policy as you type',
+      'Auto-dismissing toast notifications replace persistent URL banners across admin and portal',
+      'Full CSP compliance — zero unsafe-inline violations, all inline handlers replaced with event delegation',
+      'QRCode.js bundled locally — MFA enrollment works fully offline / air-gapped',
+      'CSS token architecture with shared structural tokens across all 4 bundles',
+    ],
+  },
+  {
+    tag: 'v1.3.0',
+    title: 'Security Hardening & CLI Tools',
+    date: 'March 30, 2026',
+    highlights: [
+      'KAUTH_SECRET_KEY required in all environments — no dev-mode fallback',
+      'RSA private keys encrypted at rest with AES-256-GCM — plaintext keys auto-migrated on startup',
+      'KAUTH_ADMIN_BYPASS removed — admin auth is exclusively OAuth PKCE',
+      'CLI subcommands: generate-secret-key and reset-admin-mfa via java -jar kauth.jar cli',
+      'MFA challenge rate limiting (5/5min) and password reset rate limiting (3/5min)',
+      'findById tenant scoping enforced at database query level — cross-tenant lookups structurally impossible',
+      'HTTP response compression, static asset caching, and 12 missing FK indexes',
+    ],
+  },
+  {
+    tag: 'v1.2.1',
+    title: 'New /authorize Endpoint & JS Bundling',
+    date: 'March 27, 2026',
+    highlights: [
+      '/authorize shorthand replaces verbose /protocol/openid-connect/auth path',
+      'JS bundled with esbuild — 4 minified files with SRI integrity hashes on all script tags',
+      'Swagger UI bundled locally — API docs work in air-gapped environments',
+      'Password show/hide toggle on all password fields',
+      'Session revocation DB check on every request — admin revoke immediately invalidates cookies',
+      'Email templates redesigned with TenantTheme branding',
+    ],
+  },
+  {
     tag: 'v1.2.0',
     title: 'Security Hardening & Admin OAuth',
     date: 'March 27, 2026',
@@ -18,11 +57,9 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
       'Admin role gating — only users with the admin role on the master tenant can access the console',
       'Account lockout — configurable failed login threshold with automatic lockout duration and email notification',
       'OIDC end-session logout — proper RP-initiated logout with id_token_hint and open redirect prevention',
-      'Break-glass admin bypass (KAUTH_ADMIN_BYPASS) for recovery scenarios',
       'Password changed email notification on all password change paths',
       'HMAC-signed admin cookies with dedicated key derivation',
       'SecurityConfig extracted to dedicated table — password policy, MFA policy, and lockout config',
-      'Admin client auto-provisioning on master tenant startup',
       'CVE patches: Netty, Jackson, Logback, PostgreSQL JDBC',
       'Content-Security-Policy header, SameSite cookie attributes, thread-safe JWT cache',
     ],
@@ -67,7 +104,7 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
 
 const plannedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
   {
-    tag: 'v1.3.0',
+    tag: 'v1.4.0',
     title: 'Advanced Authentication',
     date: '',
     highlights: [
@@ -77,7 +114,7 @@ const plannedVersions: { tag: string; title: string; date: string; highlights: s
     ],
   },
   {
-    tag: 'v1.4.0',
+    tag: 'v1.5.0',
     title: 'Observability & Operations',
     date: '',
     highlights: [
@@ -87,7 +124,7 @@ const plannedVersions: { tag: string; title: string; date: string; highlights: s
     ],
   },
   {
-    tag: 'v1.5.0',
+    tag: 'v1.6.0',
     title: 'Platform Expansion',
     date: '',
     highlights: [
@@ -131,15 +168,15 @@ const adrs = [
   { id: '18', decision: 'Social-registered users get a random unusable password hash', rationale: 'Account exists; password auth disabled until user explicitly sets one' },
   { id: '19', decision: 'API keys use SHA-256, not bcrypt', rationale: '256-bit key entropy makes brute force infeasible; SHA-256 eliminates bcrypt latency per call' },
   { id: '20', decision: 'API key prefix stored for display — first 16 chars of raw key', rationale: 'Human-friendly identification in admin UI without exposing the full credential' },
-  { id: '21', decision: 'Swagger UI loaded from CDN, not bundled', rationale: 'Saves ~7 MB from the fat JAR; no new Gradle dependencies required' },
-  { id: '22', decision: 'Auth CSS carries no :root defaults — TenantTheme injects all tokens server-side at render time', rationale: 'Enables per-tenant theming with zero client-side JS; theme changes take effect on next page load with no rebuild' },
+  { id: '21', decision: 'Swagger UI bundled locally — no external CDN dependency', rationale: 'Works in air-gapped environments; SRI integrity ensures asset integrity' },
+  { id: '22', decision: 'Shared CSS token layer (tokens-shared.css) with context-specific overrides per bundle', rationale: 'Consistent structural tokens across admin, auth, and portal while allowing per-tenant theming via server-injected properties' },
   { id: '23', decision: 'LightningCSS (Rust native) compiled in a dedicated Docker stage before the Gradle build', rationale: 'Produces minified, cross-browser bundles without Node.js in the JRE runtime image; CSS output is injected into the JAR during Stage 2' },
   { id: '24', decision: 'Demo mode as a single env flag (KAUTH_DEMO_MODE) with idempotent seed service', rationale: 'Public showcase deployments get realistic data without manual setup; idempotent seeding allows periodic container restarts without duplicate data' },
 ];
 
 const stats = [
-  { label: 'Versions Shipped', value: '11' },
-  { label: 'DB Migrations', value: '28' },
+  { label: 'Versions Shipped', value: '14' },
+  { label: 'DB Migrations', value: '29' },
   { label: 'REST Endpoints', value: '30+' },
   { label: 'Architecture ADRs', value: '24' },
 ];
@@ -147,7 +184,7 @@ const stats = [
 
 <BaseLayout
   title="Roadmap — Kotauth"
-  description="See what's shipped and what's coming in Kotauth. v1.2.0 is live with OAuth admin login, account lockout, end-session logout, and CVE patches. Enterprise SSO, WebAuthn, and a TypeScript SDK are on the way."
+  description="See what's shipped and what's coming in Kotauth. v1.3.1 is live with encrypted RSA keys, CLI tools, full CSP compliance, and 14 versions shipped. Enterprise SSO, WebAuthn, and a TypeScript SDK are on the way."
   path="/roadmap"
 >
   <div class="pt-[72px]">
@@ -162,7 +199,7 @@ const stats = [
             <span class="gradient-text">What's next.</span>
           </h1>
           <p class="text-lg text-kotauth-text-secondary mb-8 max-w-xl">
-            v1.2.0 is live — shipped March 2026. Every version, every architectural decision, and every planned feature is documented here.
+            v1.3.1 is live — 14 versions shipped since March 2026. Every version, every architectural decision, and every planned feature is documented here.
             No vaporware, no undated promises.
           </p>
           <div class="flex flex-wrap gap-4">

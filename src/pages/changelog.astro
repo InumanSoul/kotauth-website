@@ -15,6 +15,50 @@ type ReleaseEntry = {
 
 const releases: ReleaseEntry[] = [
   {
+    version: '1.3.1',
+    date: 'March 30, 2026',
+    type: 'patch',
+    headline: 'Client-side polish — inline password validation, toast notifications, and full CSP compliance.',
+    highlights: [
+      'Real-time password validation checklist on all password fields — shows per-tenant policy requirements as you type',
+      'Auto-dismissing toast notifications replace persistent URL banners across admin and portal',
+      'Full CSP compliance — all inline event handlers replaced with event delegation, zero unsafe-inline violations',
+      'QRCode.js bundled locally — MFA enrollment works fully offline and in air-gapped environments',
+      'CSS token architecture refactored with shared structural tokens across all 4 bundles',
+      'Button and form CSS layered into shared base with context-specific overrides (auth vs portal)',
+    ],
+  },
+  {
+    version: '1.3.0',
+    date: 'March 30, 2026',
+    type: 'minor',
+    headline: 'Security hardening — encrypted keys at rest, mandatory secret key, CLI tools, and rate limiting everywhere.',
+    highlights: [
+      'KAUTH_SECRET_KEY is now required in all environments — no dev-mode fallback, server refuses to start without it',
+      'RSA private keys encrypted at rest with AES-256-GCM — existing plaintext keys auto-migrated on startup',
+      'KAUTH_ADMIN_BYPASS removed entirely — admin auth is exclusively OAuth PKCE, with CLI recovery for lockouts',
+      'CLI infrastructure: generate-secret-key and reset-admin-mfa subcommands via java -jar kauth.jar cli',
+      'MFA challenge rate limiting (5 attempts/5 min) and password reset rate limiting (3 attempts/5 min)',
+      'findById tenant scoping enforced at the database query level — cross-tenant lookups are structurally impossible',
+      'Client secrets no longer appear in URLs — uses server-side FlashStore with one-time read semantics',
+      'HTTP response compression (gzip/deflate), static asset cache headers, and 12 missing FK indexes added',
+    ],
+  },
+  {
+    version: '1.2.1',
+    date: 'March 27, 2026',
+    type: 'patch',
+    headline: 'New /authorize endpoint, JS bundling with SRI, and bundled Swagger UI for air-gapped deploys.',
+    highlights: [
+      'New /authorize shorthand endpoint replaces the verbose /protocol/openid-connect/auth path',
+      'JS bundled with esbuild into 4 minified files with SRI integrity hashes on all script tags',
+      'Swagger UI bundled locally — API docs work in air-gapped environments without CDN access',
+      'Password show/hide toggle on all password fields across login, register, and reset forms',
+      'Session revocation DB check on every request — revoking from admin immediately invalidates cookies',
+      'Email templates redesigned with TenantTheme branding — accent colors, logos, and responsive layout',
+    ],
+  },
+  {
     version: '1.2.0',
     date: 'March 27, 2026',
     type: 'minor',
@@ -143,7 +187,7 @@ function getTypeBadgeClass(type: string) {
 
 <BaseLayout
   title="Changelog — Kotauth"
-  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.2.0 — track what shipped and when."
+  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.3.1 — track what shipped and when."
   path="/changelog"
 >
   <div class="min-h-screen">

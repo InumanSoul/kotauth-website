@@ -23,9 +23,9 @@ const DOCS_URL = 'https://docs.kotauth.com';
 
 const cryptoPrimitives = [
   { Icon: Lock, label: 'bcrypt (cost 12)', detail: 'Password hashing — salted, time-resistant, brute-force infeasible' },
-  { Icon: Shield, label: 'AES-256-GCM', detail: 'Encryption at rest for SMTP credentials and social provider secrets' },
+  { Icon: Shield, label: 'AES-256-GCM', detail: 'Encryption at rest for RSA private keys, SMTP credentials, TOTP secrets, and social provider secrets' },
   { Icon: Key, label: 'SHA-256', detail: 'API key and token hashing — raw values never stored in the database' },
-  { Icon: FileCode, label: 'RS256 (RSA-SHA256)', detail: 'Per-tenant JWT signing with auto-provisioned key pairs' },
+  { Icon: FileCode, label: 'RS256 (RSA-SHA256)', detail: 'Per-tenant JWT signing with auto-provisioned key pairs, encrypted at rest' },
   { Icon: RefreshCw, label: 'HMAC-SHA256', detail: 'Session cookie signing, webhook payload signing, OAuth state parameters' },
 ];
 
@@ -38,7 +38,7 @@ const protectionLayers = [
   {
     Icon: Clock,
     title: 'Rate limiting',
-    description: '5 requests per minute per IP per workspace on login, registration, token exchange, and refresh endpoints. Tenant-scoped — one workspace\'s traffic never affects another.',
+    description: '5 login attempts per minute, 5 MFA challenges per 5 minutes, 3 password resets per 5 minutes — all per IP per workspace. Tenant-scoped — one workspace\'s traffic never affects another.',
   },
   {
     Icon: RefreshCw,
@@ -63,7 +63,8 @@ const protectionLayers = [
 ];
 
 const transportHardening = [
-  'Content-Security-Policy: default-src \'self\'; script-src \'self\'; style-src \'self\' \'unsafe-inline\'; img-src \'self\' data:; form-action \'self\'',
+  'Content-Security-Policy: default-src \'self\'; script-src \'self\'; style-src \'self\'; img-src \'self\' data: https:; font-src \'self\' https://fonts.gstatic.com; form-action \'self\'',
+  'SRI integrity hashes on all bundled JavaScript — prevents tampering with static assets',
   'SameSite=Lax on all session cookies (admin and portal)',
   'Secure cookie flag derived from KAUTH_BASE_URL scheme at startup',
   'CSRF protection via OAuth state parameter + PKCE cookie signatures',
@@ -86,6 +87,7 @@ const secretsPolicy = [
   { what: 'Client secrets', how: 'bcrypt hash. Raw value shown once at generation, never retrievable.' },
   { what: 'API keys', how: 'SHA-256 hash. Format: kauth_{slug}_{random}. Prefix stored for display.' },
   { what: 'Refresh tokens', how: 'SHA-256 hash. Rotate on every use. Old token revokes session.' },
+  { what: 'RSA private keys', how: 'AES-256-GCM encrypted at rest. Plaintext keys auto-migrated on first startup.' },
   { what: 'SMTP credentials', how: 'AES-256-GCM encrypted at rest. Key derived from KAUTH_SECRET_KEY.' },
   { what: 'Social provider secrets', how: 'AES-256-GCM encrypted at rest. Same key derivation.' },
   { what: 'MFA TOTP secrets', how: 'AES-256-GCM encrypted at rest. Base32-encoded for QR URI.' },
