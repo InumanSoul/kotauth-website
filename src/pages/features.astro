@@ -54,7 +54,7 @@ const allFeatures = [
   {
     icon: ShieldCheck,
     title: 'Security That Ships by Default',
-    description: 'bcrypt password hashing, AES-256-GCM encryption at rest (RSA private keys, SMTP credentials, TOTP secrets), SHA-256 hashed API keys, HMAC-SHA256 signed cookies, strict CSP headers with zero unsafe-inline, SRI integrity on all JS bundles, CSRF protection, SameSite cookies, open redirect prevention, mandatory KAUTH_SECRET_KEY with no dev-mode fallback, and tiered rate limiting (login, MFA, password reset) per IP per workspace. Hardened before your first deploy.',
+    description: 'bcrypt password hashing, AES-256-GCM encryption at rest (RSA private keys, SMTP credentials, TOTP secrets), SHA-256 hashed API keys, HMAC-SHA256 signed cookies, strict CSP headers with zero inline JavaScript (style-src permits unsafe-inline for server-injected theme tokens), SRI integrity on all JS bundles, CSRF protection, SameSite cookies, open redirect prevention, mandatory KAUTH_SECRET_KEY with no dev-mode fallback, and tiered rate limiting (login, MFA, password reset) per IP per workspace. Hardened before your first deploy.',
   },
   {
     icon: Webhook,

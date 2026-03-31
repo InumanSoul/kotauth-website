@@ -63,7 +63,7 @@ const protectionLayers = [
 ];
 
 const transportHardening = [
-  'Content-Security-Policy: default-src \'self\'; script-src \'self\'; style-src \'self\'; img-src \'self\' data: https:; font-src \'self\' https://fonts.gstatic.com; form-action \'self\'',
+  'Content-Security-Policy with strict script-src \'self\' (zero inline JavaScript) — style-src permits \'unsafe-inline\' for server-injected theme tokens; all other directives locked to \'self\'',
   'SRI integrity hashes on all bundled JavaScript — prevents tampering with static assets',
   'SameSite=Lax on all session cookies (admin and portal)',
   'Secure cookie flag derived from KAUTH_BASE_URL scheme at startup',
