@@ -9,6 +9,7 @@ import {
   Container,
   Users,
   Palette,
+  Bot,
   ArrowRight,
   Play,
   Lock,
@@ -71,6 +72,11 @@ const allFeatures = [
     title: 'Docker-Native Deployment',
     description: '~120 MB  multi-stage image published to GHCR (ghcr.io/inumansoul/kotauth). One-command quickstart with demo data pre-loaded — or bring your own .env for a custom setup. Flyway migrations run automatically on startup — no init scripts, no manual schema setup. Built-in CLI tools (generate-secret-key, reset-admin-mfa) for key provisioning and emergency recovery. HTTP compression (gzip/deflate), static asset caching, and bundled Swagger UI for air-gapped environments. Bundled PostgreSQL included, or bring your own database (RDS, Supabase, Neon, Railway, Render) via a dedicated compose file.',
   },
+  {
+    icon: Bot,
+    title: 'AI-Native Management (MCP)',
+    description: 'Manage your entire identity infrastructure from Claude, Cursor, or any MCP-compatible AI assistant. The @kotauth/mcp package exposes 21 tools across 6 domains: users, roles, groups, applications, sessions, and audit logs. Scope-based access control — each API key grants only the permissions you choose. One command to connect: npx @kotauth/mcp. No SDK to learn, no HTTP to write. Ask your AI assistant to create a user, assign roles, query audit logs, or revoke sessions — it calls the right endpoints automatically.',
+  },
 ];
 
 const rfcBadges = [
@@ -98,7 +104,7 @@ const securityPrimitives = [
 
 <BaseLayout
   title="Features — Kotauth"
-  description="Every feature Kotauth ships in v1.3.1: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, encrypted RSA keys, CLI tools, HMAC webhooks, white-label auth screens, and Docker-native deployment."
+  description="Every feature Kotauth ships in v1.3.3: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, MCP integration for AI assistants, HMAC webhooks, white-label auth screens, and Docker-native deployment."
   path="/features"
 >
   <div class="min-h-screen">
@@ -120,7 +126,7 @@ const securityPrimitives = [
           </h1>
           <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
             Every feature listed here is in production today. No beta labels, no roadmap
-            promises — this is the current v1.3.1 release.
+            promises — this is the current v1.3.3 release.
           </p>
         </div>
       </div>

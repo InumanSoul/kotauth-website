@@ -10,6 +10,31 @@ const DEMO_URL = 'https://demo.kotauth.com';
 
 const shippedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
   {
+    tag: 'v1.3.3',
+    title: 'REST API Partial Updates & UX Polish',
+    date: 'April 2, 2026',
+    highlights: [
+      'REST API partial updates — PUT /users and PUT /applications accept partial payloads, omitted fields retain current values',
+      'Toast notifications for user actions — enable/disable, revoke sessions, resend verification email',
+      'CSS tooltip component with disabled-state awareness',
+      'Audit log filter auto-submits on change, settings save buttons show "Saving…" feedback',
+    ],
+  },
+  {
+    tag: 'v1.3.2',
+    title: 'Workspace Session Management & Audit Log Redesign',
+    date: 'April 1, 2026',
+    highlights: [
+      'Workspace "Revoke all sessions" — bulk revocation with confirmation dialog and audit event',
+      'SMTP test email button — verify configuration from the settings page',
+      'Webhook recovery sweep — background retry every 5 minutes, auto-fails orphaned deliveries',
+      'Workspace logos in admin console topbar, switcher, and detail pages',
+      'Audit log redesigned — color-coded badges, human-readable labels, linked clients, grouped 55-event filter',
+      'Composite role expansion rewritten as single recursive CTE',
+      'Typed webhook events — compile-time safe WebhookEventType enum',
+    ],
+  },
+  {
     tag: 'v1.3.1',
     title: 'Client-Side Polish & CSP Compliance',
     date: 'March 30, 2026',
@@ -175,7 +200,7 @@ const adrs = [
 ];
 
 const stats = [
-  { label: 'Versions Shipped', value: '14' },
+  { label: 'Versions Shipped', value: '16' },
   { label: 'DB Migrations', value: '29' },
   { label: 'REST Endpoints', value: '30+' },
   { label: 'Architecture ADRs', value: '24' },
@@ -184,7 +209,7 @@ const stats = [
 
 <BaseLayout
   title="Roadmap — Kotauth"
-  description="See what's shipped and what's coming in Kotauth. v1.3.1 is live with encrypted RSA keys, CLI tools, full CSP compliance, and 14 versions shipped. Enterprise SSO, WebAuthn, and a TypeScript SDK are on the way."
+  description="See what's shipped and what's coming in Kotauth. v1.3.3 is live with partial API updates, audit log redesign, and 16 versions shipped. Enterprise SSO, WebAuthn, and a TypeScript SDK are on the way."
   path="/roadmap"
 >
   <div class="pt-[72px]">
@@ -199,7 +224,7 @@ const stats = [
             <span class="gradient-text">What's next.</span>
           </h1>
           <p class="text-lg text-kotauth-text-secondary mb-8 max-w-xl">
-            v1.3.1 is live — 14 versions shipped since March 2026. Every version, every architectural decision, and every planned feature is documented here.
+            v1.3.3 is live — 16 versions shipped since March 2026. Every version, every architectural decision, and every planned feature is documented here.
             No vaporware, no undated promises.
           </p>
           <div class="flex flex-wrap gap-4">

@@ -146,6 +146,31 @@ curl -s "$BASE/audit-logs?userId=$USER_ID&limit=5" \\
   | jq '[.data[].eventType]'
 # → ["ADMIN_USER_CREATED", "ADMIN_ROLE_ASSIGNED"]`,
   },
+  {
+    label: 'MCP',
+    language: 'json',
+    code: `// claude_desktop_config.json
+{
+  "mcpServers": {
+    "kotauth": {
+      "command": "npx",
+      "args": ["-y", "@kotauth/mcp"],
+      "env": {
+        "KOTAUTH_BASE_URL": "https://auth.acme.com",
+        "KOTAUTH_TENANT_SLUG": "myapp",
+        "KOTAUTH_API_KEY": "kauth_myapp_sk_xxxxxxxx"
+      }
+    }
+  }
+}
+
+// Then ask Claude:
+// "Create user jsmith with email j.smith@acme.com
+//  and assign the editor role"
+//
+// Claude calls create_user → assign_user_role
+// Done. No code, no HTTP, no SDK.`,
+  },
 ];
 
 const features = [
