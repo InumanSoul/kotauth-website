@@ -10,6 +10,42 @@ const DEMO_URL = 'https://demo.kotauth.com';
 
 const shippedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
   {
+    tag: 'v1.5.0',
+    title: 'User Invitations & Required Actions',
+    date: 'April 7, 2026',
+    highlights: [
+      'Invite users via email — admins create users and send branded invite emails instead of setting passwords directly',
+      'Accept-invite flow — branded page with real-time password validation, 72-hour token expiry, and automatic account activation',
+      'Required actions framework — extensible user action model (SET_PASSWORD) stored as PostgreSQL text[] array',
+      'Token purpose discriminator — invite and password-reset tokens are cryptographically separated, cross-purpose usage rejected',
+      'Resend invite from admin console with automatic old-token invalidation',
+      'New audit events: USER_INVITE_SENT and USER_INVITE_ACCEPTED',
+    ],
+  },
+  {
+    tag: 'v1.4.1',
+    title: 'Portal Social Accounts, Entity Picker & Pagination',
+    date: 'April 5, 2026',
+    highlights: [
+      'Portal connected social accounts — users can view linked Google and GitHub identities from the self-service portal',
+      'Entity picker component — search-as-you-type replaces native dropdowns for role and group assignment, with debounced htmx search and keyboard navigation',
+      'RBAC assigned users table — role detail page shows all assigned users with direct links and remove actions',
+      'Pagination for users (25/page) and sessions (100 cap) with position-aware subtitles and search composition',
+      'JavaScript modernization — var to const/let, arrow functions, template literals, optional chaining across all bundles',
+    ],
+  },
+  {
+    tag: 'v1.4.0',
+    title: 'Auto-Update Check & Release Infrastructure',
+    date: 'April 3, 2026',
+    highlights: [
+      'Auto-update check — server queries a version manifest on startup and surfaces available updates in the admin console',
+      'Version badge displayed in admin UI showing current running version',
+      'KAUTH_UPDATE_CHECK flag to disable for air-gapped deployments',
+      'Release infrastructure — CI manifest publishing, GitHub Pages CNAME, and release template',
+    ],
+  },
+  {
     tag: 'v1.3.3',
     title: 'REST API Partial Updates & UX Polish',
     date: 'April 2, 2026',
@@ -25,7 +61,7 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Workspace Session Management & Audit Log Redesign',
     date: 'April 1, 2026',
     highlights: [
-      'Workspace "Revoke all sessions" — bulk revocation with confirmation dialog and audit event',
+      'Workspace "Revoke all sessions" — bulk revocation across all users with confirmation dialog and audit event',
       'SMTP test email button — verify configuration from the settings page',
       'Webhook recovery sweep — background retry every 5 minutes, auto-fails orphaned deliveries',
       'Workspace logos in admin console topbar, switcher, and detail pages',
@@ -127,89 +163,37 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
   },
 ];
 
-const plannedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
-  {
-    tag: 'v1.4.0',
-    title: 'Advanced Authentication',
-    date: '',
-    highlights: [
-      'WebAuthn / Passkeys — phishing-resistant, passwordless login',
-      'Magic links — passwordless email login with short-lived signed tokens',
-      'SMS OTP via pluggable provider interface',
-    ],
-  },
-  {
-    tag: 'v1.5.0',
-    title: 'Observability & Operations',
-    date: '',
-    highlights: [
-      'Prometheus metrics endpoint — login rates, error rates, token issuance, session count',
-      'Admin-initiated key rotation with configurable overlap window',
-      'Helm chart with configurable replicas, probes, and secret management',
-    ],
-  },
-  {
-    tag: 'v1.6.0',
-    title: 'Platform Expansion',
-    date: '',
-    highlights: [
-      'Typed TypeScript/JavaScript SDK wrapping the REST API and OIDC flows',
-      'Per-tenant HTML email template customization',
-      'Audit log export to S3-compatible storage or SIEM webhook',
-    ],
-  },
-  {
-    tag: 'v2.0.0',
-    title: 'Enterprise Federation',
-    date: '',
-    highlights: [
-      'LDAP / Active Directory user and group sync with configurable interval',
-      'SAML 2.0 — SP-initiated and IdP-initiated flows',
-      'External OIDC broker — relay to upstream providers (Azure AD, Okta)',
-      'SCIM 2.0 — automated user provisioning from external HR systems',
-      'Cross-tenant federation with configured trust',
-    ],
-  },
+type PlannedItem = { title: string; description: string };
+
+const nearTerm: PlannedItem[] = [
+  { title: 'WebAuthn / Passkeys', description: 'Phishing-resistant, passwordless login using platform authenticators and security keys' },
+  { title: 'Magic links', description: 'Passwordless email login with short-lived signed tokens' },
+  { title: 'Prometheus metrics endpoint', description: 'Login rates, error rates, token issuance, and session counts exposed for monitoring' },
+  { title: 'Admin-initiated key rotation', description: 'Rotate RS256 signing keys with configurable overlap window for zero-downtime rollover' },
+  { title: 'Typed TypeScript/JavaScript SDK', description: 'Wrapping the REST API and OIDC flows with full type safety' },
 ];
 
-const adrs = [
-  { id: '01', decision: 'Hexagonal architecture — zero framework imports in domain', rationale: 'Domain logic is independently testable; adapters are swappable' },
-  { id: '02', decision: 'Flyway for schema migrations', rationale: 'Versioned, irreversible migrations safe for CI/CD and production upgrades' },
-  { id: '03', decision: 'Separate write-only vs. read-only audit log paths', rationale: 'Auth path never blocks on query execution; read and write independently scalable' },
-  { id: '04', decision: 'All mutations routed through domain services', rationale: 'Validation and audit logging centralized; no mutation path bypasses business rules' },
-  { id: '05', decision: 'Client secret stored as bcrypt hash only — raw value shown once', rationale: 'A database breach does not leak application secrets' },
-  { id: '06', decision: 'Domain services return AdminResult<T> sealed types, not exceptions', rationale: 'Error handling is explicit and exhaustive; no surprise runtime exceptions' },
-  { id: '07', decision: 'Portal login uses OAuth Authorization Code + PKCE via built-in client', rationale: 'Portal and third-party apps authenticate identically; no separate session mechanism' },
-  { id: '08', decision: 'Master workspace for platform admins', rationale: 'Platform operator role is cleanly separated from end-user tenants' },
-  { id: '09', decision: 'Per-tenant RS256 key pairs, auto-provisioned', rationale: 'No single point of key failure; tokens verifiable offline via JWKS' },
-  { id: '10', decision: 'Refresh token rotation on every use', rationale: 'A stolen refresh token has a limited replay window; reuse revokes entire session chain' },
-  { id: '11', decision: 'Audit events recorded eagerly in the request path', rationale: 'No auth flow succeeds without a corresponding audit record' },
-  { id: '12', decision: 'PKCE required for all public clients', rationale: 'Defense against authorization code interception and client ID enumeration' },
-  { id: '13', decision: 'User lookup by (tenant_id, username) — no global namespace', rationale: 'Same email exists independently across workspaces; no cross-tenant leakage' },
-  { id: '14', decision: 'MFA pending state via HMAC-signed cookie, not server-side session', rationale: 'Stateless; no session table bloat; HMAC prevents userId forgery' },
-  { id: '15', decision: 'OAuth state param carries HMAC-signed nonce + OAuth params as Base64', rationale: 'No extra cookie or session required; state is self-contained and tamper-evident' },
-  { id: '16', decision: 'Social login auto-links by email address', rationale: 'Reduces friction for users with both local and social accounts on the same email' },
-  { id: '17', decision: 'Social OAuth adapters use java.net.http only', rationale: 'Lean fat JAR; minimal attack surface; no transitive dependency risk' },
-  { id: '18', decision: 'Social-registered users get a random unusable password hash', rationale: 'Account exists; password auth disabled until user explicitly sets one' },
-  { id: '19', decision: 'API keys use SHA-256, not bcrypt', rationale: '256-bit key entropy makes brute force infeasible; SHA-256 eliminates bcrypt latency per call' },
-  { id: '20', decision: 'API key prefix stored for display — first 16 chars of raw key', rationale: 'Human-friendly identification in admin UI without exposing the full credential' },
-  { id: '21', decision: 'Swagger UI bundled locally — no external CDN dependency', rationale: 'Works in air-gapped environments; SRI integrity ensures asset integrity' },
-  { id: '22', decision: 'Shared CSS token layer (tokens-shared.css) with context-specific overrides per bundle', rationale: 'Consistent structural tokens across admin, auth, and portal while allowing per-tenant theming via server-injected properties' },
-  { id: '23', decision: 'LightningCSS (Rust native) compiled in a dedicated Docker stage before the Gradle build', rationale: 'Produces minified, cross-browser bundles without Node.js in the JRE runtime image; CSS output is injected into the JAR during Stage 2' },
-  { id: '24', decision: 'Demo mode as a single env flag (KAUTH_DEMO_MODE) with idempotent seed service', rationale: 'Public showcase deployments get realistic data without manual setup; idempotent seeding allows periodic container restarts without duplicate data' },
+const longTerm: PlannedItem[] = [
+  { title: 'Helm chart', description: 'Kubernetes deployment with configurable replicas, probes, and secret management' },
+  { title: 'LDAP / Active Directory sync', description: 'User and group sync with configurable interval' },
+  { title: 'SAML 2.0', description: 'SP-initiated and IdP-initiated flows for enterprise SSO' },
+  { title: 'External OIDC broker', description: 'Relay authentication to upstream providers (Azure AD, Okta)' },
+  { title: 'SCIM 2.0', description: 'Automated user provisioning from external HR and identity systems' },
+  { title: 'Per-tenant email templates', description: 'Full HTML email template customization per workspace' },
+  { title: 'Audit log export', description: 'Ship audit events to S3-compatible storage or SIEM webhook' },
 ];
 
 const stats = [
-  { label: 'Versions Shipped', value: '16' },
-  { label: 'DB Migrations', value: '29' },
+  { label: 'Versions Shipped', value: '19' },
+  { label: 'DB Migrations', value: '30' },
   { label: 'REST Endpoints', value: '30+' },
-  { label: 'Architecture ADRs', value: '24' },
+  { label: 'Audit Event Types', value: '55+' },
 ];
 ---
 
 <BaseLayout
   title="Roadmap — Kotauth"
-  description="See what's shipped and what's coming in Kotauth. v1.3.3 is live with partial API updates, audit log redesign, and 16 versions shipped. Enterprise SSO, WebAuthn, and a TypeScript SDK are on the way."
+  description="See what's shipped and what's coming in Kotauth. v1.5.0 is live with user invitations, required actions, and 19 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
   path="/roadmap"
 >
   <div class="pt-[72px]">
@@ -224,7 +208,7 @@ const stats = [
             <span class="gradient-text">What's next.</span>
           </h1>
           <p class="text-lg text-kotauth-text-secondary mb-8 max-w-xl">
-            v1.3.3 is live — 16 versions shipped since March 2026. Every version, every architectural decision, and every planned feature is documented here.
+            v1.5.0 is live — 19 versions shipped since March 2026. Every version and every planned feature is documented here.
             No vaporware, no undated promises.
           </p>
           <div class="flex flex-wrap gap-4">
@@ -293,7 +277,7 @@ const stats = [
       <div class="border-t border-kotauth-surface-2"></div>
     </div>
 
-    <!-- Planned Versions -->
+    <!-- Planned Features -->
     <section class="py-20 lg:py-28">
       <div class="section-container">
         <div class="mb-14">
@@ -307,50 +291,32 @@ const stats = [
             What's next
           </h2>
           <p class="text-kotauth-text-secondary max-w-xl">
-            Planned but not yet scheduled. Priority order reflects market demand and dependency on existing foundations.
+            Planned but not yet scheduled. Priority reflects market demand and dependency on existing foundations.
           </p>
+        </div>
+
+        <div class="mb-12">
+          <h3 class="text-sm font-mono text-kotauth-primary uppercase tracking-widest mb-6">Near-term</h3>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {nearTerm.map((item) => (
+              <div class="p-5 bg-kotauth-surface-1 border border-kotauth-surface-2 hover:border-kotauth-primary/30 transition-colors">
+                <p class="text-sm font-semibold text-kotauth-text-primary font-mono mb-2">{item.title}</p>
+                <p class="text-xs text-kotauth-text-tertiary leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div>
-          {plannedVersions.map((version) => (
-            <VersionCard version={version} shipped={false} />
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- Architecture Decisions -->
-    <section class="py-16 lg:py-24 bg-kotauth-bg-secondary border-t border-kotauth-surface-2">
-      <div class="section-container">
-        <div class="mb-10">
-          <span class="eyebrow mb-3 block">Architecture</span>
-          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
-            24 Architecture Decision Records
-          </h2>
-          <p class="text-kotauth-text-secondary max-w-xl">
-            Key decisions made during development, documented for contributors and auditors.
-          </p>
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm font-mono border-collapse">
-            <thead>
-              <tr class="border-b border-kotauth-surface-2">
-                <th class="text-left py-3 pr-6 text-xs text-kotauth-text-muted uppercase tracking-widest font-normal w-16">ADR</th>
-                <th class="text-left py-3 pr-6 text-xs text-kotauth-text-muted uppercase tracking-widest font-normal">Decision</th>
-                <th class="text-left py-3 text-xs text-kotauth-text-muted uppercase tracking-widest font-normal hidden lg:table-cell">Rationale</th>
-              </tr>
-            </thead>
-            <tbody>
-              {adrs.map((adr) => (
-                <tr class="border-b border-kotauth-surface-1 hover:bg-kotauth-surface-1/40 transition-colors">
-                  <td class="py-3 pr-6 text-kotauth-primary text-xs">ADR-{adr.id}</td>
-                  <td class="py-3 pr-6 text-kotauth-text-secondary text-xs leading-relaxed">{adr.decision}</td>
-                  <td class="py-3 text-kotauth-text-muted text-xs leading-relaxed hidden lg:table-cell">{adr.rationale}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <h3 class="text-sm font-mono text-kotauth-text-muted uppercase tracking-widest mb-6">Long-term</h3>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {longTerm.map((item) => (
+              <div class="p-5 bg-kotauth-surface-1/50 border border-kotauth-surface-2/50 hover:border-kotauth-primary/20 transition-colors">
+                <p class="text-sm font-semibold text-kotauth-text-secondary font-mono mb-2">{item.title}</p>
+                <p class="text-xs text-kotauth-text-muted leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

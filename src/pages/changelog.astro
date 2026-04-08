@@ -15,6 +15,48 @@ type ReleaseEntry = {
 
 const releases: ReleaseEntry[] = [
   {
+    version: '1.5.0',
+    date: 'April 7, 2026',
+    type: 'minor',
+    headline: 'User invitations with branded email flow, required actions framework, and purpose-scoped tokens.',
+    highlights: [
+      'Invite users via email — admins create users and send branded invite emails with a 72-hour activation link',
+      'Accept-invite page with real-time password policy validation, tenant branding, and automatic account activation',
+      'Required actions framework — extensible SET_PASSWORD action stored as PostgreSQL text[] array, no migration needed for new actions',
+      'Token purpose discriminator — invite and password-reset tokens are cryptographically separated, cross-purpose usage rejected at the service layer',
+      'Resend invite from admin user detail page — generates a new token and invalidates the previous one',
+      'Sentinel password hash ("!") prevents wasted bcrypt cycles on accounts that haven\'t completed setup',
+      'New audit events: USER_INVITE_SENT and USER_INVITE_ACCEPTED tracked in the audit log',
+    ],
+  },
+  {
+    version: '1.4.1',
+    date: 'April 5, 2026',
+    type: 'patch',
+    headline: 'Portal social accounts, search-based entity picker, RBAC improvements, and pagination.',
+    highlights: [
+      'Portal connected social accounts — users can view linked Google and GitHub identities from the self-service profile page',
+      'Entity picker component — search-as-you-type replaces native dropdowns for role and group user assignment with debounced htmx search, keyboard navigation, and ARIA combobox pattern',
+      'RBAC assigned users table on role detail page — shows all assigned users with links and remove actions',
+      'User pagination (25/page) with position-aware subtitles ("Showing 1–25 of 247 users") and search composition via ?q=alice&page=2',
+      'Sessions list capped at 100 most recent with dedicated count query',
+      'JavaScript modernized across all bundles — var to const/let, arrow functions, template literals, optional chaining',
+    ],
+  },
+  {
+    version: '1.4.0',
+    date: 'April 3, 2026',
+    type: 'minor',
+    headline: 'Auto-update check, version badge, and release infrastructure.',
+    highlights: [
+      'Auto-update check — server queries a version manifest on startup and surfaces available updates in the admin console',
+      'Version badge displayed in admin UI header showing the current running version',
+      'KAUTH_UPDATE_CHECK env flag (default: true) to disable update checks for air-gapped deployments',
+      'KAUTH_UPDATE_CHECK_URL to override the manifest URL for private registries',
+      'Release infrastructure — CI manifest publishing, GitHub Pages CNAME, and release issue template',
+    ],
+  },
+  {
     version: '1.3.3',
     date: 'April 2, 2026',
     type: 'patch',
@@ -216,7 +258,7 @@ function getTypeBadgeClass(type: string) {
 
 <BaseLayout
   title="Changelog — Kotauth"
-  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.3.3 — track what shipped and when."
+  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.5.0 — track what shipped and when."
   path="/changelog"
 >
   <div class="min-h-screen">
