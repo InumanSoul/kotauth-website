@@ -15,6 +15,34 @@ type ReleaseEntry = {
 
 const releases: ReleaseEntry[] = [
   {
+    version: '1.5.2',
+    date: 'April 10, 2026',
+    type: 'patch',
+    headline: 'Admin-initiated signing key rotation with JWT kid headers and zero-downtime key rollover.',
+    highlights: [
+      'Admin key rotation — generate a new RS256 key pair, promote to active, demote previous key to verification-only from the admin console',
+      'JWT kid header on all issued tokens (access, id_token, client credentials) per RFC 7517',
+      'Key retirement — disable old keys to remove from JWKS once all tokens have expired',
+      'Signing keys management page with key history table, status badges (Active, Verification only, Retired), and one-click actions',
+      'Token verification reads kid from JWT header with graceful fallback for legacy tokens without kid',
+      'New audit events: ADMIN_KEY_ROTATED and ADMIN_KEY_RETIRED',
+      'Migration V31 adds active flag to tenant_keys with unique-per-tenant constraint and backfill',
+    ],
+  },
+  {
+    version: '1.5.1',
+    date: 'April 10, 2026',
+    type: 'patch',
+    headline: 'Internal code optimizations — N+1 query fixes, shared SecureTokens, and admin route helpers.',
+    highlights: [
+      'AdminRouteContext helper extracts session, workspace, and workspace pairs in one call across all admin handlers',
+      'SecureTokens singleton replaces 12 scattered SecureRandom() instantiations with a shared thread-safe instance',
+      'Batch user hydration for role and group detail pages eliminates N+1 queries',
+      'Password policy validation extracted into shared method — removes duplication across reset, invite, and change flows',
+      'Typed ID extraction helper replaces 33 inline toIntOrNull() patterns across 3 route files',
+    ],
+  },
+  {
     version: '1.5.0',
     date: 'April 7, 2026',
     type: 'minor',
@@ -258,7 +286,7 @@ function getTypeBadgeClass(type: string) {
 
 <BaseLayout
   title="Changelog — Kotauth"
-  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.5.0 — track what shipped and when."
+  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.5.2 — track what shipped and when."
   path="/changelog"
 >
   <div class="min-h-screen">

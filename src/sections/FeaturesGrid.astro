@@ -15,37 +15,37 @@ const features = [
     icon: Shield,
     title: 'OAuth 2.0 & OpenID Connect',
     description:
-      'Authorization Code + PKCE, Client Credentials, token introspection (RFC 7662), revocation (RFC 7009), and OIDC Discovery — all out of the box.',
+      'Authorization Code + PKCE, Client Credentials, token rotation, introspection, revocation, and OIDC Discovery. Spec-compliant — any OIDC client library works out of the box.',
   },
   {
     icon: Building2,
-    title: 'Multi-Tenant by Design',
+    title: 'Multi-Tenant Workspaces',
     description:
-      'Every workspace gets its own RS256 key pair, isolated user base, and slug-routed API — /t/{workspace}/api/v1. Zero cross-tenant data leakage by design.',
+      'Isolated user directories, per-tenant RS256 key pairs with admin-initiated rotation, slug-routed APIs, and independent security policies. One instance, many products.',
   },
   {
     icon: Key,
-    title: 'Flexible Authentication',
+    title: 'Authentication & User Onboarding',
     description:
-      'Password + TOTP with recovery codes, Google and GitHub OAuth with automatic account linking, and admin-initiated user invitations with branded email onboarding. MFA enforced per workspace.',
+      'Password + TOTP MFA with recovery codes, Google and GitHub social login with auto-linking, and admin-initiated user invitations with branded email activation.',
   },
   {
     icon: ShieldCheck,
-    title: 'Security That Ships by Default',
+    title: 'Security by Default',
     description:
-      'bcrypt passwords, AES-256-GCM encryption at rest (RSA keys, SMTP creds, TOTP secrets), SHA-256 API key hashing, strict CSP, SRI on all JS, CSRF protection, and tiered rate limiting (login, MFA, password reset) — hardened before your first deploy.',
+      'bcrypt hashing, AES-256-GCM encryption at rest, SHA-256 API keys, strict CSP with SRI, account lockout, tiered rate limiting, key rotation with JWT kid headers, and CSRF protection.',
   },
   {
     icon: Bot,
     title: 'AI-Native Management (MCP)',
     description:
-      'Manage users, roles, sessions, and audit logs from Claude, Cursor, or any MCP client. 21 tools, scope-based access, zero custom code. npx @kotauth/mcp to get started.',
+      'Manage users, roles, sessions, and audit logs from Claude, Cursor, or any MCP client. 19 tools, scope-based access control, zero custom code. npx @kotauth/mcp to connect.',
   },
   {
     icon: Container,
     title: 'Docker-Native Deployment',
     description:
-      '~120 MB  multi-stage image on GHCR. One-command quickstart or bring your own .env. CLI tools for key generation and MFA recovery. HTTP compression, bundled Swagger UI, and Flyway migrations — works fully air-gapped.',
+      '~120 MB image on GHCR. One-command quickstart, Flyway auto-migrations, built-in CLI tools, bundled Swagger UI, and HTTP compression. Works fully air-gapped.',
   },
 ];
 ---
@@ -55,10 +55,10 @@ const features = [
     <div data-reveal class="text-center max-w-2xl mx-auto mb-16">
       <span class="eyebrow mb-4 block">Features</span>
       <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-kotauth-text-primary leading-tight mb-4 font-mono">
-        Everything you need for modern authentication
+        Everything you need for identity management
       </h2>
       <p class="text-lg text-kotauth-text-secondary">
-        Complete identity infrastructure with the simplicity developers expect
+        Complete authentication infrastructure with the simplicity developers expect
       </p>
     </div>
 

@@ -35,7 +35,7 @@ const allFeatures = [
   {
     icon: Building2,
     title: 'Multi-Tenant by Design',
-    description: 'Every workspace gets its own RS256 key pair provisioned on first use — no shared signing key across tenants. Isolated user directories, slug-routed APIs (/t/{workspace}/api/v1), independent issuer URLs, and configurable token TTLs. The same email address is treated as a completely separate identity in each workspace.',
+    description: 'Every workspace gets its own RS256 key pair provisioned on first use — no shared signing key across tenants. Admin-initiated key rotation lets you generate a new signing key, promote it to active, and retire the old key when all tokens have expired. Isolated user directories, slug-routed APIs (/t/{workspace}/api/v1), independent issuer URLs, and configurable token TTLs. The same email address is treated as a completely separate identity in each workspace.',
   },
   {
     icon: Key,
@@ -55,7 +55,7 @@ const allFeatures = [
   {
     icon: ShieldCheck,
     title: 'Security That Ships by Default',
-    description: 'bcrypt password hashing, AES-256-GCM encryption at rest (RSA private keys, SMTP credentials, TOTP secrets), SHA-256 hashed API keys, HMAC-SHA256 signed cookies, strict CSP headers with zero inline JavaScript (style-src permits unsafe-inline for server-injected theme tokens), SRI integrity on all JS bundles, CSRF protection, SameSite cookies, open redirect prevention, mandatory KAUTH_SECRET_KEY with no dev-mode fallback, and tiered rate limiting (login, MFA, password reset) per IP per workspace. Hardened before your first deploy.',
+    description: 'bcrypt password hashing, AES-256-GCM encryption at rest (RSA private keys, SMTP credentials, TOTP secrets), SHA-256 hashed API keys, HMAC-SHA256 signed cookies, strict CSP headers with zero inline JavaScript (style-src permits unsafe-inline for server-injected theme tokens), SRI integrity on all JS bundles, CSRF protection, SameSite cookies, open redirect prevention, mandatory KAUTH_SECRET_KEY with no dev-mode fallback, admin-initiated signing key rotation with JWT kid headers per RFC 7517, and tiered rate limiting (login, MFA, password reset) per IP per workspace. Hardened before your first deploy.',
   },
   {
     icon: Webhook,
@@ -75,7 +75,7 @@ const allFeatures = [
   {
     icon: Bot,
     title: 'AI-Native Management (MCP)',
-    description: 'Manage your entire identity infrastructure from Claude, Cursor, or any MCP-compatible AI assistant. The @kotauth/mcp package exposes 21 tools across 6 domains: users, roles, groups, applications, sessions, and audit logs. Scope-based access control — each API key grants only the permissions you choose. One command to connect: npx @kotauth/mcp. No SDK to learn, no HTTP to write. Ask your AI assistant to create a user, assign roles, query audit logs, or revoke sessions — it calls the right endpoints automatically.',
+    description: 'Manage your entire identity infrastructure from Claude, Cursor, or any MCP-compatible AI assistant. The @kotauth/mcp package exposes 19 tools across 6 domains: users, roles, groups, applications, sessions, and audit logs. Scope-based access control — each API key grants only the permissions you choose. One command to connect: npx @kotauth/mcp. No SDK to learn, no HTTP to write. Ask your AI assistant to create a user, assign roles, query audit logs, or revoke sessions — it calls the right endpoints automatically.',
   },
 ];
 
@@ -104,7 +104,7 @@ const securityPrimitives = [
 
 <BaseLayout
   title="Features — Kotauth"
-  description="Every feature Kotauth ships in v1.5.0: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, MCP integration for AI assistants, HMAC webhooks, white-label auth screens, and Docker-native deployment."
+  description="Every feature Kotauth ships in v1.5.2: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, MCP integration for AI assistants, HMAC webhooks, white-label auth screens, and Docker-native deployment."
   path="/features"
 >
   <div class="min-h-screen">
@@ -126,7 +126,7 @@ const securityPrimitives = [
           </h1>
           <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
             Every feature listed here is in production today. No beta labels, no roadmap
-            promises — this is the current v1.5.0 release.
+            promises — this is the current v1.5.2 release.
           </p>
         </div>
       </div>

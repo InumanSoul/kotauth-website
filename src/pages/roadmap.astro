@@ -10,6 +10,31 @@ const DEMO_URL = 'https://demo.kotauth.com';
 
 const shippedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
   {
+    tag: 'v1.5.2',
+    title: 'Admin Key Rotation & JWT kid Headers',
+    date: 'April 10, 2026',
+    highlights: [
+      'Admin-initiated signing key rotation — generate a new RS256 key pair, promote it to active, demote the previous key to verification-only',
+      'JWT kid header on all issued tokens (access, id_token, client credentials) per RFC 7517 — enables key identification during verification',
+      'Key retirement — disable old keys to remove them from JWKS when all tokens have expired',
+      'Signing keys management page in admin console — key history table with status badges (Active, Verification only, Retired)',
+      'Token verification gracefully handles rotated keys — reads kid from JWT header, falls back to active key for legacy tokens',
+      'New audit events: ADMIN_KEY_ROTATED and ADMIN_KEY_RETIRED',
+    ],
+  },
+  {
+    tag: 'v1.5.1',
+    title: 'Code Optimizations & N+1 Fixes',
+    date: 'April 10, 2026',
+    highlights: [
+      'AdminRouteContext helper — single-call extraction of session, workspace, and workspace pairs across all admin routes',
+      'SecureTokens singleton — replaces 12 scattered SecureRandom() instantiations with a shared thread-safe instance',
+      'Batch user hydration for role and group detail pages — eliminates N+1 queries on assigned user lists',
+      'Extracted password policy validation into a shared method — removes duplication across password reset, invite, and change flows',
+      'Typed ID extraction helper — reusable Parameters.typedId<T>() replaces 33 inline toIntOrNull() patterns',
+    ],
+  },
+  {
     tag: 'v1.5.0',
     title: 'User Invitations & Required Actions',
     date: 'April 7, 2026',
@@ -169,7 +194,7 @@ const nearTerm: PlannedItem[] = [
   { title: 'WebAuthn / Passkeys', description: 'Phishing-resistant, passwordless login using platform authenticators and security keys' },
   { title: 'Magic links', description: 'Passwordless email login with short-lived signed tokens' },
   { title: 'Prometheus metrics endpoint', description: 'Login rates, error rates, token issuance, and session counts exposed for monitoring' },
-  { title: 'Admin-initiated key rotation', description: 'Rotate RS256 signing keys with configurable overlap window for zero-downtime rollover' },
+  { title: 'SMS OTP', description: 'Pluggable SMS provider interface for one-time password delivery' },
   { title: 'Typed TypeScript/JavaScript SDK', description: 'Wrapping the REST API and OIDC flows with full type safety' },
 ];
 
@@ -184,8 +209,8 @@ const longTerm: PlannedItem[] = [
 ];
 
 const stats = [
-  { label: 'Versions Shipped', value: '19' },
-  { label: 'DB Migrations', value: '30' },
+  { label: 'Versions Shipped', value: '21' },
+  { label: 'DB Migrations', value: '31' },
   { label: 'REST Endpoints', value: '30+' },
   { label: 'Audit Event Types', value: '55+' },
 ];
@@ -193,7 +218,7 @@ const stats = [
 
 <BaseLayout
   title="Roadmap — Kotauth"
-  description="See what's shipped and what's coming in Kotauth. v1.5.0 is live with user invitations, required actions, and 19 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
+  description="See what's shipped and what's coming in Kotauth. v1.5.2 is live with key rotation, user invitations, and 21 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
   path="/roadmap"
 >
   <div class="pt-[72px]">
@@ -208,7 +233,7 @@ const stats = [
             <span class="gradient-text">What's next.</span>
           </h1>
           <p class="text-lg text-kotauth-text-secondary mb-8 max-w-xl">
-            v1.5.0 is live — 19 versions shipped since March 2026. Every version and every planned feature is documented here.
+            v1.5.2 is live — 21 versions shipped since March 2026. Every version and every planned feature is documented here.
             No vaporware, no undated promises.
           </p>
           <div class="flex flex-wrap gap-4">

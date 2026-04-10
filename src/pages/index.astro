@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from '@/sections/Hero.astro';
 import FeaturesGrid from '@/sections/FeaturesGrid.astro';
+import McpShowcase from '@/sections/McpShowcase.astro';
 import AuthShowcase from '@/sections/AuthShowcase.astro';
 import CodeShowcase from '@/sections/CodeShowcase.astro';
 import LiveDemo from '@/sections/LiveDemo.astro';
@@ -12,10 +13,11 @@ import CTASection from '@/sections/CTASection.astro';
 
 <BaseLayout
   title="Kotauth — Self-hosted authentication for modern applications"
-  description="The open-source, Docker-native identity platform. OAuth 2.0, OpenID Connect, multi-tenancy, white-label auth screens, and webhooks — deploy in seconds with a single docker compose up. Try the live demo at demo.kotauth.com."
+  description="The open-source, Docker-native identity platform. OAuth 2.0, OpenID Connect, multi-tenancy, white-label auth screens, AI-native MCP management, and webhooks — deploy in seconds with a single docker compose up. Try the live demo at demo.kotauth.com."
 >
   <Hero />
   <FeaturesGrid />
+  <McpShowcase />
   <AuthShowcase />
   <CodeShowcase />
   <LiveDemo />

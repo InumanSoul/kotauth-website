@@ -1,0 +1,239 @@
+---
+import { Bot, Users, ShieldCheck, Building2, KeyRound, ChartBar, MonitorCheck, ArrowRight } from '@lucide/astro';
+import GradientGlow from '@/components/GradientGlow.astro';
+
+const MCP_DOCS_URL = 'https://docs.kotauth.dev/mcp/overview/';
+const NPM_URL = 'https://www.npmjs.com/package/@kotauth/mcp';
+
+const domains = [
+  { icon: Users, label: 'Users', count: 7, examples: 'create, list, update, disable, assign roles' },
+  { icon: ShieldCheck, label: 'Roles', count: 3, examples: 'create, list, delete' },
+  { icon: Building2, label: 'Groups', count: 4, examples: 'create, list, manage members' },
+  { icon: KeyRound, label: 'Applications', count: 2, examples: 'list, update settings' },
+  { icon: MonitorCheck, label: 'Sessions', count: 2, examples: 'list active, revoke' },
+  { icon: ChartBar, label: 'Audit Logs', count: 1, examples: 'query with filters' },
+];
+---
+
+<section class="py-24 lg:py-32 relative overflow-hidden bg-kotauth-bg-secondary border-y border-kotauth-surface-2">
+  <GradientGlow
+    class="top-1/4 right-0 translate-x-1/3"
+    size={700}
+    color="rgba(0, 119, 168, 0.18)"
+  />
+
+  <div class="section-container relative z-10">
+    <div data-reveal class="text-center max-w-2xl mx-auto mb-16">
+      <span class="eyebrow mb-4 block">AI-Native Management</span>
+      <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-kotauth-text-primary leading-tight mb-4 font-mono">
+        Manage identity with{' '}
+        <span class="gradient-text">natural language</span>
+      </h2>
+      <p class="text-lg text-kotauth-text-secondary">
+        The first self-hosted IAM server with native Model Context Protocol support.
+        Connect Claude, Cursor, or any MCP-compatible AI — no SDK, no HTTP, no custom code.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+
+      <!-- Chat conversation -->
+      <div data-reveal>
+        <div class="bg-kotauth-bg-code border border-kotauth-surface-2 overflow-hidden shadow-2xl shadow-kotauth-primary/5">
+          <!-- Window chrome -->
+          <div class="flex items-center gap-2 px-4 py-3 border-b border-kotauth-surface-2 bg-kotauth-surface-1/50">
+            <div class="flex gap-1.5">
+              <div class="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
+            </div>
+            <div class="flex-1 flex justify-center">
+              <span class="text-[11px] font-mono text-kotauth-text-muted">MCP Session</span>
+            </div>
+          </div>
+
+          <!-- Chat body -->
+          <div data-mcp-chat class="p-5 space-y-4 min-h-[420px]">
+
+            <!-- User message -->
+            <div class="mcp-bubble mcp-bubble--user flex justify-end opacity-0">
+              <div class="max-w-[85%] bg-kotauth-primary/15 border border-kotauth-primary/25 px-4 py-2.5">
+                <p class="text-sm text-kotauth-text-primary leading-relaxed">
+                  Bob's account may be compromised. Disable him, kill all his sessions, and show me what happened in the last hour.
+                </p>
+              </div>
+            </div>
+
+            <!-- Assistant response -->
+            <div class="mcp-bubble mcp-bubble--assistant flex justify-start opacity-0">
+              <div class="max-w-[85%] bg-kotauth-surface-1 border border-kotauth-surface-2 px-4 py-2.5">
+                <p class="text-sm text-kotauth-text-secondary leading-relaxed mb-3">
+                  On it. I'll lock the account, revoke active sessions, and pull the audit trail.
+                </p>
+                <!-- Tool call 1 -->
+                <div class="mcp-tool mcp-tool--1 opacity-0 border-l-2 border-kotauth-primary/40 pl-3 mb-2.5">
+                  <p class="text-xs font-mono text-kotauth-primary mb-0.5">get_user</p>
+                  <p class="text-xs font-mono text-kotauth-text-muted">search: "bob" &rarr; userId: 87</p>
+                </div>
+                <!-- Tool call 2 -->
+                <div class="mcp-tool mcp-tool--2 opacity-0 border-l-2 border-kotauth-primary/40 pl-3 mb-2.5">
+                  <p class="text-xs font-mono text-kotauth-primary mb-0.5">disable_user</p>
+                  <p class="text-xs font-mono text-kotauth-success">&check; Account disabled</p>
+                </div>
+                <!-- Tool call 3 -->
+                <div class="mcp-tool mcp-tool--3 opacity-0 border-l-2 border-kotauth-primary/40 pl-3 mb-2.5">
+                  <p class="text-xs font-mono text-kotauth-primary mb-0.5">revoke_session</p>
+                  <p class="text-xs font-mono text-kotauth-success">&check; 2 active sessions revoked</p>
+                </div>
+                <!-- Tool call 4 -->
+                <div class="mcp-tool mcp-tool--4 opacity-0 border-l-2 border-kotauth-primary/40 pl-3 mb-2.5">
+                  <p class="text-xs font-mono text-kotauth-primary mb-0.5">query_audit_logs</p>
+                  <p class="text-xs font-mono text-kotauth-text-muted">userId: 87, last 60 min</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary message -->
+            <div class="mcp-bubble mcp-bubble--summary flex justify-start opacity-0">
+              <div class="max-w-[85%] bg-kotauth-surface-1 border border-kotauth-surface-2 px-4 py-2.5">
+                <p class="text-sm text-kotauth-text-secondary leading-relaxed mb-2">
+                  Done. Bob is locked out and both sessions are terminated. Here's the last hour:
+                </p>
+                <div class="bg-kotauth-bg-code/80 border border-kotauth-surface-2 px-3 py-2 text-xs font-mono text-kotauth-text-muted space-y-1">
+                  <p><span class="text-kotauth-warning">LOGIN_FAILED</span> &nbsp;3 attempts from 191.96.x.x</p>
+                  <p><span class="text-kotauth-success">LOGIN_SUCCESS</span> from 191.96.x.x</p>
+                  <p><span class="text-kotauth-text-secondary">USER_UPDATED</span> &nbsp;email changed</p>
+                  <p><span class="text-kotauth-error">ADMIN_USER_DISABLED</span> &nbsp;by you, just now</p>
+                </div>
+                <p class="text-sm text-kotauth-text-secondary leading-relaxed mt-2">
+                  Three failed logins from an unfamiliar IP followed by a successful login and an email change. Looks like credential stuffing — the email change confirms account takeover.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="mt-4 flex items-center gap-3">
+          <code class="text-xs font-mono text-kotauth-text-muted bg-kotauth-surface-1 border border-kotauth-surface-2 px-3 py-1.5 select-all">
+            npx @kotauth/mcp
+          </code>
+          <span class="text-xs text-kotauth-text-muted">One command to connect</span>
+        </div>
+      </div>
+
+      <!-- Right column: tools grid + CTAs -->
+      <div>
+        <div data-reveal class="mb-8">
+          <h3 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-2">
+            19 tools across 6 domains
+          </h3>
+          <p class="text-sm text-kotauth-text-secondary leading-relaxed">
+            Every tool is guarded by API key scopes — your AI assistant only gets the permissions you choose. Full RBAC, user lifecycle, session management, and audit log queries through conversation.
+          </p>
+        </div>
+
+        <div class="space-y-3 mb-8">
+          {domains.map((domain, index) => (
+            <div
+              data-reveal
+              data-reveal-delay={index * 60}
+              class="flex items-center gap-4 p-3 bg-kotauth-surface-1/50 border border-kotauth-surface-2/50 hover:border-kotauth-primary/20 transition-colors"
+            >
+              <div class="w-8 h-8 bg-kotauth-primary/10 flex items-center justify-center flex-shrink-0">
+                <domain.icon class="w-4 h-4 text-kotauth-primary" />
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-semibold text-kotauth-text-primary font-mono">{domain.label}</span>
+                  <span class="text-[10px] font-mono text-kotauth-primary bg-kotauth-primary/10 px-1.5 py-0.5">{domain.count}</span>
+                </div>
+                <p class="text-xs text-kotauth-text-muted font-mono truncate">{domain.examples}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div data-reveal class="flex flex-wrap gap-3">
+          <a
+            href={MCP_DOCS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-5 h-10 font-mono text-sm transition-colors"
+          >
+            <Bot class="w-4 h-4" />
+            MCP Documentation
+          </a>
+          <a
+            href={NPM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-5 h-10 font-mono text-sm transition-colors"
+          >
+            View on npm
+            <ArrowRight class="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .mcp-bubble,
+  .mcp-tool {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translateY(8px);
+  }
+  .mcp-bubble.visible,
+  .mcp-tool.visible {
+    opacity: 1 !important;
+    transform: translateY(0);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const chat = document.querySelector('[data-mcp-chat]');
+    if (!chat) return;
+
+    const bubbles = chat.querySelectorAll('.mcp-bubble');
+    const tools = chat.querySelectorAll('.mcp-tool');
+
+    const delays = [
+      { el: bubbles[0], ms: 400 },
+      { el: bubbles[1], ms: 1200 },
+      { el: tools[0],   ms: 1800 },
+      { el: tools[1],   ms: 2400 },
+      { el: tools[2],   ms: 3000 },
+      { el: tools[3],   ms: 3600 },
+      { el: bubbles[2], ms: 4400 },
+    ];
+
+    var triggered = false;
+
+    function run() {
+      if (triggered) return;
+      triggered = true;
+      for (var i = 0; i < delays.length; i++) {
+        (function (entry) {
+          setTimeout(function () {
+            if (entry.el) entry.el.classList.add('visible');
+          }, entry.ms);
+        })(delays[i]);
+      }
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      for (var j = 0; j < entries.length; j++) {
+        if (entries[j].isIntersecting) {
+          run();
+          observer.disconnect();
+        }
+      }
+    }, { threshold: 0.3 });
+
+    observer.observe(chat);
+  })();
+</script>

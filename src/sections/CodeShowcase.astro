@@ -174,12 +174,12 @@ curl -s "$BASE/audit-logs?userId=$USER_ID&limit=5" \\
 ];
 
 const features = [
-  'Scoped API keys — Bearer kauth_<slug>_<key>',
-  'Per-workspace base URL  /t/{slug}/api/v1',
-  'Full RBAC — roles, groups, composite inheritance',
-  'RFC 7807 Problem Details on every error',
+  'Scoped API keys — Bearer kauth_{slug}_{key}',
+  'Workspace-routed endpoints — /t/{slug}/api/v1',
+  'RBAC with composite role inheritance and groups',
+  'User invitations via API — sendInvite: true',
   'Paginated responses with total / offset / limit',
-  'Immutable audit trail — 30+ event types',
+  'Immutable audit trail — 55+ event types',
 ];
 ---
 
