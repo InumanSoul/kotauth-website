@@ -10,6 +10,35 @@ const DEMO_URL = 'https://demo.kotauth.com';
 
 const shippedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
   {
+    tag: 'v1.5.5',
+    title: 'Ktor 3 & Gradle 9 Framework Upgrade',
+    date: 'April 20, 2026',
+    highlights: [
+      'Ktor 2 → 3.4.2 with 4 route-scoped plugins replacing legacy interceptors',
+      'Gradle 8 → 9.4.1 with full configuration cache support',
+      'Flyway 12.4.0, logstash-logback-encoder 8.1, Jackson 2.21.0',
+      'CI and Docker builds switched to wrapper-based (./gradlew)',
+    ],
+  },
+  {
+    tag: 'v1.5.4',
+    title: 'ORM & Migration Tool Upgrades',
+    date: 'April 10, 2026',
+    highlights: [
+      'Exposed ORM 0.55.0 → 0.61.0 — zero code changes',
+      'Flyway 9.22.3 → 11.8.2 — added PostgreSQL module artifact',
+    ],
+  },
+  {
+    tag: 'v1.5.3',
+    title: 'Netty CVE Patches & Kotlin 2.3',
+    date: 'April 10, 2026',
+    highlights: [
+      'Netty 4.1.132.Final — patches HTTP smuggling and HTTP/2 DoS (both High)',
+      'Kotlin 1.9.24 → 2.3.20 — K2 compiler enabled, source-compatible',
+    ],
+  },
+  {
     tag: 'v1.5.2',
     title: 'Admin Key Rotation & JWT kid Headers',
     date: 'April 10, 2026',
@@ -209,7 +238,7 @@ const longTerm: PlannedItem[] = [
 ];
 
 const stats = [
-  { label: 'Versions Shipped', value: '21' },
+  { label: 'Versions Shipped', value: '24' },
   { label: 'DB Migrations', value: '31' },
   { label: 'REST Endpoints', value: '30+' },
   { label: 'Audit Event Types', value: '55+' },
@@ -218,7 +247,7 @@ const stats = [
 
 <BaseLayout
   title="Roadmap — Kotauth"
-  description="See what's shipped and what's coming in Kotauth. v1.5.2 is live with key rotation, user invitations, and 21 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
+  description="See what's shipped and what's coming in Kotauth. v1.5.5 is live with Ktor 3, key rotation, user invitations, and 24 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
   path="/roadmap"
 >
   <div class="pt-[72px]">
@@ -233,7 +262,7 @@ const stats = [
             <span class="gradient-text">What's next.</span>
           </h1>
           <p class="text-lg text-kotauth-text-secondary mb-8 max-w-xl">
-            v1.5.2 is live — 21 versions shipped since March 2026. Every version and every planned feature is documented here.
+            v1.5.5 is live — 24 versions shipped since March 2026. Every version and every planned feature is documented here.
             No vaporware, no undated promises.
           </p>
           <div class="flex flex-wrap gap-4">

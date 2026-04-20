@@ -15,6 +15,42 @@ type ReleaseEntry = {
 
 const releases: ReleaseEntry[] = [
   {
+    version: '1.5.5',
+    date: 'April 20, 2026',
+    type: 'minor',
+    headline: 'Major framework upgrade — Ktor 3.4.2, Gradle 9.4.1, and comprehensive route refactoring.',
+    highlights: [
+      'Ktor upgraded from 2.3.12 to 3.4.2 — all 4 intercept blocks converted to route-scoped plugins (AuthTenantPlugin, AdminSessionGuardPlugin, WorkspaceResolverPlugin, ApiContextPlugin)',
+      'Gradle upgraded from 8.5 to 9.4.1 — configuration cache fully functional with 272ms cached re-runs',
+      'Flyway upgraded to 12.4.0 — resolves transitive vulnerability, zero API changes',
+      'logstash-logback-encoder upgraded to 8.1 — patches jackson-core vulnerability (GHSA-72hv-8253-57qq), Jackson forced to 2.21.0',
+      'delay() calls converted to Duration API — delay(1.hours) instead of delay(3_600_000)',
+      'CI workflow updated to use project wrapper (./gradlew) instead of hardcoded Gradle version',
+      'Dockerfile switched from gradle:8-jdk17 to eclipse-temurin:17-jdk with wrapper-based builds',
+      'Removed dead code: unused pageHeaderWithTitleRow function and stale Netty/Jackson version constraints',
+    ],
+  },
+  {
+    version: '1.5.4',
+    date: 'April 10, 2026',
+    type: 'patch',
+    headline: 'Exposed ORM and Flyway upgrades — zero code changes required.',
+    highlights: [
+      'Exposed ORM upgraded from 0.55.0 to 0.61.0 — clean drop-in with bug fixes and performance improvements',
+      'Flyway upgraded from 9.22.3 to 11.8.2 — added required flyway-database-postgresql artifact for Flyway 10+ module split',
+    ],
+  },
+  {
+    version: '1.5.3',
+    date: 'April 10, 2026',
+    type: 'patch',
+    headline: 'Security patches for two high-severity Netty CVEs and Kotlin 2.3 upgrade.',
+    highlights: [
+      'Netty upgraded to 4.1.132.Final — patches CVE-2026-33870 (HTTP request smuggling, High) and CVE-2026-33871 (HTTP/2 CONTINUATION frame DoS, High)',
+      'Kotlin upgraded from 1.9.24 to 2.3.20 — enables K2 compiler, source-compatible with no breaking changes',
+    ],
+  },
+  {
     version: '1.5.2',
     date: 'April 10, 2026',
     type: 'patch',
@@ -286,7 +322,7 @@ function getTypeBadgeClass(type: string) {
 
 <BaseLayout
   title="Changelog — Kotauth"
-  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.5.2 — track what shipped and when."
+  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.5.5 — track what shipped and when."
   path="/changelog"
 >
   <div class="min-h-screen">
