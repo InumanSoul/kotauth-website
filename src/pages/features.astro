@@ -18,6 +18,7 @@ import {
   RefreshCw,
   ShieldAlert,
   LogOut,
+  Tags,
 } from '@lucide/astro';
 import GradientGlow from '@/components/GradientGlow.astro';
 import FeatureCard from '@/components/FeatureCard.astro';
@@ -53,6 +54,11 @@ const allFeatures = [
     description: 'Assign roles directly to users or via groups. Groups inherit roles, users inherit group membership. Composite inheritance means a user in multiple groups accumulates all permissions. Access revocation is immediate — no waiting for token expiry. Admin and user-initiated session revocation, plus bulk revocation from the admin console.',
   },
   {
+    icon: Tags,
+    title: 'Custom JWT Claims',
+    description: 'Attach per-user key-value attributes and project them into JWT access and/or ID tokens via tenant-level claim mappers. 41 reserved OIDC claim names are blocked to prevent overwriting standard claims (sub, iss, email, etc.). Claim mapper cache with 60-second TTL keeps token issuance fast. Changes propagate on next token issuance or immediately on refresh token renewal. Admin console and REST API for managing both attributes and mappers. Max 20 mappers per tenant to prevent JWT bloat. PII safeguard — admin UI warns that attribute values flow unencrypted into tokens.',
+  },
+  {
     icon: ShieldCheck,
     title: 'Security That Ships by Default',
     description: 'bcrypt password hashing, AES-256-GCM encryption at rest (RSA private keys, SMTP credentials, TOTP secrets), SHA-256 hashed API keys, HMAC-SHA256 signed cookies, strict CSP headers with zero inline JavaScript (style-src permits unsafe-inline for server-injected theme tokens), SRI integrity on all JS bundles, CSRF protection, SameSite cookies, open redirect prevention, mandatory KAUTH_SECRET_KEY with no dev-mode fallback, admin-initiated signing key rotation with JWT kid headers per RFC 7517, and tiered rate limiting (login, MFA, password reset) per IP per workspace. Hardened before your first deploy.',
@@ -75,7 +81,7 @@ const allFeatures = [
   {
     icon: Bot,
     title: 'AI-Native Management (MCP)',
-    description: 'Manage your entire identity infrastructure from Claude, Cursor, or any MCP-compatible AI assistant. The @kotauth/mcp package exposes 19 tools across 6 domains: users, roles, groups, applications, sessions, and audit logs. Scope-based access control — each API key grants only the permissions you choose. One command to connect: npx @kotauth/mcp. No SDK to learn, no HTTP to write. Ask your AI assistant to create a user, assign roles, query audit logs, or revoke sessions — it calls the right endpoints automatically.',
+    description: 'Manage your entire identity infrastructure from Claude, Cursor, or any MCP-compatible AI assistant. The @kotauth/mcp package exposes 25 tools across 8 domains: users, roles, groups, applications, sessions, audit logs, user attributes, and claim mappers. Scope-based access control — each API key grants only the permissions you choose. One command to connect: npx @kotauth/mcp. No SDK to learn, no HTTP to write. Ask your AI assistant to create a user, set custom attributes, configure claim mappings, or query audit logs — it calls the right endpoints automatically.',
   },
 ];
 
@@ -104,7 +110,7 @@ const securityPrimitives = [
 
 <BaseLayout
   title="Features — Kotauth"
-  description="Every feature Kotauth ships in v1.5.5: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, MCP integration for AI assistants, HMAC webhooks, white-label auth screens, and Docker-native deployment. Built on Ktor 3, Kotlin 2.3, and PostgreSQL."
+  description="Every feature Kotauth ships in v1.6.0: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, MCP integration for AI assistants, HMAC webhooks, white-label auth screens, and Docker-native deployment. Built on Ktor 3, Kotlin 2.3, and PostgreSQL."
   path="/features"
 >
   <div class="min-h-screen">
@@ -126,7 +132,7 @@ const securityPrimitives = [
           </h1>
           <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
             Every feature listed here is in production today. No beta labels, no roadmap
-            promises — this is the current v1.5.5 release, built on Ktor 3.4, Kotlin 2.3, and Gradle 9.
+            promises — this is the current v1.6.0 release, built on Ktor 3.4, Kotlin 2.3, and Gradle 9.
           </p>
         </div>
       </div>

@@ -6,6 +6,7 @@ import {
   Key,
   ShieldCheck,
   Bot,
+  Tags,
   ArrowRight,
 } from '@lucide/astro';
 import FeatureCard from '@/components/FeatureCard.astro';
@@ -30,16 +31,16 @@ const features = [
       'Password + TOTP MFA with recovery codes, Google and GitHub social login with auto-linking, and admin-initiated user invitations with branded email activation.',
   },
   {
-    icon: ShieldCheck,
-    title: 'Security by Default',
+    icon: Tags,
+    title: 'Custom JWT Claims',
     description:
-      'bcrypt hashing, AES-256-GCM encryption at rest, SHA-256 API keys, strict CSP with SRI, account lockout, tiered rate limiting, key rotation with JWT kid headers, and CSRF protection.',
+      'Attach per-user attributes and project them into access and ID tokens via tenant-level claim mappers. 41 reserved OIDC claims protected, 60-second mapper cache, re-projected on every token refresh.',
   },
   {
     icon: Bot,
     title: 'AI-Native Management (MCP)',
     description:
-      'Manage users, roles, sessions, and audit logs from Claude, Cursor, or any MCP client. 19 tools, scope-based access control, zero custom code. npx @kotauth/mcp to connect.',
+      'Manage users, roles, attributes, claim mappers, sessions, and audit logs from Claude, Cursor, or any MCP client. 25 tools across 8 domains, scope-based access. npx @kotauth/mcp to connect.',
   },
   {
     icon: Container,

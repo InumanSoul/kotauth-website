@@ -15,6 +15,55 @@ type ReleaseEntry = {
 
 const releases: ReleaseEntry[] = [
   {
+    version: '1.6.0',
+    date: 'April 24, 2026',
+    type: 'minor',
+    headline: 'Custom user attributes and JWT claim mapping — project per-user metadata into access and ID tokens.',
+    highlights: [
+      'User attributes — per-user key-value metadata (64-char keys, 1024-char values) stored alongside the user record, manageable via admin UI and REST API',
+      'Claim mappers — tenant-level rules that project user attributes into JWT access and/or ID tokens, with a dedicated admin settings page',
+      '41 reserved OIDC/KotAuth claim names blocked to prevent accidental overwrite of standard claims (sub, iss, email, etc.)',
+      'Caching claim mapper service with 60-second TTL for the hot token-issuance path — immediate invalidation on mapper changes',
+      'Refresh-token flow re-projects claims on every renewal — attribute changes propagate without waiting for token expiry',
+      '6 new REST API endpoints across 2 resource groups (user attributes, claim mappers) with 4 new API scopes',
+      'PII warning in admin UI and OpenAPI spec — attribute values flow unencrypted into JWTs',
+      'Migrations V33 (user_attributes) and V34 (tenant_claim_mappers) with composite keys, cascade deletes, and unique constraints',
+    ],
+  },
+  {
+    version: '1.5.8',
+    date: 'April 22, 2026',
+    type: 'patch',
+    headline: 'OAuth2 CSP form-action fix and X-Forwarded-* header support for reverse-proxy deployments.',
+    highlights: [
+      'TenantCspPlugin — tenant-scoped Content-Security-Policy form-action directive derived from registered client redirect URIs, fixing Chromium CSP violations on OAuth2 redirects',
+      'X-Forwarded-* header support — generated URLs (invite emails, social callbacks, OIDC discovery) now use correct scheme behind TLS-terminating proxies',
+      'Shared buildCspPolicy helper eliminates duplication between global and tenant-scoped CSP directives',
+    ],
+  },
+  {
+    version: '1.5.7',
+    date: 'April 21, 2026',
+    type: 'patch',
+    headline: 'Multi-tenant CORS policy auto-derived from client redirect URIs.',
+    highlights: [
+      'TenantCorsPlugin — allowed origins automatically derived from registered OAuth client redirect URIs per tenant',
+      'CORS credentials toggle on workspace security settings for BFF / cookie-based cross-origin flows',
+      'CorsOriginCache with 60-second TTL — immediate invalidation on application or settings changes',
+      'OIDC discovery and JWKS endpoints use Access-Control-Allow-Origin: * per spec',
+      'Denied origins logged as structured WARN for operator debugging',
+    ],
+  },
+  {
+    version: '1.5.6',
+    date: 'April 21, 2026',
+    type: 'patch',
+    headline: 'Fix Flyway service SPI file merging in shadow JAR.',
+    highlights: [
+      'Shadow JAR duplicatesStrategy changed to INCLUDE with mergeServiceFiles() — fixes Flyway 10+ boot crash where location scanner plugins were silently dropped',
+    ],
+  },
+  {
     version: '1.5.5',
     date: 'April 20, 2026',
     type: 'minor',
@@ -322,7 +371,7 @@ function getTypeBadgeClass(type: string) {
 
 <BaseLayout
   title="Changelog — Kotauth"
-  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.5.5 — track what shipped and when."
+  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.6.0 — track what shipped and when."
   path="/changelog"
 >
   <div class="min-h-screen">

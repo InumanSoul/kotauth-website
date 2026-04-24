@@ -1,5 +1,5 @@
 ---
-import { Bot, Users, ShieldCheck, Building2, KeyRound, ChartBar, MonitorCheck, ArrowRight } from '@lucide/astro';
+import { Bot, Users, ShieldCheck, Building2, KeyRound, ChartBar, MonitorCheck, Tags, SlidersHorizontal, ArrowRight } from '@lucide/astro';
 import GradientGlow from '@/components/GradientGlow.astro';
 
 const MCP_DOCS_URL = 'https://docs.kotauth.dev/mcp/overview/';
@@ -12,6 +12,8 @@ const domains = [
   { icon: KeyRound, label: 'Applications', count: 2, examples: 'list, update settings' },
   { icon: MonitorCheck, label: 'Sessions', count: 2, examples: 'list active, revoke' },
   { icon: ChartBar, label: 'Audit Logs', count: 1, examples: 'query with filters' },
+  { icon: Tags, label: 'User Attributes', count: 3, examples: 'list, set, delete per-user metadata' },
+  { icon: SlidersHorizontal, label: 'Claim Mappers', count: 3, examples: 'list, set, delete JWT projections' },
 ];
 ---
 
@@ -126,7 +128,7 @@ const domains = [
       <div>
         <div data-reveal class="mb-8">
           <h3 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-2">
-            19 tools across 6 domains
+            25 tools across 8 domains
           </h3>
           <p class="text-sm text-kotauth-text-secondary leading-relaxed">
             Every tool is guarded by API key scopes — your AI assistant only gets the permissions you choose. Full RBAC, user lifecycle, session management, and audit log queries through conversation.

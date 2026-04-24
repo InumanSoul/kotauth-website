@@ -10,6 +10,43 @@ const DEMO_URL = 'https://demo.kotauth.com';
 
 const shippedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
   {
+    tag: 'v1.6.0',
+    title: 'Custom User Attributes & JWT Claim Mapping',
+    date: 'April 24, 2026',
+    highlights: [
+      'Per-user key-value attributes with tenant-level claim mappers projecting into JWT access and ID tokens',
+      '6 new REST API endpoints, 4 new scopes, full admin UI for attributes and claim mappers',
+      '41 reserved OIDC claim names blocked, 20-mapper soft cap, caching with 60s TTL',
+      'Refresh-token re-projection — attribute changes propagate immediately on token renewal',
+    ],
+  },
+  {
+    tag: 'v1.5.8',
+    title: 'CSP Form-Action Fix & Reverse-Proxy Support',
+    date: 'April 22, 2026',
+    highlights: [
+      'TenantCspPlugin with tenant-scoped form-action directives — fixes OAuth2 redirect CSP violations',
+      'X-Forwarded-* header support for correct URL generation behind TLS-terminating proxies',
+    ],
+  },
+  {
+    tag: 'v1.5.7',
+    title: 'Multi-Tenant CORS Policy',
+    date: 'April 21, 2026',
+    highlights: [
+      'Allowed origins auto-derived from client redirect URIs — zero manual CORS configuration',
+      'CORS credentials toggle, CorsOriginCache with 60s TTL, structured denied-origin logging',
+    ],
+  },
+  {
+    tag: 'v1.5.6',
+    title: 'Flyway Shadow JAR Fix',
+    date: 'April 21, 2026',
+    highlights: [
+      'Fix Flyway 10+ boot crash caused by duplicate SPI file handling in shadow JAR',
+    ],
+  },
+  {
     tag: 'v1.5.5',
     title: 'Ktor 3 & Gradle 9 Framework Upgrade',
     date: 'April 20, 2026',
@@ -238,8 +275,8 @@ const longTerm: PlannedItem[] = [
 ];
 
 const stats = [
-  { label: 'Versions Shipped', value: '24' },
-  { label: 'DB Migrations', value: '31' },
+  { label: 'Versions Shipped', value: '28' },
+  { label: 'DB Migrations', value: '34' },
   { label: 'REST Endpoints', value: '30+' },
   { label: 'Audit Event Types', value: '55+' },
 ];
@@ -247,7 +284,7 @@ const stats = [
 
 <BaseLayout
   title="Roadmap — Kotauth"
-  description="See what's shipped and what's coming in Kotauth. v1.5.5 is live with Ktor 3, key rotation, user invitations, and 24 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
+  description="See what's shipped and what's coming in Kotauth. v1.6.0 is live with custom JWT claims, multi-tenant CORS, and 28 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
   path="/roadmap"
 >
   <div class="pt-[72px]">
@@ -262,7 +299,7 @@ const stats = [
             <span class="gradient-text">What's next.</span>
           </h1>
           <p class="text-lg text-kotauth-text-secondary mb-8 max-w-xl">
-            v1.5.5 is live — 24 versions shipped since March 2026. Every version and every planned feature is documented here.
+            v1.6.0 is live — 28 versions shipped since March 2026. Every version and every planned feature is documented here.
             No vaporware, no undated promises.
           </p>
           <div class="flex flex-wrap gap-4">
