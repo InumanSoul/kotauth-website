@@ -10,6 +10,83 @@ const DEMO_URL = 'https://demo.kotauth.com';
 
 const shippedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
   {
+    tag: 'v1.10.0',
+    title: 'App Launcher, Admin Impersonation & i18n Completion',
+    date: 'May 1, 2026',
+    highlights: [
+      'Per-workspace app launcher tile grid with entitlement model based on client-scoped roles',
+      'Admin impersonation with RFC 8693 act claim, dual-session model, and cascade revocation',
+      'Passwordless-only toggle — disable password login entirely per workspace',
+      'i18n completion — zero hardcoded English in auth + portal, 174 Spanish keys shipped',
+    ],
+  },
+  {
+    tag: 'v1.9.0',
+    title: 'Tenant Backup & Restore',
+    date: 'April 30, 2026',
+    highlights: [
+      'Encrypted workspace snapshots — PBKDF2 600k iterations + AES-256-GCM in portable bkp1 envelope format',
+      'CLI export-tenant / import-tenant commands and admin API endpoints',
+      'Schema-version compatibility validation on import',
+    ],
+  },
+  {
+    tag: 'v1.8.1',
+    title: 'OIDC Silent SSO',
+    date: 'April 29, 2026',
+    highlights: [
+      'prompt=none/login/consent, max_age, id_token_hint per OIDC Core spec',
+      'auth_time claim and KOTAUTH_SSO path-scoped witness cookie for portal silent SSO',
+    ],
+  },
+  {
+    tag: 'v1.8.0',
+    title: 'Redis Sidecar — Distributed Sessions & Rate Limiting',
+    date: 'April 28, 2026',
+    highlights: [
+      'Optional Redis via KAUTH_REDIS_URL — distributed rate limiting with Lua scripts and session storage',
+      'Fail-closed semantics, Lettuce client with connection pooling and auto-reconnection',
+      'Multi-tenant CORS configuration (V32 migration)',
+    ],
+  },
+  {
+    tag: 'v1.7.2',
+    title: 'Internationalization Framework',
+    date: 'April 27, 2026',
+    highlights: [
+      'TranslationPort with volume-mounted JSON bundles via KAUTH_I18N_BUNDLE_DIR',
+      'Accept-Language resolution with quality-factor ranking and English fallback',
+    ],
+  },
+  {
+    tag: 'v1.7.1',
+    title: 'Cross-Device Magic-Link Fix',
+    date: 'April 27, 2026',
+    highlights: [
+      'Cookie check reordered before token consumption — prevents token waste on device mismatch',
+    ],
+  },
+  {
+    tag: 'v1.7.0',
+    title: 'Magic-Link Passwordless Sign-In',
+    date: 'April 26, 2026',
+    highlights: [
+      '15-minute one-time tokens with same-device cookie binding via KOTAUTH_AUTH_CONTEXT',
+      'User-enumeration safe with consistent response timing',
+      'MFA invariant preserved — magic link authenticates first factor, TOTP still required if enrolled',
+    ],
+  },
+  {
+    tag: 'v1.6.1',
+    title: 'Programmatic Onboarding APIs & HIBP Breach Detection',
+    date: 'April 25, 2026',
+    highlights: [
+      'Invite API, send-reset-email, and temporary-password endpoints for headless user onboarding',
+      'HIBP breached-password detection with k-Anonymity range queries',
+      'BreachedPasswordPort — pluggable interface in the domain layer',
+    ],
+  },
+  {
     tag: 'v1.6.0',
     title: 'Custom User Attributes & JWT Claim Mapping',
     date: 'April 24, 2026',
@@ -258,10 +335,10 @@ type PlannedItem = { title: string; description: string };
 
 const nearTerm: PlannedItem[] = [
   { title: 'WebAuthn / Passkeys', description: 'Phishing-resistant, passwordless login using platform authenticators and security keys' },
-  { title: 'Magic links', description: 'Passwordless email login with short-lived signed tokens' },
   { title: 'Prometheus metrics endpoint', description: 'Login rates, error rates, token issuance, and session counts exposed for monitoring' },
   { title: 'SMS OTP', description: 'Pluggable SMS provider interface for one-time password delivery' },
   { title: 'Typed TypeScript/JavaScript SDK', description: 'Wrapping the REST API and OIDC flows with full type safety' },
+  { title: 'Admin audit log export', description: 'Export filtered audit events as CSV or JSON from the admin console' },
 ];
 
 const longTerm: PlannedItem[] = [
@@ -275,16 +352,16 @@ const longTerm: PlannedItem[] = [
 ];
 
 const stats = [
-  { label: 'Versions Shipped', value: '28' },
-  { label: 'DB Migrations', value: '34' },
-  { label: 'REST Endpoints', value: '30+' },
-  { label: 'Audit Event Types', value: '55+' },
+  { label: 'Versions Shipped', value: '36' },
+  { label: 'DB Migrations', value: '41' },
+  { label: 'REST Endpoints', value: '40+' },
+  { label: 'Audit Event Types', value: '60+' },
 ];
 ---
 
 <BaseLayout
   title="Roadmap — Kotauth"
-  description="See what's shipped and what's coming in Kotauth. v1.6.0 is live with custom JWT claims, multi-tenant CORS, and 28 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
+  description="See what's shipped and what's coming in Kotauth. v1.10.0 is live with magic-link auth, Redis sessions, backup & restore, admin impersonation, and 36 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
   path="/roadmap"
 >
   <div class="pt-[72px]">
@@ -299,7 +376,7 @@ const stats = [
             <span class="gradient-text">What's next.</span>
           </h1>
           <p class="text-lg text-kotauth-text-secondary mb-8 max-w-xl">
-            v1.6.0 is live — 28 versions shipped since March 2026. Every version and every planned feature is documented here.
+            v1.10.0 is live — 36 versions shipped since March 2026. Every version and every planned feature is documented here.
             No vaporware, no undated promises.
           </p>
           <div class="flex flex-wrap gap-4">

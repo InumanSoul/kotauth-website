@@ -19,6 +19,13 @@ import {
   ShieldAlert,
   LogOut,
   Tags,
+  Link,
+  Archive,
+  Globe,
+  Database,
+  UserCheck,
+  LayoutGrid,
+  ShieldBan,
 } from '@lucide/astro';
 import GradientGlow from '@/components/GradientGlow.astro';
 import FeatureCard from '@/components/FeatureCard.astro';
@@ -83,6 +90,41 @@ const allFeatures = [
     title: 'AI-Native Management (MCP)',
     description: 'Manage your entire identity infrastructure from Claude, Cursor, or any MCP-compatible AI assistant. The @kotauth/mcp package exposes 25 tools across 8 domains: users, roles, groups, applications, sessions, audit logs, user attributes, and claim mappers. Scope-based access control — each API key grants only the permissions you choose. One command to connect: npx @kotauth/mcp. No SDK to learn, no HTTP to write. Ask your AI assistant to create a user, set custom attributes, configure claim mappings, or query audit logs — it calls the right endpoints automatically.',
   },
+  {
+    icon: Link,
+    title: 'Magic-Link Passwordless',
+    description: 'Email-based passwordless login with 15-minute one-time tokens. Same-device cookie binding via KOTAUTH_AUTH_CONTEXT prevents token replay from a different browser. User-enumeration safe — consistent response timing regardless of whether the email exists. MFA invariant preserved — magic link authenticates the first factor, TOTP is still required if enrolled. Workspaces can go fully passwordless by disabling password login entirely.',
+  },
+  {
+    icon: Archive,
+    title: 'Tenant Backup & Restore',
+    description: 'Export entire workspaces as encrypted, portable snapshots. Archives use PBKDF2 with 600,000 iterations for key derivation and AES-256-GCM for encryption, packaged in a self-contained bkp1 envelope format. Import with schema-version compatibility validation to prevent data corruption. Available via CLI (export-tenant / import-tenant) and admin REST API endpoints.',
+  },
+  {
+    icon: Database,
+    title: 'Redis Distributed Sessions',
+    description: 'Optional Redis sidecar via KAUTH_REDIS_URL upgrades in-memory stores to distributed session storage and rate limiting. Lua-scripted rate limiting ensures consistent enforcement across all Kotauth instances. Fail-closed semantics — Redis unavailability rejects requests rather than bypassing limits. Lettuce client with connection pooling and automatic reconnection. Sticky sessions no longer required behind a load balancer.',
+  },
+  {
+    icon: UserCheck,
+    title: 'Admin Impersonation',
+    description: 'Act as any user without knowing their password. Impersonation sessions carry an RFC 8693 act claim identifying the admin, creating a full audit trail. Dual-session model — the admin session stays active underneath. Cascade revocation — revoking the admin session also terminates the impersonated session. Available from the admin console with one click.',
+  },
+  {
+    icon: LayoutGrid,
+    title: 'App Launcher',
+    description: 'Per-workspace tile grid at /t/{slug}/launcher showing all applications the user is entitled to access. Entitlement model based on client-scoped roles — users only see apps they have permission to use. Automatic tile generation from registered OAuth applications with logo and description.',
+  },
+  {
+    icon: Globe,
+    title: 'Internationalization (i18n)',
+    description: 'All auth and portal UI strings are externalized via a TranslationPort. Volume-mounted JSON bundles let you add languages without recompiling — just drop a file in KAUTH_I18N_BUNDLE_DIR. Accept-Language header resolution with quality-factor ranking and graceful English fallback. Zero hardcoded English strings in auth or portal views. 174 Spanish translation keys shipped as a reference implementation.',
+  },
+  {
+    icon: ShieldBan,
+    title: 'Breached Password Detection (HIBP)',
+    description: 'Passwords are checked against the Have I Been Pwned database using k-Anonymity range queries during registration and password changes — only the first 5 characters of the SHA-1 hash leave the server. BreachedPasswordPort provides a pluggable interface in the domain layer. Combined with password history, complexity rules, and max age, Kotauth enforces password hygiene at every touchpoint.',
+  },
 ];
 
 const rfcBadges = [
@@ -110,7 +152,7 @@ const securityPrimitives = [
 
 <BaseLayout
   title="Features — Kotauth"
-  description="Every feature Kotauth ships in v1.6.0: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, MCP integration for AI assistants, HMAC webhooks, white-label auth screens, and Docker-native deployment. Built on Ktor 3, Kotlin 2.3, and PostgreSQL."
+  description="Every feature Kotauth ships in v1.10.0: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, magic-link passwordless auth, Redis sessions, backup & restore, admin impersonation, i18n, app launcher, MCP integration for AI assistants, HMAC webhooks, white-label auth screens, and Docker-native deployment. Built on Ktor 3.4, Kotlin 2.3, and PostgreSQL."
   path="/features"
 >
   <div class="min-h-screen">
@@ -132,7 +174,7 @@ const securityPrimitives = [
           </h1>
           <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
             Every feature listed here is in production today. No beta labels, no roadmap
-            promises — this is the current v1.6.0 release, built on Ktor 3.4, Kotlin 2.3, and Gradle 9.
+            promises — this is the current v1.10.0 release, built on Ktor 3.4, Kotlin 2.3, and Gradle 9.
           </p>
         </div>
       </div>

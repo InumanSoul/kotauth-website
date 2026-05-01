@@ -1,6 +1,6 @@
 # Kotauth
 
-> Kotauth is an open-source, self-hosted identity and authentication platform. It provides OAuth 2.0, OpenID Connect, multi-tenant workspaces, white-label auth screens, RBAC, webhooks, and MFA — packaged as a single Docker image deployable with one command.
+> Kotauth is an open-source, self-hosted identity and authentication platform. It provides OAuth 2.0, OpenID Connect, multi-tenant workspaces, magic-link passwordless auth, white-label auth screens, RBAC, custom JWT claims, admin impersonation, tenant backup & restore, Redis distributed sessions, i18n, webhooks, and MFA — packaged as a single Docker image deployable with one command.
 
 Kotauth is built with Kotlin/Ktor and backed by PostgreSQL. It targets teams who want full control over their auth infrastructure without depending on third-party SaaS. Each workspace is fully isolated with its own RSA key pair, user base, and slug-routed API at `/t/{workspace}/api/v1`.
 
@@ -19,8 +19,11 @@ Kotauth is built with Kotlin/Ktor and backed by PostgreSQL. It targets teams who
 
 - [Overview](https://docs.kotauth.com/authentication/overview/): Supported authentication methods
 - [Email & Password](https://docs.kotauth.com/authentication/email-password/): Password-based auth with bcrypt hashing
+- [Magic Links](https://docs.kotauth.com/authentication/magic-links/): Passwordless email login with same-device binding
 - [Social Login](https://docs.kotauth.com/authentication/social-login/): Google and GitHub OAuth with automatic account linking
 - [MFA / TOTP](https://docs.kotauth.com/authentication/mfa/): Multi-factor authentication with recovery codes
+- [User Invitations](https://docs.kotauth.com/authentication/user-invitations/): Admin-initiated invite emails with 72-hour activation
+- [Custom JWT Claims](https://docs.kotauth.com/authentication/custom-claims/): Per-user attributes projected into access and ID tokens
 - [Authorization Code + PKCE](https://docs.kotauth.com/authentication/authorization-code/): OAuth 2.0 Authorization Code flow
 - [Client Credentials](https://docs.kotauth.com/authentication/client-credentials/): Machine-to-machine auth
 - [Token Lifecycle](https://docs.kotauth.com/authentication/token-lifecycle/): Access tokens, refresh tokens, expiration, and revocation
@@ -43,6 +46,15 @@ Kotauth is built with Kotlin/Ktor and backed by PostgreSQL. It targets teams who
 - [Applications](https://docs.kotauth.com/api/applications/): OAuth client/application management
 - [Sessions](https://docs.kotauth.com/api/sessions/): Active session management
 - [Audit Logs](https://docs.kotauth.com/api/audit-logs/): Audit trail with event filtering
+- [User Attributes](https://docs.kotauth.com/api/user-attributes/): Per-user key-value metadata
+- [Claim Mappers](https://docs.kotauth.com/api/claim-mappers/): Map user attributes to JWT claims
+
+## AI-Native Management (MCP)
+
+- [Overview](https://docs.kotauth.com/mcp/overview/): Manage Kotauth from Claude, Cursor, or any MCP client
+- [Setup](https://docs.kotauth.com/mcp/setup/): Install and configure the MCP server
+- [Tool Reference](https://docs.kotauth.com/mcp/tools/): All 25 tools across 8 domains
+- [Examples](https://docs.kotauth.com/mcp/examples/): Common workflows and recipes
 
 ## Deployment
 
@@ -50,6 +62,8 @@ Kotauth is built with Kotlin/Ktor and backed by PostgreSQL. It targets teams who
 - [Environment Variables](https://docs.kotauth.com/deployment/environment-variables/): Full configuration reference
 - [External Database](https://docs.kotauth.com/deployment/external-database/): Connect to RDS, Supabase, Neon, or any PostgreSQL
 - [Production](https://docs.kotauth.com/deployment/production/): Production hardening and best practices
+- [Key Rotation](https://docs.kotauth.com/deployment/key-rotation/): RS256 signing key rotation with zero-downtime rollover
+- [Backup & Restore](https://docs.kotauth.com/deployment/backup-restore/): Encrypted tenant export and import
 
 ## Customization
 

@@ -3,10 +3,9 @@ import {
   Container,
   Shield,
   Building2,
-  Key,
-  ShieldCheck,
+  Link,
   Bot,
-  Tags,
+  Archive,
   ArrowRight,
 } from '@lucide/astro';
 import FeatureCard from '@/components/FeatureCard.astro';
@@ -25,16 +24,16 @@ const features = [
       'Isolated user directories, per-tenant RS256 key pairs with admin-initiated rotation, slug-routed APIs, and independent security policies. One instance, many products.',
   },
   {
-    icon: Key,
-    title: 'Authentication & User Onboarding',
+    icon: Link,
+    title: 'Magic-Link Passwordless Auth',
     description:
-      'Password + TOTP MFA with recovery codes, Google and GitHub social login with auto-linking, and admin-initiated user invitations with branded email activation.',
+      'Email-based passwordless login with 15-minute one-time tokens and same-device cookie binding. MFA invariant preserved, user-enumeration safe. Workspaces can go fully passwordless.',
   },
   {
-    icon: Tags,
-    title: 'Custom JWT Claims',
+    icon: Archive,
+    title: 'Backup & Restore',
     description:
-      'Attach per-user attributes and project them into access and ID tokens via tenant-level claim mappers. 41 reserved OIDC claims protected, 60-second mapper cache, re-projected on every token refresh.',
+      'Encrypted tenant snapshots with PBKDF2 600k iterations + AES-256-GCM. Export and import via CLI or admin API. Schema-version compatibility validation. Portable bkp1 envelope format.',
   },
   {
     icon: Bot,

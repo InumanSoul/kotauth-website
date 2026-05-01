@@ -15,6 +15,110 @@ type ReleaseEntry = {
 
 const releases: ReleaseEntry[] = [
   {
+    version: '1.10.0',
+    date: 'May 1, 2026',
+    type: 'minor',
+    headline: 'App launcher, admin impersonation, passwordless-only toggle, and i18n completion.',
+    highlights: [
+      'App launcher — per-workspace tile grid at /t/{slug}/launcher showing entitled applications based on client-scoped roles',
+      'Admin impersonation — act-as-user sessions with RFC 8693 act claim, dual-session model, cascade revocation on impersonator logout',
+      'Passwordless-only toggle — workspaces can disable password login entirely, enforcing magic-link-only authentication',
+      'i18n completion — zero hardcoded English strings remaining in auth and portal views, 174 Spanish translation keys shipped',
+      'Migrations V40 (launcher columns) and V41 (impersonation FK)',
+    ],
+  },
+  {
+    version: '1.9.0',
+    date: 'April 30, 2026',
+    type: 'minor',
+    headline: 'Tenant backup & restore — encrypted, portable workspace snapshots via CLI and admin API.',
+    highlights: [
+      'Export tenant — CLI export-tenant and admin API endpoint produce encrypted .bkp1 archives (PBKDF2 600k iterations + AES-256-GCM)',
+      'Import tenant — CLI import-tenant and admin API endpoint restore workspaces with schema-version compatibility validation',
+      'Portable bkp1 envelope format — self-contained metadata, salt, IV, and ciphertext in a single file',
+      'Migration V39 adds password_login_enabled toggle for passwordless workspace configuration',
+    ],
+  },
+  {
+    version: '1.8.1',
+    date: 'April 29, 2026',
+    type: 'patch',
+    headline: 'OIDC silent SSO — prompt=none, max_age, id_token_hint, and path-scoped witness cookies.',
+    highlights: [
+      'Silent SSO via prompt=none — resource providers can check for existing sessions without user interaction',
+      'prompt=login and prompt=consent support per OIDC Core specification',
+      'max_age parameter enforces re-authentication after a specified duration',
+      'id_token_hint validation for session identity matching',
+      'auth_time claim added to ID tokens for session age verification',
+      'KOTAUTH_SSO path-scoped witness cookie for portal silent SSO detection',
+      'Migration V38 adds auth_time tracking to session records',
+    ],
+  },
+  {
+    version: '1.8.0',
+    date: 'April 28, 2026',
+    type: 'minor',
+    headline: 'Redis sidecar — distributed rate limiting and session storage for multi-instance deployments.',
+    highlights: [
+      'Optional Redis sidecar via KAUTH_REDIS_URL — drop-in upgrade from in-memory stores',
+      'Distributed rate limiting with Lua scripts — consistent enforcement across all Kotauth instances',
+      'Distributed session storage — sticky sessions no longer required behind a load balancer',
+      'Fail-closed semantics — Redis unavailability rejects requests rather than bypassing limits',
+      'Lettuce client with connection pooling and automatic reconnection',
+      '6 new environment variables for Redis connection tuning',
+      'Migration V32 adds multi-tenant CORS configuration columns',
+    ],
+  },
+  {
+    version: '1.7.2',
+    date: 'April 27, 2026',
+    type: 'patch',
+    headline: 'Internationalization — volume-mounted JSON translation bundles with Accept-Language resolution.',
+    highlights: [
+      'i18n framework — TranslationPort and EnglishStrings default implementation with ViewContext pattern',
+      'Volume-mounted JSON bundles via KAUTH_I18N_BUNDLE_DIR — add languages without recompiling',
+      'Accept-Language header resolution with quality-factor ranking and graceful fallback to English',
+      'Migration V37 adds default_locale column to tenant settings',
+    ],
+  },
+  {
+    version: '1.7.1',
+    date: 'April 27, 2026',
+    type: 'patch',
+    headline: 'Cross-device magic-link fix — cookie check reordered before token consumption.',
+    highlights: [
+      'Fixed cross-device magic-link failure — route now checks KOTAUTH_AUTH_CONTEXT cookie before consuming the one-time token, preventing token waste on device mismatch',
+    ],
+  },
+  {
+    version: '1.7.0',
+    date: 'April 26, 2026',
+    type: 'minor',
+    headline: 'Magic-link passwordless sign-in — email-based authentication with same-device binding.',
+    highlights: [
+      'Magic-link passwordless login — 15-minute one-time tokens delivered via email, no password required',
+      'Same-device cookie binding via KOTAUTH_AUTH_CONTEXT — prevents token replay from a different browser',
+      'User-enumeration safe — consistent response timing regardless of whether the email exists',
+      'MFA invariant preserved — magic-link authenticates the first factor, TOTP still required if enrolled',
+      'New REST API endpoints: POST /magic-link/send and GET /magic-link/consume',
+      'Migration V36 adds magic-link token storage and tracking',
+    ],
+  },
+  {
+    version: '1.6.1',
+    date: 'April 25, 2026',
+    type: 'patch',
+    headline: 'Programmatic user onboarding APIs and HIBP breached-password detection.',
+    highlights: [
+      'Invite API — POST /users/invite for headless user onboarding without the admin UI',
+      'Send-reset-email API — POST /users/{id}/send-reset-email triggers password reset flow programmatically',
+      'Temporary-password API — POST /users/{id}/temporary-password sets a one-time password with mandatory CHANGE_PASSWORD required action',
+      'HIBP breached-password detection — k-Anonymity range queries against the Have I Been Pwned API during registration and password changes',
+      'BreachedPasswordPort — pluggable interface for password breach checking in the domain layer',
+      'Migration V35 adds breach-detection configuration columns',
+    ],
+  },
+  {
     version: '1.6.0',
     date: 'April 24, 2026',
     type: 'minor',
@@ -371,7 +475,7 @@ function getTypeBadgeClass(type: string) {
 
 <BaseLayout
   title="Changelog — Kotauth"
-  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.6.0 — track what shipped and when."
+  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.10.0 — track what shipped and when."
   path="/changelog"
 >
   <div class="min-h-screen">
