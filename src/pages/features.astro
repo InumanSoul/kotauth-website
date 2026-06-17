@@ -26,6 +26,9 @@ import {
   UserCheck,
   LayoutGrid,
   ShieldBan,
+  Mail,
+  CircleUserRound,
+  Paintbrush,
 } from '@lucide/astro';
 import GradientGlow from '@/components/GradientGlow.astro';
 import FeatureCard from '@/components/FeatureCard.astro';
@@ -68,7 +71,7 @@ const allFeatures = [
   {
     icon: ShieldCheck,
     title: 'Security That Ships by Default',
-    description: 'bcrypt password hashing, AES-256-GCM encryption at rest (RSA private keys, SMTP credentials, TOTP secrets), SHA-256 hashed API keys, HMAC-SHA256 signed cookies, strict CSP headers with zero inline JavaScript (style-src permits unsafe-inline for server-injected theme tokens), SRI integrity on all JS bundles, CSRF protection, SameSite cookies, open redirect prevention, mandatory KAUTH_SECRET_KEY with no dev-mode fallback, admin-initiated signing key rotation with JWT kid headers per RFC 7517, and tiered rate limiting (login, MFA, password reset) per IP per workspace. Hardened before your first deploy.',
+    description: 'bcrypt password hashing, AES-256-GCM encryption at rest (RSA private keys, SMTP credentials, TOTP secrets), SHA-256 hashed API keys, HMAC-SHA256 signed cookies, strict CSP with zero inline JavaScript, SRI integrity on all bundles, CSRF protection, SameSite cookies, open redirect prevention, mandatory KAUTH_SECRET_KEY. Refresh-token replay detection revokes the entire session family on reuse. TOTP replay protection with per-enrollment lockout. Container runs as non-root (UID 10001) with no-new-privileges and read-only filesystem. Login error normalization with timing equalization prevents user enumeration. JWT issuer enforcement blocks cross-tenant token reuse. Trusted proxy opt-in (KAUTH_TRUSTED_PROXY) prevents rate-limit bypass via header spoofing.',
   },
   {
     icon: Webhook,
@@ -83,12 +86,12 @@ const allFeatures = [
   {
     icon: Container,
     title: 'Docker-Native Deployment',
-    description: '~120 MB  multi-stage image published to GHCR (ghcr.io/inumansoul/kotauth). One-command quickstart with demo data pre-loaded — or bring your own .env for a custom setup. Flyway migrations run automatically on startup — no init scripts, no manual schema setup. Built-in CLI tools (generate-secret-key, reset-admin-mfa) for key provisioning and emergency recovery. HTTP compression (gzip/deflate), static asset caching, and bundled Swagger UI for air-gapped environments. Bundled PostgreSQL included, or bring your own database (RDS, Supabase, Neon, Railway, Render) via a dedicated compose file.',
+    description: '~120 MB multi-stage image published to GHCR (ghcr.io/inumansoul/kotauth). Runs as non-root user (UID 10001) with no-new-privileges, cap_drop: ALL, and read-only filesystem. One-command quickstart with demo data pre-loaded — or bring your own .env for a custom setup. Flyway migrations run automatically on startup — no init scripts, no manual schema setup. Built-in CLI tools (generate-secret-key, reset-admin-mfa, hash-api-key, export-tenant, import-tenant) for key provisioning, emergency recovery, and backup operations. Bootstrap API keys via environment variable for CI/CD automation. HTTP compression (gzip/deflate), static asset caching, and bundled Swagger UI for air-gapped environments.',
   },
   {
     icon: Bot,
     title: 'AI-Native Management (MCP)',
-    description: 'Manage your entire identity infrastructure from Claude, Cursor, or any MCP-compatible AI assistant. The @kotauth/mcp package exposes 25 tools across 8 domains: users, roles, groups, applications, sessions, audit logs, user attributes, and claim mappers. Scope-based access control — each API key grants only the permissions you choose. One command to connect: npx @kotauth/mcp. No SDK to learn, no HTTP to write. Ask your AI assistant to create a user, set custom attributes, configure claim mappings, or query audit logs — it calls the right endpoints automatically.',
+    description: 'Manage your entire identity infrastructure from Claude, Cursor, or any MCP-compatible AI assistant. The @kotauth/mcp package exposes 33 tools across 8 domains: users, roles, groups, applications, sessions, audit logs, user attributes, and claim mappers. Scope-based access control — each API key grants only the permissions you choose. One command to connect: npx @kotauth/mcp. No SDK to learn, no HTTP to write. Ask your AI assistant to create a user, set custom attributes, configure claim mappings, or query audit logs — it calls the right endpoints automatically.',
   },
   {
     icon: Link,
@@ -125,6 +128,21 @@ const allFeatures = [
     title: 'Breached Password Detection (HIBP)',
     description: 'Passwords are checked against the Have I Been Pwned database using k-Anonymity range queries during registration and password changes — only the first 5 characters of the SHA-1 hash leave the server. BreachedPasswordPort provides a pluggable interface in the domain layer. Combined with password history, complexity rules, and max age, Kotauth enforces password hygiene at every touchpoint.',
   },
+  {
+    icon: Mail,
+    title: 'Email OTP Passwordless',
+    description: 'Two-step email code authentication — enter email, receive a 6-digit code, sign in. Available as an admin API primitive (send-otp / verify-otp) and as a hosted browser-driven login page with per-tenant toggle. Find-or-create user semantics for passwordless onboarding. Cross-challenge lockout defense with per-tenant threshold. Constant-time response posture prevents timing enumeration. MFA chain preserved — TOTP-enrolled users still get challenged after OTP verification.',
+  },
+  {
+    icon: CircleUserRound,
+    title: 'Client Default Roles',
+    description: 'Per-application default roles automatically assigned to users who self-register through an OAuth application. Grant-at-registration semantics — roles apply at account creation, never retroactively. Cross-client privilege-escalation guard prevents associating another application\'s roles. Admin UI "Registration Defaults" card with dropdown + role management table. REST API for programmatic management. Role-by-name addressing eliminates environment-specific ID lookups.',
+  },
+  {
+    icon: Paintbrush,
+    title: 'Transactional Email Branding',
+    description: 'Per-tenant email branding — brand name, color, logo URL, support email, and from display name. All six transactional email templates (verification, magic link, password reset, account locked, invite, password changed) inherit the branding automatically. Branding editor card in workspace settings. Envelope sender stays operator-controlled for DKIM/SPF/DMARC alignment.',
+  },
 ];
 
 const rfcBadges = [
@@ -143,16 +161,16 @@ const securityPrimitives = [
   { Icon: FingerprintPattern, label: 'SHA-256', detail: 'API key hashing' },
   { Icon: FileCode, label: 'RS256', detail: 'Per-tenant JWT signing' },
   { Icon: Key, label: 'SRI', detail: 'JS bundle integrity' },
-  { Icon: RefreshCw, label: 'Token rotation', detail: 'Refresh token invalidation' },
-  { Icon: ShieldAlert, label: 'Account lockout', detail: 'Brute-force protection' },
+  { Icon: RefreshCw, label: 'Token rotation', detail: 'Replay detection + family revocation' },
+  { Icon: ShieldAlert, label: 'Account lockout', detail: 'Brute-force + TOTP lockout' },
   { Icon: ShieldCheck, label: 'CSP + CSRF', detail: 'Transport & request hardening' },
-  { Icon: LogOut, label: 'End-session logout', detail: 'RP-initiated OIDC logout' },
+  { Icon: LogOut, label: 'Non-root container', detail: 'UID 10001, read-only FS' },
 ];
 ---
 
 <BaseLayout
   title="Features — Kotauth"
-  description="Every feature Kotauth ships in v1.10.0: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, magic-link passwordless auth, Redis sessions, backup & restore, admin impersonation, i18n, app launcher, MCP integration for AI assistants, HMAC webhooks, white-label auth screens, and Docker-native deployment. Built on Ktor 3.4, Kotlin 2.3, and PostgreSQL."
+  description="Every feature Kotauth ships in v1.16.0: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, magic-link & email OTP passwordless auth, Redis sessions, backup & restore, admin impersonation, i18n, app launcher, MCP integration for AI assistants, email branding, client default roles, security hardening, HMAC webhooks, white-label auth screens, and Docker-native deployment. Built on Ktor 3.4, Kotlin 2.3, and PostgreSQL."
   path="/features"
 >
   <div class="min-h-screen">
@@ -174,7 +192,7 @@ const securityPrimitives = [
           </h1>
           <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
             Every feature listed here is in production today. No beta labels, no roadmap
-            promises — this is the current v1.10.0 release, built on Ktor 3.4, Kotlin 2.3, and Gradle 9.
+            promises — this is the current v1.16.0 release, built on Ktor 3.4, Kotlin 2.3, and Gradle 9.
           </p>
         </div>
       </div>

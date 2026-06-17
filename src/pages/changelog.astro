@@ -15,6 +15,139 @@ type ReleaseEntry = {
 
 const releases: ReleaseEntry[] = [
   {
+    version: '1.16.0',
+    date: 'June 17, 2026',
+    type: 'minor',
+    headline: 'Security Tier 2 — container hardening, TOTP replay protection, theme validation, and login timing equalization.',
+    highlights: [
+      'Container runs as non-root user (UID 10001) with no-new-privileges, cap_drop: ALL, read_only filesystem',
+      'TOTP replay detection — rejects codes whose time step was already consumed; per-enrollment lockout after 5 consecutive failures',
+      'TenantTheme server-side validation — strict patterns for hex colors, font families, border-radius, locale (BCP-47), and logo URL schemes',
+      'JWT introspection enforces issuer — cross-tenant token reuse blocked at the verifier level',
+      'Social-link email-verification gate — auto-link-by-email rejects unverified provider addresses',
+      'Post-logout open-redirect closed — end-session rejects //evil.com, /\\evil.com, and non-origin absolute URIs',
+      'Login error normalization + timing equalization — all rejection branches share the same response latency via dummy bcrypt verify',
+      'Migration V50 adds TOTP replay and lockout columns to mfa_enrollments',
+    ],
+  },
+  {
+    version: '1.15.0',
+    date: 'June 15, 2026',
+    type: 'minor',
+    headline: 'Internal refactor — AdminService and UserSelfServiceService split into focused services, detekt ratchet tightened.',
+    highlights: [
+      'AdminService (1145 LOC) split into WorkspaceSettingsService, AdminUserService, ApplicationManagementService, AdminAccountService',
+      'UserSelfServiceService (1157 LOC) split into CredentialFlowService and AccountSelfService',
+      'WorkspaceSettingsUpdate parameter object replaces 25-positional-parameter signature, fixing a latent settings-reset bug',
+      'Detekt thresholds tightened — LargeClass 600→400, TooManyFunctions 20/25 with baseline tracking',
+    ],
+  },
+  {
+    version: '1.14.1',
+    date: 'June 12, 2026',
+    type: 'patch',
+    headline: 'BREAKING: Default admin credential removed — random password generated on first boot.',
+    highlights: [
+      'BREAKING — the documented changeme123! admin password is removed from the codebase and image entirely',
+      'Fresh installs generate a 128-bit random admin password printed once to stdout in a framed banner',
+      'KAUTH_BOOTSTRAP_ADMIN_PASSWORD env var lets operators set a strong credential before first boot',
+      'Bootstrap password validation — must be 12+ characters with upper, lower, and digit; weak values abort startup',
+      'Demo mode unchanged — KAUTH_DEMO_MODE=true still uses documented demo credentials',
+    ],
+  },
+  {
+    version: '1.14.0',
+    date: 'June 11, 2026',
+    type: 'minor',
+    headline: 'BREAKING: Security Tier 1 — refresh client auth, introspect/revoke auth, replay detection, trusted proxy.',
+    highlights: [
+      'BREAKING — refresh_token grant now requires client_secret for confidential clients (RFC 6749 §6)',
+      'BREAKING — /introspect and /revoke endpoints now require client authentication (RFC 7662 §2.1, RFC 7009 §2.1)',
+      'BREAKING — X-Forwarded-For headers are now opt-in via KAUTH_TRUSTED_PROXY (default off)',
+      'BREAKING — DB_PASSWORD is now required — startup fails fast when unset',
+      'Refresh-token replay detection — presenting a rotated token revokes the entire user session family',
+      'Quickstart secret key refused in production — KAUTH_ENV=production rejects the committed demo key',
+      'Dev compose binds Postgres/Redis to loopback (127.0.0.1) instead of all interfaces',
+      'Migration V49 adds sessions.revocation_reason for replay tracking',
+    ],
+  },
+  {
+    version: '1.13.0',
+    date: 'May 26, 2026',
+    type: 'minor',
+    headline: 'Hosted Email OTP login — browser-driven two-step passwordless authentication.',
+    highlights: [
+      'Hosted /email-otp login page — two-step flow: enter email → receive 6-digit code → sign in',
+      'Per-tenant emailOtpLoginEnabled toggle on workspace Security settings',
+      'Login-method picker — "Sign in with an email code" link alongside magic-link and password options',
+      'MFA chain preserved — TOTP-enrolled users still get challenged after OTP verification',
+      'KOTAUTH_AUTH_CONTEXT cookie extended with OTP flow state (backward-compatible)',
+      'Resend-code from verify page with automatic prior-challenge invalidation',
+      'Migration V48 adds email_otp_login_enabled toggle',
+    ],
+  },
+  {
+    version: '1.12.1',
+    date: 'May 26, 2026',
+    type: 'patch',
+    headline: 'Polish — OpenAPI OTP docs, audit filter groups, bootstrap key prefix fix, redirect-URI validation.',
+    highlights: [
+      'OpenAPI spec covers OTP endpoints + new auth:send-otp / auth:verify-otp scopes',
+      'Email OTP audit-log filter group with dedicated optgroup in the workspace audit dropdown',
+      'Recent OTP activity panel on admin user-detail page (last 5 events)',
+      'Fixed bootstrap API key keyPrefix overflow on tenant slugs ≥ 3 chars',
+      'Redirect-URI presence validated at client save — no more empty redirect URI sets',
+      '33 unnecessary non-null assertion compiler warnings cleared — build output now warning-free',
+    ],
+  },
+  {
+    version: '1.12.0',
+    date: 'May 25, 2026',
+    type: 'minor',
+    headline: 'Email OTP passwordless primitive, per-tenant email branding, and bootstrap API keys.',
+    highlights: [
+      'Email OTP — admin API endpoints POST /auth/send-otp and /auth/verify-otp for 6-digit passwordless authentication',
+      'Find-or-create user from send-otp — per-tenant email_otp_signup_enabled toggle for passwordless onboarding',
+      'Cross-challenge OTP lockout — per-tenant threshold with account lock and notification email',
+      'Per-tenant transactional email branding — brand name, color, logo, support email, from display name for all 6 email templates',
+      'Bootstrap API keys via KAUTH_BOOTSTRAP_API_KEYS env var — idempotent upsert, fail-fast validation, env-managed badge in admin UI',
+      'CLI hash-api-key subcommand for minting and hashing API keys offline',
+      'New API scopes: auth:send-otp and auth:verify-otp',
+      'Migrations V45 (OTP challenges), V46 (email branding), V47 (bootstrap API keys)',
+    ],
+  },
+  {
+    version: '1.11.1',
+    date: 'May 22, 2026',
+    type: 'patch',
+    headline: 'Per-tenant magic-link TTL, impersonation audit improvements, backup passwordLoginEnabled fix.',
+    highlights: [
+      'Per-tenant magic-link token TTL — configurable 1–1440 minutes (default 15) in workspace Security settings',
+      'Impersonation audit-log filter group with dedicated optgroup dropdown',
+      'Recent Impersonations panel on admin user-detail page (last 5 impersonations)',
+      'admin_username added to ADMIN_IMPERSONATION_STARTED audit event details',
+      'ADR-14 documenting the impersonation session model',
+      'make run target for fast local development without full Docker rebuilds',
+      'Fixed backup/restore losing passwordLoginEnabled field',
+      'Migration V44 adds magic_link_token_ttl_minutes column',
+    ],
+  },
+  {
+    version: '1.11.0',
+    date: 'May 22, 2026',
+    type: 'minor',
+    headline: 'Client default roles, custom token audience, and role-by-name API.',
+    highlights: [
+      'Per-application default roles — automatically assigned to users who self-register through an OAuth application',
+      'Grant-at-registration semantics — default roles apply at account creation only, not retroactively to existing users',
+      'Admin UI "Registration Defaults" card on application detail page with dropdown + role management table',
+      'Per-application token audience — configurable aud claim separate from client_id for multi-resource-server deployments',
+      'Role-assignment API accepts role name or numeric ID — eliminates environment-specific ID lookups for integrators',
+      'Admin API GET/PUT /applications/{appId}/default-roles for programmatic default-role management',
+      'Migrations V42 (client_default_roles) and V43 (audience column)',
+    ],
+  },
+  {
     version: '1.10.0',
     date: 'May 1, 2026',
     type: 'minor',
@@ -475,7 +608,7 @@ function getTypeBadgeClass(type: string) {
 
 <BaseLayout
   title="Changelog — Kotauth"
-  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.10.0 — track what shipped and when."
+  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.16.0 — track what shipped and when."
   path="/changelog"
 >
   <div class="min-h-screen">

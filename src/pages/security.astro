@@ -42,23 +42,23 @@ const protectionLayers = [
   },
   {
     Icon: RefreshCw,
-    title: 'Token rotation',
-    description: 'Refresh tokens rotate on every use. Using an old refresh token immediately revokes the entire session chain — a stolen token has a single-use replay window at most.',
+    title: 'Refresh-token replay detection',
+    description: 'Refresh tokens rotate on every use. Presenting a previously rotated token is treated as token theft — every session for the user is revoked, and a replay_detected audit event is recorded. Confidential clients must authenticate on the refresh grant.',
   },
   {
     Icon: Eye,
     title: 'Audit logging',
-    description: '30+ immutable event types recorded in the request path. No authentication flow succeeds without a corresponding audit record. Queryable via API and admin console.',
+    description: '65+ immutable event types recorded in the request path. No authentication flow succeeds without a corresponding audit record. Queryable via API and admin console.',
   },
   {
     Icon: LogOut,
-    title: 'OIDC end-session logout',
-    description: 'RP-initiated logout with id_token_hint, server-side session revocation, cookie cleanup, and open redirect prevention on post_logout_redirect_uri.',
+    title: 'TOTP replay + lockout',
+    description: 'TOTP verification rejects codes whose time step was already consumed — replay is structurally impossible. Per-enrollment lockout triggers after 5 consecutive failures with configurable lockout duration.',
   },
   {
     Icon: Server,
-    title: 'Startup validation',
-    description: 'Production mode refuses to start with HTTP base URLs, default secrets, or missing critical configuration. Unsafe defaults are rejected at boot, not discovered in production.',
+    title: 'Container hardening',
+    description: 'Runtime image runs as non-root (UID 10001) with no-new-privileges, cap_drop: ALL, and read-only filesystem. Production mode refuses default secrets, HTTP base URLs, or missing critical configuration at boot.',
   },
 ];
 
@@ -69,8 +69,13 @@ const transportHardening = [
   'Secure cookie flag derived from KAUTH_BASE_URL scheme at startup',
   'CSRF protection via OAuth state parameter + PKCE cookie signatures',
   'HTTPS enforcement in production mode — HTTP refused at startup',
-  'Open redirect prevention on OIDC end-session endpoint',
+  'Open redirect prevention on OIDC end-session and post-logout redirect — //evil.com, /\\evil.com, and non-origin URIs rejected',
   'PKCE required for all public OAuth clients (S256 only)',
+  'Forwarded headers opt-in via KAUTH_TRUSTED_PROXY — prevents rate-limit bypass via header spoofing on directly-exposed deployments',
+  'Login error normalization + timing equalization — all rejection branches share the same response latency via dummy bcrypt verify',
+  'JWT introspection enforces issuer — tokens minted for tenant A cannot be introspected against tenant B',
+  'TenantTheme inputs validated server-side — strict patterns for hex colors, font families, border-radius, locale (BCP-47), and logo URL schemes',
+  'Social-link email-verification gate — auto-link-by-email rejects unverified provider addresses',
 ];
 
 const passwordPolicies = [
@@ -97,7 +102,7 @@ const secretsPolicy = [
 
 <BaseLayout
   title="Security — Kotauth"
-  description="How Kotauth protects identity data: bcrypt, AES-256-GCM, RS256, account lockout, rate limiting, token rotation, audit logging, and transport hardening. Every security decision documented."
+  description="How Kotauth protects identity data: bcrypt, AES-256-GCM, RS256, account lockout, rate limiting, replay detection, TOTP lockout, audit logging, container hardening, and transport hardening. Every security decision documented."
   path="/security"
 >
   <div class="min-h-screen">

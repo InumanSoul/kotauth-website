@@ -6,10 +6,10 @@ const MCP_DOCS_URL = 'https://docs.kotauth.dev/mcp/overview/';
 const NPM_URL = 'https://www.npmjs.com/package/@kotauth/mcp';
 
 const domains = [
-  { icon: Users, label: 'Users', count: 7, examples: 'create, list, update, disable, assign roles' },
-  { icon: ShieldCheck, label: 'Roles', count: 3, examples: 'create, list, delete' },
-  { icon: Building2, label: 'Groups', count: 4, examples: 'create, list, manage members' },
-  { icon: KeyRound, label: 'Applications', count: 2, examples: 'list, update settings' },
+  { icon: Users, label: 'Users', count: 10, examples: 'create, list, update, disable, invite, assign roles' },
+  { icon: ShieldCheck, label: 'Roles', count: 5, examples: 'create, list, get, update, delete' },
+  { icon: Building2, label: 'Groups', count: 6, examples: 'create, list, get, update, manage members' },
+  { icon: KeyRound, label: 'Applications', count: 3, examples: 'list, get, update settings' },
   { icon: MonitorCheck, label: 'Sessions', count: 2, examples: 'list active, revoke' },
   { icon: ChartBar, label: 'Audit Logs', count: 1, examples: 'query with filters' },
   { icon: Tags, label: 'User Attributes', count: 3, examples: 'list, set, delete per-user metadata' },
@@ -128,7 +128,7 @@ const domains = [
       <div>
         <div data-reveal class="mb-8">
           <h3 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-2">
-            25 tools across 8 domains
+            33 tools across 8 domains
           </h3>
           <p class="text-sm text-kotauth-text-secondary leading-relaxed">
             Every tool is guarded by API key scopes — your AI assistant only gets the permissions you choose. Full RBAC, user lifecycle, session management, and audit log queries through conversation.

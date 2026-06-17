@@ -10,6 +10,79 @@ const DEMO_URL = 'https://demo.kotauth.com';
 
 const shippedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
   {
+    tag: 'v1.16.0',
+    title: 'Security Tier 2 — Container Hardening & TOTP Replay Protection',
+    date: 'June 17, 2026',
+    highlights: [
+      'Container runs as non-root (UID 10001) with no-new-privileges, cap_drop: ALL, read_only filesystem',
+      'TOTP replay detection + per-enrollment lockout after 5 consecutive failures',
+      'Theme input validation, JWT issuer enforcement, social email-verification gate',
+      'Post-logout open-redirect closed, login error normalization + timing equalization',
+    ],
+  },
+  {
+    tag: 'v1.15.0',
+    title: 'God-File Refactor & Detekt Ratchet',
+    date: 'June 15, 2026',
+    highlights: [
+      'AdminService (1145 LOC) split into 4 focused services, UserSelfServiceService (1157 LOC) split into 2',
+      'Detekt thresholds tightened — LargeClass 400, TooManyFunctions 20/25 with baseline tracking',
+    ],
+  },
+  {
+    tag: 'v1.14.1',
+    title: 'Default Admin Credential Removal',
+    date: 'June 12, 2026',
+    highlights: [
+      'BREAKING — documented changeme123! admin password removed entirely',
+      'Random 128-bit admin password generated on first boot, printed once to stdout',
+      'KAUTH_BOOTSTRAP_ADMIN_PASSWORD env var for operator-controlled initial credential',
+    ],
+  },
+  {
+    tag: 'v1.14.0',
+    title: 'Security Tier 1 — OAuth Hardening & Replay Detection',
+    date: 'June 11, 2026',
+    highlights: [
+      'BREAKING — refresh grant, /introspect, and /revoke now require client authentication',
+      'BREAKING — X-Forwarded-For opt-in via KAUTH_TRUSTED_PROXY, DB_PASSWORD required',
+      'Refresh-token replay detection — rotated tokens trigger full user session revocation',
+      'Quickstart secret key refused in production',
+    ],
+  },
+  {
+    tag: 'v1.13.0',
+    title: 'Hosted Email OTP Login',
+    date: 'May 26, 2026',
+    highlights: [
+      'Browser-driven two-step Email OTP login page with per-tenant toggle',
+      'Login-method picker with magic-link, email OTP, and password options',
+      'MFA chain preserved after OTP verification',
+    ],
+  },
+  {
+    tag: 'v1.12.x',
+    title: 'Email OTP Primitive, Email Branding & Bootstrap API Keys',
+    date: 'May 25–26, 2026',
+    highlights: [
+      'Email OTP admin API — send-otp / verify-otp with find-or-create user semantics',
+      'Per-tenant transactional email branding — brand name, color, logo, support email',
+      'Bootstrap API keys via KAUTH_BOOTSTRAP_API_KEYS env var with fail-fast validation',
+      'CLI hash-api-key subcommand, OpenAPI spec for OTP endpoints',
+    ],
+  },
+  {
+    tag: 'v1.11.x',
+    title: 'Client Default Roles, Custom Token Audience & Magic-Link TTL',
+    date: 'May 22, 2026',
+    highlights: [
+      'Per-application default roles — auto-assign at self-registration with scope guard',
+      'Per-application token audience — configurable aud claim separate from client_id',
+      'Role-by-name API — address roles by stable name instead of environment-specific IDs',
+      'Per-tenant magic-link TTL (1–1440 min), impersonation audit improvements',
+    ],
+  },
+  {
     tag: 'v1.10.0',
     title: 'App Launcher, Admin Impersonation & i18n Completion',
     date: 'May 1, 2026',
@@ -352,16 +425,16 @@ const longTerm: PlannedItem[] = [
 ];
 
 const stats = [
-  { label: 'Versions Shipped', value: '36' },
-  { label: 'DB Migrations', value: '41' },
-  { label: 'REST Endpoints', value: '40+' },
-  { label: 'Audit Event Types', value: '60+' },
+  { label: 'Versions Shipped', value: '43' },
+  { label: 'DB Migrations', value: '50' },
+  { label: 'REST Endpoints', value: '45+' },
+  { label: 'Audit Event Types', value: '65+' },
 ];
 ---
 
 <BaseLayout
   title="Roadmap — Kotauth"
-  description="See what's shipped and what's coming in Kotauth. v1.10.0 is live with magic-link auth, Redis sessions, backup & restore, admin impersonation, and 36 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
+  description="See what's shipped and what's coming in Kotauth. v1.16.0 is live with Email OTP, security hardening, magic-link auth, Redis sessions, backup & restore, admin impersonation, and 43 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
   path="/roadmap"
 >
   <div class="pt-[72px]">
@@ -376,7 +449,7 @@ const stats = [
             <span class="gradient-text">What's next.</span>
           </h1>
           <p class="text-lg text-kotauth-text-secondary mb-8 max-w-xl">
-            v1.10.0 is live — 36 versions shipped since March 2026. Every version and every planned feature is documented here.
+            v1.16.0 is live — 43 versions shipped since March 2026. Every version and every planned feature is documented here.
             No vaporware, no undated promises.
           </p>
           <div class="flex flex-wrap gap-4">
