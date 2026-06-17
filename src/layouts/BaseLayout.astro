@@ -111,14 +111,17 @@ const canonicalUrl = `${BASE_URL}${path}`;
     <!-- LLMs -->
     <link rel="llms-txt" href="/llms.txt" />
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PENV1QC7L1"></script>
+    <!-- OpenPanel Analytics -->
     <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-PENV1QC7L1');
+      window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}},has:function(t,r){return"q"===r}})}();
+      window.op('init', {
+        clientId: '91ca4ad4-f953-46e8-bcc9-c79839599bea',
+        trackScreenViews: true,
+        trackOutgoingLinks: true,
+        trackAttributes: true,
+      });
     </script>
+    <script src="https://openpanel.dev/op1.js" defer async></script>
   </head>
   <body class="min-h-screen bg-kotauth-bg-primary">
     <Navbar />

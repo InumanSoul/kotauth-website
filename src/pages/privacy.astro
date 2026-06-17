@@ -1,13 +1,13 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
-const LAST_UPDATED = 'March 2026';
+const LAST_UPDATED = 'June 2026';
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 ---
 
 <BaseLayout
   title="Privacy Policy — Kotauth"
-  description="Kotauth's privacy policy. We use Google Analytics for anonymous usage data. No personal data is sold or shared with third parties."
+  description="Kotauth's privacy policy. We use OpenPanel for privacy-friendly, cookieless analytics. No personal data is sold or shared with third parties."
   path="/privacy"
 >
   <div class="pt-[72px]">
@@ -33,8 +33,9 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
         <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">What we collect and why</h2>
         <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
           <p>
-            <strong class="text-kotauth-text-primary">Analytics (Google Analytics 4).</strong> This website uses Google Analytics 4 to understand how visitors find and use the site. GA4 automatically collects your IP address, browser type, device type, operating system, referring URL, pages visited, and approximate geographic location (country/city level). This data is processed by Google and subject to{' '}
-            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-kotauth-primary hover:text-kotauth-primary-light">Google's Privacy Policy</a>.
+            <strong class="text-kotauth-text-primary">Analytics (OpenPanel).</strong> This website uses{' '}
+            <a href="https://openpanel.dev" target="_blank" rel="noopener noreferrer" class="text-kotauth-primary hover:text-kotauth-primary-light">OpenPanel</a>
+            , an open-source analytics platform, to understand how visitors find and use the site. OpenPanel collects page views, referring URLs, browser type, device type, operating system, and approximate geographic location. OpenPanel is cookieless — it does not set any tracking cookies and does not use browser fingerprinting. No data is sent to Google or any other third-party advertising network.
           </p>
           <p>
             <strong class="text-kotauth-text-primary">Contact form.</strong> If you use the contact form, your name, email address, and message are composed locally in your browser and sent via your mail client directly. We do not operate a form submission backend — nothing is stored on our servers.
@@ -47,7 +48,7 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
         <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Cookies</h2>
         <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
           <p>
-            Google Analytics sets first-party cookies (<code class="text-kotauth-primary bg-kotauth-surface-1 px-1.5 py-0.5 text-xs">_ga</code>, <code class="text-kotauth-primary bg-kotauth-surface-1 px-1.5 py-0.5 text-xs">_ga_*</code>) to distinguish visitors and track sessions. These cookies persist for up to 2 years. We do not set any other cookies on this website.
+            This website does not set any cookies. OpenPanel operates without cookies or persistent browser storage.
           </p>
         </div>
       </section>
@@ -56,9 +57,7 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
         <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Legal basis for processing (GDPR)</h2>
         <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
           <p>
-            If you are in the European Economic Area (EEA), we process analytics data under <strong class="text-kotauth-text-primary">Legitimate Interests</strong> (Article 6(1)(f) GDPR) — specifically the interest of understanding how the site is used to improve it. If you object to this processing, you can opt out by installing the{' '}
-            <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="text-kotauth-primary hover:text-kotauth-primary-light">Google Analytics Opt-out Browser Add-on</a>
-            {' '}or using a content blocker that blocks analytics trackers.
+            If you are in the European Economic Area (EEA), we process analytics data under <strong class="text-kotauth-text-primary">Legitimate Interests</strong> (Article 6(1)(f) GDPR) — specifically the interest of understanding how the site is used to improve it. Because OpenPanel is cookieless and does not collect personal identifiers, no cookie consent banner is required. If you object to this processing, you can use a content blocker that blocks analytics scripts.
           </p>
         </div>
       </section>
@@ -66,14 +65,14 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
       <section class="mb-10">
         <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Data retention</h2>
         <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>Google Analytics retains event-level data for 14 months by default, then aggregates it. We do not retain any personal data independently of Google Analytics.</p>
+          <p>Analytics data is retained on our OpenPanel instance for as long as it is useful for improving the site. Because OpenPanel does not collect personal identifiers, the retained data consists of aggregated page views, referrers, and device statistics — not individual user profiles.</p>
         </div>
       </section>
 
       <section class="mb-10">
         <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Third parties</h2>
         <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>We use Google Analytics (Google LLC, USA). Google is certified under the EU-U.S. Data Privacy Framework. We do not sell data to any third parties, nor do we use data for advertising purposes.</p>
+          <p>We use <a href="https://openpanel.dev" target="_blank" rel="noopener noreferrer" class="text-kotauth-primary hover:text-kotauth-primary-light">OpenPanel</a> (open-source analytics). Analytics data is sent to OpenPanel's servers for processing. No data is shared with Google, advertising networks, or data brokers. We do not sell data to any third party.</p>
         </div>
       </section>
 
@@ -81,7 +80,7 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
         <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Your rights</h2>
         <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
           <p>
-            Depending on your jurisdiction, you may have the right to access, correct, or delete data held about you, or to object to processing. Because we process analytics data through Google, requests related to that data should be directed to Google. For any other inquiry, contact us via the{' '}
+            Depending on your jurisdiction, you may have the right to access, correct, or delete data held about you, or to object to processing. Because OpenPanel collects no personal identifiers, there is no individual profile to access or delete. If you have any data-related inquiry, contact us via the{' '}
             <a href="/contact" class="text-kotauth-primary hover:text-kotauth-primary-light">contact page</a>.
           </p>
         </div>
