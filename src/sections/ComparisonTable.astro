@@ -1,43 +1,53 @@
 ---
 import { Check, X, Minus } from '@lucide/astro';
 import GradientGlow from '@/components/GradientGlow.astro';
+import { t, type Locale, defaultLocale } from '@/i18n';
 
-const comparisons = [
-  { feature: 'Self-hosted', kotauth: true, keycloak: true, saas: false },
-  { feature: 'Docker-native', kotauth: true, keycloak: false, saas: null },
-  { feature: 'Modern UI', kotauth: true, keycloak: false, saas: true },
-  { feature: 'Developer experience', kotauth: true, keycloak: false, saas: true },
-  { feature: 'OpenAPI / Swagger docs', kotauth: true, keycloak: false, saas: true },
-  { feature: 'Built-in CLI tools', kotauth: true, keycloak: true, saas: false },
-  { feature: 'AI assistant integration (MCP)', kotauth: true, keycloak: false, saas: false },
-  { feature: 'Air-gapped deployment', kotauth: true, keycloak: true, saas: false },
-  { feature: 'Encrypted secrets at rest', kotauth: true, keycloak: true, saas: true },
-  { feature: 'Account lockout', kotauth: true, keycloak: true, saas: true },
-  { feature: 'User invitations', kotauth: true, keycloak: true, saas: true },
-  { feature: 'Admin key rotation', kotauth: true, keycloak: true, saas: null },
-  { feature: 'Custom JWT claims', kotauth: true, keycloak: true, saas: true },
-  { feature: 'Magic-link passwordless', kotauth: true, keycloak: false, saas: true },
-  { feature: 'Breached password detection (HIBP)', kotauth: true, keycloak: false, saas: true },
-  { feature: 'Tenant backup & restore', kotauth: true, keycloak: false, saas: false },
-  { feature: 'Admin impersonation', kotauth: true, keycloak: true, saas: true },
-  { feature: 'Silent SSO (prompt=none)', kotauth: true, keycloak: true, saas: true },
-  { feature: 'Redis distributed sessions', kotauth: true, keycloak: true, saas: null },
-  { feature: 'App launcher', kotauth: true, keycloak: false, saas: false },
-  { feature: 'Internationalization (i18n)', kotauth: true, keycloak: true, saas: true },
-  { feature: 'Email OTP passwordless', kotauth: true, keycloak: false, saas: true },
-  { feature: 'Client default roles', kotauth: true, keycloak: true, saas: true },
-  { feature: 'Transactional email branding', kotauth: true, keycloak: true, saas: true },
-  { feature: 'Refresh-token replay detection', kotauth: true, keycloak: true, saas: null },
-  { feature: 'TOTP replay + lockout protection', kotauth: true, keycloak: true, saas: null },
-  { feature: 'Non-root container', kotauth: true, keycloak: true, saas: null },
-  { feature: 'Bootstrap API keys (env-managed)', kotauth: true, keycloak: false, saas: false },
-  { feature: 'Multi-tenant CORS policy', kotauth: true, keycloak: false, saas: true },
-  { feature: 'Enterprise SSO (LDAP/SAML)', kotauth: null, keycloak: true, saas: 'paid' },
-  { feature: 'OAuth/OIDC provider', kotauth: true, keycloak: true, saas: true },
-  { feature: 'Multi-tenant orgs', kotauth: true, keycloak: true, saas: true },
-  { feature: 'Bring your own database', kotauth: true, keycloak: true, saas: false },
-  { feature: 'Free for self-hosting', kotauth: true, keycloak: true, saas: false },
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
+
+const featureNames = i18n.comparisonTable.features;
+
+const comparisonData: { kotauth: boolean | null; keycloak: boolean | null; saas: boolean | null | string }[] = [
+  { kotauth: true, keycloak: true, saas: false },
+  { kotauth: true, keycloak: false, saas: null },
+  { kotauth: true, keycloak: false, saas: true },
+  { kotauth: true, keycloak: false, saas: true },
+  { kotauth: true, keycloak: false, saas: true },
+  { kotauth: true, keycloak: true, saas: false },
+  { kotauth: true, keycloak: false, saas: false },
+  { kotauth: true, keycloak: true, saas: false },
+  { kotauth: true, keycloak: true, saas: true },
+  { kotauth: true, keycloak: true, saas: true },
+  { kotauth: true, keycloak: true, saas: true },
+  { kotauth: true, keycloak: true, saas: null },
+  { kotauth: true, keycloak: true, saas: true },
+  { kotauth: true, keycloak: false, saas: true },
+  { kotauth: true, keycloak: false, saas: true },
+  { kotauth: true, keycloak: false, saas: false },
+  { kotauth: true, keycloak: true, saas: true },
+  { kotauth: true, keycloak: true, saas: true },
+  { kotauth: true, keycloak: true, saas: null },
+  { kotauth: true, keycloak: false, saas: false },
+  { kotauth: true, keycloak: true, saas: true },
+  { kotauth: true, keycloak: false, saas: true },
+  { kotauth: true, keycloak: true, saas: true },
+  { kotauth: true, keycloak: true, saas: true },
+  { kotauth: true, keycloak: true, saas: null },
+  { kotauth: true, keycloak: true, saas: null },
+  { kotauth: true, keycloak: true, saas: null },
+  { kotauth: true, keycloak: false, saas: false },
+  { kotauth: true, keycloak: false, saas: true },
+  { kotauth: null, keycloak: true, saas: 'paid' },
+  { kotauth: true, keycloak: true, saas: true },
+  { kotauth: true, keycloak: true, saas: true },
+  { kotauth: true, keycloak: true, saas: false },
+  { kotauth: true, keycloak: true, saas: false },
 ];
+const comparisons = comparisonData.map((row, idx) => ({
+  feature: featureNames[idx],
+  ...row,
+}));
 ---
 
 <section class="py-24 lg:py-32 relative overflow-hidden">
@@ -49,12 +59,12 @@ const comparisons = [
 
   <div class="section-container relative z-10">
     <div data-reveal class="text-center max-w-2xl mx-auto mb-16">
-      <span class="eyebrow mb-4 block">Comparison</span>
+      <span class="eyebrow mb-4 block">{i18n.comparisonTable.eyebrow}</span>
       <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-kotauth-text-primary leading-tight mb-4 font-mono">
-        Compare the alternatives
+        {i18n.comparisonTable.title}
       </h2>
       <p class="text-lg text-kotauth-text-secondary">
-        See why teams choose Kotauth for their identity infrastructure
+        {i18n.comparisonTable.subtitle}
       </p>
     </div>
 
@@ -64,7 +74,7 @@ const comparisons = [
           <thead>
             <tr class="border-b border-kotauth-surface-2">
               <th class="text-left py-4 px-4 text-sm font-medium text-kotauth-text-tertiary font-mono">
-                Feature
+                {i18n.comparisonTable.headerFeature}
               </th>
               <th class="text-center py-4 px-4">
                 <div class="inline-flex items-center gap-2 px-4 py-2 bg-kotauth-primary/10 border border-kotauth-primary/30">

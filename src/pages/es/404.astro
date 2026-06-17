@@ -1,0 +1,26 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { ArrowLeft } from '@lucide/astro';
+import { t, getLocalizedPath } from '@/i18n';
+
+const i18n = t('es');
+---
+
+<BaseLayout title={i18n.pages.notFound.title} description={i18n.pages.notFound.description}>
+  <section class="flex flex-col items-center justify-center min-h-[60vh] px-4 text-center">
+    <span class="text-7xl font-bold text-kotauth-primary/20 mb-4">404</span>
+    <h1 class="text-2xl sm:text-3xl font-bold text-kotauth-text-primary mb-3">
+      {i18n.pages.notFound.heading}
+    </h1>
+    <p class="text-kotauth-text-secondary max-w-md mb-8">
+      {i18n.pages.notFound.body}
+    </p>
+    <a
+      href={getLocalizedPath('/', 'es')}
+      class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-kotauth-primary text-white font-medium hover:bg-kotauth-primary/90 transition-colors"
+    >
+      <ArrowLeft class="w-4 h-4" />
+      {i18n.pages.notFound.backToHome}
+    </a>
+  </section>
+</BaseLayout>

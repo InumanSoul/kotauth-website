@@ -2,11 +2,16 @@
 import { ExternalLink, Play } from '@lucide/astro';
 import GithubIcon from '@/components/icons/GithubIcon.astro';
 import { Image } from 'astro:assets';
+import { t, type Locale, defaultLocale, locales, localeLabels, getLocalizedPath, stripLocalePrefix } from '@/i18n';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const QUICKSTART_URL = 'https://docs.kotauth.com/getting-started/quickstart/';
 const DOCS_URL = 'https://docs.kotauth.com/getting-started/introduction/';
 const DEMO_URL = 'https://demo.kotauth.com';
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
+const cleanPath = stripLocalePrefix(Astro.url.pathname);
 
 type NavLinkDef = {
   label: string;
@@ -15,10 +20,10 @@ type NavLinkDef = {
 };
 
 const navLinks: NavLinkDef[] = [
-  { label: 'Features', href: '/features', external: false },
-  { label: 'Roadmap', href: '/roadmap', external: false },
-  { label: 'Docs', href: DOCS_URL, external: true },
-  { label: 'Contact', href: '/contact', external: false },
+  { label: i18n.nav.features, href: getLocalizedPath('/features', locale), external: false },
+  { label: i18n.nav.roadmap, href: getLocalizedPath('/roadmap', locale), external: false },
+  { label: i18n.nav.docs, href: DOCS_URL, external: true },
+  { label: i18n.nav.contact, href: getLocalizedPath('/contact', locale), external: false },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -33,7 +38,7 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
   <div class="section-container">
     <nav class="flex items-center justify-between h-[72px]">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-2.5">
+      <a href={getLocalizedPath('/', locale)} class="flex items-center gap-2.5">
         <Image
           src="/brand/kotauth-negative.svg"
           alt="KotAuth Logo"
@@ -74,6 +79,21 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
 
       <!-- Desktop CTAs -->
       <div class="hidden md:flex items-center gap-3">
+        <div class="flex items-center border border-kotauth-surface-2 h-8">
+          {locales.map((l) => (
+            <a
+              href={getLocalizedPath(cleanPath, l)}
+              class={`text-xs font-mono px-2 h-full inline-flex items-center transition-colors ${
+                l === locale
+                  ? 'bg-kotauth-primary text-white'
+                  : 'text-kotauth-text-muted hover:text-kotauth-text-primary hover:bg-kotauth-surface-1'
+              }`}
+              aria-label={l === 'en' ? 'English' : 'Español'}
+            >
+              {localeLabels[l]}
+            </a>
+          ))}
+        </div>
         <a
           href={GITHUB_URL}
           target="_blank"
@@ -90,7 +110,7 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
           class="inline-flex items-center gap-1.5 text-sm font-mono px-3 h-8 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 transition-colors"
         >
           <Play class="w-3.5 h-3.5" />
-          Demo
+          {i18n.nav.demo}
         </a>
         <a
           href={QUICKSTART_URL}
@@ -98,7 +118,7 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
           rel="noopener noreferrer"
           class="inline-flex items-center text-sm font-mono px-3 h-8 bg-kotauth-primary hover:bg-kotauth-primary-light text-white transition-colors"
         >
-          Get Started
+          {i18n.nav.getStarted}
         </a>
       </div>
 
@@ -137,6 +157,20 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
             )
           ))}
           <hr class="border-kotauth-surface-2" />
+          <div class="flex items-center gap-2">
+            {locales.map((l) => (
+              <a
+                href={getLocalizedPath(cleanPath, l)}
+                class={`text-sm font-mono px-3 py-1.5 transition-colors ${
+                  l === locale
+                    ? 'bg-kotauth-primary text-white'
+                    : 'text-kotauth-text-muted hover:text-kotauth-text-primary border border-kotauth-surface-2'
+                }`}
+              >
+                {localeLabels[l]}
+              </a>
+            ))}
+          </div>
           <a
             href={GITHUB_URL}
             target="_blank"
@@ -153,7 +187,7 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
             class="inline-flex items-center justify-center gap-2 py-2.5 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 font-mono text-sm transition-colors"
           >
             <Play class="w-4 h-4" />
-            Try the Demo
+            {i18n.nav.tryDemo}
           </a>
           <a
             href={QUICKSTART_URL}
@@ -161,7 +195,7 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
             rel="noopener noreferrer"
             class="inline-flex items-center justify-center gap-2 py-2.5 bg-kotauth-primary hover:bg-kotauth-primary-light text-white font-mono text-sm transition-colors"
           >
-            Get Started
+            {i18n.nav.getStarted}
           </a>
         </div>
       </div>

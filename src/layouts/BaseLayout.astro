@@ -2,6 +2,7 @@
 import '@/styles/global.css';
 import Navbar from '@/components/Navbar.astro';
 import Footer from '@/components/Footer.astro';
+import { type Locale, defaultLocale, getAlternateLinks, stripLocalePrefix } from '@/i18n';
 
 const BASE_URL = 'https://kotauth.com';
 const SITE_NAME = 'Kotauth';
@@ -20,12 +21,16 @@ const {
   ogImage = `${BASE_URL}/og-image.png`,
 } = Astro.props;
 
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const cleanPath = stripLocalePrefix(path);
+const alternateLinks = getAlternateLinks(cleanPath);
+
 const title = rawTitle.includes(SITE_NAME) ? rawTitle : `${rawTitle} | ${SITE_NAME}`;
 const canonicalUrl = `${BASE_URL}${path}`;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -52,8 +57,12 @@ const canonicalUrl = `${BASE_URL}${path}`;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- Canonical -->
+    <!-- Canonical + hreflang -->
     <link rel="canonical" href={canonicalUrl} />
+    {alternateLinks.map(({ locale: l, href }) => (
+      <link rel="alternate" hreflang={l} href={`${BASE_URL}${href}`} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={`${BASE_URL}${cleanPath}`} />
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify({

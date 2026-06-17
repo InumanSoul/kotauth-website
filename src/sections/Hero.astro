@@ -2,22 +2,22 @@
 import { ArrowRight, Play } from '@lucide/astro';
 import CodeBlock from '@/components/CodeBlock.astro';
 import GradientGlow from '@/components/GradientGlow.astro';
+import { t, type Locale, defaultLocale, getLocalizedPath } from '@/i18n';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const DEMO_URL = 'https://demo.kotauth.com';
 
-const codeContent = `# Try Kotauth: one command
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
+
+const codeContent = `${i18n.hero.codeComment}
 $ curl -O https://raw.githubusercontent.com/\\
     inumansoul/kotauth/main/\\
     docker-compose.quickstart.yml
 $ docker compose -f \\
     docker-compose.quickstart.yml up -d
 
-Starting Kotauth Server v1.16.0...
-✓ Identity server ready on port 8080
-✓ Admin dashboard available at /admin
-✓ Demo data loaded. Two workspaces ready
-✓ API documentation at /api/docs`;
+${i18n.hero.codeOutput.join('\n')}`;
 ---
 
 <section class="relative min-h-[auto] lg:min-h-screen flex items-center pt-24 pb-16 lg:pt-[72px] lg:pb-0 overflow-hidden">
@@ -36,7 +36,7 @@ Starting Kotauth Server v1.16.0...
     <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <div class="max-w-xl">
         <div data-reveal class="mb-6">
-          <span class="eyebrow">Docker-Native Identity Platform</span>
+          <span class="eyebrow">{i18n.hero.eyebrow}</span>
         </div>
 
         <h1
@@ -44,8 +44,8 @@ Starting Kotauth Server v1.16.0...
           data-reveal-delay="100"
           class="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-kotauth-text-primary leading-[1.1] tracking-tight mb-6 font-mono"
         >
-          Identity infrastructure for{' '}
-          <span class="gradient-text">modern applications</span>
+          {i18n.hero.titleStart}{' '}
+          <span class="gradient-text">{i18n.hero.titleHighlight}</span>
         </h1>
 
         <p
@@ -53,8 +53,7 @@ Starting Kotauth Server v1.16.0...
           data-reveal-delay="200"
           class="text-lg text-kotauth-text-secondary leading-relaxed mb-8"
         >
-          The self-hosted authentication platform that combines enterprise power with
-          developer experience. Deploy in seconds, scale with confidence.
+          {i18n.hero.description}
         </p>
 
         <div data-reveal data-reveal-delay="300" class="flex flex-wrap gap-4">
@@ -65,7 +64,7 @@ Starting Kotauth Server v1.16.0...
             class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-12 font-mono text-sm transition-colors"
           >
             <Play class="w-4 h-4" />
-            Try the Demo
+            {i18n.hero.tryDemo}
           </a>
           <a
             href={`${GITHUB_URL}#try-it--one-command`}
@@ -73,7 +72,7 @@ Starting Kotauth Server v1.16.0...
             rel="noopener noreferrer"
             class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-12 font-mono text-sm transition-colors"
           >
-            Get Started
+            {i18n.hero.getStarted}
             <ArrowRight class="w-4 h-4" />
           </a>
         </div>

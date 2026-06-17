@@ -1,43 +1,30 @@
 ---
 import { Play, Users, Shield, Building2, KeyRound } from '@lucide/astro';
+import { t, type Locale, defaultLocale } from '@/i18n';
 
 const DEMO_URL = 'https://demo.kotauth.com';
 
-const demoHighlights = [
-  {
-    icon: Building2,
-    title: 'Two workspaces',
-    description: 'Acme Corp and StartupLabs, each with isolated users, roles, and applications.',
-  },
-  {
-    icon: Users,
-    title: 'Pre-seeded users',
-    description: 'Admins, developers, and viewers already configured with roles and group memberships.',
-  },
-  {
-    icon: Shield,
-    title: 'Full RBAC in action',
-    description: 'Roles, groups, composite inheritance, and audit trails, all populated and visible.',
-  },
-  {
-    icon: KeyRound,
-    title: 'OAuth apps & API keys',
-    description: 'Registered applications with client credentials and scoped API keys ready to inspect.',
-  },
-];
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
+
+const highlightIcons = [Building2, Users, Shield, KeyRound];
+const demoHighlights = i18n.liveDemo.highlights.map((h, idx) => ({
+  icon: highlightIcons[idx],
+  title: h.title,
+  description: h.description,
+}));
 ---
 
 <section class="py-24 lg:py-32 relative overflow-hidden bg-kotauth-bg-secondary border-y border-kotauth-surface-2">
   <div class="section-container relative z-10">
     <div data-reveal class="text-center max-w-2xl mx-auto mb-16">
-      <span class="eyebrow mb-4 block">Live Demo</span>
+      <span class="eyebrow mb-4 block">{i18n.liveDemo.eyebrow}</span>
       <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-kotauth-text-primary leading-tight mb-4 font-mono">
-        See it running —{' '}
-        <span class="gradient-text">no install required</span>
+        {i18n.liveDemo.titleStart}{' '}
+        <span class="gradient-text">{i18n.liveDemo.titleHighlight}</span>
       </h2>
       <p class="text-lg text-kotauth-text-secondary">
-        A public instance with seeded data. Explore the admin console, user management,
-        OAuth configuration, and audit logs. Data resets periodically.
+        {i18n.liveDemo.description}
       </p>
     </div>
 
@@ -67,7 +54,7 @@ const demoHighlights = [
         class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-8 h-12 font-mono text-sm transition-colors"
       >
         <Play class="w-4 h-4" />
-        Launch the Demo
+        {i18n.liveDemo.launchDemo}
       </a>
     </div>
   </div>

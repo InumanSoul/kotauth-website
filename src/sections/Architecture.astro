@@ -1,24 +1,17 @@
 ---
 import { Users, Server, LayoutGrid, ChartBar, ArrowRight } from '@lucide/astro';
 import GradientGlow from '@/components/GradientGlow.astro';
+import { t, type Locale, defaultLocale } from '@/i18n';
 
-const architectureSteps = [
-  {
-    icon: Users,
-    title: 'Unified Identity',
-    description: 'One user base across all your applications',
-  },
-  {
-    icon: LayoutGrid,
-    title: 'Simple Integration',
-    description: 'Add authentication to any app in minutes',
-  },
-  {
-    icon: ChartBar,
-    title: 'Complete Visibility',
-    description: 'Monitor and manage everything from one dashboard',
-  },
-];
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
+
+const stepIcons = [Users, LayoutGrid, ChartBar];
+const architectureSteps = i18n.architecture.steps.map((s, idx) => ({
+  icon: stepIcons[idx],
+  title: s.title,
+  description: s.description,
+}));
 ---
 
 <section class="py-24 lg:py-32 relative overflow-hidden">
@@ -30,12 +23,12 @@ const architectureSteps = [
 
   <div class="section-container relative z-10">
     <div data-reveal class="text-center max-w-2xl mx-auto mb-16">
-      <span class="eyebrow mb-4 block">Architecture</span>
+      <span class="eyebrow mb-4 block">{i18n.architecture.eyebrow}</span>
       <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-kotauth-text-primary leading-tight mb-4 font-mono">
-        Centralized identity for your entire stack
+        {i18n.architecture.title}
       </h2>
       <p class="text-lg text-kotauth-text-secondary">
-        One identity platform, unlimited applications
+        {i18n.architecture.subtitle}
       </p>
     </div>
 
@@ -46,7 +39,7 @@ const architectureSteps = [
             <div class="w-20 h-20 bg-kotauth-surface-1 border border-kotauth-surface-2 flex items-center justify-center mb-3">
               <Users class="w-8 h-8 text-kotauth-primary" />
             </div>
-            <span class="text-sm font-medium text-kotauth-text-secondary font-mono">Users</span>
+            <span class="text-sm font-medium text-kotauth-text-secondary font-mono">{i18n.architecture.users}</span>
           </div>
 
           <div class="lg:rotate-0 rotate-90">
@@ -59,7 +52,7 @@ const architectureSteps = [
               <Server class="w-10 h-10 text-kotauth-primary relative z-10" />
             </div>
             <span class="text-sm font-medium text-kotauth-text-primary font-mono">Kotauth</span>
-            <span class="text-xs text-kotauth-text-tertiary font-mono">Identity Server</span>
+            <span class="text-xs text-kotauth-text-tertiary font-mono">{i18n.architecture.identityServer}</span>
           </div>
 
           <div class="lg:rotate-0 rotate-90">
@@ -70,7 +63,7 @@ const architectureSteps = [
             <div class="w-20 h-20 bg-kotauth-surface-1 border border-kotauth-surface-2 flex items-center justify-center mb-3">
               <LayoutGrid class="w-8 h-8 text-kotauth-primary-light" />
             </div>
-            <span class="text-sm font-medium text-kotauth-text-secondary font-mono">Applications</span>
+            <span class="text-sm font-medium text-kotauth-text-secondary font-mono">{i18n.architecture.applications}</span>
           </div>
         </div>
 
@@ -80,7 +73,7 @@ const architectureSteps = [
             <div class="w-20 h-20 bg-kotauth-surface-1 border border-kotauth-surface-2 flex items-center justify-center mb-3">
               <ChartBar class="w-8 h-8 text-kotauth-text-tertiary" />
             </div>
-            <span class="text-sm font-medium text-kotauth-text-secondary font-mono">Admin Dashboard</span>
+            <span class="text-sm font-medium text-kotauth-text-secondary font-mono">{i18n.architecture.adminDashboard}</span>
           </div>
         </div>
       </div>

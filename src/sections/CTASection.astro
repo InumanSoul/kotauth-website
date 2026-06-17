@@ -1,9 +1,13 @@
 ---
 import { ArrowRight, Play } from '@lucide/astro';
 import FloatingOrb from '@/components/FloatingOrb.astro';
+import { t, type Locale, defaultLocale } from '@/i18n';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const DEMO_URL = 'https://demo.kotauth.com';
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
 ---
 
 <section class="py-24 lg:py-32 relative overflow-hidden">
@@ -27,8 +31,8 @@ const DEMO_URL = 'https://demo.kotauth.com';
           data-reveal
           class="text-3xl sm:text-4xl lg:text-5xl font-bold text-kotauth-text-primary leading-tight mb-6 font-mono"
         >
-          Ready to simplify your{' '}
-          <span class="gradient-text">authentication</span>?
+          {i18n.ctaSection.titleStart}{' '}
+          <span class="gradient-text">{i18n.ctaSection.titleHighlight}</span>{i18n.ctaSection.questionMark}
         </h2>
 
         <p
@@ -36,7 +40,7 @@ const DEMO_URL = 'https://demo.kotauth.com';
           data-reveal-delay="100"
           class="text-lg text-kotauth-text-secondary mb-8 max-w-xl mx-auto"
         >
-          Deploy Kotauth in under a minute. No credit card required.
+          {i18n.ctaSection.description}
         </p>
 
         <div data-reveal data-reveal-delay="200" class="flex flex-wrap justify-center gap-4">
@@ -47,7 +51,7 @@ const DEMO_URL = 'https://demo.kotauth.com';
             class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-8 h-12 font-mono text-sm transition-colors"
           >
             <Play class="w-4 h-4" />
-            Try the Demo
+            {i18n.ctaSection.tryDemo}
           </a>
           <a
             href={`${GITHUB_URL}#try-it--one-command`}
@@ -55,7 +59,7 @@ const DEMO_URL = 'https://demo.kotauth.com';
             rel="noopener noreferrer"
             class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-2 px-8 h-12 font-mono text-sm transition-colors"
           >
-            Get Started Free
+            {i18n.ctaSection.getStartedFree}
             <ArrowRight class="w-4 h-4" />
           </a>
         </div>

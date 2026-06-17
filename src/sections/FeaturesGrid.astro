@@ -9,56 +9,28 @@ import {
   ArrowRight,
 } from '@lucide/astro';
 import FeatureCard from '@/components/FeatureCard.astro';
+import { t, type Locale, defaultLocale, getLocalizedPath } from '@/i18n';
 
-const features = [
-  {
-    icon: Shield,
-    title: 'OAuth 2.0 & OpenID Connect',
-    description:
-      'Authorization Code + PKCE, Client Credentials, token rotation, introspection, revocation, and OIDC Discovery. Spec-compliant. Any OIDC client library works out of the box.',
-  },
-  {
-    icon: Building2,
-    title: 'Multi-Tenant Workspaces',
-    description:
-      'Isolated user directories, per-tenant RS256 key pairs with admin-initiated rotation, slug-routed APIs, and independent security policies. One instance, many products.',
-  },
-  {
-    icon: Link,
-    title: 'Magic-Link Passwordless Auth',
-    description:
-      'Email-based passwordless login with 15-minute one-time tokens and same-device cookie binding. MFA invariant preserved, user-enumeration safe. Workspaces can go fully passwordless.',
-  },
-  {
-    icon: Archive,
-    title: 'Backup & Restore',
-    description:
-      'Encrypted tenant snapshots with PBKDF2 600k iterations + AES-256-GCM. Export and import via CLI or admin API. Schema-version compatibility validation. Portable bkp1 envelope format.',
-  },
-  {
-    icon: Bot,
-    title: 'AI-Native Management (MCP)',
-    description:
-      'Manage users, roles, attributes, claim mappers, sessions, and audit logs from Claude, Cursor, or any MCP client. 33 tools across 8 domains, scope-based access. npx @kotauth/mcp to connect.',
-  },
-  {
-    icon: Container,
-    title: 'Docker-Native Deployment',
-    description:
-      '~120 MB image on GHCR. Runs as non-root (UID 10001), read-only filesystem, no-new-privileges. One-command quickstart, Flyway auto-migrations, 5 built-in CLI tools, and bundled Swagger UI. Works fully air-gapped.',
-  },
-];
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
+
+const icons = [Shield, Building2, Link, Archive, Bot, Container];
+const features = i18n.featuresGrid.items.map((item, idx) => ({
+  icon: icons[idx],
+  title: item.title,
+  description: item.description,
+}));
 ---
 
 <section id="features" class="py-24 lg:py-32 relative">
   <div class="section-container">
     <div data-reveal class="text-center max-w-2xl mx-auto mb-16">
-      <span class="eyebrow mb-4 block">Features</span>
+      <span class="eyebrow mb-4 block">{i18n.featuresGrid.eyebrow}</span>
       <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-kotauth-text-primary leading-tight mb-4 font-mono">
-        Everything you need for identity management
+        {i18n.featuresGrid.title}
       </h2>
       <p class="text-lg text-kotauth-text-secondary">
-        Complete authentication infrastructure with the simplicity developers expect
+        {i18n.featuresGrid.subtitle}
       </p>
     </div>
 
@@ -76,10 +48,10 @@ const features = [
 
     <div data-reveal class="text-center mt-12">
       <a
-        href="/features"
+        href={getLocalizedPath('/features', locale)}
         class="inline-flex items-center gap-2 text-sm font-mono text-kotauth-primary hover:text-kotauth-primary-light transition-colors group"
       >
-        Explore all features and technical details
+        {i18n.featuresGrid.exploreAll}
         <ArrowRight class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
       </a>
     </div>

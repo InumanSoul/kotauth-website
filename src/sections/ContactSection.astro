@@ -1,34 +1,24 @@
 ---
 import { MessageCircle, Bug, Mail, ArrowRight, CircleCheck } from '@lucide/astro';
 import GithubIcon from '@/components/icons/GithubIcon.astro';
+import { t, type Locale, defaultLocale } from '@/i18n';
 
 const GITHUB_URL = 'https://github.com/InumanSoul/kotauth';
 const ISSUES_URL = `${GITHUB_URL}/issues`;
 const DISCUSSIONS_URL = `${GITHUB_URL}/discussions`;
 
-const channels = [
-  {
-    Icon: Bug,
-    title: 'Bug Reports',
-    description: "Found something broken? Open a GitHub issue with reproduction steps and we'll triage it.",
-    cta: 'Open an Issue',
-    href: ISSUES_URL,
-  },
-  {
-    Icon: MessageCircle,
-    title: 'Community',
-    description: 'Questions, ideas, and general discussion. GitHub Discussions is where the community lives.',
-    cta: 'Join Discussions',
-    href: DISCUSSIONS_URL,
-  },
-  {
-    Icon: GithubIcon,
-    title: 'Contribute',
-    description: 'Want to add a feature or improve the codebase? Start by reading the contribution guide.',
-    cta: 'View Repo',
-    href: GITHUB_URL,
-  },
-];
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
+
+const channelIcons = [Bug, MessageCircle, GithubIcon];
+const channelHrefs = [ISSUES_URL, DISCUSSIONS_URL, GITHUB_URL];
+const channels = i18n.contactSection.channels.map((ch, idx) => ({
+  Icon: channelIcons[idx],
+  title: ch.title,
+  description: ch.description,
+  cta: ch.cta,
+  href: channelHrefs[idx],
+}));
 ---
 
 <section id="contact" class="py-24 lg:py-32 bg-kotauth-bg-secondary relative">
@@ -36,12 +26,12 @@ const channels = [
 
   <div class="section-container">
     <div data-reveal class="text-center max-w-2xl mx-auto mb-16">
-      <span class="eyebrow mb-4 block">Contact</span>
+      <span class="eyebrow mb-4 block">{i18n.contactSection.eyebrow}</span>
       <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-kotauth-text-primary leading-tight font-mono mb-4">
-        Get in touch
+        {i18n.contactSection.title}
       </h2>
       <p class="text-kotauth-text-secondary text-lg">
-        Kotauth is an open source project. Most conversations happen in public, and that's intentional. Pick the right channel below.
+        {i18n.contactSection.description}
       </p>
     </div>
 
@@ -80,7 +70,7 @@ const channels = [
           class="p-5 border border-kotauth-surface-2 bg-kotauth-bg-primary/50"
         >
           <p class="text-xs text-kotauth-text-muted font-mono leading-relaxed">
-            <span class="text-kotauth-text-tertiary">Note:</span> This is an open source project maintained in spare time. Response times vary. For security disclosures, use the contact form with subject "Security".
+            <span class="text-kotauth-text-tertiary">{i18n.contactSection.noteLabel}</span> {i18n.contactSection.noteText}
           </p>
         </div>
       </div>
@@ -92,16 +82,16 @@ const channels = [
             <CircleCheck class="w-7 h-7 text-kotauth-success" />
           </div>
           <h3 class="text-xl font-semibold text-kotauth-text-primary font-mono">
-            Message sent
+            {i18n.contactSection.form.messageSent}
           </h3>
           <p class="text-kotauth-text-secondary text-sm max-w-xs">
-            Thanks for reaching out. We'll get back to you as soon as possible.
+            {i18n.contactSection.form.thankYou}
           </p>
           <button
             data-contact-reset
             class="mt-2 inline-flex items-center px-3 py-1.5 text-sm border border-kotauth-surface-2 text-kotauth-text-secondary hover:bg-kotauth-surface-2 font-mono transition-colors"
           >
-            Send another
+            {i18n.contactSection.form.sendAnother}
           </button>
         </div>
 
@@ -113,7 +103,7 @@ const channels = [
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div class="flex flex-col gap-2">
               <label for="contact-name" class="text-xs font-mono text-kotauth-text-tertiary uppercase tracking-wider">
-                Name <span class="text-kotauth-primary">*</span>
+                {i18n.contactSection.form.name} <span class="text-kotauth-primary">*</span>
               </label>
               <input
                 id="contact-name"
@@ -121,13 +111,13 @@ const channels = [
                 type="text"
                 required
                 autocomplete="name"
-                placeholder="Your name"
+                placeholder={i18n.contactSection.form.yourName}
                 class="w-full bg-kotauth-bg-primary border border-kotauth-surface-2 px-4 py-2.5 text-sm text-kotauth-text-primary placeholder:text-kotauth-text-muted font-mono focus:outline-none focus:border-kotauth-primary transition-colors"
               />
             </div>
             <div class="flex flex-col gap-2">
               <label for="contact-email" class="text-xs font-mono text-kotauth-text-tertiary uppercase tracking-wider">
-                Email <span class="text-kotauth-primary">*</span>
+                {i18n.contactSection.form.email} <span class="text-kotauth-primary">*</span>
               </label>
               <input
                 id="contact-email"
@@ -135,7 +125,7 @@ const channels = [
                 type="email"
                 required
                 autocomplete="email"
-                placeholder="you@example.com"
+                placeholder={i18n.contactSection.form.emailPlaceholder}
                 class="w-full bg-kotauth-bg-primary border border-kotauth-surface-2 px-4 py-2.5 text-sm text-kotauth-text-primary placeholder:text-kotauth-text-muted font-mono focus:outline-none focus:border-kotauth-primary transition-colors"
               />
             </div>
@@ -143,7 +133,7 @@ const channels = [
 
           <div class="flex flex-col gap-2">
             <label for="contact-subject" class="text-xs font-mono text-kotauth-text-tertiary uppercase tracking-wider">
-              Subject <span class="text-kotauth-primary">*</span>
+              {i18n.contactSection.form.subject} <span class="text-kotauth-primary">*</span>
             </label>
             <select
               id="contact-subject"
@@ -151,26 +141,26 @@ const channels = [
               required
               class="w-full bg-kotauth-bg-primary border border-kotauth-surface-2 px-4 py-2.5 text-sm text-kotauth-text-primary font-mono focus:outline-none focus:border-kotauth-primary transition-colors appearance-none cursor-pointer"
             >
-              <option value="" disabled selected>Select a topic...</option>
-              <option value="General Inquiry">General Inquiry</option>
-              <option value="Integration Help">Integration Help</option>
-              <option value="Feature Request">Feature Request</option>
-              <option value="Security">Security</option>
-              <option value="Partnership">Partnership</option>
-              <option value="Other">Other</option>
+              <option value="" disabled selected>{i18n.contactSection.form.selectTopic}</option>
+              <option value="General Inquiry">{i18n.contactSection.form.generalInquiry}</option>
+              <option value="Integration Help">{i18n.contactSection.form.integrationHelp}</option>
+              <option value="Feature Request">{i18n.contactSection.form.featureRequest}</option>
+              <option value="Security">{i18n.contactSection.form.security}</option>
+              <option value="Partnership">{i18n.contactSection.form.partnership}</option>
+              <option value="Other">{i18n.contactSection.form.other}</option>
             </select>
           </div>
 
           <div class="flex flex-col gap-2">
             <label for="contact-message" class="text-xs font-mono text-kotauth-text-tertiary uppercase tracking-wider">
-              Message <span class="text-kotauth-primary">*</span>
+              {i18n.contactSection.form.message} <span class="text-kotauth-primary">*</span>
             </label>
             <textarea
               id="contact-message"
               name="message"
               required
               rows="5"
-              placeholder="Describe your question or request in detail..."
+              placeholder={i18n.contactSection.form.messagePlaceholder}
               class="w-full bg-kotauth-bg-primary border border-kotauth-surface-2 px-4 py-2.5 text-sm text-kotauth-text-primary placeholder:text-kotauth-text-muted font-mono focus:outline-none focus:border-kotauth-primary transition-colors resize-none leading-relaxed"
             ></textarea>
           </div>
@@ -180,13 +170,13 @@ const channels = [
             class="w-full bg-kotauth-primary hover:bg-kotauth-primary-light text-white font-mono h-11 transition-all inline-flex items-center justify-center gap-2 text-sm"
           >
             <Mail class="w-4 h-4" />
-            Send Message
+            {i18n.contactSection.form.sendMessage}
           </button>
 
           <p class="text-xs text-kotauth-text-muted font-mono text-center">
-            For urgent issues, use{' '}
+            {i18n.contactSection.form.urgentNote}{' '}
             <a href={DISCUSSIONS_URL} target="_blank" rel="noopener noreferrer" class="text-kotauth-primary hover:text-kotauth-primary-light underline underline-offset-2">
-              GitHub Discussions
+              {i18n.contactSection.form.githubDiscussions}
             </a>.
           </p>
         </form>

@@ -1,0 +1,31 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/sections/Hero.astro';
+import FeaturesGrid from '@/sections/FeaturesGrid.astro';
+import McpShowcase from '@/sections/McpShowcase.astro';
+import AuthShowcase from '@/sections/AuthShowcase.astro';
+import CodeShowcase from '@/sections/CodeShowcase.astro';
+import LiveDemo from '@/sections/LiveDemo.astro';
+import ComparisonTable from '@/sections/ComparisonTable.astro';
+import Architecture from '@/sections/Architecture.astro';
+import CTASection from '@/sections/CTASection.astro';
+import { t } from '@/i18n';
+
+const i18n = t('es');
+---
+
+<BaseLayout
+  title={i18n.pages.index.title}
+  description={i18n.pages.index.description}
+  path="/es"
+>
+  <Hero />
+  <FeaturesGrid />
+  <McpShowcase />
+  <AuthShowcase />
+  <CodeShowcase />
+  <LiveDemo />
+  <ComparisonTable />
+  <Architecture />
+  <CTASection />
+</BaseLayout>
