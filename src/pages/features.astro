@@ -46,12 +46,12 @@ const allFeatures = [
   {
     icon: Building2,
     title: 'Multi-Tenant by Design',
-    description: 'Every workspace gets its own RS256 key pair provisioned on first use — no shared signing key across tenants. Admin-initiated key rotation lets you generate a new signing key, promote it to active, and retire the old key when all tokens have expired. Isolated user directories, slug-routed APIs (/t/{workspace}/api/v1), independent issuer URLs, and configurable token TTLs. The same email address is treated as a completely separate identity in each workspace.',
+    description: 'Every workspace gets its own RS256 key pair provisioned on first use, no shared signing key across tenants. Admin-initiated key rotation lets you generate a new signing key, promote it to active, and retire the old key when all tokens have expired. Isolated user directories, slug-routed APIs (/t/{workspace}/api/v1), independent issuer URLs, and configurable token TTLs. The same email address is treated as a completely separate identity in each workspace.',
   },
   {
     icon: Key,
     title: 'Flexible Authentication',
-    description: 'Password authentication with history tracking (prevent reuse of last N passwords), blacklist checking, complexity enforcement, and configurable max age with forced expiry. TOTP MFA (RFC 6238) with recovery codes. Google and GitHub OAuth with automatic account linking by email — users can view and manage connected social identities from the self-service portal. Admin-initiated user invitations with branded email, 72-hour activation links, and automatic account setup. MFA enforcement is configurable per workspace.',
+    description: 'Password authentication with history tracking (prevent reuse of last N passwords), blacklist checking, complexity enforcement, and configurable max age with forced expiry. TOTP MFA (RFC 6238) with recovery codes. Google and GitHub OAuth with automatic account linking by email. Users can view and manage connected social identities from the self-service portal. Admin-initiated user invitations with branded email, 72-hour activation links, and automatic account setup. MFA enforcement is configurable per workspace.',
   },
   {
     icon: ShieldAlert,
@@ -61,12 +61,12 @@ const allFeatures = [
   {
     icon: Users,
     title: 'RBAC with Groups & Inheritance',
-    description: 'Assign roles directly to users or via groups. Groups inherit roles, users inherit group membership. Composite inheritance means a user in multiple groups accumulates all permissions. Access revocation is immediate — no waiting for token expiry. Admin and user-initiated session revocation, plus bulk revocation from the admin console.',
+    description: 'Assign roles directly to users or via groups. Groups inherit roles, users inherit group membership. Composite inheritance means a user in multiple groups accumulates all permissions. Access revocation is immediate, no waiting for token expiry. Admin and user-initiated session revocation, plus bulk revocation from the admin console.',
   },
   {
     icon: Tags,
     title: 'Custom JWT Claims',
-    description: 'Attach per-user key-value attributes and project them into JWT access and/or ID tokens via tenant-level claim mappers. 41 reserved OIDC claim names are blocked to prevent overwriting standard claims (sub, iss, email, etc.). Claim mapper cache with 60-second TTL keeps token issuance fast. Changes propagate on next token issuance or immediately on refresh token renewal. Admin console and REST API for managing both attributes and mappers. Max 20 mappers per tenant to prevent JWT bloat. PII safeguard — admin UI warns that attribute values flow unencrypted into tokens.',
+    description: 'Attach per-user key-value attributes and project them into JWT access and/or ID tokens via tenant-level claim mappers. 41 reserved OIDC claim names are blocked to prevent overwriting standard claims (sub, iss, email, etc.). Claim mapper cache with 60-second TTL keeps token issuance fast. Changes propagate on next token issuance or immediately on refresh token renewal. Admin console and REST API for managing both attributes and mappers. Max 20 mappers per tenant to prevent JWT bloat. PII safeguard: admin UI warns that attribute values flow unencrypted into tokens.',
   },
   {
     icon: ShieldCheck,
@@ -81,22 +81,22 @@ const allFeatures = [
   {
     icon: Palette,
     title: 'White-label Auth Pages',
-    description: "CSS variables injected server-side at render time — no CDN cache invalidation, no rebuild required. Custom primary color, background, logo, and favicon per tenant. Three presets included: Dark, Light, and Simple. Theming is fully isolated — changing one tenant's theme has zero effect on others.",
+    description: "CSS variables injected server-side at render time, no CDN cache invalidation, no rebuild required. Custom primary color, background, logo, and favicon per tenant. Three presets included: Dark, Light, and Simple. Theming is fully isolated: changing one tenant's theme has zero effect on others.",
   },
   {
     icon: Container,
     title: 'Docker-Native Deployment',
-    description: '~120 MB multi-stage image published to GHCR (ghcr.io/inumansoul/kotauth). Runs as non-root user (UID 10001) with no-new-privileges, cap_drop: ALL, and read-only filesystem. One-command quickstart with demo data pre-loaded — or bring your own .env for a custom setup. Flyway migrations run automatically on startup — no init scripts, no manual schema setup. Built-in CLI tools (generate-secret-key, reset-admin-mfa, hash-api-key, export-tenant, import-tenant) for key provisioning, emergency recovery, and backup operations. Bootstrap API keys via environment variable for CI/CD automation. HTTP compression (gzip/deflate), static asset caching, and bundled Swagger UI for air-gapped environments.',
+    description: '~120 MB multi-stage image published to GHCR (ghcr.io/inumansoul/kotauth). Runs as non-root user (UID 10001) with no-new-privileges, cap_drop: ALL, and read-only filesystem. One-command quickstart with demo data pre-loaded, or bring your own .env for a custom setup. Flyway migrations run automatically on startup, no init scripts, no manual schema setup. Built-in CLI tools (generate-secret-key, reset-admin-mfa, hash-api-key, export-tenant, import-tenant) for key provisioning, emergency recovery, and backup operations. Bootstrap API keys via environment variable for CI/CD automation. HTTP compression (gzip/deflate), static asset caching, and bundled Swagger UI for air-gapped environments.',
   },
   {
     icon: Bot,
     title: 'AI-Native Management (MCP)',
-    description: 'Manage your entire identity infrastructure from Claude, Cursor, or any MCP-compatible AI assistant. The @kotauth/mcp package exposes 33 tools across 8 domains: users, roles, groups, applications, sessions, audit logs, user attributes, and claim mappers. Scope-based access control — each API key grants only the permissions you choose. One command to connect: npx @kotauth/mcp. No SDK to learn, no HTTP to write. Ask your AI assistant to create a user, set custom attributes, configure claim mappings, or query audit logs — it calls the right endpoints automatically.',
+    description: 'Manage your entire identity infrastructure from Claude, Cursor, or any MCP-compatible AI assistant. The @kotauth/mcp package exposes 33 tools across 8 domains: users, roles, groups, applications, sessions, audit logs, user attributes, and claim mappers. Scope-based access control: each API key grants only the permissions you choose. One command to connect: npx @kotauth/mcp. No SDK to learn, no HTTP to write. Ask your AI assistant to create a user, set custom attributes, configure claim mappings, or query audit logs. It calls the right endpoints automatically.',
   },
   {
     icon: Link,
     title: 'Magic-Link Passwordless',
-    description: 'Email-based passwordless login with 15-minute one-time tokens. Same-device cookie binding via KOTAUTH_AUTH_CONTEXT prevents token replay from a different browser. User-enumeration safe — consistent response timing regardless of whether the email exists. MFA invariant preserved — magic link authenticates the first factor, TOTP is still required if enrolled. Workspaces can go fully passwordless by disabling password login entirely.',
+    description: 'Email-based passwordless login with 15-minute one-time tokens. Same-device cookie binding via KOTAUTH_AUTH_CONTEXT prevents token replay from a different browser. User-enumeration safe: consistent response timing regardless of whether the email exists. MFA invariant preserved: magic link authenticates the first factor, TOTP is still required if enrolled. Workspaces can go fully passwordless by disabling password login entirely.',
   },
   {
     icon: Archive,
@@ -106,42 +106,42 @@ const allFeatures = [
   {
     icon: Database,
     title: 'Redis Distributed Sessions',
-    description: 'Optional Redis sidecar via KAUTH_REDIS_URL upgrades in-memory stores to distributed session storage and rate limiting. Lua-scripted rate limiting ensures consistent enforcement across all Kotauth instances. Fail-closed semantics — Redis unavailability rejects requests rather than bypassing limits. Lettuce client with connection pooling and automatic reconnection. Sticky sessions no longer required behind a load balancer.',
+    description: 'Optional Redis sidecar via KAUTH_REDIS_URL upgrades in-memory stores to distributed session storage and rate limiting. Lua-scripted rate limiting ensures consistent enforcement across all Kotauth instances. Fail-closed semantics: Redis unavailability rejects requests rather than bypassing limits. Lettuce client with connection pooling and automatic reconnection. Sticky sessions no longer required behind a load balancer.',
   },
   {
     icon: UserCheck,
     title: 'Admin Impersonation',
-    description: 'Act as any user without knowing their password. Impersonation sessions carry an RFC 8693 act claim identifying the admin, creating a full audit trail. Dual-session model — the admin session stays active underneath. Cascade revocation — revoking the admin session also terminates the impersonated session. Available from the admin console with one click.',
+    description: 'Act as any user without knowing their password. Impersonation sessions carry an RFC 8693 act claim identifying the admin, creating a full audit trail. Dual-session model: the admin session stays active underneath. Cascade revocation: revoking the admin session also terminates the impersonated session. Available from the admin console with one click.',
   },
   {
     icon: LayoutGrid,
     title: 'App Launcher',
-    description: 'Per-workspace tile grid at /t/{slug}/launcher showing all applications the user is entitled to access. Entitlement model based on client-scoped roles — users only see apps they have permission to use. Automatic tile generation from registered OAuth applications with logo and description.',
+    description: 'Per-workspace tile grid at /t/{slug}/launcher showing all applications the user is entitled to access. Entitlement model based on client-scoped roles: users only see apps they have permission to use. Automatic tile generation from registered OAuth applications with logo and description.',
   },
   {
     icon: Globe,
     title: 'Internationalization (i18n)',
-    description: 'All auth and portal UI strings are externalized via a TranslationPort. Volume-mounted JSON bundles let you add languages without recompiling — just drop a file in KAUTH_I18N_BUNDLE_DIR. Accept-Language header resolution with quality-factor ranking and graceful English fallback. Zero hardcoded English strings in auth or portal views. 174 Spanish translation keys shipped as a reference implementation.',
+    description: 'All auth and portal UI strings are externalized via a TranslationPort. Volume-mounted JSON bundles let you add languages without recompiling. Just drop a file in KAUTH_I18N_BUNDLE_DIR. Accept-Language header resolution with quality-factor ranking and graceful English fallback. Zero hardcoded English strings in auth or portal views. 174 Spanish translation keys shipped as a reference implementation.',
   },
   {
     icon: ShieldBan,
     title: 'Breached Password Detection (HIBP)',
-    description: 'Passwords are checked against the Have I Been Pwned database using k-Anonymity range queries during registration and password changes — only the first 5 characters of the SHA-1 hash leave the server. BreachedPasswordPort provides a pluggable interface in the domain layer. Combined with password history, complexity rules, and max age, Kotauth enforces password hygiene at every touchpoint.',
+    description: 'Passwords are checked against the Have I Been Pwned database using k-Anonymity range queries during registration and password changes. Only the first 5 characters of the SHA-1 hash leave the server. BreachedPasswordPort provides a pluggable interface in the domain layer. Combined with password history, complexity rules, and max age, Kotauth enforces password hygiene at every touchpoint.',
   },
   {
     icon: Mail,
     title: 'Email OTP Passwordless',
-    description: 'Two-step email code authentication — enter email, receive a 6-digit code, sign in. Available as an admin API primitive (send-otp / verify-otp) and as a hosted browser-driven login page with per-tenant toggle. Find-or-create user semantics for passwordless onboarding. Cross-challenge lockout defense with per-tenant threshold. Constant-time response posture prevents timing enumeration. MFA chain preserved — TOTP-enrolled users still get challenged after OTP verification.',
+    description: 'Two-step email code authentication: enter email, receive a 6-digit code, sign in. Available as an admin API primitive (send-otp / verify-otp) and as a hosted browser-driven login page with per-tenant toggle. Find-or-create user semantics for passwordless onboarding. Cross-challenge lockout defense with per-tenant threshold. Constant-time response posture prevents timing enumeration. MFA chain preserved: TOTP-enrolled users still get challenged after OTP verification.',
   },
   {
     icon: CircleUserRound,
     title: 'Client Default Roles',
-    description: 'Per-application default roles automatically assigned to users who self-register through an OAuth application. Grant-at-registration semantics — roles apply at account creation, never retroactively. Cross-client privilege-escalation guard prevents associating another application\'s roles. Admin UI "Registration Defaults" card with dropdown + role management table. REST API for programmatic management. Role-by-name addressing eliminates environment-specific ID lookups.',
+    description: 'Per-application default roles automatically assigned to users who self-register through an OAuth application. Grant-at-registration semantics: roles apply at account creation, never retroactively. Cross-client privilege-escalation guard prevents associating another application\'s roles. Admin UI "Registration Defaults" card with dropdown + role management table. REST API for programmatic management. Role-by-name addressing eliminates environment-specific ID lookups.',
   },
   {
     icon: Paintbrush,
     title: 'Transactional Email Branding',
-    description: 'Per-tenant email branding — brand name, color, logo URL, support email, and from display name. All six transactional email templates (verification, magic link, password reset, account locked, invite, password changed) inherit the branding automatically. Branding editor card in workspace settings. Envelope sender stays operator-controlled for DKIM/SPF/DMARC alignment.',
+    description: 'Per-tenant email branding: brand name, color, logo URL, support email, and from display name. All six transactional email templates (verification, magic link, password reset, account locked, invite, password changed) inherit the branding automatically. Branding editor card in workspace settings. Envelope sender stays operator-controlled for DKIM/SPF/DMARC alignment.',
   },
 ];
 
@@ -169,7 +169,7 @@ const securityPrimitives = [
 ---
 
 <BaseLayout
-  title="Features — Kotauth"
+  title="Features | Kotauth"
   description="Every feature Kotauth ships in v1.16.0: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, magic-link & email OTP passwordless auth, Redis sessions, backup & restore, admin impersonation, i18n, app launcher, MCP integration for AI assistants, email branding, client default roles, security hardening, HMAC webhooks, white-label auth screens, and Docker-native deployment. Built on Ktor 3.4, Kotlin 2.3, and PostgreSQL."
   path="/features"
 >
@@ -192,7 +192,7 @@ const securityPrimitives = [
           </h1>
           <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
             Every feature listed here is in production today. No beta labels, no roadmap
-            promises — this is the current v1.16.0 release, built on Ktor 3.4, Kotlin 2.3, and Gradle 9.
+            promises. This is the current v1.16.0 release, built on Ktor 3.4, Kotlin 2.3, and Gradle 9.
           </p>
         </div>
       </div>
@@ -224,7 +224,7 @@ const securityPrimitives = [
           </h2>
           <p class="text-kotauth-text-secondary max-w-xl">
             Any OIDC-compliant client library works with Kotauth without modification.
-            These are the RFCs implemented — not approximated.
+            These are the RFCs implemented, not approximated.
           </p>
         </div>
 
@@ -247,7 +247,7 @@ const securityPrimitives = [
             Hardened before your first deploy
           </h2>
           <p class="text-kotauth-text-secondary max-w-xl">
-            Security decisions are made at the framework level — not left as configuration
+            Security decisions are made at the framework level, not left as configuration
             exercises for the operator.
           </p>
         </div>

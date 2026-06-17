@@ -15,12 +15,12 @@ interface Props {
 
 const {
   title: rawTitle = 'Kotauth - Identity Infrastructure for Modern Applications',
-  description = 'The self-hosted authentication platform that combines enterprise power with developer experience. OAuth2, OIDC, Multi-Tenancy, MFA — deploy in under a minute.',
+  description = 'The self-hosted authentication platform that combines enterprise power with developer experience. OAuth2, OIDC, Multi-Tenancy, MFA. Deploy in under a minute.',
   path = '/',
   ogImage = `${BASE_URL}/og-image.png`,
 } = Astro.props;
 
-const title = rawTitle.includes(SITE_NAME) ? rawTitle : `${rawTitle} — ${SITE_NAME}`;
+const title = rawTitle.includes(SITE_NAME) ? rawTitle : `${rawTitle} | ${SITE_NAME}`;
 const canonicalUrl = `${BASE_URL}${path}`;
 ---
 
@@ -113,8 +113,9 @@ const canonicalUrl = `${BASE_URL}${path}`;
 
     <!-- OpenPanel Analytics -->
     <script is:inline>
-      window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}},has:function(t,r){return"q"===r}})}();
+      window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}} ,has:function(t,r){return"q"===r}}) }();
       window.op('init', {
+        apiUrl: 'https://analytics.oriana.com.py/api',
         clientId: '91ca4ad4-f953-46e8-bcc9-c79839599bea',
         trackScreenViews: true,
         trackOutgoingLinks: true,
@@ -130,7 +131,7 @@ const canonicalUrl = `${BASE_URL}${path}`;
     </main>
     <Footer />
 
-    <!-- Site-wide interactions — scroll reveal, copy, tabs, themes, contact form -->
+    <!-- Site-wide interactions: scroll reveal, copy, tabs, themes, contact form -->
     <script is:inline>
       (function () {
         // ── Scroll-reveal observer ──

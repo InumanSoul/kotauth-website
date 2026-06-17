@@ -81,7 +81,7 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
           class="inline-flex items-center gap-2 text-sm font-mono px-3 h-8 text-kotauth-text-secondary hover:text-kotauth-text-primary hover:bg-kotauth-surface-1 transition-colors"
         >
           <GithubIcon class="w-4 h-4" />
-          GitHub
+          <span id="gh-stars" class="inline-flex items-center gap-1">GitHub</span>
         </a>
         <a
           href={DEMO_URL}
@@ -263,5 +263,19 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
       }
     }
     window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+
+  (function () {
+    var el = document.getElementById('gh-stars');
+    if (!el) return;
+    fetch('https://api.github.com/repos/inumansoul/kotauth')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var n = d.stargazers_count;
+        if (typeof n !== 'number') return;
+        var label = n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : String(n);
+        el.innerHTML = '★ ' + label;
+      })
+      .catch(function () {});
   })();
 </script>

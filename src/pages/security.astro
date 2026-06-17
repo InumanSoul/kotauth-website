@@ -22,9 +22,9 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const DOCS_URL = 'https://docs.kotauth.com';
 
 const cryptoPrimitives = [
-  { Icon: Lock, label: 'bcrypt (cost 12)', detail: 'Password hashing — salted, time-resistant, brute-force infeasible' },
+  { Icon: Lock, label: 'bcrypt (cost 12)', detail: 'Password hashing: salted, time-resistant, brute-force infeasible' },
   { Icon: Shield, label: 'AES-256-GCM', detail: 'Encryption at rest for RSA private keys, SMTP credentials, TOTP secrets, and social provider secrets' },
-  { Icon: Key, label: 'SHA-256', detail: 'API key and token hashing — raw values never stored in the database' },
+  { Icon: Key, label: 'SHA-256', detail: 'API key and token hashing: raw values never stored in the database' },
   { Icon: FileCode, label: 'RS256 (RSA-SHA256)', detail: 'Per-tenant JWT signing with auto-provisioned key pairs, encrypted at rest' },
   { Icon: RefreshCw, label: 'HMAC-SHA256', detail: 'Session cookie signing, webhook payload signing, OAuth state parameters' },
 ];
@@ -38,12 +38,12 @@ const protectionLayers = [
   {
     Icon: Clock,
     title: 'Rate limiting',
-    description: '5 login attempts per minute, 5 MFA challenges per 5 minutes, 3 password resets per 5 minutes — all per IP per workspace. Tenant-scoped — one workspace\'s traffic never affects another.',
+    description: '5 login attempts per minute, 5 MFA challenges per 5 minutes, 3 password resets per 5 minutes, all per IP per workspace. Tenant-scoped: one workspace\'s traffic never affects another.',
   },
   {
     Icon: RefreshCw,
     title: 'Refresh-token replay detection',
-    description: 'Refresh tokens rotate on every use. Presenting a previously rotated token is treated as token theft — every session for the user is revoked, and a replay_detected audit event is recorded. Confidential clients must authenticate on the refresh grant.',
+    description: 'Refresh tokens rotate on every use. Presenting a previously rotated token is treated as token theft. Every session for the user is revoked, and a replay_detected audit event is recorded. Confidential clients must authenticate on the refresh grant.',
   },
   {
     Icon: Eye,
@@ -53,7 +53,7 @@ const protectionLayers = [
   {
     Icon: LogOut,
     title: 'TOTP replay + lockout',
-    description: 'TOTP verification rejects codes whose time step was already consumed — replay is structurally impossible. Per-enrollment lockout triggers after 5 consecutive failures with configurable lockout duration.',
+    description: 'TOTP verification rejects codes whose time step was already consumed. Replay is structurally impossible. Per-enrollment lockout triggers after 5 consecutive failures with configurable lockout duration.',
   },
   {
     Icon: Server,
@@ -63,28 +63,28 @@ const protectionLayers = [
 ];
 
 const transportHardening = [
-  'Content-Security-Policy with strict script-src \'self\' (zero inline JavaScript) — style-src permits \'unsafe-inline\' for server-injected theme tokens; all other directives locked to \'self\'',
-  'SRI integrity hashes on all bundled JavaScript — prevents tampering with static assets',
+  'Content-Security-Policy with strict script-src \'self\' (zero inline JavaScript). Style-src permits \'unsafe-inline\' for server-injected theme tokens; all other directives locked to \'self\'',
+  'SRI integrity hashes on all bundled JavaScript: prevents tampering with static assets',
   'SameSite=Lax on all session cookies (admin and portal)',
   'Secure cookie flag derived from KAUTH_BASE_URL scheme at startup',
   'CSRF protection via OAuth state parameter + PKCE cookie signatures',
-  'HTTPS enforcement in production mode — HTTP refused at startup',
-  'Open redirect prevention on OIDC end-session and post-logout redirect — //evil.com, /\\evil.com, and non-origin URIs rejected',
+  'HTTPS enforcement in production mode: HTTP refused at startup',
+  'Open redirect prevention on OIDC end-session and post-logout redirect: //evil.com, /\\evil.com, and non-origin URIs rejected',
   'PKCE required for all public OAuth clients (S256 only)',
-  'Forwarded headers opt-in via KAUTH_TRUSTED_PROXY — prevents rate-limit bypass via header spoofing on directly-exposed deployments',
-  'Login error normalization + timing equalization — all rejection branches share the same response latency via dummy bcrypt verify',
-  'JWT introspection enforces issuer — tokens minted for tenant A cannot be introspected against tenant B',
-  'TenantTheme inputs validated server-side — strict patterns for hex colors, font families, border-radius, locale (BCP-47), and logo URL schemes',
-  'Social-link email-verification gate — auto-link-by-email rejects unverified provider addresses',
+  'Forwarded headers opt-in via KAUTH_TRUSTED_PROXY: prevents rate-limit bypass via header spoofing on directly-exposed deployments',
+  'Login error normalization + timing equalization: all rejection branches share the same response latency via dummy bcrypt verify',
+  'JWT introspection enforces issuer: tokens minted for tenant A cannot be introspected against tenant B',
+  'TenantTheme inputs validated server-side: strict patterns for hex colors, font families, border-radius, locale (BCP-47), and logo URL schemes',
+  'Social-link email-verification gate: auto-link-by-email rejects unverified provider addresses',
 ];
 
 const passwordPolicies = [
   'Configurable minimum length (4–128 characters)',
   'Require uppercase, lowercase, numbers, and/or special characters',
-  'Password history — prevent reuse of last N passwords (0–24)',
-  'Password max age — force expiry after N days (0–365)',
-  'Password blacklist — reject known-compromised passwords',
-  'bcrypt cost factor 12 — raw passwords never stored or logged',
+  'Password history: prevent reuse of last N passwords (0–24)',
+  'Password max age: force expiry after N days (0–365)',
+  'Password blacklist: reject known-compromised passwords',
+  'bcrypt cost factor 12: raw passwords never stored or logged',
 ];
 
 const secretsPolicy = [
@@ -101,7 +101,7 @@ const secretsPolicy = [
 ---
 
 <BaseLayout
-  title="Security — Kotauth"
+  title="Security | Kotauth"
   description="How Kotauth protects identity data: bcrypt, AES-256-GCM, RS256, account lockout, rate limiting, replay detection, TOTP lockout, audit logging, container hardening, and transport hardening. Every security decision documented."
   path="/security"
 >
@@ -123,7 +123,7 @@ const secretsPolicy = [
             Security <span class="gradient-text">by default</span>
           </h1>
           <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
-            Security decisions are made at the framework level — not left as configuration exercises for the operator. Everything listed here ships in every Kotauth deployment with zero additional setup.
+            Security decisions are made at the framework level, not left as configuration exercises for the operator. Everything listed here ships in every Kotauth deployment with zero additional setup.
           </p>
         </div>
       </div>
@@ -167,7 +167,7 @@ const secretsPolicy = [
             Protection layers
           </h2>
           <p class="text-kotauth-text-secondary max-w-xl">
-            Multiple independent defenses — a failure in one layer doesn't compromise the system.
+            Multiple independent defenses. A failure in one layer doesn't compromise the system.
           </p>
         </div>
 

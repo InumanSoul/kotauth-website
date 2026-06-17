@@ -11,7 +11,7 @@ const DEMO_URL = 'https://demo.kotauth.com';
 const shippedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
   {
     tag: 'v1.16.0',
-    title: 'Security Tier 2 — Container Hardening & TOTP Replay Protection',
+    title: 'Security Tier 2: Container Hardening & TOTP Replay Protection',
     date: 'June 17, 2026',
     highlights: [
       'Container runs as non-root (UID 10001) with no-new-privileges, cap_drop: ALL, read_only filesystem',
@@ -26,7 +26,7 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     date: 'June 15, 2026',
     highlights: [
       'AdminService (1145 LOC) split into 4 focused services, UserSelfServiceService (1157 LOC) split into 2',
-      'Detekt thresholds tightened — LargeClass 400, TooManyFunctions 20/25 with baseline tracking',
+      'Detekt thresholds tightened: LargeClass 400, TooManyFunctions 20/25 with baseline tracking',
     ],
   },
   {
@@ -34,19 +34,19 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Default Admin Credential Removal',
     date: 'June 12, 2026',
     highlights: [
-      'BREAKING — documented changeme123! admin password removed entirely',
+      'BREAKING: documented changeme123! admin password removed entirely',
       'Random 128-bit admin password generated on first boot, printed once to stdout',
       'KAUTH_BOOTSTRAP_ADMIN_PASSWORD env var for operator-controlled initial credential',
     ],
   },
   {
     tag: 'v1.14.0',
-    title: 'Security Tier 1 — OAuth Hardening & Replay Detection',
+    title: 'Security Tier 1: OAuth Hardening & Replay Detection',
     date: 'June 11, 2026',
     highlights: [
-      'BREAKING — refresh grant, /introspect, and /revoke now require client authentication',
-      'BREAKING — X-Forwarded-For opt-in via KAUTH_TRUSTED_PROXY, DB_PASSWORD required',
-      'Refresh-token replay detection — rotated tokens trigger full user session revocation',
+      'BREAKING: refresh grant, /introspect, and /revoke now require client authentication',
+      'BREAKING: X-Forwarded-For opt-in via KAUTH_TRUSTED_PROXY, DB_PASSWORD required',
+      'Refresh-token replay detection: rotated tokens trigger full user session revocation',
       'Quickstart secret key refused in production',
     ],
   },
@@ -65,8 +65,8 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Email OTP Primitive, Email Branding & Bootstrap API Keys',
     date: 'May 25–26, 2026',
     highlights: [
-      'Email OTP admin API — send-otp / verify-otp with find-or-create user semantics',
-      'Per-tenant transactional email branding — brand name, color, logo, support email',
+      'Email OTP admin API: send-otp / verify-otp with find-or-create user semantics',
+      'Per-tenant transactional email branding: brand name, color, logo, support email',
       'Bootstrap API keys via KAUTH_BOOTSTRAP_API_KEYS env var with fail-fast validation',
       'CLI hash-api-key subcommand, OpenAPI spec for OTP endpoints',
     ],
@@ -76,9 +76,9 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Client Default Roles, Custom Token Audience & Magic-Link TTL',
     date: 'May 22, 2026',
     highlights: [
-      'Per-application default roles — auto-assign at self-registration with scope guard',
-      'Per-application token audience — configurable aud claim separate from client_id',
-      'Role-by-name API — address roles by stable name instead of environment-specific IDs',
+      'Per-application default roles: auto-assign at self-registration with scope guard',
+      'Per-application token audience: configurable aud claim separate from client_id',
+      'Role-by-name API: address roles by stable name instead of environment-specific IDs',
       'Per-tenant magic-link TTL (1–1440 min), impersonation audit improvements',
     ],
   },
@@ -89,8 +89,8 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     highlights: [
       'Per-workspace app launcher tile grid with entitlement model based on client-scoped roles',
       'Admin impersonation with RFC 8693 act claim, dual-session model, and cascade revocation',
-      'Passwordless-only toggle — disable password login entirely per workspace',
-      'i18n completion — zero hardcoded English in auth + portal, 174 Spanish keys shipped',
+      'Passwordless-only toggle: disable password login entirely per workspace',
+      'i18n completion: zero hardcoded English in auth + portal, 174 Spanish keys shipped',
     ],
   },
   {
@@ -98,7 +98,7 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Tenant Backup & Restore',
     date: 'April 30, 2026',
     highlights: [
-      'Encrypted workspace snapshots — PBKDF2 600k iterations + AES-256-GCM in portable bkp1 envelope format',
+      'Encrypted workspace snapshots: PBKDF2 600k iterations + AES-256-GCM in portable bkp1 envelope format',
       'CLI export-tenant / import-tenant commands and admin API endpoints',
       'Schema-version compatibility validation on import',
     ],
@@ -114,10 +114,10 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
   },
   {
     tag: 'v1.8.0',
-    title: 'Redis Sidecar — Distributed Sessions & Rate Limiting',
+    title: 'Redis Sidecar: Distributed Sessions & Rate Limiting',
     date: 'April 28, 2026',
     highlights: [
-      'Optional Redis via KAUTH_REDIS_URL — distributed rate limiting with Lua scripts and session storage',
+      'Optional Redis via KAUTH_REDIS_URL: distributed rate limiting with Lua scripts and session storage',
       'Fail-closed semantics, Lettuce client with connection pooling and auto-reconnection',
       'Multi-tenant CORS configuration (V32 migration)',
     ],
@@ -136,7 +136,7 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Cross-Device Magic-Link Fix',
     date: 'April 27, 2026',
     highlights: [
-      'Cookie check reordered before token consumption — prevents token waste on device mismatch',
+      'Cookie check reordered before token consumption: prevents token waste on device mismatch',
     ],
   },
   {
@@ -146,7 +146,7 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     highlights: [
       '15-minute one-time tokens with same-device cookie binding via KOTAUTH_AUTH_CONTEXT',
       'User-enumeration safe with consistent response timing',
-      'MFA invariant preserved — magic link authenticates first factor, TOTP still required if enrolled',
+      'MFA invariant preserved: magic link authenticates first factor, TOTP still required if enrolled',
     ],
   },
   {
@@ -156,7 +156,7 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     highlights: [
       'Invite API, send-reset-email, and temporary-password endpoints for headless user onboarding',
       'HIBP breached-password detection with k-Anonymity range queries',
-      'BreachedPasswordPort — pluggable interface in the domain layer',
+      'BreachedPasswordPort: pluggable interface in the domain layer',
     ],
   },
   {
@@ -167,7 +167,7 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
       'Per-user key-value attributes with tenant-level claim mappers projecting into JWT access and ID tokens',
       '6 new REST API endpoints, 4 new scopes, full admin UI for attributes and claim mappers',
       '41 reserved OIDC claim names blocked, 20-mapper soft cap, caching with 60s TTL',
-      'Refresh-token re-projection — attribute changes propagate immediately on token renewal',
+      'Refresh-token re-projection: attribute changes propagate immediately on token renewal',
     ],
   },
   {
@@ -175,7 +175,7 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'CSP Form-Action Fix & Reverse-Proxy Support',
     date: 'April 22, 2026',
     highlights: [
-      'TenantCspPlugin with tenant-scoped form-action directives — fixes OAuth2 redirect CSP violations',
+      'TenantCspPlugin with tenant-scoped form-action directives: fixes OAuth2 redirect CSP violations',
       'X-Forwarded-* header support for correct URL generation behind TLS-terminating proxies',
     ],
   },
@@ -184,7 +184,7 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Multi-Tenant CORS Policy',
     date: 'April 21, 2026',
     highlights: [
-      'Allowed origins auto-derived from client redirect URIs — zero manual CORS configuration',
+      'Allowed origins auto-derived from client redirect URIs: zero manual CORS configuration',
       'CORS credentials toggle, CorsOriginCache with 60s TTL, structured denied-origin logging',
     ],
   },
@@ -212,8 +212,8 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'ORM & Migration Tool Upgrades',
     date: 'April 10, 2026',
     highlights: [
-      'Exposed ORM 0.55.0 → 0.61.0 — zero code changes',
-      'Flyway 9.22.3 → 11.8.2 — added PostgreSQL module artifact',
+      'Exposed ORM 0.55.0 → 0.61.0: zero code changes',
+      'Flyway 9.22.3 → 11.8.2: added PostgreSQL module artifact',
     ],
   },
   {
@@ -221,8 +221,8 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Netty CVE Patches & Kotlin 2.3',
     date: 'April 10, 2026',
     highlights: [
-      'Netty 4.1.132.Final — patches HTTP smuggling and HTTP/2 DoS (both High)',
-      'Kotlin 1.9.24 → 2.3.20 — K2 compiler enabled, source-compatible',
+      'Netty 4.1.132.Final: patches HTTP smuggling and HTTP/2 DoS (both High)',
+      'Kotlin 1.9.24 → 2.3.20: K2 compiler enabled, source-compatible',
     ],
   },
   {
@@ -230,11 +230,11 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Admin Key Rotation & JWT kid Headers',
     date: 'April 10, 2026',
     highlights: [
-      'Admin-initiated signing key rotation — generate a new RS256 key pair, promote it to active, demote the previous key to verification-only',
-      'JWT kid header on all issued tokens (access, id_token, client credentials) per RFC 7517 — enables key identification during verification',
-      'Key retirement — disable old keys to remove them from JWKS when all tokens have expired',
-      'Signing keys management page in admin console — key history table with status badges (Active, Verification only, Retired)',
-      'Token verification gracefully handles rotated keys — reads kid from JWT header, falls back to active key for legacy tokens',
+      'Admin-initiated signing key rotation: generate a new RS256 key pair, promote it to active, demote the previous key to verification-only',
+      'JWT kid header on all issued tokens (access, id_token, client credentials) per RFC 7517: enables key identification during verification',
+      'Key retirement: disable old keys to remove them from JWKS when all tokens have expired',
+      'Signing keys management page in admin console: key history table with status badges (Active, Verification only, Retired)',
+      'Token verification gracefully handles rotated keys: reads kid from JWT header, falls back to active key for legacy tokens',
       'New audit events: ADMIN_KEY_ROTATED and ADMIN_KEY_RETIRED',
     ],
   },
@@ -243,11 +243,11 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Code Optimizations & N+1 Fixes',
     date: 'April 10, 2026',
     highlights: [
-      'AdminRouteContext helper — single-call extraction of session, workspace, and workspace pairs across all admin routes',
-      'SecureTokens singleton — replaces 12 scattered SecureRandom() instantiations with a shared thread-safe instance',
-      'Batch user hydration for role and group detail pages — eliminates N+1 queries on assigned user lists',
-      'Extracted password policy validation into a shared method — removes duplication across password reset, invite, and change flows',
-      'Typed ID extraction helper — reusable Parameters.typedId<T>() replaces 33 inline toIntOrNull() patterns',
+      'AdminRouteContext helper: single-call extraction of session, workspace, and workspace pairs across all admin routes',
+      'SecureTokens singleton: replaces 12 scattered SecureRandom() instantiations with a shared thread-safe instance',
+      'Batch user hydration for role and group detail pages: eliminates N+1 queries on assigned user lists',
+      'Extracted password policy validation into a shared method: removes duplication across password reset, invite, and change flows',
+      'Typed ID extraction helper: reusable Parameters.typedId<T>() replaces 33 inline toIntOrNull() patterns',
     ],
   },
   {
@@ -255,10 +255,10 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'User Invitations & Required Actions',
     date: 'April 7, 2026',
     highlights: [
-      'Invite users via email — admins create users and send branded invite emails instead of setting passwords directly',
-      'Accept-invite flow — branded page with real-time password validation, 72-hour token expiry, and automatic account activation',
-      'Required actions framework — extensible user action model (SET_PASSWORD) stored as PostgreSQL text[] array',
-      'Token purpose discriminator — invite and password-reset tokens are cryptographically separated, cross-purpose usage rejected',
+      'Invite users via email: admins create users and send branded invite emails instead of setting passwords directly',
+      'Accept-invite flow: branded page with real-time password validation, 72-hour token expiry, and automatic account activation',
+      'Required actions framework: extensible user action model (SET_PASSWORD) stored as PostgreSQL text[] array',
+      'Token purpose discriminator: invite and password-reset tokens are cryptographically separated, cross-purpose usage rejected',
       'Resend invite from admin console with automatic old-token invalidation',
       'New audit events: USER_INVITE_SENT and USER_INVITE_ACCEPTED',
     ],
@@ -268,11 +268,11 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Portal Social Accounts, Entity Picker & Pagination',
     date: 'April 5, 2026',
     highlights: [
-      'Portal connected social accounts — users can view linked Google and GitHub identities from the self-service portal',
-      'Entity picker component — search-as-you-type replaces native dropdowns for role and group assignment, with debounced htmx search and keyboard navigation',
-      'RBAC assigned users table — role detail page shows all assigned users with direct links and remove actions',
+      'Portal connected social accounts: users can view linked Google and GitHub identities from the self-service portal',
+      'Entity picker component: search-as-you-type replaces native dropdowns for role and group assignment, with debounced htmx search and keyboard navigation',
+      'RBAC assigned users table: role detail page shows all assigned users with direct links and remove actions',
       'Pagination for users (25/page) and sessions (100 cap) with position-aware subtitles and search composition',
-      'JavaScript modernization — var to const/let, arrow functions, template literals, optional chaining across all bundles',
+      'JavaScript modernization: var to const/let, arrow functions, template literals, optional chaining across all bundles',
     ],
   },
   {
@@ -280,10 +280,10 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Auto-Update Check & Release Infrastructure',
     date: 'April 3, 2026',
     highlights: [
-      'Auto-update check — server queries a version manifest on startup and surfaces available updates in the admin console',
+      'Auto-update check: server queries a version manifest on startup and surfaces available updates in the admin console',
       'Version badge displayed in admin UI showing current running version',
       'KAUTH_UPDATE_CHECK flag to disable for air-gapped deployments',
-      'Release infrastructure — CI manifest publishing, GitHub Pages CNAME, and release template',
+      'Release infrastructure: CI manifest publishing, GitHub Pages CNAME, and release template',
     ],
   },
   {
@@ -291,8 +291,8 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'REST API Partial Updates & UX Polish',
     date: 'April 2, 2026',
     highlights: [
-      'REST API partial updates — PUT /users and PUT /applications accept partial payloads, omitted fields retain current values',
-      'Toast notifications for user actions — enable/disable, revoke sessions, resend verification email',
+      'REST API partial updates: PUT /users and PUT /applications accept partial payloads, omitted fields retain current values',
+      'Toast notifications for user actions: enable/disable, revoke sessions, resend verification email',
       'CSS tooltip component with disabled-state awareness',
       'Audit log filter auto-submits on change, settings save buttons show "Saving…" feedback',
     ],
@@ -302,13 +302,13 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Workspace Session Management & Audit Log Redesign',
     date: 'April 1, 2026',
     highlights: [
-      'Workspace "Revoke all sessions" — bulk revocation across all users with confirmation dialog and audit event',
-      'SMTP test email button — verify configuration from the settings page',
-      'Webhook recovery sweep — background retry every 5 minutes, auto-fails orphaned deliveries',
+      'Workspace "Revoke all sessions": bulk revocation across all users with confirmation dialog and audit event',
+      'SMTP test email button: verify configuration from the settings page',
+      'Webhook recovery sweep: background retry every 5 minutes, auto-fails orphaned deliveries',
       'Workspace logos in admin console topbar, switcher, and detail pages',
-      'Audit log redesigned — color-coded badges, human-readable labels, linked clients, grouped 55-event filter',
+      'Audit log redesigned: color-coded badges, human-readable labels, linked clients, grouped 55-event filter',
       'Composite role expansion rewritten as single recursive CTE',
-      'Typed webhook events — compile-time safe WebhookEventType enum',
+      'Typed webhook events: compile-time safe WebhookEventType enum',
     ],
   },
   {
@@ -316,10 +316,10 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Client-Side Polish & CSP Compliance',
     date: 'March 30, 2026',
     highlights: [
-      'Real-time inline password validation checklist on all password fields — shows per-tenant policy as you type',
+      'Real-time inline password validation checklist on all password fields: shows per-tenant policy as you type',
       'Auto-dismissing toast notifications replace persistent URL banners across admin and portal',
-      'Full CSP compliance — zero unsafe-inline violations, all inline handlers replaced with event delegation',
-      'QRCode.js bundled locally — MFA enrollment works fully offline / air-gapped',
+      'Full CSP compliance: zero unsafe-inline violations, all inline handlers replaced with event delegation',
+      'QRCode.js bundled locally: MFA enrollment works fully offline / air-gapped',
       'CSS token architecture with shared structural tokens across all 4 bundles',
     ],
   },
@@ -328,12 +328,12 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Security Hardening & CLI Tools',
     date: 'March 30, 2026',
     highlights: [
-      'KAUTH_SECRET_KEY required in all environments — no dev-mode fallback',
-      'RSA private keys encrypted at rest with AES-256-GCM — plaintext keys auto-migrated on startup',
-      'KAUTH_ADMIN_BYPASS removed — admin auth is exclusively OAuth PKCE',
+      'KAUTH_SECRET_KEY required in all environments: no dev-mode fallback',
+      'RSA private keys encrypted at rest with AES-256-GCM: plaintext keys auto-migrated on startup',
+      'KAUTH_ADMIN_BYPASS removed: admin auth is exclusively OAuth PKCE',
       'CLI subcommands: generate-secret-key and reset-admin-mfa via java -jar kauth.jar cli',
       'MFA challenge rate limiting (5/5min) and password reset rate limiting (3/5min)',
-      'findById tenant scoping enforced at database query level — cross-tenant lookups structurally impossible',
+      'findById tenant scoping enforced at database query level: cross-tenant lookups structurally impossible',
       'HTTP response compression, static asset caching, and 12 missing FK indexes',
     ],
   },
@@ -343,10 +343,10 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     date: 'March 27, 2026',
     highlights: [
       '/authorize shorthand replaces verbose /protocol/openid-connect/auth path',
-      'JS bundled with esbuild — 4 minified files with SRI integrity hashes on all script tags',
-      'Swagger UI bundled locally — API docs work in air-gapped environments',
+      'JS bundled with esbuild:4 minified files with SRI integrity hashes on all script tags',
+      'Swagger UI bundled locally: API docs work in air-gapped environments',
       'Password show/hide toggle on all password fields',
-      'Session revocation DB check on every request — admin revoke immediately invalidates cookies',
+      'Session revocation DB check on every request: admin revoke immediately invalidates cookies',
       'Email templates redesigned with TenantTheme branding',
     ],
   },
@@ -355,13 +355,13 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Security Hardening & Admin OAuth',
     date: 'March 27, 2026',
     highlights: [
-      'Admin console authenticates via OAuth Authorization Code + PKCE — eats its own dogfood',
-      'Admin role gating — only users with the admin role on the master tenant can access the console',
-      'Account lockout — configurable failed login threshold with automatic lockout duration and email notification',
-      'OIDC end-session logout — proper RP-initiated logout with id_token_hint and open redirect prevention',
+      'Admin console authenticates via OAuth Authorization Code + PKCE: eats its own dogfood',
+      'Admin role gating: only users with the admin role on the master tenant can access the console',
+      'Account lockout: configurable failed login threshold with automatic lockout duration and email notification',
+      'OIDC end-session logout: proper RP-initiated logout with id_token_hint and open redirect prevention',
       'Password changed email notification on all password change paths',
       'HMAC-signed admin cookies with dedicated key derivation',
-      'SecurityConfig extracted to dedicated table — password policy, MFA policy, and lockout config',
+      'SecurityConfig extracted to dedicated table: password policy, MFA policy, and lockout config',
       'CVE patches: Netty, Jackson, Logback, PostgreSQL JDBC',
       'Content-Security-Policy header, SameSite cookie attributes, thread-safe JWT cache',
     ],
@@ -371,14 +371,14 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Reliability, Performance & External Databases',
     date: 'March 24–26, 2026',
     highlights: [
-      'HikariCP connection pooling — eliminates per-request TCP/TLS overhead',
-      'Async email delivery — SMTP calls no longer block the auth response',
-      'External database compose file — bring your own PostgreSQL (RDS, Supabase, Neon, Railway, Render)',
+      'HikariCP connection pooling: eliminates per-request TCP/TLS overhead',
+      'Async email delivery: SMTP calls no longer block the auth response',
+      'External database compose file: bring your own PostgreSQL (RDS, Supabase, Neon, Railway, Render)',
       'Multi-arch Docker images (amd64 + arm64) built natively in CI',
       'Composite database indexes for session lookups and audit log queries',
-      'Session cleanup background job — purges expired sessions hourly',
-      'Rate limit keys tenant-scoped — one tenant\'s traffic doesn\'t affect another',
-      'Route intercept pattern — eliminated ~80 duplicate database calls across route files',
+      'Session cleanup background job: purges expired sessions hourly',
+      'Rate limit keys tenant-scoped: one tenant\'s traffic doesn\'t affect another',
+      'Route intercept pattern: eliminated ~80 duplicate database calls across route files',
       'Zero-config quickstart with demo data pre-loaded',
     ],
   },
@@ -387,19 +387,19 @@ const shippedVersions: { tag: string; title: string; date: string; highlights: s
     title: 'Initial Stable Release',
     date: 'March 17, 2026',
     highlights: [
-      'OAuth 2.0 / OIDC provider — Authorization Code + PKCE, Client Credentials, token rotation, introspection, revocation, discovery',
-      'Multi-tenancy — isolated workspaces with per-tenant RS256 key pairs, user directories, and branding',
-      'RBAC — tenant-scoped and client-scoped roles, composite inheritance with cycle detection, group hierarchy',
+      'OAuth 2.0 / OIDC provider: Authorization Code + PKCE, Client Credentials, token rotation, introspection, revocation, discovery',
+      'Multi-tenancy: isolated workspaces with per-tenant RS256 key pairs, user directories, and branding',
+      'RBAC: tenant-scoped and client-scoped roles, composite inheritance with cycle detection, group hierarchy',
       'TOTP MFA (RFC 6238) with recovery codes and per-workspace policy enforcement',
-      'Social login — Google and GitHub OAuth with automatic account linking by email',
-      'User self-service portal — profile editing, password change, session management, MFA enrollment',
-      'Admin console — workspace settings, user/application/role/group management, audit log viewer',
-      'Webhooks — HMAC-SHA256 signed delivery for 8 event types with exponential backoff retry',
-      'REST API v1 — 30+ endpoints with OpenAPI 3.1 spec and Swagger UI',
-      'White-label theming — 9 CSS custom properties injected server-side per tenant, 3 presets included',
-      'Audit logging — 30+ immutable event types, append-only, queryable via API and admin UI',
-      'Security baseline — bcrypt, AES-256-GCM, SHA-256, RS256, rate limiting, CSRF, startup validation',
-      'Docker multi-stage build — published to GHCR with Flyway auto-migrations on startup',
+      'Social login: Google and GitHub OAuth with automatic account linking by email',
+      'User self-service portal: profile editing, password change, session management, MFA enrollment',
+      'Admin console: workspace settings, user/application/role/group management, audit log viewer',
+      'Webhooks: HMAC-SHA256 signed delivery for 8 event types with exponential backoff retry',
+      'REST API v1:30+ endpoints with OpenAPI 3.1 spec and Swagger UI',
+      'White-label theming:9 CSS custom properties injected server-side per tenant, 3 presets included',
+      'Audit logging:30+ immutable event types, append-only, queryable via API and admin UI',
+      'Security baseline: bcrypt, AES-256-GCM, SHA-256, RS256, rate limiting, CSRF, startup validation',
+      'Docker multi-stage build: published to GHCR with Flyway auto-migrations on startup',
     ],
   },
 ];
@@ -433,7 +433,7 @@ const stats = [
 ---
 
 <BaseLayout
-  title="Roadmap — Kotauth"
+  title="Roadmap | Kotauth"
   description="See what's shipped and what's coming in Kotauth. v1.16.0 is live with Email OTP, security hardening, magic-link auth, Redis sessions, backup & restore, admin impersonation, and 43 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
   path="/roadmap"
 >
@@ -449,7 +449,7 @@ const stats = [
             <span class="gradient-text">What's next.</span>
           </h1>
           <p class="text-lg text-kotauth-text-secondary mb-8 max-w-xl">
-            v1.16.0 is live — 43 versions shipped since March 2026. Every version and every planned feature is documented here.
+            v1.16.0 is live. 43 versions shipped since March 2026. Every version and every planned feature is documented here.
             No vaporware, no undated promises.
           </p>
           <div class="flex flex-wrap gap-4">
