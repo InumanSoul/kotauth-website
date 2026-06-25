@@ -42,7 +42,7 @@ const en = {
     getStarted: 'Get Started',
     codeComment: '# Try Kotauth: one command',
     codeOutput: [
-      'Starting Kotauth Server v1.16.0...',
+      'Starting Kotauth Server v1.19.2...',
       '✓ Identity server ready on port 8080',
       '✓ Admin dashboard available at /admin',
       '✓ Demo data loaded. Two workspaces ready',

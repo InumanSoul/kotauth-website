@@ -29,6 +29,7 @@ import {
   Mail,
   CircleUserRound,
   Paintbrush,
+  Target,
 } from '@lucide/astro';
 import GradientGlow from '@/components/GradientGlow.astro';
 import FeatureCard from '@/components/FeatureCard.astro';
@@ -42,6 +43,11 @@ const allFeatures = [
     icon: Shield,
     title: 'OAuth 2.0 & OpenID Connect',
     description: 'Authorization Code + PKCE (required for all public clients), Client Credentials for machine-to-machine, Refresh Token rotation with immediate invalidation, token introspection (RFC 7662), revocation (RFC 7009), OIDC Discovery at /.well-known/openid-configuration, and RP-initiated end-session logout with id_token_hint. Any OIDC-compliant client library works without modification.',
+  },
+  {
+    icon: Target,
+    title: 'RFC 8707 Resource Indicators',
+    description: 'Audience-targeted machine-to-machine tokens. The resource parameter on the token endpoint (client_credentials grant) lets tokens carry the targeted API identifier as the aud claim instead of the caller client_id. APIs registry (admin: /settings/apis) provides workspace-scoped CRUD for audience identifiers. Per-client "Authorized APIs" screen with checkbox authorization and disable badges. Discovery metadata advertises resource_indicators_supported: true so RFC 8707-aware client libraries enable the parameter automatically. Hierarchy: resource > per-client audience column > client_id. Unknown or unauthorized resources produce RFC 8707 invalid_target 400, never a silently-broad token.',
   },
   {
     icon: Building2,
@@ -71,7 +77,7 @@ const allFeatures = [
   {
     icon: ShieldCheck,
     title: 'Security That Ships by Default',
-    description: 'bcrypt password hashing, AES-256-GCM encryption at rest (RSA private keys, SMTP credentials, TOTP secrets), SHA-256 hashed API keys, HMAC-SHA256 signed cookies, strict CSP with zero inline JavaScript, SRI integrity on all bundles, CSRF protection, SameSite cookies, open redirect prevention, mandatory KAUTH_SECRET_KEY. Refresh-token replay detection revokes the entire session family on reuse. TOTP replay protection with per-enrollment lockout. Container runs as non-root (UID 10001) with no-new-privileges and read-only filesystem. Login error normalization with timing equalization prevents user enumeration. JWT issuer enforcement blocks cross-tenant token reuse. Trusted proxy opt-in (KAUTH_TRUSTED_PROXY) prevents rate-limit bypass via header spoofing.',
+    description: 'bcrypt password hashing, AES-256-GCM encryption at rest (RSA private keys, SMTP credentials, TOTP secrets), SHA-256 hashed API keys, HMAC-SHA256 signed cookies, strict CSP with zero inline JavaScript, SRI integrity on all bundles, CSRF protection, SameSite cookies, open redirect prevention, mandatory KAUTH_SECRET_KEY. Refresh-token replay detection revokes the entire session family on reuse. TOTP replay protection with per-enrollment lockout. Container runs as non-root (UID 10001) with no-new-privileges and read-only filesystem. Login error normalization with timing equalization prevents user enumeration. JWT issuer enforcement blocks cross-tenant token reuse. Trusted proxy opt-in (KAUTH_TRUSTED_PROXY) prevents rate-limit bypass via header spoofing. HMAC chain over the audit log: each row carries prev_hash and row_hash via HMAC-SHA256 keyed by KAUTH_SECRET_KEY, tampering or reordering breaks the chain and is detected by the verify-audit-chain CLI command. PKCE S256 uses constant-time comparison. Server response header suppressed.',
   },
   {
     icon: Webhook,
@@ -86,7 +92,7 @@ const allFeatures = [
   {
     icon: Container,
     title: 'Docker-Native Deployment',
-    description: '~120 MB multi-stage image published to GHCR (ghcr.io/inumansoul/kotauth). Runs as non-root user (UID 10001) with no-new-privileges, cap_drop: ALL, and read-only filesystem. One-command quickstart with demo data pre-loaded, or bring your own .env for a custom setup. Flyway migrations run automatically on startup, no init scripts, no manual schema setup. Built-in CLI tools (generate-secret-key, reset-admin-mfa, hash-api-key, export-tenant, import-tenant) for key provisioning, emergency recovery, and backup operations. Bootstrap API keys via environment variable for CI/CD automation. HTTP compression (gzip/deflate), static asset caching, and bundled Swagger UI for air-gapped environments.',
+    description: '~120 MB multi-stage image published to GHCR (ghcr.io/inumansoul/kotauth). Runs as non-root user (UID 10001) with no-new-privileges, cap_drop: ALL, and read-only filesystem. One-command quickstart with demo data pre-loaded, or bring your own .env for a custom setup. Flyway migrations run automatically on startup, no init scripts, no manual schema setup. Built-in CLI tools (generate-secret-key, reset-admin-mfa, hash-api-key, export-tenant, import-tenant, verify-audit-chain) for key provisioning, emergency recovery, audit integrity verification, and backup operations. File-based secret injection (*_FILE convention): KAUTH_SECRET_KEY, DB_PASSWORD, KAUTH_REDIS_PASSWORD, KAUTH_BOOTSTRAP_ADMIN_PASSWORD, and KAUTH_BOOTSTRAP_API_KEYS accept a _FILE sibling pointing at a filesystem path, compatible with Docker Swarm secrets, Kubernetes mounted secrets, and systemd LoadCredential=. Two root compose files: docker-compose.yml for local dev and docker-compose.prod.yml for production with Caddy TLS. Bootstrap API keys via environment variable for CI/CD automation. Gradle dependency locking with CI verification and Dependabot for weekly vulnerability alerts.',
   },
   {
     icon: Bot,
@@ -121,7 +127,7 @@ const allFeatures = [
   {
     icon: Globe,
     title: 'Internationalization (i18n)',
-    description: 'All auth and portal UI strings are externalized via a TranslationPort. Volume-mounted JSON bundles let you add languages without recompiling. Just drop a file in KAUTH_I18N_BUNDLE_DIR. Accept-Language header resolution with quality-factor ranking and graceful English fallback. Zero hardcoded English strings in auth or portal views. 174 Spanish translation keys shipped as a reference implementation.',
+    description: 'All auth and portal UI strings are externalized via a TranslationPort. Volume-mounted JSON bundles let you add languages without recompiling. Just drop a file in KAUTH_I18N_BUNDLE_DIR. Accept-Language header resolution with quality-factor ranking and graceful English fallback. Zero hardcoded English strings in auth or portal views. 174 Spanish translation keys shipped as a reference implementation. Localized transactional emails: all 8 email types (verification, password reset, account locked, password changed, SMTP test, invite, magic link, OTP) render in the tenant defaultLocale with per-key English fallback.',
   },
   {
     icon: ShieldBan,
@@ -141,7 +147,7 @@ const allFeatures = [
   {
     icon: Paintbrush,
     title: 'Transactional Email Branding',
-    description: 'Per-tenant email branding: brand name, color, logo URL, support email, and from display name. All six transactional email templates (verification, magic link, password reset, account locked, invite, password changed) inherit the branding automatically. Branding editor card in workspace settings. Envelope sender stays operator-controlled for DKIM/SPF/DMARC alignment.',
+    description: 'Per-tenant email branding: brand name, color, logo URL, support email, and from display name. All eight transactional email templates (verification, magic link, password reset, account locked, invite, password changed, SMTP test, OTP) inherit the branding automatically. Branding editor card in workspace settings. Envelope sender stays operator-controlled for DKIM/SPF/DMARC alignment.',
   },
 ];
 
@@ -153,6 +159,7 @@ const rfcBadges = [
   { label: 'RFC 8414', description: 'Authorization Server Metadata' },
   { label: 'RFC 6238', description: 'TOTP Algorithm' },
   { label: 'RFC 7807', description: 'Problem Details for APIs' },
+  { label: 'RFC 8707', description: 'Resource Indicators' },
 ];
 
 const securityPrimitives = [
@@ -170,7 +177,7 @@ const securityPrimitives = [
 
 <BaseLayout
   title="Features | Kotauth"
-  description="Every feature Kotauth ships in v1.16.0: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, magic-link & email OTP passwordless auth, Redis sessions, backup & restore, admin impersonation, i18n, app launcher, MCP integration for AI assistants, email branding, client default roles, security hardening, HMAC webhooks, white-label auth screens, and Docker-native deployment. Built on Ktor 3.4, Kotlin 2.3, and PostgreSQL."
+  description="Every feature Kotauth ships in v1.19.2: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, magic-link & email OTP passwordless auth, Redis sessions, backup & restore, admin impersonation, i18n, app launcher, MCP integration for AI assistants, email branding, client default roles, RFC 8707 resource indicators, audit HMAC chain, file-based secrets, security hardening, HMAC webhooks, white-label auth screens, and Docker-native deployment. Built on Ktor 3.4, Kotlin 2.3, and PostgreSQL."
   path="/features"
 >
   <div class="min-h-screen">
@@ -192,7 +199,7 @@ const securityPrimitives = [
           </h1>
           <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
             Every feature listed here is in production today. No beta labels, no roadmap
-            promises. This is the current v1.16.0 release, built on Ktor 3.4, Kotlin 2.3, and Gradle 9.
+            promises. This is the current v1.19.2 release, built on Ktor 3.4, Kotlin 2.3, and Gradle 9.
           </p>
         </div>
       </div>

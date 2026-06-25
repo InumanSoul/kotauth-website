@@ -15,6 +15,76 @@ type ReleaseEntry = {
 
 const releases: ReleaseEntry[] = [
   {
+    version: '1.19.2',
+    date: 'June 22, 2026',
+    type: 'patch',
+    headline: 'Docker stack consolidation: six compose files collapsed into two. No runtime changes.',
+    highlights: [
+      'Two root compose files (docker-compose.yml + docker-compose.prod.yml) replace the six that lived under docker/',
+      'External-DB overlay replaced by DB_URL in .env; demo overlay replaced by KAUTH_DEMO_MODE=true in .env',
+      'Comments stripped from Dockerfile, Caddyfile, and compose files: all deployment guidance lives in docs',
+      'make up rebuilds via root compose with --build; make run sets KAUTH_I18N_BUNDLE_DIR for contributors',
+    ],
+  },
+  {
+    version: '1.19.1',
+    date: 'June 22, 2026',
+    type: 'patch',
+    headline: 'Supply-chain hygiene: file-based secret injection and dependency locking.',
+    highlights: [
+      'File-based secret injection (*_FILE convention): KAUTH_SECRET_KEY, DB_PASSWORD, KAUTH_REDIS_PASSWORD, KAUTH_BOOTSTRAP_ADMIN_PASSWORD, and KAUTH_BOOTSTRAP_API_KEYS accept a _FILE sibling pointing at a filesystem path',
+      'Compatible with Docker Swarm secrets, Kubernetes mounted secrets, and systemd LoadCredential=',
+      'Gradle dependency locking: gradle.lockfile pins the resolved dependency graph, CI verifies on every PR',
+      'Dependabot enabled for weekly alerts on Gradle deps, GitHub Actions, and Docker base images',
+    ],
+  },
+  {
+    version: '1.19.0',
+    date: 'June 19, 2026',
+    type: 'minor',
+    headline: 'Audit integrity + multi-audience introspection: HMAC chain over audit log, serialization fix.',
+    highlights: [
+      'HMAC chain over audit log: each row carries prev_hash and row_hash via HMAC-SHA256 keyed by KAUTH_SECRET_KEY; tampering or reordering breaks the chain',
+      'New verify-audit-chain CLI command detects tampered or reordered audit rows',
+      'Audit log details built with kotlinx.serialization: fixes silent JSON corruption from hand-concatenated strings',
+      'AccessTokenClaims.aud widened from String to List<String> for proper multi-audience introspection (RFC 7662)',
+      'Recommended Postgres role separation for audit_log documented: INSERT+SELECT for app, UPDATE+DELETE for maintenance',
+      'Migration V52 adds prev_hash, row_hash, chain_key_id columns to audit_log',
+    ],
+  },
+  {
+    version: '1.18.0',
+    date: 'June 17, 2026',
+    type: 'minor',
+    headline: 'Audience-targeted M2M tokens: RFC 8707 Resource Indicators for client_credentials grant.',
+    highlights: [
+      'resource request parameter on token endpoint (client_credentials grant): tokens carry the targeted API identifier as the aud claim',
+      'APIs registry (admin: /settings/apis): workspace-scoped CRUD for audience identifiers M2M tokens can target',
+      'Per-client "Authorized APIs" screen: checkbox list of registered APIs with disable/enable badges',
+      'Discovery metadata advertises resource_indicators_supported: true for RFC 8707-aware clients',
+      'Audit log TOKEN_ISSUED events for client_credentials now include resolved resources',
+      'client_credentials honors per-client audience column when no resource is sent: hierarchy is resource > audience column > client_id',
+      'Migration V51 adds resource_servers and client_authorized_resources tables',
+    ],
+  },
+  {
+    version: '1.17.0',
+    date: 'June 17, 2026',
+    type: 'minor',
+    headline: 'Email i18n + Tier-3 security polish: localized transactional emails and 7 security fixes.',
+    highlights: [
+      'Localized transactional emails: all 8 email types render in the tenant defaultLocale with per-key English fallback',
+      'L8: Suppress Server response header, Ktor default revealed engine and version',
+      'L4: PKCE S256 uses constant-time comparison (MessageDigest.isEqual) instead of ==',
+      'L1: code and state URL-encoded on authorization-code redirect, closing query-parameter injection',
+      'L2: KOTAUTH_MFA_PENDING cookie carries Secure flag on HTTPS base URLs',
+      'L3: MFA recovery codes raised from 8-char (32-bit) to 16-char hex (64-bit)',
+      'L5: Admin error page no longer prints raw exception messages, details logged server-side only',
+      'M11: Refuse startup when KAUTH_DEMO_MODE=true + KAUTH_ENV=production',
+      'M12: Update-check URL must use https://, zero redirects, releaseUrl restricted to https:// schemes',
+    ],
+  },
+  {
     version: '1.16.0',
     date: 'June 17, 2026',
     type: 'minor',
@@ -608,7 +678,7 @@ function getTypeBadgeClass(type: string) {
 
 <BaseLayout
   title="Changelog | Kotauth"
-  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.16.0. Track what shipped and when."
+  description="Every release of Kotauth documented with highlights and security fixes. From v1.0.0 to v1.19.2. Track what shipped and when."
   path="/changelog"
 >
   <div class="min-h-screen">

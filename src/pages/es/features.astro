@@ -29,6 +29,7 @@ import {
   Mail,
   CircleUserRound,
   Paintbrush,
+  Target,
 } from '@lucide/astro';
 import GradientGlow from '@/components/GradientGlow.astro';
 import FeatureCard from '@/components/FeatureCard.astro';
@@ -45,6 +46,11 @@ const allFeatures = [
     icon: Shield,
     title: 'OAuth 2.0 y OpenID Connect',
     description: 'Authorization Code + PKCE (obligatorio para todos los clientes públicos), Client Credentials para comunicación máquina a máquina, rotación de Refresh Token con invalidación inmediata, introspección de tokens (RFC 7662), revocación (RFC 7009), OIDC Discovery en /.well-known/openid-configuration y logout iniciado por el RP con id_token_hint. Cualquier librería cliente compatible con OIDC funciona sin modificación.',
+  },
+  {
+    icon: Target,
+    title: 'Indicadores de Recurso RFC 8707',
+    description: 'Tokens máquina a máquina dirigidos a una audiencia específica. El parámetro resource en el endpoint de token (grant client_credentials) permite que los tokens lleven el identificador de la API objetivo como claim aud en lugar del client_id del solicitante. Registro de APIs (admin: /settings/apis) proporciona CRUD con scope de workspace para identificadores de audiencia. Pantalla "APIs Autorizadas" por cliente con autorización por checkbox y badges de deshabilitación. Los metadatos de Discovery anuncian resource_indicators_supported: true para que las librerías cliente compatibles con RFC 8707 habiliten el parámetro automáticamente. Jerarquía: resource > columna audience por cliente > client_id. Recursos desconocidos o no autorizados producen invalid_target 400 según RFC 8707, nunca un token silenciosamente amplio.',
   },
   {
     icon: Building2,
@@ -74,7 +80,7 @@ const allFeatures = [
   {
     icon: ShieldCheck,
     title: 'Seguridad Incluida por Defecto',
-    description: 'Hashing de contraseñas con bcrypt, cifrado AES-256-GCM en reposo (claves privadas RSA, credenciales SMTP, secretos TOTP), API keys hasheadas con SHA-256, cookies firmadas con HMAC-SHA256, CSP estricto sin JavaScript inline, integridad SRI en todos los bundles, protección CSRF, cookies SameSite, prevención de redirección abierta, KAUTH_SECRET_KEY obligatorio. La detección de replay de refresh-token revoca toda la familia de sesiones ante una reutilización. Protección contra replay TOTP con bloqueo por enrollment. El contenedor se ejecuta como non-root (UID 10001) con no-new-privileges y filesystem de solo lectura. Normalización de errores de login con ecualización de tiempos evita la enumeración de usuarios. La aplicación de issuer JWT bloquea la reutilización de tokens entre tenants. El opt-in de proxy de confianza (KAUTH_TRUSTED_PROXY) previene el bypass de rate-limit mediante spoofing de headers.',
+    description: 'Hashing de contraseñas con bcrypt, cifrado AES-256-GCM en reposo (claves privadas RSA, credenciales SMTP, secretos TOTP), API keys hasheadas con SHA-256, cookies firmadas con HMAC-SHA256, CSP estricto sin JavaScript inline, integridad SRI en todos los bundles, protección CSRF, cookies SameSite, prevención de redirección abierta, KAUTH_SECRET_KEY obligatorio. La detección de replay de refresh-token revoca toda la familia de sesiones ante una reutilización. Protección contra replay TOTP con bloqueo por enrollment. El contenedor se ejecuta como non-root (UID 10001) con no-new-privileges y filesystem de solo lectura. Normalización de errores de login con ecualización de tiempos evita la enumeración de usuarios. La aplicación de issuer JWT bloquea la reutilización de tokens entre tenants. El opt-in de proxy de confianza (KAUTH_TRUSTED_PROXY) previene el bypass de rate-limit mediante spoofing de headers. Cadena HMAC sobre el log de auditoría: cada fila lleva prev_hash y row_hash vía HMAC-SHA256 con clave KAUTH_SECRET_KEY, la manipulación o reordenamiento rompe la cadena y es detectada por el comando CLI verify-audit-chain. PKCE S256 usa comparación en tiempo constante. Header Server de respuesta suprimido.',
   },
   {
     icon: Webhook,
@@ -89,7 +95,7 @@ const allFeatures = [
   {
     icon: Container,
     title: 'Despliegue Nativo de Docker',
-    description: 'Imagen multi-stage de ~120 MB publicada en GHCR (ghcr.io/inumansoul/kotauth). Se ejecuta como usuario non-root (UID 10001) con no-new-privileges, cap_drop: ALL y filesystem de solo lectura. Quickstart de un comando con datos de demo precargados, o trae tu propio .env para una configuración personalizada. Las migraciones Flyway se ejecutan automáticamente al iniciar, sin scripts de init, sin configuración manual del esquema. Herramientas CLI integradas (generate-secret-key, reset-admin-mfa, hash-api-key, export-tenant, import-tenant) para provisión de claves, recuperación de emergencia y operaciones de backup. Bootstrap de API keys vía variable de entorno para automatización CI/CD. Compresión HTTP (gzip/deflate), caché de activos estáticos y Swagger UI incluido para entornos air-gapped.',
+    description: 'Imagen multi-stage de ~120 MB publicada en GHCR (ghcr.io/inumansoul/kotauth). Se ejecuta como usuario non-root (UID 10001) con no-new-privileges, cap_drop: ALL y filesystem de solo lectura. Quickstart de un comando con datos de demo precargados, o trae tu propio .env para una configuración personalizada. Las migraciones Flyway se ejecutan automáticamente al iniciar, sin scripts de init, sin configuración manual del esquema. Herramientas CLI integradas (generate-secret-key, reset-admin-mfa, hash-api-key, export-tenant, import-tenant, verify-audit-chain) para provisión de claves, recuperación de emergencia, verificación de integridad de auditoría y operaciones de backup. Inyección de secretos basada en archivos (convención *_FILE): KAUTH_SECRET_KEY, DB_PASSWORD, KAUTH_REDIS_PASSWORD, KAUTH_BOOTSTRAP_ADMIN_PASSWORD y KAUTH_BOOTSTRAP_API_KEYS aceptan un sibling _FILE apuntando a una ruta del filesystem, compatible con Docker Swarm secrets, Kubernetes mounted secrets y systemd LoadCredential=. Dos archivos compose raíz: docker-compose.yml para desarrollo local y docker-compose.prod.yml para producción con Caddy TLS. Bootstrap de API keys vía variable de entorno para automatización CI/CD. Bloqueo de dependencias Gradle con verificación en CI y Dependabot para alertas semanales de vulnerabilidades.',
   },
   {
     icon: Bot,
@@ -124,7 +130,7 @@ const allFeatures = [
   {
     icon: Globe,
     title: 'Internacionalización (i18n)',
-    description: 'Todas las cadenas de texto de la UI de auth y portal están externalizadas a través de un TranslationPort. Los bundles JSON montados por volumen permiten agregar idiomas sin recompilar. Solo coloca un archivo en KAUTH_I18N_BUNDLE_DIR. Resolución del header Accept-Language con ranking por factor de calidad y fallback elegante a inglés. Cero cadenas de texto en inglés hardcodeadas en las vistas de auth o portal. 174 claves de traducción al español incluidas como implementación de referencia.',
+    description: 'Todas las cadenas de texto de la UI de auth y portal están externalizadas a través de un TranslationPort. Los bundles JSON montados por volumen permiten agregar idiomas sin recompilar. Solo coloca un archivo en KAUTH_I18N_BUNDLE_DIR. Resolución del header Accept-Language con ranking por factor de calidad y fallback elegante a inglés. Cero cadenas de texto en inglés hardcodeadas en las vistas de auth o portal. 174 claves de traducción al español incluidas como implementación de referencia. Emails transaccionales localizados: los 8 tipos de email (verificación, restablecimiento de contraseña, cuenta bloqueada, contraseña cambiada, prueba SMTP, invitación, magic link, OTP) se renderizan en el defaultLocale del tenant con fallback por clave a inglés.',
   },
   {
     icon: ShieldBan,
@@ -144,7 +150,7 @@ const allFeatures = [
   {
     icon: Paintbrush,
     title: 'Branding en Emails Transaccionales',
-    description: 'Branding de email por tenant: nombre de marca, color, URL del logo, email de soporte y nombre para mostrar del remitente. Las seis plantillas de email transaccional (verificación, magic link, restablecimiento de contraseña, cuenta bloqueada, invitación, contraseña cambiada) heredan el branding automáticamente. Card de editor de branding en la configuración del workspace. El remitente del envelope permanece bajo control del operador para alineación DKIM/SPF/DMARC.',
+    description: 'Branding de email por tenant: nombre de marca, color, URL del logo, email de soporte y nombre para mostrar del remitente. Las ocho plantillas de email transaccional (verificación, magic link, restablecimiento de contraseña, cuenta bloqueada, invitación, contraseña cambiada, prueba SMTP, OTP) heredan el branding automáticamente. Card de editor de branding en la configuración del workspace. El remitente del envelope permanece bajo control del operador para alineación DKIM/SPF/DMARC.',
   },
 ];
 
@@ -156,6 +162,7 @@ const rfcBadges = [
   { label: 'RFC 8414', description: 'Metadata del Servidor de Autorización' },
   { label: 'RFC 6238', description: 'Algoritmo TOTP' },
   { label: 'RFC 7807', description: 'Detalles de Problemas para APIs' },
+  { label: 'RFC 8707', description: 'Indicadores de Recurso' },
 ];
 
 const securityPrimitives = [
@@ -195,7 +202,7 @@ const securityPrimitives = [
           </h1>
           <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
             Cada funcionalidad listada aquí está en producción hoy. Sin etiquetas beta, sin promesas
-            de roadmap. Esta es la versión actual v1.16.0, construida con Ktor 3.4, Kotlin 2.3 y Gradle 9.
+            de roadmap. Esta es la versión actual v1.19.2, construida con Ktor 3.4, Kotlin 2.3 y Gradle 9.
           </p>
         </div>
       </div>

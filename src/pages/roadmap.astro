@@ -10,6 +10,57 @@ const DEMO_URL = 'https://demo.kotauth.com';
 
 const shippedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
   {
+    tag: 'v1.19.2',
+    title: 'Docker Stack Consolidation',
+    date: 'June 22, 2026',
+    highlights: [
+      'Six compose files collapsed into two root files (docker-compose.yml + docker-compose.prod.yml)',
+      'External-DB overlay replaced by DB_URL in .env; demo overlay replaced by KAUTH_DEMO_MODE=true',
+      'No runtime changes: image and JAR unchanged from 1.19.1',
+    ],
+  },
+  {
+    tag: 'v1.19.1',
+    title: 'File-Based Secrets & Dependency Locking',
+    date: 'June 22, 2026',
+    highlights: [
+      'File-based secret injection (*_FILE convention) for all sensitive env vars: Docker Swarm, Kubernetes, systemd compatible',
+      'Gradle dependency locking with CI verification; Dependabot for weekly vulnerability alerts',
+    ],
+  },
+  {
+    tag: 'v1.19.0',
+    title: 'Audit Log Integrity & Multi-Audience Introspection',
+    date: 'June 19, 2026',
+    highlights: [
+      'HMAC chain over audit log: per-tenant prev_hash/row_hash for tamper detection',
+      'New verify-audit-chain CLI command',
+      'Audit log details built with kotlinx.serialization (fixes silent JSON corruption)',
+      'AccessTokenClaims.aud widened to List<String> for multi-audience introspection (RFC 7662)',
+    ],
+  },
+  {
+    tag: 'v1.18.0',
+    title: 'RFC 8707 Resource Indicators',
+    date: 'June 17, 2026',
+    highlights: [
+      'resource parameter on token endpoint for audience-targeted M2M tokens',
+      'APIs registry: workspace-scoped CRUD for audience identifiers',
+      'Per-client "Authorized APIs" screen with enable/disable badges',
+      'Discovery metadata advertises resource_indicators_supported: true',
+    ],
+  },
+  {
+    tag: 'v1.17.0',
+    title: 'Email i18n & Tier-3 Security Polish',
+    date: 'June 17, 2026',
+    highlights: [
+      'Localized transactional emails: all 8 types render in tenant defaultLocale',
+      '7 security fixes: Server header suppression, PKCE constant-time comparison, URL-encoded auth code redirect, MFA cookie Secure flag, 64-bit recovery codes, admin error page sanitization, demo-mode production guard',
+      'Update-check hardened: HTTPS-only manifest URL, zero redirects',
+    ],
+  },
+  {
     tag: 'v1.16.0',
     title: 'Security Tier 2: Container Hardening & TOTP Replay Protection',
     date: 'June 17, 2026',
@@ -425,8 +476,8 @@ const longTerm: PlannedItem[] = [
 ];
 
 const stats = [
-  { label: 'Versions Shipped', value: '43' },
-  { label: 'DB Migrations', value: '50' },
+  { label: 'Versions Shipped', value: '48' },
+  { label: 'DB Migrations', value: '52' },
   { label: 'REST Endpoints', value: '45+' },
   { label: 'Audit Event Types', value: '65+' },
 ];
@@ -434,7 +485,7 @@ const stats = [
 
 <BaseLayout
   title="Roadmap | Kotauth"
-  description="See what's shipped and what's coming in Kotauth. v1.16.0 is live with Email OTP, security hardening, magic-link auth, Redis sessions, backup & restore, admin impersonation, and 43 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
+  description="See what's shipped and what's coming in Kotauth. v1.19.2 is live with RFC 8707 resource indicators, audit HMAC chains, file-based secrets, and 48 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
   path="/roadmap"
 >
   <div class="pt-[72px]">
@@ -449,7 +500,7 @@ const stats = [
             <span class="gradient-text">What's next.</span>
           </h1>
           <p class="text-lg text-kotauth-text-secondary mb-8 max-w-xl">
-            v1.16.0 is live. 43 versions shipped since March 2026. Every version and every planned feature is documented here.
+            v1.19.2 is live. 48 versions shipped since March 2026. Every version and every planned feature is documented here.
             No vaporware, no undated promises.
           </p>
           <div class="flex flex-wrap gap-4">

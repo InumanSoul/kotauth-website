@@ -44,7 +44,7 @@ const es: Translations = {
     getStarted: 'Comenzar',
     codeComment: '# Prueba Kotauth: un solo comando',
     codeOutput: [
-      'Iniciando Kotauth Server v1.16.0...',
+      'Iniciando Kotauth Server v1.19.2...',
       '✓ Servidor de identidad listo en el puerto 8080',
       '✓ Panel de administración disponible en /admin',
       '✓ Datos de demostración cargados. Dos workspaces listos',
