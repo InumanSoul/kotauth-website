@@ -1,9 +1,0 @@
-services:
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: kotauth-website:latest
-    ports:
-      - ${PORT}
-    restart: unless-stopped

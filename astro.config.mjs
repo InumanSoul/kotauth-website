@@ -1,11 +1,7 @@
 import { defineConfig } from 'astro/config';
 
+// Static output goes to ./dist (Railpack / nginx / any static host serves that).
 export default defineConfig({
-  outDir: '/tmp/kotauth-dist',
-  cacheDir: '/tmp/kotauth-astro-cache',
-  vite: {
-    cacheDir: '/tmp/vite-kotauth-cache',
-  },
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'es', 'pt-br'],
