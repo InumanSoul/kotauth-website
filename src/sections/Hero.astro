@@ -1,128 +1,178 @@
 ---
-import { ArrowRight, Play } from '@lucide/astro';
-import CodeBlock from '@/components/CodeBlock.astro';
-import GradientGlow from '@/components/GradientGlow.astro';
-import { t, type Locale, defaultLocale, getLocalizedPath } from '@/i18n';
+import { t, type Locale, defaultLocale } from '@/i18n';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const DEMO_URL = 'https://demo.kotauth.com';
+const QUICKSTART_URL = 'https://docs.kotauth.com/getting-started/quickstart/';
+const QUICKSTART_CMD = 'docker compose -f docker-compose.quickstart.yml up -d';
 
 const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 const i18n = t(locale);
 
-const codeContent = `${i18n.hero.codeComment}
-$ curl -O https://raw.githubusercontent.com/\\
-    inumansoul/kotauth/main/\\
-    docker-compose.quickstart.yml
-$ docker compose -f \\
-    docker-compose.quickstart.yml up -d
-
-${i18n.hero.codeOutput.join('\n')}`;
+const alternatives = ['Clerk', 'Auth0', 'Keycloak', 'Zitadel', 'Authelia', 'Pocket-ID'];
 ---
 
-<section class="relative min-h-[auto] lg:min-h-screen flex items-center pt-24 pb-16 lg:pt-[72px] lg:pb-0 overflow-hidden">
-  <GradientGlow
-    class="top-1/4 left-1/4 -translate-x-1/2"
-    size={800}
-    color="rgba(0, 119, 168, 0.22)"
-  />
-  <GradientGlow
-    class="bottom-1/4 right-1/4 translate-x-1/2"
-    size={600}
-    color="rgba(0, 163, 224, 0.16)"
-  />
+<!-- ============ HERO ============ -->
+<section class="relative px-7 pt-32 sm:pt-40 text-center overflow-hidden bg-white">
+  <!-- Ambient glow behind headline -->
+  <div
+    class="absolute top-[-120px] left-1/2 -translate-x-1/2 w-[1000px] h-[560px] pointer-events-none"
+    style="background: radial-gradient(ellipse at center, rgba(0,119,168,0.12), rgba(99,102,241,0.06) 45%, transparent 70%);"
+  >
+  </div>
 
-  <div class="section-container relative z-10">
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-      <div class="max-w-xl">
-        <div data-reveal class="mb-6">
-          <span class="eyebrow">{i18n.hero.eyebrow}</span>
+  <div class="relative max-w-[860px] mx-auto">
+    <h1 class="font-heading font-bold text-[40px] sm:text-[54px] lg:text-[67px] leading-[1.04] tracking-[-0.03em] text-kotauth-text-primary mb-5">
+      {i18n.hero.titleLine1}<br class="hidden sm:block" /> {i18n.hero.titleLine2}
+    </h1>
+    <p class="text-lg sm:text-[19px] leading-relaxed font-medium text-kotauth-text-secondary max-w-[620px] mx-auto mb-9">
+      {i18n.hero.description}
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-wrap justify-center gap-3 mb-[18px]">
+      <a
+        href={QUICKSTART_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2.5 text-[15.5px] font-semibold text-white bg-kotauth-primary hover:bg-kotauth-primary-light px-6 h-[52px] transition-all hover:-translate-y-px"
+        style="box-shadow: 0 2px 8px rgba(0,119,168,0.28);"
+      >
+        {i18n.hero.getStarted}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+      <a
+        href={DEMO_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2.5 text-[15.5px] font-semibold text-kotauth-text-primary bg-white border border-kotauth-surface-2 hover:border-kotauth-surface-3 px-6 h-[52px] transition-colors"
+      >
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+        {i18n.hero.tryDemo}
+      </a>
+    </div>
+
+    <!-- Quickstart command pill -->
+    <div class="inline-flex items-center gap-2.5 font-mono text-[13px] text-kotauth-text-muted bg-kotauth-bg-secondary border border-kotauth-surface-2 px-3.5 py-2.5 mb-16">
+      <span class="text-kotauth-primary">$</span>
+      <span>{QUICKSTART_CMD}</span>
+      <span class="w-px h-3.5 bg-kotauth-surface-3"></span>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" /><path d="M5 15V5a1 1 0 0 1 1-1h10" /></svg>
+    </div>
+  </div>
+
+  <!-- PRODUCT MOCKUP — two-rail dark dashboard -->
+  <div class="relative max-w-[1080px] mx-auto">
+    <div
+      class="absolute pointer-events-none"
+      style="inset: -30px -10px -60px; background: radial-gradient(ellipse 70% 60% at 50% 30%, rgba(0,119,168,0.16), transparent 70%);"
+    >
+    </div>
+    <div
+      class="relative bg-[#0A0F14] border border-[#1c2733] overflow-hidden text-left"
+      style="box-shadow: 0 50px 90px -30px rgba(15,22,41,0.45), 0 12px 30px -14px rgba(15,22,41,0.25);"
+    >
+      <!-- top bar -->
+      <div class="flex items-center gap-4 h-[54px] px-4 border-b border-[#18222e] bg-[#0b1016]">
+        <div class="flex items-center gap-2.5">
+          <div class="w-[30px] h-[30px] bg-[#1c2733] border border-[#243240] flex items-center justify-center font-heading text-sm font-bold text-[#E6EDF3]">S</div>
+          <div class="leading-[1.15]">
+            <div class="text-[13px] font-bold text-[#E6EDF3]">Startup Labs</div>
+            <div class="text-[10px] text-[#5b6775] font-mono">workspace</div>
+          </div>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5b6775" stroke-width="2"><path d="m6 9 6 6 6-6" /></svg>
         </div>
-
-        <h1
-          data-reveal
-          data-reveal-delay="100"
-          class="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-bold text-kotauth-text-primary leading-[1.1] tracking-tight mb-6 font-mono"
-        >
-          {i18n.hero.titleStart}{' '}
-          <span class="gradient-text">{i18n.hero.titleHighlight}</span>
-        </h1>
-
-        <p
-          data-reveal
-          data-reveal-delay="200"
-          class="text-lg text-kotauth-text-secondary leading-relaxed mb-8"
-        >
-          {i18n.hero.description}
-        </p>
-
-        <div data-reveal data-reveal-delay="300" class="flex flex-wrap gap-4">
-          <a
-            href={DEMO_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-12 font-mono text-sm transition-colors"
-          >
-            <Play class="w-4 h-4" />
-            {i18n.hero.tryDemo}
-          </a>
-          <a
-            href={`${GITHUB_URL}#try-it--one-command`}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-12 font-mono text-sm transition-colors"
-          >
-            {i18n.hero.getStarted}
-            <ArrowRight class="w-4 h-4" />
-          </a>
+        <div class="flex-1 hidden sm:flex justify-center">
+          <div class="flex items-center gap-2.5 w-[360px] bg-[#11181F] border border-[#1c2733] px-3 py-[7px]">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5b6775" stroke-width="2"><circle cx="11" cy="11" r="7" /><path d="m21 21-4-4" /></svg>
+            <span class="text-[12.5px] text-[#5b6775]">Search users…</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3.5 ml-auto sm:ml-0">
+          <div class="w-[30px] h-[30px] rounded-full bg-[#2A3744] flex items-center justify-center text-xs font-bold text-[#E6EDF3]">A</div>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5b6775" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" /></svg>
         </div>
       </div>
-
-      <div data-reveal data-reveal-delay="400" class="relative min-w-0">
-        <div class="relative min-w-0">
-          <div class="absolute -top-4 -right-4 w-24 h-24 bg-kotauth-primary/10 blur-2xl"></div>
-          <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-kotauth-primary-light/10 blur-2xl"></div>
-
-          <CodeBlock
-            code={codeContent}
-            language="bash"
-            class="relative shadow-2xl shadow-kotauth-primary/5"
-          />
+      <!-- body -->
+      <div class="grid grid-cols-[56px_1fr] sm:grid-cols-[66px_188px_1fr] min-h-[430px]">
+        <!-- icon rail -->
+        <div class="border-r border-[#18222e] bg-[#0b1016] flex flex-col justify-between py-3">
+          <div class="flex flex-col gap-0.5">
+            <div class="flex flex-col items-center gap-1 py-2.5 text-[#5b6775]"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /></svg><span class="text-[9.5px]">Apps</span></div>
+            <div class="flex flex-col items-center gap-1 py-2.5 text-[#00A3E0] border-l-2 border-[#00A3E0]" style="background: rgba(0,163,224,0.1);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="9" cy="8" r="3" /><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 7h5M18.5 4.5v5" /></svg><span class="text-[9.5px]">Directory</span></div>
+            <div class="flex flex-col items-center gap-1 py-2.5 text-[#5b6775]"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z" /></svg><span class="text-[9.5px]">Security</span></div>
+            <div class="flex flex-col items-center gap-1 py-2.5 text-[#5b6775]"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg><span class="text-[9.5px]">Logs</span></div>
+            <div class="flex flex-col items-center gap-1 py-2.5 text-[#5b6775]"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.81 1.17V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15H4.5a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 6 9.4l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 11 4.6V4.5a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 2.81 1.17l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 11h.1a2 2 0 1 1 0 4Z" /></svg><span class="text-[9.5px]">Settings</span></div>
+          </div>
+          <div class="flex flex-col items-center gap-1.5">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="#243240"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z" /></svg>
+            <span class="text-[9px] text-[#3a4654] font-mono">v1.19.2</span>
+          </div>
+        </div>
+        <!-- directory rail -->
+        <div class="hidden sm:block border-r border-[#18222e] px-3.5 py-4">
+          <div class="text-[10px] text-[#5b6775] font-bold tracking-[0.12em] pl-1.5 mb-3">DIRECTORY</div>
+          <div class="flex flex-col gap-0.5 text-[13px]">
+            <div class="flex items-center justify-between px-2.5 py-2 bg-[#161f28] text-[#E6EDF3] font-semibold">Users<span class="w-1.5 h-1.5 rounded-full bg-[#00A3E0]"></span></div>
+            <div class="px-2.5 py-2 text-[#8B97A5]">Groups</div>
+            <div class="px-2.5 py-2 text-[#8B97A5]">Roles</div>
+          </div>
+        </div>
+        <!-- main -->
+        <div class="px-4 sm:px-6 py-5 bg-[#0A0F14] overflow-x-auto">
+          <div class="flex items-center gap-1.5 text-[12.5px] text-[#5b6775] mb-3">
+            <span>Workspaces</span><span class="text-[#374350]">›</span><span>startup-labs</span><span class="text-[#374350]">›</span><span class="text-[#E6EDF3]">Users</span>
+          </div>
+          <div class="flex items-center justify-between mb-[18px]">
+            <div class="font-heading text-2xl font-bold text-[#E6EDF3]">Users</div>
+            <div class="inline-flex items-center gap-1.5 bg-[#0090CB] text-white text-[12.5px] font-semibold px-3.5 py-2.5">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14" />
+              </svg>New User
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5 bg-[#11181F] border border-[#1c2733] px-3 py-2.5 mb-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5b6775" stroke-width="2"><circle cx="11" cy="11" r="7" /><path d="m21 21-4-4" /></svg>
+            <span class="text-[13px] text-[#5b6775]">Filter by username, email, or name…</span>
+          </div>
+          <div class="text-xs text-[#5b6775] mb-2.5">3 users in this workspace</div>
+          <div class="border border-[#18222e] min-w-[520px]">
+            <div class="grid grid-cols-[1.3fr_1.2fr_1.9fr_0.9fr_0.7fr] px-[18px] py-2.5 bg-[#0b1016] border-b border-[#18222e] text-[10.5px] font-bold text-[#5b6775] tracking-[0.06em]">
+              <span>USERNAME</span><span>FULL NAME</span><span>EMAIL</span><span>STATUS</span><span></span>
+            </div>
+            {[
+              { user: 'jordan.lee', name: 'Jordan Lee', email: 'jordan@startup.example' },
+              { user: 'casey.smith', name: 'Casey Smith', email: 'casey@startup.example' },
+              { user: 'riley.jones', name: 'Riley Jones', email: 'riley@startup.example' },
+            ].map((row) => (
+              <div class="grid grid-cols-[1.3fr_1.2fr_1.9fr_0.9fr_0.7fr] px-[18px] py-3 border-t border-[#141d26] items-center text-[13px]">
+                <span class="font-mono text-[#4FB3DE]">{row.user}</span>
+                <span class="text-[#E6EDF3]">{row.name}</span>
+                <span class="font-mono text-[#7c8794] text-[12.5px] truncate">{row.email}</span>
+                <span>
+                  <span class="inline-flex items-center gap-1.5 text-[#34D399] px-2 py-0.5 text-[11px] font-semibold" style="border: 1px solid rgba(52,211,153,0.3); background: rgba(52,211,153,0.08);">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#34D399]"></span>Active
+                  </span>
+                </span>
+                <span class="justify-self-end">
+                  <span class="inline-flex items-center gap-1 border border-[#243240] text-[#C2CCD6] px-2 py-1 text-[11px]">Open <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M9 7h8v8" /></svg></span>
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-kotauth-bg-primary to-transparent pointer-events-none"></div>
 </section>
 
-<script is:inline>
-  (function () {
-    var glows = document.querySelectorAll('.glow-drift');
-    if (!glows.length) return;
-
-    var BASE_DURATION = 12;
-    var MIN_DURATION = 2;
-    var SCROLL_CEILING = 1200;
-    var ticking = false;
-
-    function update() {
-      var scroll = Math.min(window.scrollY, SCROLL_CEILING);
-      var ratio = scroll / SCROLL_CEILING;
-      var duration = BASE_DURATION - ratio * (BASE_DURATION - MIN_DURATION);
-      for (var i = 0; i < glows.length; i++) {
-        glows[i].style.setProperty('--glow-duration', duration.toFixed(2) + 's');
-      }
-      ticking = false;
-    }
-
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        requestAnimationFrame(update);
-        ticking = true;
-      }
-    }, { passive: true });
-
-    update();
-  })();
-</script>
+<!-- ============ TRUST STRIP ============ -->
+<section class="bg-kotauth-bg-secondary border-y border-kotauth-surface-2">
+  <div class="max-w-[1180px] mx-auto px-7 py-[30px] flex items-center justify-center gap-x-9 gap-y-3 flex-wrap">
+    <span class="text-[12.5px] font-semibold tracking-[0.04em] text-kotauth-text-muted whitespace-nowrap">{i18n.hero.alternativesLabel}</span>
+    <div class="flex items-center gap-8 flex-wrap justify-center font-heading text-lg font-semibold text-kotauth-text-tertiary">
+      {alternatives.map((alt) => (
+        <span class="hover:text-kotauth-text-secondary transition-colors">{alt}</span>
+      ))}
+    </div>
+  </div>
+</section>

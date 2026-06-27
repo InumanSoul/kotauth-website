@@ -11,113 +11,113 @@ const QUICKSTART_URL = 'https://docs.kotauth.com/getting-started/quickstart/';
 
 const categories = [
   {
-    label: 'Autenticación y protocolos',
-    subtitle: 'Autenticación basada en estándares que encaja en cualquier cliente.',
+    label: 'Autenticação e protocolos',
+    subtitle: 'Autenticação baseada em padrões que se encaixa em qualquer cliente.',
     items: [
       {
-        title: 'OAuth 2.0 y OpenID Connect',
-        body: 'Authorization Code con PKCE, Client Credentials, rotación de tokens, introspección, revocación y OIDC Discovery. Conforme a la especificación, así que cualquier librería cliente de OIDC funciona sin configuración adicional.',
+        title: 'OAuth 2.0 e OpenID Connect',
+        body: 'Authorization Code com PKCE, Client Credentials, rotação de tokens, introspecção, revogação e OIDC Discovery. Compatível com a especificação, então qualquer biblioteca cliente OIDC funciona sem ajustes.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>',
       },
       {
-        title: 'Inicio de sesión sin contraseña',
-        body: 'Inicio de sesión con magic-link y Email OTP, con tokens de un solo uso de 15 minutos y vinculación al mismo dispositivo. A salvo de la enumeración de usuarios. Los workspaces pueden funcionar completamente sin contraseña.',
+        title: 'Login sem senha',
+        body: 'Login com magic-link e Email OTP, com tokens de uso único de 15 minutos e vínculo ao mesmo dispositivo. Seguro contra enumeração de usuários. Workspaces podem ser totalmente sem senha.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 4h16v16H4zM4 7l8 5 8-5"/></svg>',
       },
       {
-        title: 'Autenticación multifactor',
-        body: 'MFA basado en TOTP con detección de repetición y protección por bloqueo. Se aplica por workspace y se mantiene en cada flujo sin contraseña.',
+        title: 'Autenticação multifator',
+        body: 'MFA baseado em TOTP com detecção de replay e proteção contra bloqueio. Aplicado por workspace e preservado em todos os fluxos sem senha.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
       },
     ],
   },
   {
-    label: 'Multi-tenancy y acceso',
-    subtitle: 'Una instancia, muchos productos, totalmente aislados.',
+    label: 'Multi-tenancy e acesso',
+    subtitle: 'Uma instância, muitos produtos, totalmente isolados.',
     items: [
       {
-        title: 'Workspaces aislados',
-        body: 'Directorios de usuarios separados, pares de claves RS256 por tenant con rotación iniciada por el administrador, APIs enrutadas por slug y políticas de seguridad independientes.',
+        title: 'Workspaces isolados',
+        body: 'Diretórios de usuários separados, pares de chaves RS256 por tenant com rotação iniciada pelo admin, APIs roteadas por slug e políticas de segurança independentes.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01"/></svg>',
       },
       {
-        title: 'RBAC y grupos',
-        body: 'Roles con herencia compuesta, pertenencia a grupos y roles predeterminados por cliente. Control de acceso granular sin servicios externos que mantener.',
+        title: 'RBAC e grupos',
+        body: 'Papéis com herança composta, participação em grupos e papéis padrão do cliente. Controle de acesso granular sem nenhum serviço externo para rodar.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 7h5M18.5 4.5v5"/></svg>',
       },
       {
-        title: 'Claims JWT personalizados',
-        body: 'Proyecta atributos de usuario en los tokens con claim mappers. Define el JWT exacto que recibe cada aplicación, sin escribir código.',
+        title: 'JWT claims personalizados',
+        body: 'Projete atributos de usuário nos tokens com claim mappers. Modele o JWT exato que cada aplicação recebe, sem precisar de código.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>',
       },
     ],
   },
   {
-    label: 'Seguridad y cumplimiento',
-    eyebrow: 'Reforzado por defecto',
-    subtitle: 'Los controles que preguntan los auditores, integrados desde el primer día.',
+    label: 'Segurança e conformidade',
+    eyebrow: 'Reforçado por padrão',
+    subtitle: 'Os controles que os auditores pedem, integrados desde o primeiro dia.',
     dark: true,
     items: [
       {
-        title: 'Cifrado en reposo',
-        body: 'Secretos sellados con AES-256-GCM. Las copias de seguridad derivan claves con PBKDF2 a 600k iteraciones antes de cifrarse.',
+        title: 'Criptografado em repouso',
+        body: 'Segredos selados com AES-256-GCM. Backups derivam chaves com PBKDF2 em 600k iterações antes da criptografia.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="4" y="10" width="16" height="11"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 15v2"/></svg>',
       },
       {
-        title: 'Verificación de contraseñas filtradas',
-        body: 'La k-anonymity de HIBP bloquea contraseñas comprometidas conocidas en el registro y el restablecimiento, sin exponer la contraseña.',
+        title: 'Verificação de senhas vazadas',
+        body: 'O k-anonymity do HIBP bloqueia senhas comprovadamente comprometidas no cadastro e na redefinição, sem vazar a senha.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z"/><path d="M12 8v4M12 16h.01"/></svg>',
       },
       {
-        title: 'Protección de cuentas',
-        body: 'Bloqueo de cuentas, detección de repetición de refresh-tokens con revocación de familia y SSO silencioso con prompt=none.',
+        title: 'Proteção de conta',
+        body: 'Bloqueio de conta, detecção de replay de refresh-token com revogação por família e SSO silencioso com prompt=none.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
       },
       {
-        title: 'Registro de auditoría inmutable',
-        body: 'Más de 65 tipos de eventos en un registro de solo anexado. Consulta por actor, acción o momento desde la API o tu asistente de IA.',
+        title: 'Trilha de auditoria imutável',
+        body: 'Mais de 65 tipos de evento em um log append-only. Consulte por ator, ação ou tempo a partir da API ou do seu assistente de IA.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>',
       },
     ],
   },
   {
-    label: 'Experiencia de desarrollo',
-    subtitle: 'Una superficie consistente que premia leer la documentación una sola vez.',
+    label: 'Experiência do desenvolvedor',
+    subtitle: 'Uma superfície consistente que recompensa quem lê a documentação uma vez.',
     items: [
       {
-        title: 'Una API REST consistente',
-        body: 'La misma forma en cada recurso, con claves de API con alcance por workspace y errores conformes a RFC. Las claves se leen como Bearer kauth_{slug}_{key}.',
+        title: 'Uma API REST consistente',
+        body: 'O mesmo formato em todos os recursos, com chaves de API com escopo por workspace e erros compatíveis com RFC. As chaves são lidas como Bearer kauth_{slug}_{key}.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M8 6 2 12l6 6M16 6l6 6-6 6"/></svg>',
       },
       {
-        title: 'OpenAPI y CLI integrada',
-        body: 'Swagger UI incluido y cinco herramientas de CLI integradas. Todo está documentado y todo es automatizable mediante scripts.',
+        title: 'OpenAPI e CLI integrada',
+        body: 'Swagger UI embutido e cinco ferramentas de CLI integradas. Tudo é documentado e tudo é automatizável por script.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>',
       },
       {
-        title: 'Endpoints enrutados por workspace',
-        body: 'Enrutamiento predecible en /t/{slug}/api/v1. Una instancia sirve a cada tenant sin ambigüedad sobre con quién estás hablando.',
+        title: 'Endpoints roteados por workspace',
+        body: 'Roteamento previsível em /t/{slug}/api/v1. Uma instância atende todos os tenants sem ambiguidade sobre com quem você está falando.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',
       },
     ],
   },
   {
-    label: 'Despliegue y operaciones',
-    subtitle: 'Aburrido de operar, que es exactamente lo que quieres de la autenticación.',
+    label: 'Deploy e operações',
+    subtitle: 'Sem surpresas para operar, que é exatamente o que você quer da autenticação.',
     items: [
       {
         title: 'Nativo de Docker',
-        body: 'Una imagen de ~120 MB en GHCR. Se ejecuta sin root como UID 10001, con sistema de archivos de solo lectura y no-new-privileges. Un quickstart de un solo comando y las migraciones automáticas de Flyway se encargan del resto. Totalmente apto para entornos air-gapped.',
+        body: 'Uma imagem de ~120 MB no GHCR. Roda sem root como UID 10001, filesystem somente leitura, no-new-privileges. Início rápido com um comando e migrações automáticas do Flyway cuidam do resto. Totalmente capaz de operar air-gapped.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="10" width="4" height="4"/><rect x="8" y="10" width="4" height="4"/><rect x="13" y="10" width="4" height="4"/><rect x="8" y="5" width="4" height="4"/><path d="M19 11c1.5 0 2.5-1 2.5-1M3 14c0 3 2 5 7 5 7 0 11-4 11-8"/></svg>',
       },
       {
-        title: 'Copia de seguridad y restauración',
-        body: 'Instantáneas de tenant portátiles y cifradas mediante la CLI o la API de administración, con validación de la versión del esquema al importar.',
+        title: 'Backup e restauração',
+        body: 'Snapshots de tenant portáteis e criptografados via CLI ou API de administração, com validação de versão de schema na importação.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>',
       },
       {
-        title: 'Listo para escalar horizontalmente',
-        body: 'Sesiones distribuidas respaldadas por Redis y soporte para usar tu propia base de datos en despliegues de producción.',
+        title: 'Pronto para escalar horizontalmente',
+        body: 'Sessões distribuídas com Redis e suporte para usar seu próprio banco de dados em deploys de produção.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>',
       },
     ],
@@ -133,12 +133,12 @@ const categories = [
   <!-- Header -->
   <section class="relative px-7 pt-32 pb-20 text-center overflow-hidden">
     <div class="max-w-[760px] mx-auto">
-      <span class="eyebrow mb-4 block">Características</span>
+      <span class="eyebrow mb-4 block">Recursos</span>
       <h1 class="font-heading font-bold text-4xl sm:text-5xl lg:text-[56px] leading-[1.05] tracking-[-0.025em] text-kotauth-text-primary mb-4">
-        Todo lo que necesitas para tu infraestructura de identidad
+        Tudo o que você precisa para sua infraestrutura de identidade
       </h1>
       <p class="max-w-[620px] mx-auto text-lg text-kotauth-text-secondary leading-relaxed">
-        Una plataforma de autenticación completa. Protocolos conformes a la especificación, multi-tenancy real, seguridad reforzada y una experiencia de desarrollo que respeta tu tiempo.
+        Uma plataforma de autenticação completa. Protocolos compatíveis com a especificação, multi-tenancy de verdade, segurança reforçada e uma experiência de desenvolvedor que respeita o seu tempo.
       </p>
     </div>
   </section>
@@ -185,10 +185,10 @@ const categories = [
     <div class="section-container">
       <div class="dark-section relative bg-kotauth-bg-primary px-6 sm:px-12 py-[72px] text-center overflow-hidden">
         <h2 class="font-heading font-bold text-3xl sm:text-[42px] leading-[1.08] tracking-[-0.025em] text-kotauth-text-primary mb-4">
-          Míralo todo funcionando en vivo
+          Veja tudo funcionando ao vivo
         </h2>
         <p class="max-w-[480px] mx-auto text-kotauth-text-secondary mb-8">
-          Explora una instancia con datos de ejemplo o despliega la tuya en menos de un minuto.
+          Explore uma instância com dados pré-carregados ou faça o deploy da sua em menos de um minuto.
         </p>
         <div class="flex flex-wrap gap-3 justify-center">
           <a
@@ -197,7 +197,7 @@ const categories = [
             rel="noopener noreferrer"
             class="inline-flex items-center gap-2 bg-white text-[#0A0F14] px-6 h-[50px] text-[15.5px] font-semibold transition-transform hover:-translate-y-px"
           >
-            Comenzar gratis
+            Comece grátis
           </a>
           <a
             href={DEMO_URL}
@@ -206,7 +206,7 @@ const categories = [
             class="inline-flex items-center gap-2 border border-white/20 text-white hover:border-white/40 hover:bg-white/5 px-6 h-[50px] text-[15.5px] font-semibold transition-colors"
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            Probar el demo
+            Testar a demo
           </a>
         </div>
       </div>

@@ -1,118 +1,64 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { t, getLocalizedPath } from '@/i18n';
+import { t, type Locale, defaultLocale } from '@/i18n';
 
-const i18n = t('es');
-const LAST_UPDATED = 'Junio 2026';
-const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
 ---
 
 <BaseLayout
   title={i18n.pages.privacy.title}
   description={i18n.pages.privacy.description}
-  path="/es/privacy"
+  path="/privacy"
 >
-  <div class="pt-[72px]">
-    <div class="section-container py-20 max-w-3xl">
-      <span class="eyebrow mb-4 block">Legal</span>
-      <h1 class="text-3xl sm:text-4xl font-bold text-kotauth-text-primary font-mono mb-3">
-        Politica de Privacidad
+  <section class="bg-white">
+    <header class="max-w-[760px] mx-auto px-7 pt-32 pb-9">
+      <span class="eyebrow mb-3 block">Legal</span>
+      <h1 class="font-heading font-bold text-[38px] sm:text-[46px] leading-[1.08] tracking-[-0.03em] text-kotauth-text-primary mb-3">
+        Política de Privacidad
       </h1>
-      <p class="text-kotauth-text-muted font-mono text-sm mb-12">
-        Ultima actualizacion: {LAST_UPDATED}
+      <p class="font-mono text-[13px] text-kotauth-text-muted">Última actualización: junio 2026</p>
+    </header>
+
+    <article class="max-w-[760px] mx-auto px-7 pb-[100px]">
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Esta política explica qué información recopila el sitio web kotauth.com y cómo se utiliza. Abarca únicamente el sitio web de marketing. Cuando alojas Kotauth por tu cuenta, los datos que procesa tu instancia permanecen en tu infraestructura y se rigen por tus propias políticas, no por esta.
       </p>
 
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Que cubre esta politica</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>
-            Esta politica se aplica a <strong class="text-kotauth-text-primary">kotauth.com</strong>, el sitio web de marketing y documentacion del proyecto open source Kotauth. No se aplica a instancias de Kotauth auto-alojadas que despliegues por tu cuenta; esas se rigen por tu propia configuracion y las leyes aplicables.
-          </p>
-        </div>
-      </section>
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Información que recopilamos</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Mantenemos la recopilación al mínimo. El sitio web no requiere una cuenta para navegar. Si envías el formulario de contacto, recibimos el nombre, la dirección de correo electrónico y el mensaje que proporcionas para poder responderte.
+      </p>
 
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Que recopilamos y por que</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>
-            <strong class="text-kotauth-text-primary">Analiticas (OpenPanel).</strong> Este sitio web utiliza{' '}
-            <a href="https://openpanel.dev" target="_blank" rel="noopener noreferrer" class="text-kotauth-primary hover:text-kotauth-primary-light">OpenPanel</a>
-            , una plataforma de analiticas open source, para comprender como los visitantes encuentran y usan el sitio. OpenPanel recopila vistas de pagina, URLs de referencia, tipo de navegador, tipo de dispositivo, sistema operativo y ubicacion geografica aproximada. OpenPanel no usa cookies: no establece cookies de rastreo ni utiliza fingerprinting del navegador. No se envian datos a Google ni a ninguna otra red publicitaria.
-          </p>
-          <p>
-            <strong class="text-kotauth-text-primary">Formulario de contacto.</strong> Si usas el formulario de contacto, tu nombre, direccion de correo electronico y mensaje se componen localmente en tu navegador y se envian a traves de tu cliente de correo directamente. No operamos un backend de envio de formularios. Nada se almacena en nuestros servidores.
-          </p>
-          <p>No recopilamos contrasenas, informacion de pago ni credenciales de cuenta en este sitio web. No existen cuentas de usuario en kotauth.com.</p>
-        </div>
-      </section>
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Analítica</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Usamos una analítica respetuosa con la privacidad y sin cookies para comprender el tráfico de forma agregada, como qué páginas son más populares. Esta analítica no instala cookies de seguimiento, no construye perfiles entre sitios y no identifica a visitantes individuales.
+      </p>
 
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Cookies</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>
-            Este sitio web no establece ninguna cookie. OpenPanel opera sin cookies ni almacenamiento persistente del navegador.
-          </p>
-        </div>
-      </section>
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Cookies</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        El sitio web de marketing no utiliza cookies publicitarias ni de seguimiento. Cualquier almacenamiento se limita a lo estrictamente necesario para el funcionamiento del sitio, como recordar tu preferencia de idioma.
+      </p>
 
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Base legal para el procesamiento (RGPD)</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>
-            Si te encuentras en el Espacio Economico Europeo (EEE), procesamos datos analiticos bajo <strong class="text-kotauth-text-primary">Interes Legitimo</strong> (Articulo 6(1)(f) RGPD), especificamente el interes de comprender como se usa el sitio para mejorarlo. Dado que OpenPanel no usa cookies y no recopila identificadores personales, no se requiere un banner de consentimiento de cookies. Si te opones a este procesamiento, puedes usar un bloqueador de contenido que bloquee scripts de analiticas.
-          </p>
-        </div>
-      </section>
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Cómo usamos la información</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Usamos la información que envías únicamente para responder a tu consulta y para mejorar el sitio web. No vendemos tus datos personales ni los compartimos con terceros para sus propios fines de marketing.
+      </p>
 
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Retencion de datos</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>Los datos analiticos se retienen en nuestra instancia de OpenPanel mientras sean utiles para mejorar el sitio. Dado que OpenPanel no recopila identificadores personales, los datos retenidos consisten en vistas de pagina agregadas, referentes y estadisticas de dispositivos, no perfiles de usuarios individuales.</p>
-        </div>
-      </section>
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Despliegues auto-alojados</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Kotauth es software que ejecutas tú mismo. No tenemos acceso a los usuarios, tokens ni registros de auditoría que procesa tu instancia. Tú eres el responsable del tratamiento de todo lo que hay dentro de tu despliegue.
+      </p>
 
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Terceros</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>Usamos <a href="https://openpanel.dev" target="_blank" rel="noopener noreferrer" class="text-kotauth-primary hover:text-kotauth-primary-light">OpenPanel</a> (analiticas open source). Los datos analiticos se envian a los servidores de OpenPanel para su procesamiento. No se comparten datos con Google, redes publicitarias ni intermediarios de datos. No vendemos datos a ningun tercero.</p>
-        </div>
-      </section>
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Tus derechos</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Puedes solicitar el acceso, la corrección o la eliminación de cualquier dato personal que nos hayas enviado a través del formulario de contacto. Escríbenos y atenderemos las solicitudes razonables.
+      </p>
 
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Tus derechos</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>
-            Dependiendo de tu jurisdiccion, puedes tener el derecho de acceder, corregir o eliminar datos que se tengan sobre ti, o de oponerte al procesamiento. Dado que OpenPanel no recopila identificadores personales, no existe un perfil individual al cual acceder o eliminar. Si tienes alguna consulta relacionada con datos, contactanos a traves de la{' '}
-            <a href={getLocalizedPath('/contact', 'es')} class="text-kotauth-primary hover:text-kotauth-primary-light">pagina de contacto</a>.
-          </p>
-        </div>
-      </section>
-
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">El software Kotauth en si</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>Kotauth es software open source licenciado bajo la Licencia MIT. Cuando auto-alojas Kotauth, te conviertes en el responsable del tratamiento de los datos de identidad que tu instancia procese. Esta politica de privacidad no rige eso. Eres responsable de tu propio cumplimiento.</p>
-        </div>
-      </section>
-
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Cambios a esta politica</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>Podemos actualizar esta politica a medida que el sitio web evolucione. La fecha de "Ultima actualizacion" en la parte superior de esta pagina reflejara cualquier cambio. No haremos cambios materiales sin actualizar esa fecha.</p>
-        </div>
-      </section>
-
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Contacto</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>
-            Preguntas sobre esta politica? Contactanos a traves de la{' '}
-            <a href={getLocalizedPath('/contact', 'es')} class="text-kotauth-primary hover:text-kotauth-primary-light">pagina de contacto</a>
-            {' '}o abre un issue en{' '}
-            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" class="text-kotauth-primary hover:text-kotauth-primary-light">GitHub</a>.
-          </p>
-        </div>
-      </section>
-    </div>
-  </div>
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Contacto</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        ¿Tienes preguntas sobre esta política? Contáctanos a través de la <a href="/contact" class="text-kotauth-primary font-semibold hover:text-kotauth-primary-light transition-colors">página de contacto</a>.
+      </p>
+    </article>
+  </section>
 </BaseLayout>

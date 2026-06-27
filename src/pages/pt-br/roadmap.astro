@@ -9,8 +9,8 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 
 const columns = [
   {
-    status: 'Disponible',
-    description: 'Disponible hoy en la v1.19.2.',
+    status: 'Disponível',
+    description: 'No ar hoje na v1.19.2.',
     legendDot: 'bg-[#1F9D55]',
     badgeWrap: 'bg-[#EAF7EF] border border-[#CDEBD9]',
     badgeDot: 'bg-[#1F9D55]',
@@ -19,17 +19,17 @@ const columns = [
     titleClass: 'text-kotauth-text-primary',
     bodyClass: 'text-kotauth-text-secondary',
     items: [
-      { title: 'Núcleo de OAuth 2.0 y OIDC', body: 'Proveedor completo con PKCE, rotación de tokens y discovery.' },
-      { title: 'Workspaces multi-tenant', body: 'Directorios, claves y políticas aislados por tenant.' },
-      { title: 'Servidor MCP nativo de IA', body: '33 herramientas con alcance en 8 dominios.' },
-      { title: 'Pantallas de autenticación white-label', body: 'Renderizadas en el servidor y con tema por workspace.' },
-      { title: 'Magic-link y Email OTP', body: 'Flujos sin contraseña que se mantienen compatibles con MFA.' },
-      { title: 'Copia de seguridad y restauración cifradas', body: 'Instantáneas de tenant portátiles mediante CLI o API.' },
+      { title: 'Núcleo OAuth 2.0 e OIDC', body: 'Provedor completo com PKCE, rotação de tokens e discovery.' },
+      { title: 'Workspaces multi-tenant', body: 'Diretórios, chaves e políticas isolados por tenant.' },
+      { title: 'Servidor MCP nativo de IA', body: '33 ferramentas com escopo em 8 domínios.' },
+      { title: 'Telas de auth white-label', body: 'Renderizadas no servidor, com tema por workspace.' },
+      { title: 'Magic-link e Email OTP', body: 'Fluxos sem senha que permanecem compatíveis com MFA.' },
+      { title: 'Backup e restauração criptografados', body: 'Snapshots de tenant portáteis via CLI ou API.' },
     ],
   },
   {
-    status: 'En curso',
-    description: 'En desarrollo activo para próximas versiones.',
+    status: 'Em andamento',
+    description: 'Em desenvolvimento ativo para as próximas versões.',
     legendDot: 'bg-kotauth-primary',
     badgeWrap: 'bg-[#EAF6FB] border border-[#CDE8F5]',
     badgeDot: 'bg-kotauth-primary',
@@ -38,15 +38,15 @@ const columns = [
     titleClass: 'text-kotauth-text-primary',
     bodyClass: 'text-kotauth-text-secondary',
     items: [
-      { title: 'SSO empresarial', body: 'Federación con LDAP y SAML para proveedores de identidad upstream.' },
-      { title: 'Passkeys y WebAuthn', body: 'Inicio de sesión resistente al phishing junto a los métodos existentes.' },
-      { title: 'Streaming de eventos por webhook', body: 'Suscribe sistemas downstream a eventos de auditoría y de ciclo de vida.' },
-      { title: 'Suplantación de administrador', body: 'Sesiones de soporte con alcance y totalmente auditadas.' },
+      { title: 'SSO empresarial', body: 'Federação LDAP e SAML para provedores de identidade upstream.' },
+      { title: 'Passkeys e WebAuthn', body: 'Login resistente a phishing ao lado dos métodos existentes.' },
+      { title: 'Streaming de eventos via webhook', body: 'Inscreva sistemas downstream em eventos de auditoria e ciclo de vida.' },
+      { title: 'Personificação de admin', body: 'Sessões de suporte com escopo e totalmente auditadas.' },
     ],
   },
   {
-    status: 'Planificado',
-    description: 'Comprometido, definido y en cola.',
+    status: 'Planejado',
+    description: 'Comprometido, escopo definido e na fila.',
     legendDot: 'bg-[#D9890E]',
     badgeWrap: 'bg-[#FBF1E2] border border-[#F0DCBC]',
     badgeDot: 'bg-[#D9890E]',
@@ -55,15 +55,15 @@ const columns = [
     titleClass: 'text-kotauth-text-primary',
     bodyClass: 'text-kotauth-text-secondary',
     items: [
-      { title: 'Aprovisionamiento SCIM', body: 'Sincronización automatizada del ciclo de vida del usuario con directorios externos.' },
-      { title: 'Autorización granular', body: 'Control de acceso basado en relaciones para permisos complejos.' },
-      { title: 'Gestión de organizaciones autoservicio', body: 'Permite a los usuarios finales crear y administrar sus propias organizaciones.' },
-      { title: 'Exportación del registro de auditoría', body: 'Envío programado a destinos SIEM y almacenamiento de objetos.' },
+      { title: 'Provisionamento SCIM', body: 'Sincronização automatizada do ciclo de vida de usuários com diretórios externos.' },
+      { title: 'Autorização granular', body: 'Controle de acesso baseado em relacionamentos para permissões complexas.' },
+      { title: 'Gestão de organização self-service', body: 'Permita que usuários finais criem e administrem suas próprias organizações.' },
+      { title: 'Exportação de log de auditoria', body: 'Envie para destinos SIEM e armazenamento de objetos de forma agendada.' },
     ],
   },
   {
-    status: 'En exploración',
-    description: 'En investigación. Dinos si las necesitas.',
+    status: 'Explorando',
+    description: 'Em pesquisa. Avise se você precisa disso.',
     legendDot: 'bg-[#A6AEBA]',
     badgeWrap: 'bg-[#F2F3F5] border border-kotauth-surface-2',
     badgeDot: 'bg-[#A6AEBA]',
@@ -72,10 +72,10 @@ const columns = [
     titleClass: 'text-kotauth-text-secondary',
     bodyClass: 'text-kotauth-text-muted',
     items: [
-      { title: 'Flujo de autorización de dispositivos', body: 'Inicia sesión en dispositivos con entrada limitada como televisores y CLIs.' },
-      { title: 'Autenticación step-up', body: 'Exige factores más fuertes para operaciones sensibles.' },
-      { title: 'Políticas como código', body: 'Políticas de seguridad versionadas y aplicadas en el momento del despliegue.' },
-      { title: 'Hooks de facturación por organización', body: 'Señales de uso para equipos que construyen productos sobre Kotauth.' },
+      { title: 'Device authorization flow', body: 'Faça login em dispositivos com entrada limitada, como TVs e CLIs.' },
+      { title: 'Autenticação step-up', body: 'Exija fatores mais fortes para operações sensíveis.' },
+      { title: 'Policy-as-code', body: 'Políticas de segurança versionadas e aplicadas no momento do deploy.' },
+      { title: 'Hooks de cobrança por organização', body: 'Sinais de uso para equipes que constroem produtos sobre o Kotauth.' },
     ],
   },
 ];
@@ -93,12 +93,12 @@ const columns = [
       style="background:radial-gradient(ellipse at center,rgba(0,119,168,.1),transparent 70%);"
     ></div>
     <div class="relative max-w-[720px] mx-auto">
-      <span class="eyebrow">Hoja de ruta</span>
+      <span class="eyebrow">Roadmap</span>
       <h1 class="font-heading font-bold text-4xl sm:text-5xl lg:text-[54px] leading-[1.06] tracking-[-0.03em] text-kotauth-text-primary mt-[14px] mb-[18px]">
-        Lo que estamos construyendo a continuación
+        O que vamos construir a seguir
       </h1>
       <p class="text-lg leading-[1.6] text-kotauth-text-secondary font-medium">
-        Kotauth es de código abierto y se construye de forma abierta. Aquí está el estado actual y hacia dónde se dirige. Las prioridades cambian con los aportes de la comunidad.
+        O Kotauth é de código aberto e construído de forma aberta. Aqui está onde as coisas estão e para onde elas vão. As prioridades mudam com a participação da comunidade.
       </p>
     </div>
   </section>
@@ -143,9 +143,9 @@ const columns = [
   <!-- Shape it -->
   <section class="max-w-[920px] mx-auto px-7 pb-28">
     <div class="bg-kotauth-bg-secondary border border-kotauth-surface-2 px-10 py-11 text-center">
-      <h2 class="font-heading font-bold text-[28px] tracking-[-0.02em] text-kotauth-text-primary mb-[10px]">Opina sobre lo que viene después</h2>
+      <h2 class="font-heading font-bold text-[28px] tracking-[-0.02em] text-kotauth-text-primary mb-[10px]">Tenha voz no que vem a seguir</h2>
       <p class="text-base leading-[1.6] text-kotauth-text-secondary font-medium max-w-[480px] mx-auto mb-6">
-        Las prioridades de la hoja de ruta se definen en público. Abre una discusión, envía una solicitud o vota por lo que más te importa.
+        As prioridades do roadmap são definidas em público. Abra uma discussão, registre um pedido ou vote no que importa para você.
       </p>
       <div class="flex flex-wrap justify-center gap-[13px]">
         <a
@@ -154,7 +154,7 @@ const columns = [
           rel="noopener noreferrer"
           class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-[22px] h-12 text-[14.5px] font-semibold transition-colors"
         >
-          Unirse a la discusión
+          Entrar na discussão
         </a>
         <a
           href={`${GITHUB_URL}/issues/new`}
@@ -162,7 +162,7 @@ const columns = [
           rel="noopener noreferrer"
           class="inline-flex items-center gap-2 bg-white border border-kotauth-surface-2 text-kotauth-text-primary hover:border-kotauth-primary/40 px-[22px] h-12 text-[14.5px] font-semibold transition-colors"
         >
-          Solicitar una función
+          Solicitar um recurso
         </a>
       </div>
     </div>

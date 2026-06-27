@@ -1,153 +1,133 @@
 ---
-import { Zap, Palette, Server, Layers, Mail, Lock } from '@lucide/astro';
-import GithubIcon from '@/components/icons/GithubIcon.astro';
-import { themes } from '@/lib/authThemes';
-import type { ThemeKey } from '@/lib/authThemes';
 import { t, type Locale, defaultLocale } from '@/i18n';
-
-const themeKeys = Object.keys(themes) as ThemeKey[];
 
 const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 const i18n = t(locale);
+const auth = i18n.authShowcase;
+const m = auth.mockup;
 
-const pointIcons = [Zap, Palette, Server, Layers];
-const points = i18n.authShowcase.points.map((p, idx) => ({
-  Icon: pointIcons[idx],
-  title: p.title,
-  body: p.body,
-}));
+// themeHint is "Light Dark Simple" (localized); map by index to theme keys.
+const themeKeys = ['light', 'dark', 'simple'];
+const presets = m.themeHint.split(' ').map((label, i) => ({ label, theme: themeKeys[i] ?? 'light' }));
 ---
 
-<section data-auth-showcase class="py-24 lg:py-32 relative overflow-hidden">
-  <div
-    class="absolute pointer-events-none glow-drift top-1/2 left-0 -translate-x-1/2 -translate-y-1/2"
-    style="width: 700px; height: 700px; background: radial-gradient(circle, rgba(0, 119, 168, 0.18) 0%, transparent 70%); filter: blur(40px);"
-  ></div>
+<section data-auth-showcase class="bg-white">
+  <div class="max-w-[1180px] mx-auto px-7 py-[110px] grid lg:grid-cols-2 gap-12 lg:gap-[60px] items-center">
+    <!-- Left: copy + points -->
+    <div>
+      <span class="font-mono text-[12.5px] font-medium tracking-[0.06em] uppercase text-kotauth-primary">{auth.eyebrow}</span>
+      <h2 class="font-heading font-bold text-[32px] sm:text-[40px] leading-[1.08] tracking-[-0.025em] text-kotauth-text-primary mt-3.5 mb-4">
+        {auth.titleStart}{auth.titleHighlight}
+      </h2>
+      <p class="text-[17px] leading-[1.62] font-medium text-kotauth-text-secondary mb-7">{auth.description}</p>
 
-  <div class="section-container relative z-10">
-    <div class="grid lg:grid-cols-2 gap-16 items-center">
-
-      <div data-reveal>
-        <span class="eyebrow mb-4 block">{i18n.authShowcase.eyebrow}</span>
-        <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-kotauth-text-primary leading-tight mb-4 font-mono">
-          {i18n.authShowcase.titleStart}{' '}
-          <span class="gradient-text">{i18n.authShowcase.titleHighlight}</span>
-        </h2>
-        <p class="text-lg text-kotauth-text-secondary mb-10 leading-relaxed">
-          {i18n.authShowcase.description}
-        </p>
-
-        <div class="space-y-6">
-          {points.map(({ Icon, title, body }, i) => (
-            <div
-              data-reveal
-              data-reveal-delay={i * 80}
-              class="flex gap-4"
-            >
-              <div class="w-9 h-9 bg-kotauth-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <Icon class="w-4 h-4 text-kotauth-primary" />
-              </div>
-              <div>
-                <p class="text-sm font-semibold text-kotauth-text-primary font-mono mb-1">
-                  {title}
-                </p>
-                <p class="text-sm text-kotauth-text-secondary leading-relaxed">
-                  {body}
-                </p>
-              </div>
+      <div class="flex flex-col gap-4">
+        {auth.points.map((p) => (
+          <div class="flex gap-3 items-start">
+            <span class="mt-px flex-shrink-0 w-[22px] h-[22px] bg-kotauth-primary/10 text-kotauth-primary flex items-center justify-center">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="m5 12 5 5L20 6" /></svg>
+            </span>
+            <div>
+              <div class="text-[15px] font-bold text-kotauth-text-primary mb-0.5">{p.title}</div>
+              <div class="text-sm leading-[1.55] text-kotauth-text-secondary">{p.body}</div>
             </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Right: browser-window auth mockup with live theme switching -->
+    <div class="relative">
+      <div class="absolute pointer-events-none" style="inset: -20px; background: radial-gradient(ellipse at 50% 40%, rgba(0,119,168,0.12), transparent 70%);"></div>
+      <div class="relative bg-white border border-[#E6E8EE] overflow-hidden" style="box-shadow: 0 30px 60px -24px rgba(15,22,41,0.2);">
+        <!-- browser chrome (constant) -->
+        <div class="flex items-center gap-2 px-[15px] py-3 border-b border-[#EEF0F3] bg-[#FBFBFC]">
+          <span class="w-[9px] h-[9px] rounded-full bg-[#E5564E]"></span>
+          <span class="w-[9px] h-[9px] rounded-full bg-[#E6A23C]"></span>
+          <span class="w-[9px] h-[9px] rounded-full bg-[#3BB360]"></span>
+          <span class="flex-1 text-center font-mono text-[11px] text-[#8A94A3]">auth.acme.com/login</span>
+        </div>
+        <!-- themed auth page (logo centered above the card) -->
+        <div data-auth-preview data-auth-theme="light" class="auth-preview px-[38px] py-11 flex flex-col items-center" style="background: var(--w-bg);">
+          <div class="w-10 h-10 bg-kotauth-primary flex items-center justify-center mb-[18px]">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z" /></svg>
+          </div>
+          <div class="w-[310px] px-7 py-[26px]" style="background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow);">
+            <div class="font-heading text-xl font-bold mb-[3px]" style="color: var(--heading);">{m.signIn}</div>
+            <div class="text-[13px] mb-[22px]" style="color: var(--muted);">{m.continueToWorkspace}</div>
+            <div class="text-xs font-semibold mb-1.5" style="color: var(--label);">{m.emailAddress}</div>
+            <div class="px-3 py-2.5 text-[13.5px] mb-3.5" style="background: var(--input-bg); border: 1px solid var(--input-border); color: var(--input-ph);">{m.emailPlaceholder}</div>
+            <button class="w-full text-sm font-semibold py-[11px] transition-opacity hover:opacity-90" style="background: var(--btn-bg); color: var(--btn-text);">{m.continue}</button>
+            <div class="flex items-center gap-2.5 my-[18px]">
+              <div class="flex-1 h-px" style="background: var(--divider);"></div>
+              <span class="text-[11.5px]" style="color: var(--divider-text);">{m.or}</span>
+              <div class="flex-1 h-px" style="background: var(--divider);"></div>
+            </div>
+            <div class="flex items-center justify-center gap-2 py-2.5 text-[13px] font-semibold cursor-pointer" style="border: 1px solid var(--social-border); color: var(--social-text);">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12.01 12.01 0 0 0 24 12.5C24 5.87 18.63.5 12 .5Z" /></svg>
+              {m.continueWithGithub}
+            </div>
+            <div class="text-center text-xs mt-[18px]" style="color: var(--muted);">{m.noAccount}<span class="font-semibold" style="color: var(--link);">{m.signUp}</span></div>
+          </div>
+        </div>
+        <!-- preset tabs (theme switcher) -->
+        <div class="flex border-t border-[#EEF0F3]">
+          {presets.map((p, i) => (
+            <button
+              type="button"
+              data-auth-tab={p.theme}
+              data-active={i === 0 ? '' : undefined}
+              class="auth-tab flex-1 text-center py-2.5 font-mono text-[11px] text-[#8A94A3] border-l border-[#EEF0F3] first:border-l-0 cursor-pointer transition-colors"
+            >
+              {p.label}
+            </button>
           ))}
         </div>
       </div>
-
-      <div data-reveal data-reveal-delay={200}>
-        <div class="relative">
-          <div class="absolute inset-0 bg-kotauth-primary/5 blur-3xl -z-10 rounded-3xl"></div>
-
-          <div class="bg-kotauth-surface-1 border border-kotauth-surface-2 overflow-hidden shadow-2xl shadow-black/30">
-            <div class="flex items-center gap-2 px-4 py-3 border-b border-kotauth-surface-2 bg-kotauth-bg-secondary">
-              <div class="flex gap-1.5">
-                <div class="w-2.5 h-2.5 rounded-full bg-kotauth-error/60"></div>
-                <div class="w-2.5 h-2.5 rounded-full bg-kotauth-warning/60"></div>
-                <div class="w-2.5 h-2.5 rounded-full bg-kotauth-success/60"></div>
-              </div>
-              <div class="flex-1 flex justify-center">
-                <div class="bg-kotauth-surface-2 rounded px-4 py-1 text-[11px] font-mono text-kotauth-text-muted w-48 text-center">
-                  auth.acme.com/login
-                </div>
-              </div>
-              <div class="flex gap-1">
-                {themeKeys.map((key) => (
-                  <button
-                    data-theme-btn={key}
-                    class={`text-[10px] font-mono px-2 py-1 transition-all ${
-                      key === 'dark'
-                        ? 'bg-kotauth-primary text-white'
-                        : 'text-kotauth-text-muted hover:text-kotauth-text-secondary'
-                    }`}
-                  >
-                    {themes[key].label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div class="h-[360px] overflow-hidden relative">
-              {themeKeys.map((key) => {
-                const t = themes[key].preview;
-                return (
-                  <div
-                    data-login-mockup={key}
-                    class={`w-full h-full ${t.wrapper} p-6 flex flex-col items-center justify-center ${key !== 'dark' ? 'hidden' : ''}`}
-                  >
-                    <div class={`w-full max-w-[280px] rounded-lg p-6 ${t.card}`}>
-                      <p class={`text-sm font-semibold ${t.heading} font-mono mb-0.5`}>{i18n.authShowcase.mockup.signIn}</p>
-                      <p class={`text-xs ${t.muted} mb-4`}>{i18n.authShowcase.mockup.continueToWorkspace}</p>
-
-                      <div class="mb-2">
-                        <div class={`w-full text-xs px-3 py-2 rounded ${t.input} flex items-center gap-2`}>
-                          <Mail class="w-3 h-3 opacity-40 flex-shrink-0" />
-                          <span class={`${t.inputPlaceholder} text-xs`}>{i18n.authShowcase.mockup.emailAddress}</span>
-                        </div>
-                      </div>
-
-                      <div class="mb-4">
-                        <div class={`w-full text-xs px-3 py-2 rounded ${t.input} flex items-center gap-2`}>
-                          <Lock class="w-3 h-3 opacity-40 flex-shrink-0" />
-                          <span class={`${t.inputPlaceholder} text-xs`}>••••••••••</span>
-                        </div>
-                      </div>
-
-                      <button class={`w-full text-xs font-semibold py-2 rounded font-mono ${t.button} mb-4 transition-colors`}>
-                        {i18n.authShowcase.mockup.continue}
-                      </button>
-
-                      <div class={`flex items-center gap-2 mb-3 border-t ${t.divider}`}>
-                        <span class={`text-[10px] ${t.muted} -mt-2.5 bg-inherit px-1.5 mx-auto`}>{i18n.authShowcase.mockup.or}</span>
-                      </div>
-
-                      <button class={`w-full text-xs py-2 rounded ${t.socialBtn} flex items-center justify-center gap-2 transition-colors`}>
-                        <GithubIcon class="w-3 h-3" />
-                        <span class={t.socialText}>{i18n.authShowcase.mockup.continueWithGithub}</span>
-                      </button>
-
-                      <p class={`text-[10px] ${t.muted} text-center mt-4`}>
-                        {i18n.authShowcase.mockup.noAccount}{' '}
-                        <span class={`${t.link} cursor-pointer font-medium`}>{i18n.authShowcase.mockup.signUp}</span>
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <p class="text-center text-xs text-kotauth-text-muted font-mono mt-3">
-            {i18n.authShowcase.mockup.themeHint}
-          </p>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
+
+<style>
+  .auth-preview[data-auth-theme='light'] {
+    --w-bg: #FAFBFC; --card-bg: #fff; --card-border: #ECEEF2; --card-shadow: 0 8px 24px -12px rgba(15,22,41,0.14);
+    --heading: #0F1629; --muted: #8A94A3; --label: #5A6675;
+    --input-bg: #fff; --input-border: #E2E5EB; --input-ph: #A6AEBA;
+    --btn-bg: #0077A8; --btn-text: #fff; --social-border: #E2E5EB; --social-text: #0F1629;
+    --link: #0077A8; --divider: #ECEEF2; --divider-text: #A6AEBA;
+  }
+  .auth-preview[data-auth-theme='dark'] {
+    --w-bg: #0d1117; --card-bg: #161b27; --card-border: #21293a; --card-shadow: 0 8px 24px -12px rgba(0,0,0,0.5);
+    --heading: #ffffff; --muted: #8b92a5; --label: #c9d1e0;
+    --input-bg: #0d1117; --input-border: #21293a; --input-ph: #4a5168;
+    --btn-bg: #0077a8; --btn-text: #fff; --social-border: #21293a; --social-text: #c9d1e0;
+    --link: #4FB3DE; --divider: #21293a; --divider-text: #4a5168;
+  }
+  .auth-preview[data-auth-theme='simple'] {
+    --w-bg: #ffffff; --card-bg: #ffffff; --card-border: transparent; --card-shadow: none;
+    --heading: #111827; --muted: #9ca3af; --label: #4b5563;
+    --input-bg: #fff; --input-border: #d1d5db; --input-ph: #d1d5db;
+    --btn-bg: #111827; --btn-text: #fff; --social-border: #d1d5db; --social-text: #4b5563;
+    --link: #111827; --divider: #e5e7eb; --divider-text: #d1d5db;
+  }
+  .auth-tab[data-active] {
+    background: #0077A8;
+    color: #fff;
+    font-weight: 500;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-auth-showcase]').forEach((root) => {
+    const preview = root.querySelector('[data-auth-preview]');
+    const tabs = root.querySelectorAll('[data-auth-tab]');
+    if (!preview) return;
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        preview.setAttribute('data-auth-theme', tab.getAttribute('data-auth-tab') || 'light');
+        tabs.forEach((t) => t.removeAttribute('data-active'));
+        tab.setAttribute('data-active', '');
+      });
+    });
+  });
+</script>

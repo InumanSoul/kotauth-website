@@ -1,0 +1,64 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { t, type Locale, defaultLocale } from '@/i18n';
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
+---
+
+<BaseLayout
+  title={i18n.pages.privacy.title}
+  description={i18n.pages.privacy.description}
+  path="/privacy"
+>
+  <section class="bg-white">
+    <header class="max-w-[760px] mx-auto px-7 pt-32 pb-9">
+      <span class="eyebrow mb-3 block">Legal</span>
+      <h1 class="font-heading font-bold text-[38px] sm:text-[46px] leading-[1.08] tracking-[-0.03em] text-kotauth-text-primary mb-3">
+        Política de Privacidade
+      </h1>
+      <p class="font-mono text-[13px] text-kotauth-text-muted">Última atualização em junho de 2026</p>
+    </header>
+
+    <article class="max-w-[760px] mx-auto px-7 pb-[100px]">
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Esta política explica quais informações o site kotauth.com coleta e como elas são usadas. Ela cobre apenas o site de marketing. Quando você auto-hospeda o Kotauth, os dados que sua instância processa permanecem na sua infraestrutura e são regidos pelas suas próprias políticas, não por esta.
+      </p>
+
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Informações que coletamos</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Mantemos a coleta no mínimo. O site não exige uma conta para navegar. Se você enviar o formulário de contato, recebemos o nome, o endereço de email e a mensagem que você fornecer para que possamos responder.
+      </p>
+
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Analytics</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Usamos analytics que respeitam a privacidade e não usam cookies para entender o tráfego agregado, como quais páginas são populares. Esses analytics não definem cookies de rastreamento, não criam perfis entre sites e não identificam visitantes individuais.
+      </p>
+
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Cookies</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        O site de marketing não usa cookies de publicidade ou rastreamento. Qualquer armazenamento se limita ao que é estritamente necessário para o funcionamento do site, como lembrar a sua preferência de idioma.
+      </p>
+
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Como usamos as informações</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Usamos as informações que você envia exclusivamente para responder à sua solicitação e para melhorar o site. Não vendemos os seus dados pessoais e não os compartilhamos com terceiros para o marketing deles.
+      </p>
+
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Deployments auto-hospedados</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Kotauth é um software que você mesmo executa. Não temos acesso aos usuários, tokens ou registros de auditoria que sua instância processa. Você é o controlador dos dados de tudo o que está dentro do seu deployment.
+      </p>
+
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Seus direitos</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Você pode solicitar acesso, correção ou exclusão de quaisquer dados pessoais que tenha nos enviado pelo formulário de contato. Entre em contato e atenderemos a solicitações razoáveis.
+      </p>
+
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Contato</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Dúvidas sobre esta política? Fale conosco pela <a href="/contact" class="text-kotauth-primary font-semibold hover:text-kotauth-primary-light transition-colors">página de contato</a>.
+      </p>
+    </article>
+  </section>
+</BaseLayout>

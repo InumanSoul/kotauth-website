@@ -1,0 +1,75 @@
+---
+// 9-row comparison table per Bold design
+// Columns: Kotauth | Keycloak | Clerk / Auth0
+import { t, type Locale, defaultLocale } from '@/i18n';
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
+
+type Mark = 'yes' | 'no' | 'paid' | 'partial' | 'dash';
+
+// Marks stay in code (not translatable); feature labels come from i18n by index.
+const marks: { k: Mark; kc: Mark; saas: Mark }[] = [
+  { k: 'yes', kc: 'yes',     saas: 'no'   },
+  { k: 'yes', kc: 'yes',     saas: 'paid' },
+  { k: 'yes', kc: 'no',      saas: 'dash' },
+  { k: 'yes', kc: 'no',      saas: 'yes'  },
+  { k: 'yes', kc: 'no',      saas: 'no'   },
+  { k: 'yes', kc: 'partial', saas: 'paid' },
+  { k: 'yes', kc: 'yes',     saas: 'no'   },
+  { k: 'yes', kc: 'yes',     saas: 'paid' },
+  { k: 'yes', kc: 'no',      saas: 'yes'  },
+];
+
+const rows = i18n.compareSection.rows.map((feature, i) => ({ feature, ...marks[i] }));
+
+function cell(m: Mark) {
+  if (m === 'yes')     return { icon: '✓', cls: 'text-emerald-600 text-base font-medium' };
+  if (m === 'no')      return { icon: '✗', cls: 'text-kotauth-text-muted' };
+  if (m === 'paid')    return { icon: '$$$', cls: 'text-amber-600 font-mono font-bold text-xs' };
+  if (m === 'partial') return { icon: i18n.compareSection.partial, cls: 'text-kotauth-text-muted text-xs' };
+  return { icon: '–', cls: 'text-kotauth-surface-3' };
+}
+
+const COLS = 'grid-cols-[1.7fr_1fr_1fr_1fr]';
+---
+
+<section class="bg-kotauth-bg-secondary border-t border-kotauth-surface-2">
+  <div class="max-w-[1060px] mx-auto px-7 py-[110px]">
+    <div class="text-center max-w-[620px] mx-auto mb-12">
+      <span class="font-mono text-[12.5px] font-medium tracking-[0.06em] uppercase text-kotauth-primary">{i18n.compareSection.eyebrow}</span>
+      <h2 class="font-heading font-bold text-3xl sm:text-[44px] leading-[1.08] tracking-[-0.025em] text-kotauth-text-primary my-3.5">
+        {i18n.compareSection.title}
+      </h2>
+      <p class="text-[17.5px] leading-relaxed font-medium text-kotauth-text-secondary">{i18n.compareSection.subtitle}</p>
+    </div>
+
+    <div class="bg-kotauth-surface-1 border border-kotauth-surface-2 overflow-x-auto" style="box-shadow: 0 1px 3px rgba(15,22,41,0.05);">
+      <div class="min-w-[640px]">
+        <!-- header row -->
+        <div class={`grid ${COLS} bg-kotauth-bg-secondary border-b border-kotauth-surface-2`}>
+          <div class="px-[22px] py-[18px] text-[13px] font-semibold text-kotauth-text-muted">{i18n.compareSection.capability}</div>
+          <div class="px-3 py-3.5 text-center bg-kotauth-primary/10 border-x border-kotauth-primary/20">
+            <span class="font-heading text-[14.5px] font-bold text-kotauth-primary">Kotauth</span>
+          </div>
+          <div class="px-3 py-[18px] text-center text-sm font-semibold text-kotauth-text-secondary">Keycloak</div>
+          <div class="px-3 py-[18px] text-center text-sm font-semibold text-kotauth-text-secondary">Clerk / Auth0</div>
+        </div>
+        <!-- body rows -->
+        {rows.map(({ feature, k, kc, saas }) => {
+          const kCell = cell(k);
+          const kcCell = cell(kc);
+          const saasCell = cell(saas);
+          return (
+            <div class={`grid ${COLS} border-b border-kotauth-surface-2/60 items-center`}>
+              <div class="px-[22px] py-[15px] text-sm font-medium text-kotauth-text-primary">{feature}</div>
+              <div class={`px-3 py-[15px] flex justify-center bg-kotauth-primary/5 border-x border-kotauth-primary/10 ${kCell.cls}`}>{kCell.icon}</div>
+              <div class={`px-3 py-[15px] flex justify-center ${kcCell.cls}`}>{kcCell.icon}</div>
+              <div class={`px-3 py-[15px] flex justify-center ${saasCell.cls}`}>{saasCell.icon}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</section>

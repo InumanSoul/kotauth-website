@@ -13,7 +13,7 @@ module.exports = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          light: "#00A3E0",
+          light: "#0090CB",
           dark: "#005A80",
         },
         secondary: {
@@ -40,37 +40,37 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Custom Kotauth colors
+        // Kotauth design tokens — bound to CSS vars (RGB channels) so .dark-section can flip them
         kotauth: {
-          primary: "#0077A8",
-          "primary-light": "#00A3E0",
-          "primary-dark": "#005A80",
+          primary: "rgb(var(--kotauth-primary) / <alpha-value>)",
+          "primary-light": "rgb(var(--kotauth-primary-light) / <alpha-value>)",
+          "primary-dark": "rgb(var(--kotauth-primary-dark) / <alpha-value>)",
           bg: {
-            primary: "#0A0F14",
-            secondary: "#0D131A",
-            tertiary: "#111820",
-            code: "#0D1117",
+            primary: "rgb(var(--kotauth-bg-primary) / <alpha-value>)",
+            secondary: "rgb(var(--kotauth-bg-secondary) / <alpha-value>)",
+            tertiary: "rgb(var(--kotauth-bg-tertiary) / <alpha-value>)",
+            code: "rgb(var(--kotauth-bg-code) / <alpha-value>)",
           },
           surface: {
-            1: "#161F28",
-            2: "#1C2733",
-            3: "#22303D",
+            1: "rgb(var(--kotauth-surface-1) / <alpha-value>)",
+            2: "rgb(var(--kotauth-surface-2) / <alpha-value>)",
+            3: "rgb(var(--kotauth-surface-3) / <alpha-value>)",
           },
           text: {
-            primary: "#F0F4F8",
-            secondary: "#94A3B8",
-            tertiary: "#64748B",
-            muted: "#475569",
+            primary: "rgb(var(--kotauth-text-primary) / <alpha-value>)",
+            secondary: "rgb(var(--kotauth-text-secondary) / <alpha-value>)",
+            tertiary: "rgb(var(--kotauth-text-tertiary) / <alpha-value>)",
+            muted: "rgb(var(--kotauth-text-muted) / <alpha-value>)",
           },
-          success: "#10B981",
-          warning: "#F59E0B",
-          error: "#EF4444",
+          success: "rgb(var(--kotauth-success) / <alpha-value>)",
+          warning: "rgb(var(--kotauth-warning) / <alpha-value>)",
+          error: "rgb(var(--kotauth-error) / <alpha-value>)",
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['Inconsolata', 'monospace'],
-        heading: ['Inconsolata', 'monospace'],
+        sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
+        heading: ["Space Grotesk", "system-ui", "sans-serif"],
       },
       borderRadius: {
         xl: "0",
@@ -80,9 +80,11 @@ module.exports = {
         xs: "0",
       },
       boxShadow: {
-        xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-        glow: "0 0 40px rgba(0, 119, 168, 0.15)",
-        "glow-lg": "0 0 60px rgba(0, 119, 168, 0.2)",
+        xs: "0 1px 2px 0 rgb(0 0 0 / 0.04)",
+        sm: "0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06)",
+        card: "0 2px 8px 0 rgb(0 0 0 / 0.06), 0 0 0 1px rgb(0 0 0 / 0.04)",
+        glow: "0 0 40px rgba(0, 119, 168, 0.12)",
+        "glow-lg": "0 0 60px rgba(0, 119, 168, 0.16)",
       },
       keyframes: {
         marquee: {

@@ -1,68 +1,58 @@
 ---
-import { ArrowRight, Play } from '@lucide/astro';
-import FloatingOrb from '@/components/FloatingOrb.astro';
 import { t, type Locale, defaultLocale } from '@/i18n';
 
-const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const DEMO_URL = 'https://demo.kotauth.com';
+const QUICKSTART_URL = 'https://docs.kotauth.com/getting-started/quickstart/';
 
 const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 const i18n = t(locale);
 ---
 
-<section class="py-24 lg:py-32 relative overflow-hidden">
-  <FloatingOrb
-    class="top-1/4 left-1/4"
-    size={300}
-    color="rgba(0, 119, 168, 0.25)"
-  />
-  <FloatingOrb
-    class="bottom-1/4 right-1/4"
-    size={250}
-    color="rgba(0, 163, 224, 0.18)"
-  />
+<section class="max-w-[1180px] mx-auto px-7 py-[110px]">
+  <div class="dark-section relative bg-kotauth-bg-primary text-center overflow-hidden px-7 sm:px-12 py-20">
+    <!-- glow -->
+    <div
+      class="absolute top-[-80px] left-1/2 -translate-x-1/2 w-[760px] h-[420px] pointer-events-none"
+      style="background: radial-gradient(ellipse at top, rgba(0,119,168,0.4), rgba(99,102,241,0.14) 45%, transparent 72%);"
+    >
+    </div>
+    <!-- grid texture -->
+    <div
+      class="absolute inset-0 pointer-events-none"
+      style="background-image: linear-gradient(rgba(148,163,184,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.05) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000, transparent 75%); -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000, transparent 75%);"
+    >
+    </div>
 
-  <div class="section-container relative z-10">
-    <div class="relative max-w-3xl mx-auto text-center">
-      <div class="absolute inset-0 bg-gradient-to-br from-kotauth-primary/10 via-kotauth-surface-1/50 to-kotauth-primary/5 blur-xl"></div>
-
-      <div class="relative bg-kotauth-surface-1/80 backdrop-blur-sm border border-kotauth-surface-2 p-8 sm:p-12 lg:p-16">
-        <h2
-          data-reveal
-          class="text-3xl sm:text-4xl lg:text-5xl font-bold text-kotauth-text-primary leading-tight mb-6 font-mono"
+    <div class="relative">
+      <div class="inline-flex items-center gap-2 font-mono text-xs text-[#00A3E0] border border-[#00A3E0]/30 px-3.5 py-1.5 mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" style="box-shadow: 0 0 8px #10B981;"></span>
+        {i18n.ctaSection.eyebrow}
+      </div>
+      <h2 class="font-heading font-bold text-4xl sm:text-[50px] leading-[1.06] tracking-[-0.025em] text-white mb-4">
+        {i18n.ctaSection.titleLead}<br class="hidden sm:block" />
+        <span style="background: linear-gradient(120deg, #00A3E0, #0077A8); -webkit-background-clip: text; background-clip: text; color: transparent;">{i18n.ctaSection.titleHighlight}</span>?
+      </h2>
+      <p class="text-lg leading-relaxed text-kotauth-text-secondary max-w-[520px] mx-auto mb-9">
+        {i18n.ctaSection.description}
+      </p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a
+          href={QUICKSTART_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 text-[15.5px] font-semibold text-[#0A0F14] bg-white px-6 h-[52px] transition-transform hover:-translate-y-px"
         >
-          {i18n.ctaSection.titleStart}{' '}
-          <span class="gradient-text">{i18n.ctaSection.titleHighlight}</span>{i18n.ctaSection.questionMark}
-        </h2>
-
-        <p
-          data-reveal
-          data-reveal-delay="100"
-          class="text-lg text-kotauth-text-secondary mb-8 max-w-xl mx-auto"
+          {i18n.ctaSection.getStartedFree}
+        </a>
+        <a
+          href={DEMO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2.5 text-[15.5px] font-semibold text-white border border-white/20 hover:border-white/40 hover:bg-white/[0.06] px-6 h-[52px] transition-colors"
         >
-          {i18n.ctaSection.description}
-        </p>
-
-        <div data-reveal data-reveal-delay="200" class="flex flex-wrap justify-center gap-4">
-          <a
-            href={DEMO_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-8 h-12 font-mono text-sm transition-colors"
-          >
-            <Play class="w-4 h-4" />
-            {i18n.ctaSection.tryDemo}
-          </a>
-          <a
-            href={`${GITHUB_URL}#try-it--one-command`}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-2 px-8 h-12 font-mono text-sm transition-colors"
-          >
-            {i18n.ctaSection.getStartedFree}
-            <ArrowRight class="w-4 h-4" />
-          </a>
-        </div>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+          {i18n.ctaSection.launchDemo}
+        </a>
       </div>
     </div>
   </div>

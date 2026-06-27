@@ -1,312 +1,215 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import {
-  Shield,
-  Building2,
-  Key,
-  ShieldCheck,
-  Webhook,
-  Container,
-  Users,
-  Palette,
-  Bot,
-  ArrowRight,
-  Play,
-  Lock,
-  FileCode,
-  FingerprintPattern,
-  RefreshCw,
-  ShieldAlert,
-  LogOut,
-  Tags,
-  Link,
-  Archive,
-  Globe,
-  Database,
-  UserCheck,
-  LayoutGrid,
-  ShieldBan,
-  Mail,
-  CircleUserRound,
-  Paintbrush,
-  Target,
-} from '@lucide/astro';
-import GradientGlow from '@/components/GradientGlow.astro';
-import FeatureCard from '@/components/FeatureCard.astro';
-import AuthShowcase from '@/sections/AuthShowcase.astro';
+import { t, type Locale, defaultLocale } from '@/i18n';
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const DEMO_URL = 'https://demo.kotauth.com';
+const QUICKSTART_URL = 'https://docs.kotauth.com/getting-started/quickstart/';
 
-const allFeatures = [
+const categories = [
   {
-    icon: Shield,
-    title: 'OAuth 2.0 & OpenID Connect',
-    description: 'Authorization Code + PKCE (required for all public clients), Client Credentials for machine-to-machine, Refresh Token rotation with immediate invalidation, token introspection (RFC 7662), revocation (RFC 7009), OIDC Discovery at /.well-known/openid-configuration, and RP-initiated end-session logout with id_token_hint. Any OIDC-compliant client library works without modification.',
+    label: 'Authentication & protocols',
+    subtitle: 'Standards-based auth that drops into any client.',
+    items: [
+      {
+        title: 'OAuth 2.0 & OpenID Connect',
+        body: 'Authorization Code with PKCE, Client Credentials, token rotation, introspection, revocation and OIDC Discovery. Spec-compliant, so any OIDC client library works out of the box.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>',
+      },
+      {
+        title: 'Passwordless login',
+        body: 'Magic-link and Email OTP login with 15-minute one-time tokens and same-device binding. User-enumeration safe. Workspaces can go fully passwordless.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 4h16v16H4zM4 7l8 5 8-5"/></svg>',
+      },
+      {
+        title: 'Multi-factor auth',
+        body: 'TOTP-based MFA with replay detection and lockout protection. Enforced per workspace and preserved across every passwordless flow.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+      },
+    ],
   },
   {
-    icon: Target,
-    title: 'RFC 8707 Resource Indicators',
-    description: 'Audience-targeted machine-to-machine tokens. The resource parameter on the token endpoint (client_credentials grant) lets tokens carry the targeted API identifier as the aud claim instead of the caller client_id. APIs registry (admin: /settings/apis) provides workspace-scoped CRUD for audience identifiers. Per-client "Authorized APIs" screen with checkbox authorization and disable badges. Discovery metadata advertises resource_indicators_supported: true so RFC 8707-aware client libraries enable the parameter automatically. Hierarchy: resource > per-client audience column > client_id. Unknown or unauthorized resources produce RFC 8707 invalid_target 400, never a silently-broad token.',
+    label: 'Multi-tenancy & access',
+    subtitle: 'One instance, many products, fully isolated.',
+    items: [
+      {
+        title: 'Isolated workspaces',
+        body: 'Separate user directories, per-tenant RS256 key pairs with admin-initiated rotation, slug-routed APIs and independent security policies.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01"/></svg>',
+      },
+      {
+        title: 'RBAC & groups',
+        body: 'Roles with composite inheritance, group membership and client default roles. Fine-grained access control with no external services to run.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 7h5M18.5 4.5v5"/></svg>',
+      },
+      {
+        title: 'Custom JWT claims',
+        body: 'Project user attributes into tokens with claim mappers. Shape the exact JWT each application receives, with no code required.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>',
+      },
+    ],
   },
   {
-    icon: Building2,
-    title: 'Multi-Tenant by Design',
-    description: 'Every workspace gets its own RS256 key pair provisioned on first use, no shared signing key across tenants. Admin-initiated key rotation lets you generate a new signing key, promote it to active, and retire the old key when all tokens have expired. Isolated user directories, slug-routed APIs (/t/{workspace}/api/v1), independent issuer URLs, and configurable token TTLs. The same email address is treated as a completely separate identity in each workspace.',
+    label: 'Security & compliance',
+    eyebrow: 'Hardened by default',
+    subtitle: 'The controls auditors ask about, built in from day one.',
+    dark: true,
+    items: [
+      {
+        title: 'Encrypted at rest',
+        body: 'Secrets sealed with AES-256-GCM. Backups derive keys with PBKDF2 at 600k iterations before encryption.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="4" y="10" width="16" height="11"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 15v2"/></svg>',
+      },
+      {
+        title: 'Breached password checks',
+        body: 'HIBP k-anonymity blocks known-compromised passwords at registration and reset, without leaking the password.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z"/><path d="M12 8v4M12 16h.01"/></svg>',
+      },
+      {
+        title: 'Account protection',
+        body: 'Account lockout, refresh-token replay detection with family revocation, and silent SSO with prompt=none.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+      },
+      {
+        title: 'Immutable audit trail',
+        body: '65+ event types in an append-only log. Query by actor, action or time from the API or your AI assistant.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>',
+      },
+    ],
   },
   {
-    icon: Key,
-    title: 'Flexible Authentication',
-    description: 'Password authentication with history tracking (prevent reuse of last N passwords), blacklist checking, complexity enforcement, and configurable max age with forced expiry. TOTP MFA (RFC 6238) with recovery codes. Google and GitHub OAuth with automatic account linking by email. Users can view and manage connected social identities from the self-service portal. Admin-initiated user invitations with branded email, 72-hour activation links, and automatic account setup. MFA enforcement is configurable per workspace.',
+    label: 'Developer experience',
+    subtitle: 'A consistent surface that rewards reading the docs once.',
+    items: [
+      {
+        title: 'One consistent REST API',
+        body: 'The same shape across every resource, with scoped API keys per workspace and RFC-compliant errors. Keys read as Bearer kauth_{slug}_{key}.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M8 6 2 12l6 6M16 6l6 6-6 6"/></svg>',
+      },
+      {
+        title: 'OpenAPI & built-in CLI',
+        body: 'Bundled Swagger UI and five built-in CLI tools. Everything is documented and everything is scriptable.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>',
+      },
+      {
+        title: 'Workspace-routed endpoints',
+        body: 'Predictable routing at /t/{slug}/api/v1. One instance serves every tenant with no ambiguity about who you are talking to.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',
+      },
+    ],
   },
   {
-    icon: ShieldAlert,
-    title: 'Account Lockout & Brute-Force Protection',
-    description: 'Configurable failed login threshold with automatic account lockout. Locked users receive an email notification with a password reset link. Admins can manually unlock accounts. Combined with per-IP rate limiting and per-workspace scoping, every layer of the login path is protected. Password change and account lock events trigger async security notification emails.',
+    label: 'Deployment & operations',
+    subtitle: 'Boring to run, which is exactly what you want from auth.',
+    items: [
+      {
+        title: 'Docker-native',
+        body: 'A ~120 MB image on GHCR. Runs non-root as UID 10001, read-only filesystem, no-new-privileges. One-command quickstart and Flyway auto-migrations handle the rest. Fully air-gapped capable.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="10" width="4" height="4"/><rect x="8" y="10" width="4" height="4"/><rect x="13" y="10" width="4" height="4"/><rect x="8" y="5" width="4" height="4"/><path d="M19 11c1.5 0 2.5-1 2.5-1M3 14c0 3 2 5 7 5 7 0 11-4 11-8"/></svg>',
+      },
+      {
+        title: 'Backup & restore',
+        body: 'Portable, encrypted tenant snapshots via CLI or admin API, with schema-version validation on import.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>',
+      },
+      {
+        title: 'Scale-out ready',
+        body: 'Redis-backed distributed sessions and bring-your-own database support for production deployments.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>',
+      },
+    ],
   },
-  {
-    icon: Users,
-    title: 'RBAC with Groups & Inheritance',
-    description: 'Assign roles directly to users or via groups. Groups inherit roles, users inherit group membership. Composite inheritance means a user in multiple groups accumulates all permissions. Access revocation is immediate, no waiting for token expiry. Admin and user-initiated session revocation, plus bulk revocation from the admin console.',
-  },
-  {
-    icon: Tags,
-    title: 'Custom JWT Claims',
-    description: 'Attach per-user key-value attributes and project them into JWT access and/or ID tokens via tenant-level claim mappers. 41 reserved OIDC claim names are blocked to prevent overwriting standard claims (sub, iss, email, etc.). Claim mapper cache with 60-second TTL keeps token issuance fast. Changes propagate on next token issuance or immediately on refresh token renewal. Admin console and REST API for managing both attributes and mappers. Max 20 mappers per tenant to prevent JWT bloat. PII safeguard: admin UI warns that attribute values flow unencrypted into tokens.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Security That Ships by Default',
-    description: 'bcrypt password hashing, AES-256-GCM encryption at rest (RSA private keys, SMTP credentials, TOTP secrets), SHA-256 hashed API keys, HMAC-SHA256 signed cookies, strict CSP with zero inline JavaScript, SRI integrity on all bundles, CSRF protection, SameSite cookies, open redirect prevention, mandatory KAUTH_SECRET_KEY. Refresh-token replay detection revokes the entire session family on reuse. TOTP replay protection with per-enrollment lockout. Container runs as non-root (UID 10001) with no-new-privileges and read-only filesystem. Login error normalization with timing equalization prevents user enumeration. JWT issuer enforcement blocks cross-tenant token reuse. Trusted proxy opt-in (KAUTH_TRUSTED_PROXY) prevents rate-limit bypass via header spoofing. HMAC chain over the audit log: each row carries prev_hash and row_hash via HMAC-SHA256 keyed by KAUTH_SECRET_KEY, tampering or reordering breaks the chain and is detected by the verify-audit-chain CLI command. PKCE S256 uses constant-time comparison. Server response header suppressed.',
-  },
-  {
-    icon: Webhook,
-    title: 'Real-time Webhooks',
-    description: 'HMAC-SHA256 signed payloads delivered for 8 event types: user.created, user.updated, user.deleted, login.success, login.failed, password.reset, mfa.enrolled, and session.revoked. Configurable endpoint URLs with exponential backoff retry logic (3 attempts: immediate, 5 min, 30 min). React to identity events without polling.',
-  },
-  {
-    icon: Palette,
-    title: 'White-label Auth Pages',
-    description: "CSS variables injected server-side at render time, no CDN cache invalidation, no rebuild required. Custom primary color, background, logo, and favicon per tenant. Three presets included: Dark, Light, and Simple. Theming is fully isolated: changing one tenant's theme has zero effect on others.",
-  },
-  {
-    icon: Container,
-    title: 'Docker-Native Deployment',
-    description: '~120 MB multi-stage image published to GHCR (ghcr.io/inumansoul/kotauth). Runs as non-root user (UID 10001) with no-new-privileges, cap_drop: ALL, and read-only filesystem. One-command quickstart with demo data pre-loaded, or bring your own .env for a custom setup. Flyway migrations run automatically on startup, no init scripts, no manual schema setup. Built-in CLI tools (generate-secret-key, reset-admin-mfa, hash-api-key, export-tenant, import-tenant, verify-audit-chain) for key provisioning, emergency recovery, audit integrity verification, and backup operations. File-based secret injection (*_FILE convention): KAUTH_SECRET_KEY, DB_PASSWORD, KAUTH_REDIS_PASSWORD, KAUTH_BOOTSTRAP_ADMIN_PASSWORD, and KAUTH_BOOTSTRAP_API_KEYS accept a _FILE sibling pointing at a filesystem path, compatible with Docker Swarm secrets, Kubernetes mounted secrets, and systemd LoadCredential=. Two root compose files: docker-compose.yml for local dev and docker-compose.prod.yml for production with Caddy TLS. Bootstrap API keys via environment variable for CI/CD automation. Gradle dependency locking with CI verification and Dependabot for weekly vulnerability alerts.',
-  },
-  {
-    icon: Bot,
-    title: 'AI-Native Management (MCP)',
-    description: 'Manage your entire identity infrastructure from Claude, Cursor, or any MCP-compatible AI assistant. The @kotauth/mcp package exposes 33 tools across 8 domains: users, roles, groups, applications, sessions, audit logs, user attributes, and claim mappers. Scope-based access control: each API key grants only the permissions you choose. One command to connect: npx @kotauth/mcp. No SDK to learn, no HTTP to write. Ask your AI assistant to create a user, set custom attributes, configure claim mappings, or query audit logs. It calls the right endpoints automatically.',
-  },
-  {
-    icon: Link,
-    title: 'Magic-Link Passwordless',
-    description: 'Email-based passwordless login with 15-minute one-time tokens. Same-device cookie binding via KOTAUTH_AUTH_CONTEXT prevents token replay from a different browser. User-enumeration safe: consistent response timing regardless of whether the email exists. MFA invariant preserved: magic link authenticates the first factor, TOTP is still required if enrolled. Workspaces can go fully passwordless by disabling password login entirely.',
-  },
-  {
-    icon: Archive,
-    title: 'Tenant Backup & Restore',
-    description: 'Export entire workspaces as encrypted, portable snapshots. Archives use PBKDF2 with 600,000 iterations for key derivation and AES-256-GCM for encryption, packaged in a self-contained bkp1 envelope format. Import with schema-version compatibility validation to prevent data corruption. Available via CLI (export-tenant / import-tenant) and admin REST API endpoints.',
-  },
-  {
-    icon: Database,
-    title: 'Redis Distributed Sessions',
-    description: 'Optional Redis sidecar via KAUTH_REDIS_URL upgrades in-memory stores to distributed session storage and rate limiting. Lua-scripted rate limiting ensures consistent enforcement across all Kotauth instances. Fail-closed semantics: Redis unavailability rejects requests rather than bypassing limits. Lettuce client with connection pooling and automatic reconnection. Sticky sessions no longer required behind a load balancer.',
-  },
-  {
-    icon: UserCheck,
-    title: 'Admin Impersonation',
-    description: 'Act as any user without knowing their password. Impersonation sessions carry an RFC 8693 act claim identifying the admin, creating a full audit trail. Dual-session model: the admin session stays active underneath. Cascade revocation: revoking the admin session also terminates the impersonated session. Available from the admin console with one click.',
-  },
-  {
-    icon: LayoutGrid,
-    title: 'App Launcher',
-    description: 'Per-workspace tile grid at /t/{slug}/launcher showing all applications the user is entitled to access. Entitlement model based on client-scoped roles: users only see apps they have permission to use. Automatic tile generation from registered OAuth applications with logo and description.',
-  },
-  {
-    icon: Globe,
-    title: 'Internationalization (i18n)',
-    description: 'All auth and portal UI strings are externalized via a TranslationPort. Volume-mounted JSON bundles let you add languages without recompiling. Just drop a file in KAUTH_I18N_BUNDLE_DIR. Accept-Language header resolution with quality-factor ranking and graceful English fallback. Zero hardcoded English strings in auth or portal views. 174 Spanish translation keys shipped as a reference implementation. Localized transactional emails: all 8 email types (verification, password reset, account locked, password changed, SMTP test, invite, magic link, OTP) render in the tenant defaultLocale with per-key English fallback.',
-  },
-  {
-    icon: ShieldBan,
-    title: 'Breached Password Detection (HIBP)',
-    description: 'Passwords are checked against the Have I Been Pwned database using k-Anonymity range queries during registration and password changes. Only the first 5 characters of the SHA-1 hash leave the server. BreachedPasswordPort provides a pluggable interface in the domain layer. Combined with password history, complexity rules, and max age, Kotauth enforces password hygiene at every touchpoint.',
-  },
-  {
-    icon: Mail,
-    title: 'Email OTP Passwordless',
-    description: 'Two-step email code authentication: enter email, receive a 6-digit code, sign in. Available as an admin API primitive (send-otp / verify-otp) and as a hosted browser-driven login page with per-tenant toggle. Find-or-create user semantics for passwordless onboarding. Cross-challenge lockout defense with per-tenant threshold. Constant-time response posture prevents timing enumeration. MFA chain preserved: TOTP-enrolled users still get challenged after OTP verification.',
-  },
-  {
-    icon: CircleUserRound,
-    title: 'Client Default Roles',
-    description: 'Per-application default roles automatically assigned to users who self-register through an OAuth application. Grant-at-registration semantics: roles apply at account creation, never retroactively. Cross-client privilege-escalation guard prevents associating another application\'s roles. Admin UI "Registration Defaults" card with dropdown + role management table. REST API for programmatic management. Role-by-name addressing eliminates environment-specific ID lookups.',
-  },
-  {
-    icon: Paintbrush,
-    title: 'Transactional Email Branding',
-    description: 'Per-tenant email branding: brand name, color, logo URL, support email, and from display name. All eight transactional email templates (verification, magic link, password reset, account locked, invite, password changed, SMTP test, OTP) inherit the branding automatically. Branding editor card in workspace settings. Envelope sender stays operator-controlled for DKIM/SPF/DMARC alignment.',
-  },
-];
-
-const rfcBadges = [
-  { label: 'RFC 7519', description: 'JSON Web Token (JWT)' },
-  { label: 'RFC 7636', description: 'PKCE for OAuth 2.0' },
-  { label: 'RFC 7009', description: 'Token Revocation' },
-  { label: 'RFC 7662', description: 'Token Introspection' },
-  { label: 'RFC 8414', description: 'Authorization Server Metadata' },
-  { label: 'RFC 6238', description: 'TOTP Algorithm' },
-  { label: 'RFC 7807', description: 'Problem Details for APIs' },
-  { label: 'RFC 8707', description: 'Resource Indicators' },
-];
-
-const securityPrimitives = [
-  { Icon: Lock, label: 'bcrypt', detail: 'Password hashing' },
-  { Icon: Shield, label: 'AES-256-GCM', detail: 'RSA keys + secrets at rest' },
-  { Icon: FingerprintPattern, label: 'SHA-256', detail: 'API key hashing' },
-  { Icon: FileCode, label: 'RS256', detail: 'Per-tenant JWT signing' },
-  { Icon: Key, label: 'SRI', detail: 'JS bundle integrity' },
-  { Icon: RefreshCw, label: 'Token rotation', detail: 'Replay detection + family revocation' },
-  { Icon: ShieldAlert, label: 'Account lockout', detail: 'Brute-force + TOTP lockout' },
-  { Icon: ShieldCheck, label: 'CSP + CSRF', detail: 'Transport & request hardening' },
-  { Icon: LogOut, label: 'Non-root container', detail: 'UID 10001, read-only FS' },
 ];
 ---
 
 <BaseLayout
-  title="Features | Kotauth"
-  description="Every feature Kotauth ships in v1.19.2: OAuth 2.0 & OIDC, multi-tenant workspaces, RBAC, TOTP MFA, social login, magic-link & email OTP passwordless auth, Redis sessions, backup & restore, admin impersonation, i18n, app launcher, MCP integration for AI assistants, email branding, client default roles, RFC 8707 resource indicators, audit HMAC chain, file-based secrets, security hardening, HMAC webhooks, white-label auth screens, and Docker-native deployment. Built on Ktor 3.4, Kotlin 2.3, and PostgreSQL."
+  title={i18n.pages.features.title}
+  description={i18n.pages.features.description}
   path="/features"
 >
-  <div class="min-h-screen">
-    <section class="relative pt-32 pb-16 overflow-hidden">
-      <GradientGlow class="top-0 left-1/2 -translate-x-1/2" size={800} color="rgba(0, 119, 168, 0.18)" />
-      <div class="section-container relative z-10">
-        <div class="max-w-3xl">
+  <!-- Header -->
+  <section class="relative px-7 pt-32 pb-20 text-center overflow-hidden">
+    <div class="max-w-[760px] mx-auto">
+      <span class="eyebrow mb-4 block">Features</span>
+      <h1 class="font-heading font-bold text-4xl sm:text-5xl lg:text-[56px] leading-[1.05] tracking-[-0.025em] text-kotauth-text-primary mb-4">
+        Everything you need for identity infrastructure
+      </h1>
+      <p class="max-w-[620px] mx-auto text-lg text-kotauth-text-secondary leading-relaxed">
+        A complete authentication platform. Spec-compliant protocols, real multi-tenancy, hardened security, and a developer experience that respects your time.
+      </p>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  {categories.map((cat) => (
+    <section class={`py-16 ${cat.dark ? 'dark-section bg-kotauth-bg-primary' : ''}`}>
+      <div class="section-container">
+        <div class="mb-9 max-w-2xl">
+          {cat.eyebrow && <span class="eyebrow mb-3 block">{cat.eyebrow}</span>}
+          <h2 class="font-heading text-3xl font-bold tracking-[-0.02em] text-kotauth-text-primary mb-2">
+            {cat.label}
+          </h2>
+          <p class="text-kotauth-text-secondary">
+            {cat.subtitle}
+          </p>
+        </div>
+
+        <div class={`grid sm:grid-cols-2 ${cat.items.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'} gap-5`}>
+          {cat.items.map((item) => (
+            <div
+              class="bg-kotauth-surface-1 border border-kotauth-surface-2 p-[28px]"
+              style="box-shadow:0 1px 3px rgba(15,22,41,0.05)"
+            >
+              <div
+                class="w-[44px] h-[44px] bg-kotauth-primary/10 text-kotauth-primary flex items-center justify-center mb-5"
+                set:html={item.icon}
+              />
+              <h3 class="font-heading text-[17px] font-bold text-kotauth-text-primary mb-2">
+                {item.title}
+              </h3>
+              <p class="text-sm leading-relaxed text-kotauth-text-secondary">
+                {item.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- CTA -->
+  <section class="px-7 pb-28">
+    <div class="section-container">
+      <div class="dark-section relative bg-kotauth-bg-primary px-6 sm:px-12 py-[72px] text-center overflow-hidden">
+        <h2 class="font-heading font-bold text-3xl sm:text-[42px] leading-[1.08] tracking-[-0.025em] text-kotauth-text-primary mb-4">
+          See it all running live
+        </h2>
+        <p class="max-w-[480px] mx-auto text-kotauth-text-secondary mb-8">
+          Explore a seeded instance, or deploy your own in under a minute.
+        </p>
+        <div class="flex flex-wrap gap-3 justify-center">
           <a
-            href="/"
-            class="inline-flex items-center gap-1.5 text-sm font-mono text-kotauth-text-tertiary hover:text-kotauth-primary transition-colors mb-8 group"
+            href={QUICKSTART_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 bg-white text-[#0A0F14] px-6 h-[50px] text-[15.5px] font-semibold transition-transform hover:-translate-y-px"
           >
-            <ArrowRight class="w-3.5 h-3.5 rotate-180 group-hover:-translate-x-1 transition-transform" />
-            Back to home
+            Get started free
           </a>
-          <span class="eyebrow mb-4 block">Features</span>
-          <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-bold text-kotauth-text-primary leading-[1.1] tracking-tight mb-6 font-mono">
-            What Kotauth{' '}
-            <span class="gradient-text">actually ships</span>
-          </h1>
-          <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
-            Every feature listed here is in production today. No beta labels, no roadmap
-            promises. This is the current v1.19.2 release, built on Ktor 3.4, Kotlin 2.3, and Gradle 9.
-          </p>
+          <a
+            href={DEMO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 border border-white/20 text-white hover:border-white/40 hover:bg-white/5 px-6 h-[50px] text-[15.5px] font-semibold transition-colors"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            Try the demo
+          </a>
         </div>
       </div>
-    </section>
-
-    <AuthShowcase />
-
-    <section class="py-8 pb-24">
-      <div class="section-container">
-        <div class="grid sm:grid-cols-2 lg:grid-cols-2 gap-0">
-          {allFeatures.map((feature) => (
-            <FeatureCard
-              icon={feature.icon}
-              title={feature.title}
-              description={feature.description}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="py-24 relative overflow-hidden">
-      <GradientGlow class="bottom-0 right-0 translate-x-1/3" size={600} color="rgba(0, 163, 224, 0.15)" />
-      <div class="section-container relative z-10">
-        <div class="mb-12">
-          <span class="eyebrow mb-4 block">Standards</span>
-          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
-            Built on open standards
-          </h2>
-          <p class="text-kotauth-text-secondary max-w-xl">
-            Any OIDC-compliant client library works with Kotauth without modification.
-            These are the RFCs implemented, not approximated.
-          </p>
-        </div>
-
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {rfcBadges.map((rfc) => (
-            <div class="bg-kotauth-surface-1 border border-kotauth-surface-2 p-4 hover:border-kotauth-primary/30 transition-colors">
-              <p class="text-sm font-semibold text-kotauth-primary font-mono mb-1">{rfc.label}</p>
-              <p class="text-xs text-kotauth-text-tertiary font-mono leading-relaxed">{rfc.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="py-24 bg-kotauth-bg-secondary border-y border-kotauth-surface-2">
-      <div class="section-container">
-        <div class="mb-12">
-          <span class="eyebrow mb-4 block">Security</span>
-          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
-            Hardened before your first deploy
-          </h2>
-          <p class="text-kotauth-text-secondary max-w-xl">
-            Security decisions are made at the framework level, not left as configuration
-            exercises for the operator.
-          </p>
-        </div>
-
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {securityPrimitives.map(({ Icon, label, detail }) => (
-            <div class="flex items-start gap-4 p-5 bg-kotauth-surface-1 border border-kotauth-surface-2 hover:border-kotauth-primary/30 transition-colors">
-              <div class="w-9 h-9 bg-kotauth-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <Icon class="w-4 h-4 text-kotauth-primary" />
-              </div>
-              <div>
-                <p class="text-sm font-semibold text-kotauth-text-primary font-mono mb-0.5">{label}</p>
-                <p class="text-xs text-kotauth-text-tertiary font-mono">{detail}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="py-24">
-      <div class="section-container">
-        <div class="max-w-2xl">
-          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-4">
-            Ready to deploy?
-          </h2>
-          <p class="text-kotauth-text-secondary mb-8">
-            Everything above ships in a single Docker image. No licensing, no per-seat cost,
-            no SaaS dependency. See it running before you deploy.
-          </p>
-          <div class="flex flex-wrap gap-4">
-            <a
-              href={DEMO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-12 font-mono text-sm transition-colors"
-            >
-              <Play class="w-4 h-4" />
-              Try the Demo
-            </a>
-            <a
-              href={`${GITHUB_URL}#try-it--one-command`}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-12 font-mono text-sm transition-colors"
-            >
-              Get Started
-              <ArrowRight class="w-4 h-4" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </BaseLayout>

@@ -1,0 +1,254 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { t, formatDate, type Locale, defaultLocale } from '@/i18n';
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
+
+const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
+
+type Tag = 'Added' | 'Improved' | 'Changed' | 'Fixed' | 'Security';
+type ChangeItem = { tag: Tag; text: string };
+type Release = { version: string; date: string; current?: boolean; items: ChangeItem[] };
+
+const releases: Release[] = [
+  {
+    version: '1.19.2',
+    date: 'June 22, 2026',
+    current: true,
+    items: [
+      { tag: 'Changed', text: 'Dois arquivos compose na raiz (docker-compose.yml + docker-compose.prod.yml) substituem seis que ficavam em docker/' },
+      { tag: 'Changed', text: 'Overlay de DB externo substituído por DB_URL no .env; overlay de demo substituído por KAUTH_DEMO_MODE=true no .env' },
+      { tag: 'Improved', text: 'Toda a orientação de deploy movida para a documentação; comentários removidos do Dockerfile, do Caddyfile e dos arquivos compose' },
+    ],
+  },
+  {
+    version: '1.19.1',
+    date: 'June 22, 2026',
+    items: [
+      { tag: 'Added', text: 'Injeção de segredos baseada em arquivo (convenção *_FILE) para KAUTH_SECRET_KEY, DB_PASSWORD, KAUTH_REDIS_PASSWORD, KAUTH_BOOTSTRAP_ADMIN_PASSWORD e KAUTH_BOOTSTRAP_API_KEYS' },
+      { tag: 'Added', text: 'Lock de dependências do Gradle: o gradle.lockfile fixa o grafo de dependências resolvido, e o CI verifica a cada PR' },
+      { tag: 'Added', text: 'Dependabot habilitado para alertas semanais sobre dependências do Gradle, GitHub Actions e imagens base do Docker' },
+    ],
+  },
+  {
+    version: '1.19.0',
+    date: 'June 19, 2026',
+    items: [
+      { tag: 'Security', text: 'Cadeia HMAC sobre o log de auditoria: cada linha carrega prev_hash e row_hash via HMAC-SHA256 com chave KAUTH_SECRET_KEY; adulteração ou reordenação quebra a cadeia' },
+      { tag: 'Added', text: 'Novo comando CLI verify-audit-chain detecta linhas de auditoria adulteradas ou reordenadas' },
+      { tag: 'Fixed', text: 'Os detalhes do log de auditoria agora usam kotlinx.serialization, corrigindo a corrupção silenciosa de JSON causada por strings concatenadas manualmente' },
+      { tag: 'Fixed', text: 'Introspecção de token com múltiplas audiências: AccessTokenClaims.aud ampliado para suportar o formato de array' },
+    ],
+  },
+  {
+    version: '1.18.0',
+    date: 'June 17, 2026',
+    items: [
+      { tag: 'Added', text: 'Resource Indicators da RFC 8707 para o grant client_credentials: tokens M2M direcionados por audiência com aud vinculado ao recurso solicitado' },
+      { tag: 'Added', text: 'Registro de APIs (admin: /settings/apis): CRUD com escopo de workspace para identificadores de audiência' },
+      { tag: 'Added', text: 'Tela "Authorized APIs" por cliente com autorização via checkbox e metadados de Discovery anunciando resource_indicators_supported: true' },
+      { tag: 'Security', text: 'Recursos desconhecidos ou não autorizados retornam invalid_target 400 da RFC 8707 em vez de um token silenciosamente abrangente' },
+    ],
+  },
+  {
+    version: '1.17.0',
+    date: 'June 17, 2026',
+    items: [
+      { tag: 'Added', text: 'Todos os 8 tipos de email transacional localizados: verificação, magic link, redefinição de senha, conta bloqueada, convite, senha alterada, teste de SMTP e OTP' },
+      { tag: 'Added', text: 'Os templates de email são renderizados no defaultLocale do workspace com fallback para o inglês por chave' },
+      { tag: 'Security', text: 'Opt-in de proxy confiável (KAUTH_TRUSTED_PROXY): impede a evasão do rate limit por meio de spoofing de header' },
+      { tag: 'Security', text: 'Imposição do issuer no JWT: tokens emitidos por um tenant são rejeitados por outro' },
+      { tag: 'Security', text: 'Prevenção de open redirect: o redirect_uri pós-login é validado contra os valores registrados' },
+      { tag: 'Security', text: 'A comparação do code verifier PKCE S256 usa igualdade em tempo constante' },
+      { tag: 'Security', text: 'Header de resposta Server suprimido das respostas HTTP' },
+      { tag: 'Security', text: 'Normalização de erros de login com equalização de tempo impede a enumeração de usuários' },
+    ],
+  },
+  {
+    version: '1.16.0',
+    date: 'June 17, 2026',
+    items: [
+      { tag: 'Security', text: 'O contêiner roda sem root (UID 10001) com no-new-privileges, cap_drop: ALL e sistema de arquivos somente leitura' },
+      { tag: 'Security', text: 'Proteção contra replay de TOTP: cada código é de uso único por enrollment; bloqueio após um número configurável de tentativas falhas' },
+      { tag: 'Fixed', text: 'A validação das variáveis CSS de tema impede a injeção de valores arbitrários por meio das configurações do workspace' },
+      { tag: 'Improved', text: 'Tempo de erro de login equalizado entre os caminhos de verificação de senha e de TOTP' },
+    ],
+  },
+  {
+    version: '1.15.0',
+    date: 'June 15, 2026',
+    items: [
+      { tag: 'Changed', text: 'AdminService dividido em AuthManagementService, UserAdminService e WorkspaceAdminService' },
+      { tag: 'Changed', text: 'UserSelfServiceService dividido em UserProfileService e UserSecurityService' },
+      { tag: 'Improved', text: 'Ratchet do Detekt reforçado: regras de complexidade e acoplamento impostas no CI' },
+    ],
+  },
+  {
+    version: '1.14.1',
+    date: 'June 12, 2026',
+    items: [
+      { tag: 'Security', text: 'BREAKING: Credencial de admin padrão removida. Uma senha aleatória é gerada no primeiro boot e registrada uma única vez no stdout.' },
+    ],
+  },
+  {
+    version: '1.14.0',
+    date: 'June 11, 2026',
+    items: [
+      { tag: 'Security', text: 'BREAKING: O endpoint de refresh token agora exige autenticação do cliente (client_id + client_secret para clientes confidenciais)' },
+      { tag: 'Security', text: 'BREAKING: Os endpoints de introspecção e revogação exigem autenticação do cliente conforme a RFC 7662 / RFC 7009' },
+      { tag: 'Added', text: 'Detecção de replay de refresh-token com revogação completa da família de sessões em caso de reutilização' },
+      { tag: 'Added', text: 'Bloqueio de conta com limite configurável e UI de desbloqueio para admin' },
+    ],
+  },
+  {
+    version: '1.13.0',
+    date: 'May 26, 2026',
+    items: [
+      { tag: 'Added', text: 'Login hospedado com Email OTP: autenticação sem senha em duas etapas no navegador (digite o email, receba um código de 6 dígitos, entre)' },
+      { tag: 'Added', text: 'Alternância por tenant para o Email OTP via configurações do workspace' },
+      { tag: 'Added', text: 'Primitivas de API de admin send-otp / verify-otp para onboarding programático sem senha' },
+      { tag: 'Security', text: 'Defesa de bloqueio entre desafios: limite de tentativas de OTP por tenant com postura de resposta em tempo constante' },
+    ],
+  },
+  {
+    version: '1.12.1',
+    date: 'May 26, 2026',
+    items: [
+      { tag: 'Fixed', text: 'Incompatibilidade no prefixo da chave de API de bootstrap: kauth_{slug}_ agora é aplicado de forma consistente na geração e na validação' },
+      { tag: 'Fixed', text: 'Validação de redirect-URI reforçada: correspondência exata exigida, variantes com barra final rejeitadas' },
+      { tag: 'Improved', text: 'Especificação OpenAPI atualizada com os endpoints de envio/verificação de OTP e a documentação dos filtros do log de auditoria' },
+      { tag: 'Improved', text: 'Grupos de filtro do log de auditoria exibidos na UI de admin para uma navegação mais limpa por categoria de evento' },
+    ],
+  },
+  {
+    version: '1.12.0',
+    date: 'May 25, 2026',
+    items: [
+      { tag: 'Added', text: 'Papéis padrão do cliente: papéis por aplicação atribuídos automaticamente a usuários que se autorregistram por meio de uma aplicação OAuth' },
+      { tag: 'Added', text: 'Card de Registration Defaults no console de admin com dropdown e tabela de gerenciamento de papéis' },
+      { tag: 'Added', text: 'Proteção contra escalada de privilégios entre clientes: papéis de outras aplicações não podem ser atribuídos como padrão' },
+    ],
+  },
+  {
+    version: '1.11.0',
+    date: 'May 23, 2026',
+    items: [
+      { tag: 'Added', text: 'Branding de email transacional: nome da marca, cor, URL do logo, email de suporte e nome de exibição do remetente, por tenant' },
+      { tag: 'Added', text: 'Todos os 8 templates de email transacional herdam o branding do workspace automaticamente' },
+      { tag: 'Added', text: 'Card de editor de branding nas configurações do workspace com preview ao vivo' },
+    ],
+  },
+  {
+    version: '1.10.0',
+    date: 'May 12, 2026',
+    items: [
+      { tag: 'Added', text: 'Personificação de admin: aja como qualquer usuário sem conhecer a senha dele, com o claim act da RFC 8693 no token de sessão' },
+      { tag: 'Added', text: 'Modelo de sessão dupla: a sessão de admin permanece ativa por baixo da sessão personificada' },
+      { tag: 'Security', text: 'Revogação em cascata: revogar a sessão de admin também encerra a sessão personificada' },
+    ],
+  },
+  {
+    version: '1.9.0',
+    date: 'May 8, 2026',
+    items: [
+      { tag: 'Added', text: 'Servidor MCP nativo de IA (@kotauth/mcp): 33 ferramentas em 8 domínios expostas via Model Context Protocol' },
+      { tag: 'Added', text: 'Controle de acesso baseado em escopo em cada ferramenta MCP: a chave de API concede apenas as permissões que você escolher' },
+      { tag: 'Added', text: 'Conexão com um único comando: npx @kotauth/mcp' },
+    ],
+  },
+];
+
+const tagColors: Record<string, string> = {
+  Added: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  Improved: 'bg-kotauth-primary/5 text-kotauth-primary border-kotauth-primary/20',
+  Changed: 'bg-slate-100 text-slate-500 border-slate-200',
+  Fixed: 'bg-amber-50 text-amber-700 border-amber-200',
+  Security: 'bg-red-50 text-red-700 border-red-200',
+};
+
+const tagLabels: Record<string, string> = {
+  Added: 'Adicionado',
+  Improved: 'Melhorado',
+  Changed: 'Alterado',
+  Fixed: 'Corrigido',
+  Security: 'Segurança',
+};
+---
+
+<BaseLayout
+  title={i18n.pages.changelog.title}
+  description={i18n.pages.changelog.description}
+  path="/changelog"
+>
+  <!-- Header -->
+  <section class="relative px-7 pt-32 pb-14 text-center overflow-hidden">
+    <div
+      class="absolute -top-[120px] left-1/2 -translate-x-1/2 w-[900px] h-[420px] max-w-full pointer-events-none"
+      style="background:radial-gradient(ellipse at center,rgba(0,119,168,.1),transparent 70%);"
+    ></div>
+    <div class="relative max-w-[680px] mx-auto">
+      <span class="eyebrow">Changelog</span>
+      <h1 class="font-heading font-bold text-4xl sm:text-5xl lg:text-[54px] text-kotauth-text-primary leading-[1.06] tracking-[-0.03em] mt-3.5 mb-[18px]">
+        Histórico de versões
+      </h1>
+      <p class="text-lg sm:text-[18.5px] text-kotauth-text-secondary leading-[1.6] max-w-[620px] mx-auto">
+        Cada versão, com o que mudou e por quê. O Kotauth segue o versionamento semântico.
+      </p>
+    </div>
+  </section>
+
+  <!-- Tag legend -->
+  <section class="max-w-[880px] mx-auto px-7 pb-9">
+    <div class="flex flex-wrap gap-3.5 justify-center">
+      {Object.entries(tagColors).map(([tag, cls]) => (
+        <span class={`inline-flex items-center font-mono text-[11px] font-semibold border px-[9px] py-[3px] ${cls}`}>{tagLabels[tag]}</span>
+      ))}
+    </div>
+  </section>
+
+  <!-- Releases -->
+  <section class="max-w-[880px] mx-auto px-7 pb-24">
+    {releases.map((rel) => (
+      <div class="grid grid-cols-1 sm:grid-cols-[170px_1fr] gap-5 sm:gap-8 py-8 border-t border-kotauth-surface-2">
+        <div>
+          <a
+            href={`${GITHUB_URL}/releases/tag/v${rel.version}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block font-mono text-[15px] font-semibold text-kotauth-text-primary bg-white border border-kotauth-surface-2 px-[11px] py-[5px] mb-2 hover:text-kotauth-primary hover:border-kotauth-primary/40 transition-colors"
+          >
+            v{rel.version}
+          </a>
+          <div class="text-[13px] text-kotauth-text-muted">{formatDate(rel.date, locale)}</div>
+          {rel.current && (
+            <div class="inline-flex items-center gap-1.5 mt-2 text-[11.5px] font-semibold text-emerald-600">
+              <span class="w-[7px] h-[7px] rounded-full bg-emerald-500"></span>Versão atual
+            </div>
+          )}
+        </div>
+        <div class="flex flex-col gap-[11px]">
+          {rel.items.map((ch) => (
+            <div class="flex gap-3 items-start">
+              <span class={`flex-shrink-0 font-mono text-[10.5px] font-semibold border px-2 py-[3px] w-[72px] text-center ${tagColors[ch.tag]}`}>
+                {tagLabels[ch.tag]}
+              </span>
+              <p class="text-[14.5px] text-kotauth-text-secondary leading-[1.55]">{ch.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <div class="mt-10 pt-8 border-t border-kotauth-surface-2">
+      <a
+        href={`${GITHUB_URL}/releases`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-sm text-kotauth-primary hover:text-kotauth-primary-light transition-colors font-medium"
+      >
+        Ver todas as versões no GitHub &rarr;
+      </a>
+    </div>
+  </section>
+</BaseLayout>

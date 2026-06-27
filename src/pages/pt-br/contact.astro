@@ -9,34 +9,34 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 
 const channels = [
   {
-    title: 'Reporte de errores',
-    body: '¿Encontraste algo que no funciona? Abre un issue en GitHub con los pasos para reproducirlo y lo revisaremos.',
-    cta: 'Abrir un issue',
+    title: 'Relatar bugs',
+    body: 'Encontrou algo quebrado? Abra uma issue no GitHub com os passos de reprodução e nós vamos triá-la.',
+    cta: 'Abrir uma issue',
     href: `${GITHUB_URL}/issues/new`,
     icon: '<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/>',
   },
   {
-    title: 'Comunidad',
-    body: 'Preguntas, ideas y conversación general. GitHub Discussions es donde vive la comunidad.',
-    cta: 'Unirse a las discusiones',
+    title: 'Comunidade',
+    body: 'Perguntas, ideias e discussão geral. O GitHub Discussions é onde a comunidade vive.',
+    cta: 'Entrar nas discussions',
     href: `${GITHUB_URL}/discussions`,
     icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
   },
   {
     title: 'Contribuir',
-    body: '¿Quieres añadir una funcionalidad o mejorar el código? Empieza por leer la guía de contribución.',
-    cta: 'Ver el repositorio',
+    body: 'Quer adicionar um recurso ou melhorar o código? Comece lendo o guia de contribuição.',
+    cta: 'Ver o repositório',
     href: GITHUB_URL,
     icon: '<path d="M8 6 2 12l6 6M16 6l6 6-6 6"/>',
   },
 ];
 
 const topics = [
-  'Consulta general',
-  'Ayuda con la integración',
-  'Solicitud de funcionalidad',
-  'Seguridad',
-  'Colaboración',
+  'Dúvida geral',
+  'Ajuda com integração',
+  'Solicitação de recurso',
+  'Segurança',
+  'Parceria',
 ];
 ---
 
@@ -49,12 +49,12 @@ const topics = [
   <section class="relative overflow-hidden pt-32 pb-14 text-center">
     <div class="section-container">
       <div class="max-w-[680px] mx-auto">
-        <span class="eyebrow mb-3.5 block">Contacto</span>
+        <span class="eyebrow mb-3.5 block">Contato</span>
         <h1 class="font-heading font-bold text-4xl sm:text-5xl lg:text-[56px] leading-[1.05] tracking-[-0.025em] text-kotauth-text-primary mb-[18px]">
-          Ponte en contacto
+          Entre em contato
         </h1>
         <p class="text-lg font-medium text-kotauth-text-secondary leading-relaxed">
-          Kotauth es un proyecto de código abierto y, a propósito, la mayoría de las conversaciones ocurren en público. Elige el canal adecuado a continuación o envíanos un mensaje directo.
+          Kotauth é um projeto de código aberto e a maioria das conversas acontece em público, de propósito. Escolha o canal certo abaixo ou envie uma mensagem direta.
         </p>
       </div>
     </div>
@@ -91,14 +91,14 @@ const topics = [
           </div>
           <div class="bg-kotauth-bg-secondary border border-kotauth-surface-2 border-l-[3px] border-l-kotauth-primary p-5 mt-[18px]">
             <p class="text-[13px] leading-relaxed text-kotauth-text-secondary">
-              <strong class="font-bold text-kotauth-text-primary">Nota.</strong> Este es un proyecto de código abierto que se mantiene en tiempo libre, por lo que los tiempos de respuesta pueden variar. Para reportar problemas de seguridad, usa el formulario con el asunto Seguridad.
+              <strong class="font-bold text-kotauth-text-primary">Nota.</strong> Este é um projeto de código aberto mantido nas horas vagas, então os tempos de resposta variam. Para divulgações de segurança, use o formulário com o assunto definido como Segurança.
             </p>
           </div>
         </div>
 
         <!-- Right: form -->
         <div class="bg-kotauth-surface-1 border border-kotauth-surface-2 p-9 shadow-[0_8px_30px_-16px_rgba(15,22,41,0.14)]">
-          <h2 class="font-heading text-[22px] font-bold text-kotauth-text-primary mb-6">Envíanos un mensaje</h2>
+          <h2 class="font-heading text-[22px] font-bold text-kotauth-text-primary mb-6">Enviar uma mensagem</h2>
           <form
             id="contact-form"
             action="https://formspree.io/f/kotauth"
@@ -107,47 +107,47 @@ const topics = [
           >
             <div class="grid sm:grid-cols-2 gap-4">
               <div>
-                <label for="name" class="block text-[12.5px] font-semibold text-kotauth-text-secondary mb-1.5">Nombre</label>
+                <label for="name" class="block text-[12.5px] font-semibold text-kotauth-text-secondary mb-1.5">Nome</label>
                 <input
                   type="text"
                   id="name"
                   name="name"
                   required
                   class="w-full border border-kotauth-surface-2 px-3 h-10 text-sm text-kotauth-text-primary bg-white focus:outline-none focus:border-kotauth-primary transition-colors"
-                  placeholder="Tu nombre"
+                  placeholder="Seu nome"
                 />
               </div>
               <div>
-                <label for="email" class="block text-[12.5px] font-semibold text-kotauth-text-secondary mb-1.5">Correo electrónico</label>
+                <label for="email" class="block text-[12.5px] font-semibold text-kotauth-text-secondary mb-1.5">Email</label>
                 <input
                   type="email"
                   id="email"
                   name="email"
                   required
                   class="w-full border border-kotauth-surface-2 px-3 h-10 text-sm text-kotauth-text-primary bg-white focus:outline-none focus:border-kotauth-primary transition-colors"
-                  placeholder="you@example.com"
+                  placeholder="voce@exemplo.com"
                 />
               </div>
             </div>
             <div>
-              <label for="subject" class="block text-[12.5px] font-semibold text-kotauth-text-secondary mb-1.5">Asunto</label>
+              <label for="subject" class="block text-[12.5px] font-semibold text-kotauth-text-secondary mb-1.5">Assunto</label>
               <select
                 id="subject"
                 name="subject"
                 class="w-full border border-kotauth-surface-2 px-3 h-10 text-sm text-kotauth-text-secondary bg-white focus:outline-none focus:border-kotauth-primary transition-colors appearance-none cursor-pointer"
               >
-                <option value="" disabled selected>Selecciona un tema</option>
+                <option value="" disabled selected>Selecione um tópico</option>
                 {topics.map((t) => <option value={t}>{t}</option>)}
               </select>
             </div>
             <div>
-              <label for="message" class="block text-[12.5px] font-semibold text-kotauth-text-secondary mb-1.5">Mensaje</label>
+              <label for="message" class="block text-[12.5px] font-semibold text-kotauth-text-secondary mb-1.5">Mensagem</label>
               <textarea
                 id="message"
                 name="message"
                 required
                 rows="6"
-                placeholder="Describe tu pregunta o solicitud en detalle"
+                placeholder="Descreva sua pergunta ou solicitação em detalhes"
                 class="w-full border border-kotauth-surface-2 px-3 py-2.5 text-sm text-kotauth-text-primary bg-white focus:outline-none focus:border-kotauth-primary transition-colors resize-y"
               ></textarea>
             </div>
@@ -155,11 +155,11 @@ const topics = [
               type="submit"
               class="w-full bg-kotauth-primary hover:bg-kotauth-primary-light text-white py-3 text-[15px] font-semibold transition-colors"
             >
-              Enviar mensaje
+              Enviar mensagem
             </button>
           </form>
           <p class="mt-3.5 text-[12.5px] text-kotauth-text-muted text-center">
-            Para asuntos urgentes, usa <a href={`${GITHUB_URL}/discussions`} target="_blank" rel="noopener noreferrer" class="text-kotauth-primary font-semibold hover:text-kotauth-primary-light transition-colors">GitHub Discussions</a>.
+            Para assuntos urgentes, use o <a href={`${GITHUB_URL}/discussions`} target="_blank" rel="noopener noreferrer" class="text-kotauth-primary font-semibold hover:text-kotauth-primary-light transition-colors">GitHub Discussions</a>.
           </p>
         </div>
 

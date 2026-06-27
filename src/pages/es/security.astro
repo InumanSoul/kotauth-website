@@ -1,305 +1,155 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import {
-  ArrowRight,
-  Lock,
-  Shield,
-  ShieldCheck,
-  Key,
-  FileCode,
-  RefreshCw,
-  ShieldAlert,
-  LogOut,
-  Clock,
-  Eye,
-  Server,
-  AlertTriangle,
-  CheckCircle,
-} from '@lucide/astro';
-import GradientGlow from '@/components/GradientGlow.astro';
-import { t, getLocalizedPath } from '@/i18n';
+import { t, type Locale, defaultLocale } from '@/i18n';
 
-const i18n = t('es');
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
-const DOCS_URL = 'https://docs.kotauth.com';
 
-const cryptoPrimitives = [
-  { Icon: Lock, label: 'bcrypt (cost 12)', detail: 'Hashing de contraseñas: con sal, resistente al tiempo, fuerza bruta inviable' },
-  { Icon: Shield, label: 'AES-256-GCM', detail: 'Cifrado en reposo para claves privadas RSA, credenciales SMTP, secretos TOTP y secretos de proveedores sociales' },
-  { Icon: Key, label: 'SHA-256', detail: 'Hashing de API keys y tokens: los valores en bruto nunca se almacenan en la base de datos' },
-  { Icon: FileCode, label: 'RS256 (RSA-SHA256)', detail: 'Firma de JWT por tenant con pares de claves auto-provisionados, cifrados en reposo' },
-  { Icon: RefreshCw, label: 'HMAC-SHA256', detail: 'Firma de cookies de sesión, firma de payloads de webhooks, parámetros de estado OAuth' },
-];
-
-const protectionLayers = [
+const sections = [
   {
-    Icon: ShieldAlert,
-    title: 'Bloqueo de cuenta',
-    description: 'Umbral configurable de intentos fallidos con duración de bloqueo automático. Los usuarios bloqueados reciben una notificación por email con un enlace de restablecimiento de contraseña. Los administradores pueden desbloquear cuentas manualmente.',
+    title: 'Hashing de contraseñas',
+    body: 'Las contraseñas se hashean con bcrypt y un salt por credencial. El texto plano nunca se almacena ni se registra, y los factores de trabajo se ajustan al hardware actual.',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
   },
   {
-    Icon: Clock,
-    title: 'Rate limiting',
-    description: '5 intentos de login por minuto, 5 desafíos MFA cada 5 minutos, 3 restablecimientos de contraseña cada 5 minutos, todo por IP por workspace. Aislado por tenant: el tráfico de un workspace nunca afecta a otro.',
+    title: 'Cifrado en reposo',
+    body: 'Los secretos sensibles se sellan con AES-256-GCM. Los backups de tenant derivan claves con PBKDF2 a 600k iteraciones antes de cifrar el sobre.',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="4" y="10" width="16" height="11"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 15v2"/></svg>',
   },
   {
-    Icon: RefreshCw,
-    title: 'Detección de replay de refresh-token',
-    description: 'Los refresh tokens rotan en cada uso. Presentar un token previamente rotado se trata como robo de token. Todas las sesiones del usuario son revocadas y se registra un evento de auditoría replay_detected. Los clientes confidenciales deben autenticarse en el grant de refresh.',
+    title: 'Seguridad de tokens',
+    body: 'Tokens de acceso de corta duración, refresh tokens rotativos y detección de replay con revocación de la familia completa cuando se detecta un token reutilizado.',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>',
   },
   {
-    Icon: Eye,
-    title: 'Logging de auditoría',
-    description: 'Más de 65 tipos de eventos inmutables registrados en la ruta de la solicitud. Ningún flujo de autenticación se completa sin un registro de auditoría correspondiente. Consultable vía API y consola de administración.',
+    title: 'Rate limiting y bloqueo',
+    body: 'Los endpoints de autenticación tienen rate limiting, y los fallos repetidos activan el bloqueo de la cuenta. Los intentos TOTP cuentan con su propia protección contra replay y bloqueo.',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
   },
   {
-    Icon: LogOut,
-    title: 'Replay y bloqueo TOTP',
-    description: 'La verificación TOTP rechaza códigos cuyo paso de tiempo ya fue consumido. El replay es estructuralmente imposible. El bloqueo por enrollment se activa después de 5 fallas consecutivas con duración de bloqueo configurable.',
+    title: 'Aislamiento de tenants',
+    body: 'Cada workspace tiene su propio directorio de usuarios, claves de firma RS256 y política CORS. El compromiso de un tenant no puede alcanzar a otro.',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01"/></svg>',
   },
   {
-    Icon: Server,
-    title: 'Hardening de contenedor',
-    description: 'La imagen de runtime se ejecuta como non-root (UID 10001) con no-new-privileges, cap_drop: ALL y filesystem de solo lectura. El modo producción rechaza secretos por defecto, URLs base HTTP o configuración crítica faltante al iniciar.',
+    title: 'Logging de auditoría completo',
+    body: 'Más de 65 tipos de eventos se registran en un trail de solo escritura (append-only). Cada acción administrativa es atribuible a un actor, un momento y un origen.',
+    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>',
   },
 ];
 
-const transportHardening = [
-  'Content-Security-Policy con script-src \'self\' estricto (cero JavaScript inline). Style-src permite \'unsafe-inline\' para tokens de tema inyectados por el servidor; todas las demás directivas bloqueadas a \'self\'',
-  'Hashes de integridad SRI en todo el JavaScript empaquetado: previene la manipulación de recursos estáticos',
-  'SameSite=Lax en todas las cookies de sesión (admin y portal)',
-  'Flag Secure de cookie derivado del esquema de KAUTH_BASE_URL al iniciar',
-  'Protección CSRF vía parámetro de estado OAuth + firmas de cookies PKCE',
-  'Aplicación de HTTPS en modo producción: HTTP rechazado al iniciar',
-  'Prevención de redirección abierta en end-session y post-logout redirect de OIDC: //evil.com, /\\evil.com y URIs de origen ajeno son rechazados',
-  'PKCE requerido para todos los clientes OAuth públicos (solo S256)',
-  'Headers de Forwarded habilitados bajo opt-in vía KAUTH_TRUSTED_PROXY: previene bypass de rate-limit mediante spoofing de headers en despliegues expuestos directamente',
-  'Normalización de errores de login + ecualización de tiempos: todas las ramas de rechazo comparten la misma latencia de respuesta mediante verificación bcrypt de relleno',
-  'La introspección de JWT valida el issuer: tokens generados para el tenant A no pueden ser introspeccionados contra el tenant B',
-  'Entradas de TenantTheme validadas del lado del servidor: patrones estrictos para colores hex, familias de fuentes, border-radius, locale (BCP-47) y esquemas de URL de logo',
-  'Puerta de verificación de email en social-link: el auto-enlace por email rechaza direcciones de proveedor no verificadas',
+const hardening = [
+  { label: 'Contenedor non-root', body: 'Se ejecuta como UID 10001 con no-new-privileges activado.' },
+  { label: 'Sistema de archivos de solo lectura', body: 'Superficie de ejecución inmutable con montajes de escritura explícitos.' },
+  { label: 'Compatible con air-gapped', body: 'No requiere llamadas salientes para funcionar en redes aisladas.' },
+  { label: 'Claves bootstrap desde env', body: 'Las API keys iniciales se gestionan por env, nunca se escriben en disco en texto plano.' },
 ];
 
-const passwordPolicies = [
-  'Longitud mínima configurable (4–128 caracteres)',
-  'Requiere mayúsculas, minúsculas, números y/o caracteres especiales',
-  'Historial de contraseñas: previene la reutilización de las últimas N contraseñas (0–24)',
-  'Edad máxima de contraseña: fuerza expiración después de N días (0–365)',
-  'Lista negra de contraseñas: rechaza contraseñas conocidas como comprometidas',
-  'Factor de costo bcrypt 12: las contraseñas en bruto nunca se almacenan ni registran en logs',
-];
-
-const secretsPolicy = [
-  { what: 'Contraseñas de usuario', how: 'Hash bcrypt (cost 12). La contraseña en bruto se descarta después de la verificación.' },
-  { what: 'Secretos de cliente', how: 'Hash bcrypt. El valor en bruto se muestra una vez al generarse, nunca es recuperable.' },
-  { what: 'API keys', how: 'Hash SHA-256. Formato: kauth_{slug}_{random}. El prefijo se almacena para visualización.' },
-  { what: 'Refresh tokens', how: 'Hash SHA-256. Rotan en cada uso. El token antiguo revoca la sesión.' },
-  { what: 'Claves privadas RSA', how: 'Cifradas en reposo con AES-256-GCM. Las claves en texto plano se migran automáticamente en el primer inicio.' },
-  { what: 'Credenciales SMTP', how: 'Cifradas en reposo con AES-256-GCM. Clave derivada de KAUTH_SECRET_KEY.' },
-  { what: 'Secretos de proveedores sociales', how: 'Cifrados en reposo con AES-256-GCM. Misma derivación de clave.' },
-  { what: 'Secretos TOTP de MFA', how: 'Cifrados en reposo con AES-256-GCM. Codificados en Base32 para URI de QR.' },
-  { what: 'Códigos de recuperación', how: 'Hash bcrypt. Uso único. 8 códigos generados por enrollment de MFA.' },
-];
+const checkIcon =
+  '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5L20 6"/></svg>';
 ---
 
 <BaseLayout
   title={i18n.pages.security.title}
   description={i18n.pages.security.description}
-  path="/es/security"
+  path="/security"
 >
-  <div class="min-h-screen">
-    <!-- Hero -->
-    <section class="relative pt-32 pb-16 overflow-hidden">
-      <GradientGlow class="top-0 left-1/2 -translate-x-1/2" size={800} color="rgba(0, 119, 168, 0.18)" />
-      <div class="section-container relative z-10">
-        <div class="max-w-3xl">
-          <a
-            href={getLocalizedPath('/', 'es')}
-            class="inline-flex items-center gap-1.5 text-sm font-mono text-kotauth-text-tertiary hover:text-kotauth-primary transition-colors mb-8 group"
-          >
-            <ArrowRight class="w-3.5 h-3.5 rotate-180 group-hover:-translate-x-1 transition-transform" />
-            Volver al inicio
-          </a>
-          <span class="eyebrow mb-4 block">Seguridad</span>
-          <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-bold text-kotauth-text-primary leading-[1.1] tracking-tight mb-6 font-mono">
-            Seguridad <span class="gradient-text">por defecto</span>
-          </h1>
-          <p class="text-lg text-kotauth-text-secondary leading-relaxed max-w-2xl">
-            Las decisiones de seguridad se toman a nivel de framework, no se dejan como ejercicios de configuración para el operador. Todo lo listado aquí se incluye en cada despliegue de Kotauth sin configuración adicional.
-          </p>
+  <!-- Header -->
+  <section class="relative px-7 pt-32 pb-20 text-center overflow-hidden">
+    <div
+      class="absolute -top-[120px] left-1/2 -translate-x-1/2 w-[900px] h-[420px] pointer-events-none"
+      style="background:radial-gradient(ellipse at center,rgba(0,119,168,.1),transparent 70%)"
+    >
+    </div>
+    <div class="relative max-w-[760px] mx-auto">
+      <span class="eyebrow">Seguridad</span>
+      <h1
+        class="font-heading font-bold text-4xl sm:text-5xl lg:text-[56px] leading-[1.05] tracking-[-0.025em] mt-3.5 mb-4 text-kotauth-text-primary"
+      >
+        Seguridad que puedes verificar
+      </h1>
+      <p class="max-w-[620px] mx-auto text-lg leading-[1.6] text-kotauth-text-secondary">
+        Kotauth es código abierto, así que la seguridad es auditable en lugar de simplemente afirmada. Así es como la plataforma protege credenciales, datos y sesiones.
+      </p>
+    </div>
+  </section>
+
+  <!-- Core security properties -->
+  <section class="max-w-[1180px] mx-auto px-7 pt-[30px] pb-[70px]">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-[18px]">
+      {sections.map((s) => (
+        <div
+          class="bg-kotauth-surface-1 border border-kotauth-surface-2 py-[26px] px-6"
+          style="box-shadow:0 1px 3px rgba(15,22,41,0.04)"
+        >
+          <div
+            class="w-[40px] h-[40px] bg-kotauth-primary/10 flex items-center justify-center text-kotauth-primary mb-4"
+            set:html={s.icon}
+          />
+          <h3 class="font-heading text-[17px] font-bold mb-2 text-kotauth-text-primary">{s.title}</h3>
+          <p class="text-sm leading-[1.6] text-kotauth-text-secondary">{s.body}</p>
         </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Runtime hardening dark band -->
+  <section class="dark-section relative overflow-hidden bg-kotauth-bg-primary">
+    <div
+      class="absolute -top-[10%] -right-[5%] w-[560px] h-[560px] pointer-events-none"
+      style="background:radial-gradient(circle,rgba(0,119,168,.16),transparent 70%)"
+    >
+    </div>
+    <div
+      class="relative max-w-[1180px] mx-auto px-7 py-[90px] grid lg:grid-cols-2 gap-14 items-center"
+    >
+      <div>
+        <span class="eyebrow">Hardening de ejecución</span>
+        <h2
+          class="font-heading font-bold text-3xl lg:text-[34px] leading-[1.1] tracking-[-0.025em] mt-3 mb-4 text-kotauth-text-primary"
+        >
+          Blindado por defecto
+        </h2>
+        <p class="text-base leading-[1.62] text-kotauth-text-secondary">
+          El contenedor viene con configuraciones seguras por defecto, de modo que un despliegue nuevo no sea un blanco fácil. Sin root, sin sistema de archivos escribible, sin escalada de privilegios.
+        </p>
       </div>
-    </section>
-
-    <!-- Crypto primitives -->
-    <section class="py-24 bg-kotauth-bg-secondary border-y border-kotauth-surface-2">
-      <div class="section-container">
-        <div class="mb-12">
-          <span class="eyebrow mb-4 block">Criptografía</span>
-          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
-            Primitivas criptográficas
-          </h2>
-          <p class="text-kotauth-text-secondary max-w-xl">
-            Algoritmos estándar de la industria sin criptografía personalizada. Cada secreto sigue el mismo principio: almacenar el mínimo necesario, en la forma más fuerte disponible.
-          </p>
-        </div>
-
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {cryptoPrimitives.map(({ Icon, label, detail }) => (
-            <div class="flex items-start gap-4 p-5 bg-kotauth-surface-1 border border-kotauth-surface-2 hover:border-kotauth-primary/30 transition-colors">
-              <div class="w-9 h-9 bg-kotauth-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <Icon class="w-4 h-4 text-kotauth-primary" />
-              </div>
-              <div>
-                <p class="text-sm font-semibold text-kotauth-text-primary font-mono mb-0.5">{label}</p>
-                <p class="text-xs text-kotauth-text-tertiary font-mono leading-relaxed">{detail}</p>
-              </div>
+      <div class="flex flex-col gap-3">
+        {hardening.map((h) => (
+          <div class="flex gap-3 items-start bg-kotauth-surface-1 border border-kotauth-surface-2 py-4 px-[18px]">
+            <span class="text-[#34D399] mt-px shrink-0" set:html={checkIcon} />
+            <div>
+              <div class="text-[14.5px] font-bold mb-0.5 text-kotauth-text-primary">{h.label}</div>
+              <div class="text-[13px] leading-[1.5] text-kotauth-text-secondary">{h.body}</div>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- Protection layers -->
-    <section class="py-24">
-      <div class="section-container">
-        <div class="mb-12">
-          <span class="eyebrow mb-4 block">Defensa en profundidad</span>
-          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
-            Capas de protección
-          </h2>
-          <p class="text-kotauth-text-secondary max-w-xl">
-            Múltiples defensas independientes. Una falla en una capa no compromete el sistema.
-          </p>
-        </div>
-
-        <div class="grid sm:grid-cols-2 gap-0">
-          {protectionLayers.map(({ Icon, title, description }) => (
-            <div class="p-8 bg-kotauth-surface-1 border border-kotauth-surface-2 hover:border-kotauth-primary/30 transition-colors">
-              <div class="w-12 h-12 bg-kotauth-primary/10 flex items-center justify-center mb-5">
-                <Icon class="w-5 h-5 text-kotauth-primary" />
-              </div>
-              <h3 class="text-base font-semibold text-kotauth-text-primary font-mono mb-2">{title}</h3>
-              <p class="text-sm text-kotauth-text-tertiary leading-relaxed">{description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- Secrets policy -->
-    <section class="py-24 bg-kotauth-bg-secondary border-y border-kotauth-surface-2">
-      <div class="section-container">
-        <div class="mb-12">
-          <span class="eyebrow mb-4 block">Protección de datos</span>
-          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
-            Cómo se almacenan los secretos
-          </h2>
-          <p class="text-kotauth-text-secondary max-w-xl">
-            Una brecha en la base de datos no debería revelar nada utilizable. Cada tipo de credencial tiene su propia estrategia de almacenamiento.
-          </p>
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm font-mono border-collapse">
-            <thead>
-              <tr class="border-b border-kotauth-surface-2">
-                <th class="text-left py-3 pr-6 text-xs text-kotauth-text-muted uppercase tracking-widest font-normal">Secreto</th>
-                <th class="text-left py-3 text-xs text-kotauth-text-muted uppercase tracking-widest font-normal">Método de almacenamiento</th>
-              </tr>
-            </thead>
-            <tbody>
-              {secretsPolicy.map((row) => (
-                <tr class="border-b border-kotauth-surface-1 hover:bg-kotauth-surface-1/40 transition-colors">
-                  <td class="py-3 pr-6 text-kotauth-text-primary text-xs whitespace-nowrap">{row.what}</td>
-                  <td class="py-3 text-kotauth-text-tertiary text-xs leading-relaxed">{row.how}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- Transport hardening -->
-    <section class="py-24">
-      <div class="section-container">
-        <div class="mb-12">
-          <span class="eyebrow mb-4 block">Transporte</span>
-          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
-            Hardening de transporte y solicitudes
-          </h2>
-        </div>
-
-        <div class="max-w-3xl space-y-3">
-          {transportHardening.map((item) => (
-            <div class="flex items-start gap-3 p-4 bg-kotauth-surface-1 border border-kotauth-surface-2">
-              <CheckCircle class="w-4 h-4 text-kotauth-success flex-shrink-0 mt-0.5" />
-              <span class="text-sm text-kotauth-text-tertiary font-mono leading-relaxed">{item}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- Password policy -->
-    <section class="py-24 bg-kotauth-bg-secondary border-y border-kotauth-surface-2">
-      <div class="section-container">
-        <div class="mb-12">
-          <span class="eyebrow mb-4 block">Política de contraseñas</span>
-          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
-            Configurable por workspace
-          </h2>
-          <p class="text-kotauth-text-secondary max-w-xl">
-            Cada workspace define su propia política de contraseñas. Todas las configuraciones son ajustables desde la consola de administración.
-          </p>
-        </div>
-
-        <div class="max-w-3xl space-y-3">
-          {passwordPolicies.map((item) => (
-            <div class="flex items-start gap-3 p-4 bg-kotauth-surface-1 border border-kotauth-surface-2">
-              <Shield class="w-4 h-4 text-kotauth-primary flex-shrink-0 mt-0.5" />
-              <span class="text-sm text-kotauth-text-tertiary font-mono leading-relaxed">{item}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- Reporting -->
-    <section class="py-24">
-      <div class="section-container">
-        <div class="max-w-2xl">
-          <span class="eyebrow mb-4 block">Reportar</span>
-          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-4">
-            Reportar una vulnerabilidad
-          </h2>
-          <p class="text-kotauth-text-secondary mb-8">
-            Si descubres una vulnerabilidad de seguridad, repórtala de forma privada a través de GitHub Security Advisories. No abras un issue público. Tomamos todos los reportes en serio y responderemos con prontitud.
-          </p>
-          <div class="flex flex-wrap gap-4">
-            <a
-              href={`${GITHUB_URL}/security/advisories/new`}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-12 font-mono text-sm transition-colors"
-            >
-              <AlertTriangle class="w-4 h-4" />
-              Reportar en Privado
-            </a>
-            <a
-              href={`${DOCS_URL}/deployment/production/`}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-12 font-mono text-sm transition-colors"
-            >
-              Checklist de Producción
-              <ArrowRight class="w-4 h-4" />
-            </a>
           </div>
-        </div>
+        ))}
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
+
+  <!-- Responsible disclosure -->
+  <section class="max-w-[920px] mx-auto px-7 pt-20 pb-28">
+    <div
+      class="bg-kotauth-bg-secondary border border-kotauth-surface-2 border-l-[3px] border-l-kotauth-primary py-10 px-[38px]"
+    >
+      <h2
+        class="font-heading font-bold text-[26px] tracking-[-0.02em] mb-3 text-kotauth-text-primary"
+      >
+        Divulgación responsable
+      </h2>
+      <p class="text-[15.5px] leading-[1.65] text-kotauth-text-secondary mb-[18px]">
+        ¿Encontraste una vulnerabilidad? Agradecemos la divulgación coordinada. Usa el formulario de contacto con el asunto "Security" y, por favor, no abras un issue público para reportes sensibles. Buscamos confirmar los reportes válidos con rapidez y te mantendremos informado hasta su resolución.
+      </p>
+      <a
+        href="/contact"
+        class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-kotauth-primary hover:bg-kotauth-primary-light px-[22px] h-[46px] transition-colors"
+      >
+        Reportar una vulnerabilidad
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
 </BaseLayout>

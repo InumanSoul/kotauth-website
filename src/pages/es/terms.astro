@@ -1,95 +1,64 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { t, getLocalizedPath } from '@/i18n';
+import { t, type Locale, defaultLocale } from '@/i18n';
 
-const i18n = t('es');
-const LAST_UPDATED = 'Marzo 2026';
-const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
 ---
 
 <BaseLayout
   title={i18n.pages.terms.title}
   description={i18n.pages.terms.description}
-  path="/es/terms"
+  path="/terms"
 >
-  <div class="pt-[72px]">
-    <div class="section-container py-20 max-w-3xl">
-      <span class="eyebrow mb-4 block">Legal</span>
-      <h1 class="text-3xl sm:text-4xl font-bold text-kotauth-text-primary font-mono mb-3">
-        Terminos de Servicio
+  <section class="bg-white">
+    <header class="max-w-[760px] mx-auto px-7 pt-32 pb-9">
+      <span class="eyebrow mb-3 block">Legal</span>
+      <h1 class="font-heading font-bold text-[38px] sm:text-[46px] leading-[1.08] tracking-[-0.03em] text-kotauth-text-primary mb-3">
+        Términos del Servicio
       </h1>
-      <p class="text-kotauth-text-muted font-mono text-sm mb-12">
-        Ultima actualizacion: {LAST_UPDATED}
+      <p class="font-mono text-[13px] text-kotauth-text-muted">Última actualización: junio 2026</p>
+    </header>
+
+    <article class="max-w-[760px] mx-auto px-7 pb-[100px]">
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Estos términos rigen el uso del sitio web kotauth.com y los materiales relacionados. El software Kotauth en sí se licencia por separado bajo la Licencia MIT. Al usar el sitio web, aceptas estos términos.
       </p>
 
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Que cubre este documento</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>
-            Estos terminos rigen tu uso de <strong class="text-kotauth-text-primary">kotauth.com</strong>, el sitio web informativo del proyecto open source Kotauth. No rigen despliegues auto-alojados del software Kotauth; eso se rige por la{' '}
-            <a href={`${GITHUB_URL}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer" class="text-kotauth-primary hover:text-kotauth-primary-light">Licencia MIT</a>
-            {' '}bajo la cual se publica el software.
-          </p>
-        </div>
-      </section>
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">El software</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Kotauth es software de código abierto que se ofrece bajo la Licencia MIT. Tus derechos para usar, modificar y distribuir el software están definidos por dicha licencia, que acompaña al código fuente. Nada en este sitio web limita los derechos que te otorga la Licencia MIT.
+      </p>
 
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Uso de este sitio web</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>Este sitio web se proporciona con fines informativos: para describir el proyecto Kotauth, sus funcionalidades y como comenzar. Puedes navegar, enlazar y compartir contenido de este sitio web libremente.</p>
-          <p>No puedes usar este sitio web para: hacer scraping de contenido de manera que degrade el servicio para otros visitantes, intentar obtener acceso no autorizado a cualquier sistema, o tergiversar a Kotauth o a sus mantenedores.</p>
-        </div>
-      </section>
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Uso del sitio web</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Puedes navegar y consultar este sitio web con fines lícitos. Te comprometes a no interferir con el sitio, a no intentar obtener acceso no autorizado y a no usarlo de ninguna forma que infrinja los derechos de terceros.
+      </p>
 
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">El software Kotauth</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>Kotauth es software libre y open source publicado bajo la <strong class="text-kotauth-text-primary">Licencia MIT</strong>. Puedes usar, copiar, modificar, fusionar, publicar, distribuir, sublicenciar y/o vender copias del software sujeto a las condiciones de esa licencia.</p>
-          <p>La Licencia MIT es permisiva. La version corta: haz lo que quieras con el, conserva el aviso de copyright y no responsabilices a los autores.</p>
-          <p><a href={`${GITHUB_URL}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer" class="text-kotauth-primary hover:text-kotauth-primary-light">Leer la Licencia MIT completa &rarr;</a></p>
-        </div>
-      </section>
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Entorno de demostración</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        El demo público se ofrece únicamente con fines de evaluación. Los datos están precargados y se restablecen periódicamente. No almacenes información real o sensible en el demo, ya que es compartido y no privado.
+      </p>
 
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Sin garantias</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>Este sitio web y el software Kotauth se proporcionan <strong class="text-kotauth-text-primary">"tal cual"</strong>, sin garantia de ningun tipo, expresa o implicita, incluyendo pero no limitandose a garantias de comerciabilidad, idoneidad para un proposito particular o no infraccion.</p>
-          <p>No hacemos garantias sobre la disponibilidad, precision o integridad del contenido de este sitio web. Podemos actualizar, eliminar o cambiar contenido en cualquier momento sin previo aviso.</p>
-        </div>
-      </section>
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Exención de garantías</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        El sitio web y el software se ofrecen "tal cual" y "según disponibilidad", sin garantías de ningún tipo, ya sean expresas o implícitas, incluidas las de idoneidad para un fin determinado y de no infracción, en la máxima medida permitida por la ley.
+      </p>
 
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Limitacion de responsabilidad</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>En la medida maxima permitida por la ley aplicable, los mantenedores de Kotauth no seran responsables de danos indirectos, incidentales, especiales, consecuentes o punitivos que surjan de tu uso de este sitio web o del software Kotauth, incluso si se les ha advertido de la posibilidad de tales danos.</p>
-        </div>
-      </section>
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Limitación de responsabilidad</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        En la máxima medida permitida por la ley, los mantenedores no se responsabilizan por daños indirectos, incidentales o consecuentes derivados de tu uso del sitio web, el demo o el software.
+      </p>
 
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Enlaces a terceros</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>Este sitio web enlaza a sitios web de terceros (GitHub, Google Fonts, etc.). No somos responsables del contenido ni las practicas de privacidad de esos sitios. Los enlaces se proporcionan por conveniencia y no constituyen una aprobacion.</p>
-        </div>
-      </section>
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Cambios en estos términos</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Podemos actualizar estos términos de vez en cuando. El uso continuado del sitio web después de que los cambios entren en vigor constituye la aceptación de los términos revisados.
+      </p>
 
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Cambios a estos terminos</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>Podemos revisar estos terminos en cualquier momento. La fecha de "Ultima actualizacion" en la parte superior de esta pagina refleja cualquier cambio. El uso continuado del sitio web despues de la publicacion de los cambios constituye tu aceptacion de los terminos revisados.</p>
-        </div>
-      </section>
-
-      <section class="mb-10">
-        <h2 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-4 pb-3 border-b border-kotauth-surface-2">Contacto</h2>
-        <div class="text-kotauth-text-secondary text-sm leading-relaxed space-y-3">
-          <p>
-            Preguntas sobre estos terminos? Contactanos a traves de la{' '}
-            <a href={getLocalizedPath('/contact', 'es')} class="text-kotauth-primary hover:text-kotauth-primary-light">pagina de contacto</a>
-            {' '}o abre un issue en{' '}
-            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" class="text-kotauth-primary hover:text-kotauth-primary-light">GitHub</a>.
-          </p>
-        </div>
-      </section>
-    </div>
-  </div>
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Contacto</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        ¿Tienes preguntas sobre estos términos? Contáctanos a través de la <a href="/contact" class="text-kotauth-primary font-semibold hover:text-kotauth-primary-light transition-colors">página de contacto</a>.
+      </p>
+    </article>
+  </section>
 </BaseLayout>

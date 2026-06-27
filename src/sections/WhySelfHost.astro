@@ -1,0 +1,37 @@
+---
+import { t, type Locale, defaultLocale } from '@/i18n';
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
+
+const reasons = i18n.whySelfHost.reasons;
+
+// Icon paths matched to the Bold design (shield-check / currency / docker)
+const icons = [
+  '<path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z"/><path d="m9 12 2 2 4-4"/>',
+  '<path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
+  '<rect x="3" y="10" width="4" height="4"/><rect x="9" y="10" width="4" height="4"/><rect x="15" y="10" width="4" height="4"/><rect x="9" y="4" width="4" height="4"/><path d="M3 17c1 2 4 3 9 3s9-2 10-5"/>',
+];
+---
+
+<section class="max-w-[1180px] mx-auto px-7 py-[110px]">
+  <div class="text-center max-w-[620px] mx-auto mb-[52px]">
+    <span class="font-mono text-[12.5px] font-medium tracking-[0.06em] uppercase text-kotauth-primary">{i18n.whySelfHost.eyebrow}</span>
+    <h2 class="font-heading font-bold text-3xl sm:text-[44px] leading-[1.08] tracking-[-0.025em] text-kotauth-text-primary my-3.5">
+      {i18n.whySelfHost.title}
+    </h2>
+    <p class="text-[17.5px] leading-relaxed font-medium text-kotauth-text-secondary">{i18n.whySelfHost.subtitle}</p>
+  </div>
+
+  <div class="grid sm:grid-cols-3 gap-[22px]">
+    {reasons.map((r, i) => (
+      <div class="bg-kotauth-surface-1 border border-kotauth-surface-2 p-[30px_28px]" style="box-shadow: 0 1px 3px rgba(15,22,41,0.05);">
+        <div class="w-[46px] h-[46px] bg-kotauth-primary/10 flex items-center justify-center mb-5">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" class="text-kotauth-primary" set:html={icons[i]} />
+        </div>
+        <h3 class="font-heading text-xl font-bold text-kotauth-text-primary mb-2.5">{r.title}</h3>
+        <p class="text-[14.5px] leading-relaxed text-kotauth-text-secondary">{r.body}</p>
+      </div>
+    ))}
+  </div>
+</section>

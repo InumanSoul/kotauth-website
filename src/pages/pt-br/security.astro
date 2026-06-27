@@ -9,42 +9,42 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 
 const sections = [
   {
-    title: 'Password hashing',
-    body: 'Passwords are hashed with bcrypt and a per-credential salt. Plaintext is never stored or logged, and work factors are tuned for current hardware.',
+    title: 'Hash de senhas',
+    body: 'As senhas são processadas com hash via bcrypt e um salt por credencial. O texto em claro nunca é armazenado ou registrado, e os fatores de trabalho são ajustados para o hardware atual.',
     icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
   },
   {
-    title: 'Encryption at rest',
-    body: 'Sensitive secrets are sealed with AES-256-GCM. Tenant backups derive keys with PBKDF2 at 600k iterations before the envelope is encrypted.',
+    title: 'Criptografia em repouso',
+    body: 'Segredos sensíveis são selados com AES-256-GCM. Os backups de tenant derivam chaves com PBKDF2 a 600k iterações antes de o envelope ser criptografado.',
     icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="4" y="10" width="16" height="11"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 15v2"/></svg>',
   },
   {
-    title: 'Token security',
-    body: 'Short-lived access tokens, rotating refresh tokens, and replay detection with full family revocation when a reused token is seen.',
+    title: 'Segurança de tokens',
+    body: 'Tokens de acesso de curta duração, refresh tokens rotativos e detecção de replay com revogação completa da família quando um token reutilizado é detectado.',
     icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>',
   },
   {
-    title: 'Rate limiting & lockout',
-    body: 'Authentication endpoints are rate limited, and repeated failures trigger account lockout. TOTP attempts carry their own replay and lockout protection.',
+    title: 'Rate limiting e bloqueio',
+    body: 'Os endpoints de autenticação têm rate limiting, e falhas repetidas disparam o bloqueio da conta. As tentativas de TOTP têm sua própria proteção contra replay e bloqueio.',
     icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
   },
   {
-    title: 'Tenant isolation',
-    body: 'Each workspace has its own user directory, RS256 signing keys and CORS policy. A compromise in one tenant cannot reach another.',
+    title: 'Isolamento de tenants',
+    body: 'Cada workspace tem seu próprio diretório de usuários, chaves de assinatura RS256 e política CORS. Um comprometimento em um tenant não consegue alcançar outro.',
     icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01"/></svg>',
   },
   {
-    title: 'Comprehensive audit logging',
-    body: '65+ event types are recorded in an append-only trail. Every administrative action is attributable to an actor, a time, and a source.',
+    title: 'Logging de auditoria completo',
+    body: 'Mais de 65 tipos de evento são registrados em uma trilha append-only. Cada ação administrativa é atribuível a um ator, um momento e uma origem.',
     icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>',
   },
 ];
 
 const hardening = [
-  { label: 'Non-root container', body: 'Runs as UID 10001 with no-new-privileges set.' },
-  { label: 'Read-only filesystem', body: 'Immutable runtime surface with explicit writable mounts.' },
-  { label: 'Air-gapped capable', body: 'No outbound calls required to run in isolated networks.' },
-  { label: 'Bootstrap keys from env', body: 'Initial API keys are env-managed, never written to disk in plaintext.' },
+  { label: 'Contêiner sem root', body: 'Roda como UID 10001 com no-new-privileges definido.' },
+  { label: 'Sistema de arquivos somente leitura', body: 'Superfície de runtime imutável com montagens graváveis explícitas.' },
+  { label: 'Capaz de operar air-gapped', body: 'Nenhuma chamada externa é necessária para rodar em redes isoladas.' },
+  { label: 'Chaves de bootstrap a partir do env', body: 'As chaves de API iniciais são gerenciadas por env, nunca gravadas em disco em texto em claro.' },
 ];
 
 const checkIcon =
@@ -64,14 +64,14 @@ const checkIcon =
     >
     </div>
     <div class="relative max-w-[760px] mx-auto">
-      <span class="eyebrow">Security</span>
+      <span class="eyebrow">Segurança</span>
       <h1
         class="font-heading font-bold text-4xl sm:text-5xl lg:text-[56px] leading-[1.05] tracking-[-0.025em] mt-3.5 mb-4 text-kotauth-text-primary"
       >
-        Security you can verify
+        Segurança que você pode verificar
       </h1>
       <p class="max-w-[620px] mx-auto text-lg leading-[1.6] text-kotauth-text-secondary">
-        Kotauth is open source, so security is auditable rather than asserted. Here is how the platform protects credentials, data, and sessions.
+        O Kotauth é open source, então a segurança é auditável, não apenas afirmada. Veja como a plataforma protege credenciais, dados e sessões.
       </p>
     </div>
   </section>
@@ -106,14 +106,14 @@ const checkIcon =
       class="relative max-w-[1180px] mx-auto px-7 py-[90px] grid lg:grid-cols-2 gap-14 items-center"
     >
       <div>
-        <span class="eyebrow">Runtime hardening</span>
+        <span class="eyebrow">Hardening de runtime</span>
         <h2
           class="font-heading font-bold text-3xl lg:text-[34px] leading-[1.1] tracking-[-0.025em] mt-3 mb-4 text-kotauth-text-primary"
         >
-          Locked down by default
+          Protegido por padrão
         </h2>
         <p class="text-base leading-[1.62] text-kotauth-text-secondary">
-          The container ships with secure defaults so a fresh deployment is not a soft target. No root, no writable filesystem, no privilege escalation.
+          O contêiner vem com padrões seguros para que um deploy recém-criado não seja um alvo fácil. Sem root, sem sistema de arquivos gravável, sem escalada de privilégios.
         </p>
       </div>
       <div class="flex flex-col gap-3">
@@ -138,16 +138,16 @@ const checkIcon =
       <h2
         class="font-heading font-bold text-[26px] tracking-[-0.02em] mb-3 text-kotauth-text-primary"
       >
-        Responsible disclosure
+        Divulgação responsável
       </h2>
       <p class="text-[15.5px] leading-[1.65] text-kotauth-text-secondary mb-[18px]">
-        Found a vulnerability? We appreciate coordinated disclosure. Use the contact form with the subject set to Security, and please do not open a public issue for sensitive reports. We aim to acknowledge valid reports quickly and will keep you updated through resolution.
+        Encontrou uma vulnerabilidade? Agradecemos a divulgação coordenada. Use o formulário de contato com o assunto definido como Security e, por favor, não abra uma issue pública para relatos sensíveis. Buscamos confirmar relatos válidos rapidamente e manteremos você atualizado até a resolução.
       </p>
       <a
         href="/contact"
         class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-kotauth-primary hover:bg-kotauth-primary-light px-[22px] h-[46px] transition-colors"
       >
-        Report a vulnerability
+        Relatar uma vulnerabilidade
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>

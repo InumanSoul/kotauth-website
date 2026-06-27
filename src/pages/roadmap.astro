@@ -1,650 +1,170 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { Play } from '@lucide/astro';
-import GithubIcon from '@/components/icons/GithubIcon.astro';
-import GradientGlow from '@/components/GradientGlow.astro';
-import VersionCard from '@/components/VersionCard.astro';
+import { t, type Locale, defaultLocale } from '@/i18n';
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
-const DEMO_URL = 'https://demo.kotauth.com';
 
-const shippedVersions: { tag: string; title: string; date: string; highlights: string[] }[] = [
+const columns = [
   {
-    tag: 'v1.19.2',
-    title: 'Docker Stack Consolidation',
-    date: 'June 22, 2026',
-    highlights: [
-      'Six compose files collapsed into two root files (docker-compose.yml + docker-compose.prod.yml)',
-      'External-DB overlay replaced by DB_URL in .env; demo overlay replaced by KAUTH_DEMO_MODE=true',
-      'No runtime changes: image and JAR unchanged from 1.19.1',
+    status: 'Shipped',
+    description: 'Live today on v1.19.2.',
+    legendDot: 'bg-[#1F9D55]',
+    badgeWrap: 'bg-[#EAF7EF] border border-[#CDEBD9]',
+    badgeDot: 'bg-[#1F9D55]',
+    badgeText: 'text-[#1F8A4C]',
+    cardClass: 'bg-white border border-kotauth-surface-2 shadow-[0_1px_3px_rgba(15,22,41,0.04)]',
+    titleClass: 'text-kotauth-text-primary',
+    bodyClass: 'text-kotauth-text-secondary',
+    items: [
+      { title: 'OAuth 2.0 & OIDC core', body: 'Full provider with PKCE, token rotation and discovery.' },
+      { title: 'Multi-tenant workspaces', body: 'Isolated directories, keys and policies per tenant.' },
+      { title: 'AI-native MCP server', body: '33 scoped tools across 8 domains.' },
+      { title: 'White-label auth screens', body: 'Server-rendered, themed per workspace.' },
+      { title: 'Magic-link & Email OTP', body: 'Passwordless flows that stay MFA-aware.' },
+      { title: 'Encrypted backup & restore', body: 'Portable tenant snapshots via CLI or API.' },
     ],
   },
   {
-    tag: 'v1.19.1',
-    title: 'File-Based Secrets & Dependency Locking',
-    date: 'June 22, 2026',
-    highlights: [
-      'File-based secret injection (*_FILE convention) for all sensitive env vars: Docker Swarm, Kubernetes, systemd compatible',
-      'Gradle dependency locking with CI verification; Dependabot for weekly vulnerability alerts',
+    status: 'In progress',
+    description: 'Actively in development for upcoming releases.',
+    legendDot: 'bg-kotauth-primary',
+    badgeWrap: 'bg-[#EAF6FB] border border-[#CDE8F5]',
+    badgeDot: 'bg-kotauth-primary',
+    badgeText: 'text-kotauth-primary',
+    cardClass: 'bg-white border border-kotauth-surface-2 border-l-[3px] border-l-kotauth-primary shadow-[0_1px_3px_rgba(15,22,41,0.04)]',
+    titleClass: 'text-kotauth-text-primary',
+    bodyClass: 'text-kotauth-text-secondary',
+    items: [
+      { title: 'Enterprise SSO', body: 'LDAP and SAML federation for upstream identity providers.' },
+      { title: 'Passkeys & WebAuthn', body: 'Phishing-resistant sign-in alongside existing methods.' },
+      { title: 'Webhook event streaming', body: 'Subscribe downstream systems to audit and lifecycle events.' },
+      { title: 'Admin impersonation', body: 'Scoped, fully audited support sessions.' },
     ],
   },
   {
-    tag: 'v1.19.0',
-    title: 'Audit Log Integrity & Multi-Audience Introspection',
-    date: 'June 19, 2026',
-    highlights: [
-      'HMAC chain over audit log: per-tenant prev_hash/row_hash for tamper detection',
-      'New verify-audit-chain CLI command',
-      'Audit log details built with kotlinx.serialization (fixes silent JSON corruption)',
-      'AccessTokenClaims.aud widened to List<String> for multi-audience introspection (RFC 7662)',
+    status: 'Planned',
+    description: 'Committed, scoped, and queued.',
+    legendDot: 'bg-[#D9890E]',
+    badgeWrap: 'bg-[#FBF1E2] border border-[#F0DCBC]',
+    badgeDot: 'bg-[#D9890E]',
+    badgeText: 'text-[#B5730C]',
+    cardClass: 'bg-white border border-kotauth-surface-2 shadow-[0_1px_3px_rgba(15,22,41,0.04)]',
+    titleClass: 'text-kotauth-text-primary',
+    bodyClass: 'text-kotauth-text-secondary',
+    items: [
+      { title: 'SCIM provisioning', body: 'Automated user lifecycle sync with external directories.' },
+      { title: 'Fine-grained authorization', body: 'Relationship-based access control for complex permissions.' },
+      { title: 'Self-service org management', body: 'Let end users create and administer their own organizations.' },
+      { title: 'Audit log export', body: 'Stream to SIEM targets and object storage on a schedule.' },
     ],
   },
   {
-    tag: 'v1.18.0',
-    title: 'RFC 8707 Resource Indicators',
-    date: 'June 17, 2026',
-    highlights: [
-      'resource parameter on token endpoint for audience-targeted M2M tokens',
-      'APIs registry: workspace-scoped CRUD for audience identifiers',
-      'Per-client "Authorized APIs" screen with enable/disable badges',
-      'Discovery metadata advertises resource_indicators_supported: true',
+    status: 'Exploring',
+    description: 'Researching. Tell us if you need these.',
+    legendDot: 'bg-[#A6AEBA]',
+    badgeWrap: 'bg-[#F2F3F5] border border-kotauth-surface-2',
+    badgeDot: 'bg-[#A6AEBA]',
+    badgeText: 'text-[#7A8694]',
+    cardClass: 'bg-[#FBFBFC] border border-dashed border-[#D8DCE3]',
+    titleClass: 'text-kotauth-text-secondary',
+    bodyClass: 'text-kotauth-text-muted',
+    items: [
+      { title: 'Device authorization flow', body: 'Sign in on input-constrained devices like TVs and CLIs.' },
+      { title: 'Step-up authentication', body: 'Demand stronger factors for sensitive operations.' },
+      { title: 'Policy-as-code', body: 'Version-controlled security policies applied at deploy time.' },
+      { title: 'Org-level billing hooks', body: 'Usage signals for teams building products on top of Kotauth.' },
     ],
   },
-  {
-    tag: 'v1.17.0',
-    title: 'Email i18n & Tier-3 Security Polish',
-    date: 'June 17, 2026',
-    highlights: [
-      'Localized transactional emails: all 8 types render in tenant defaultLocale',
-      '7 security fixes: Server header suppression, PKCE constant-time comparison, URL-encoded auth code redirect, MFA cookie Secure flag, 64-bit recovery codes, admin error page sanitization, demo-mode production guard',
-      'Update-check hardened: HTTPS-only manifest URL, zero redirects',
-    ],
-  },
-  {
-    tag: 'v1.16.0',
-    title: 'Security Tier 2: Container Hardening & TOTP Replay Protection',
-    date: 'June 17, 2026',
-    highlights: [
-      'Container runs as non-root (UID 10001) with no-new-privileges, cap_drop: ALL, read_only filesystem',
-      'TOTP replay detection + per-enrollment lockout after 5 consecutive failures',
-      'Theme input validation, JWT issuer enforcement, social email-verification gate',
-      'Post-logout open-redirect closed, login error normalization + timing equalization',
-    ],
-  },
-  {
-    tag: 'v1.15.0',
-    title: 'God-File Refactor & Detekt Ratchet',
-    date: 'June 15, 2026',
-    highlights: [
-      'AdminService (1145 LOC) split into 4 focused services, UserSelfServiceService (1157 LOC) split into 2',
-      'Detekt thresholds tightened: LargeClass 400, TooManyFunctions 20/25 with baseline tracking',
-    ],
-  },
-  {
-    tag: 'v1.14.1',
-    title: 'Default Admin Credential Removal',
-    date: 'June 12, 2026',
-    highlights: [
-      'BREAKING: documented changeme123! admin password removed entirely',
-      'Random 128-bit admin password generated on first boot, printed once to stdout',
-      'KAUTH_BOOTSTRAP_ADMIN_PASSWORD env var for operator-controlled initial credential',
-    ],
-  },
-  {
-    tag: 'v1.14.0',
-    title: 'Security Tier 1: OAuth Hardening & Replay Detection',
-    date: 'June 11, 2026',
-    highlights: [
-      'BREAKING: refresh grant, /introspect, and /revoke now require client authentication',
-      'BREAKING: X-Forwarded-For opt-in via KAUTH_TRUSTED_PROXY, DB_PASSWORD required',
-      'Refresh-token replay detection: rotated tokens trigger full user session revocation',
-      'Quickstart secret key refused in production',
-    ],
-  },
-  {
-    tag: 'v1.13.0',
-    title: 'Hosted Email OTP Login',
-    date: 'May 26, 2026',
-    highlights: [
-      'Browser-driven two-step Email OTP login page with per-tenant toggle',
-      'Login-method picker with magic-link, email OTP, and password options',
-      'MFA chain preserved after OTP verification',
-    ],
-  },
-  {
-    tag: 'v1.12.x',
-    title: 'Email OTP Primitive, Email Branding & Bootstrap API Keys',
-    date: 'May 25–26, 2026',
-    highlights: [
-      'Email OTP admin API: send-otp / verify-otp with find-or-create user semantics',
-      'Per-tenant transactional email branding: brand name, color, logo, support email',
-      'Bootstrap API keys via KAUTH_BOOTSTRAP_API_KEYS env var with fail-fast validation',
-      'CLI hash-api-key subcommand, OpenAPI spec for OTP endpoints',
-    ],
-  },
-  {
-    tag: 'v1.11.x',
-    title: 'Client Default Roles, Custom Token Audience & Magic-Link TTL',
-    date: 'May 22, 2026',
-    highlights: [
-      'Per-application default roles: auto-assign at self-registration with scope guard',
-      'Per-application token audience: configurable aud claim separate from client_id',
-      'Role-by-name API: address roles by stable name instead of environment-specific IDs',
-      'Per-tenant magic-link TTL (1–1440 min), impersonation audit improvements',
-    ],
-  },
-  {
-    tag: 'v1.10.0',
-    title: 'App Launcher, Admin Impersonation & i18n Completion',
-    date: 'May 1, 2026',
-    highlights: [
-      'Per-workspace app launcher tile grid with entitlement model based on client-scoped roles',
-      'Admin impersonation with RFC 8693 act claim, dual-session model, and cascade revocation',
-      'Passwordless-only toggle: disable password login entirely per workspace',
-      'i18n completion: zero hardcoded English in auth + portal, 174 Spanish keys shipped',
-    ],
-  },
-  {
-    tag: 'v1.9.0',
-    title: 'Tenant Backup & Restore',
-    date: 'April 30, 2026',
-    highlights: [
-      'Encrypted workspace snapshots: PBKDF2 600k iterations + AES-256-GCM in portable bkp1 envelope format',
-      'CLI export-tenant / import-tenant commands and admin API endpoints',
-      'Schema-version compatibility validation on import',
-    ],
-  },
-  {
-    tag: 'v1.8.1',
-    title: 'OIDC Silent SSO',
-    date: 'April 29, 2026',
-    highlights: [
-      'prompt=none/login/consent, max_age, id_token_hint per OIDC Core spec',
-      'auth_time claim and KOTAUTH_SSO path-scoped witness cookie for portal silent SSO',
-    ],
-  },
-  {
-    tag: 'v1.8.0',
-    title: 'Redis Sidecar: Distributed Sessions & Rate Limiting',
-    date: 'April 28, 2026',
-    highlights: [
-      'Optional Redis via KAUTH_REDIS_URL: distributed rate limiting with Lua scripts and session storage',
-      'Fail-closed semantics, Lettuce client with connection pooling and auto-reconnection',
-      'Multi-tenant CORS configuration (V32 migration)',
-    ],
-  },
-  {
-    tag: 'v1.7.2',
-    title: 'Internationalization Framework',
-    date: 'April 27, 2026',
-    highlights: [
-      'TranslationPort with volume-mounted JSON bundles via KAUTH_I18N_BUNDLE_DIR',
-      'Accept-Language resolution with quality-factor ranking and English fallback',
-    ],
-  },
-  {
-    tag: 'v1.7.1',
-    title: 'Cross-Device Magic-Link Fix',
-    date: 'April 27, 2026',
-    highlights: [
-      'Cookie check reordered before token consumption: prevents token waste on device mismatch',
-    ],
-  },
-  {
-    tag: 'v1.7.0',
-    title: 'Magic-Link Passwordless Sign-In',
-    date: 'April 26, 2026',
-    highlights: [
-      '15-minute one-time tokens with same-device cookie binding via KOTAUTH_AUTH_CONTEXT',
-      'User-enumeration safe with consistent response timing',
-      'MFA invariant preserved: magic link authenticates first factor, TOTP still required if enrolled',
-    ],
-  },
-  {
-    tag: 'v1.6.1',
-    title: 'Programmatic Onboarding APIs & HIBP Breach Detection',
-    date: 'April 25, 2026',
-    highlights: [
-      'Invite API, send-reset-email, and temporary-password endpoints for headless user onboarding',
-      'HIBP breached-password detection with k-Anonymity range queries',
-      'BreachedPasswordPort: pluggable interface in the domain layer',
-    ],
-  },
-  {
-    tag: 'v1.6.0',
-    title: 'Custom User Attributes & JWT Claim Mapping',
-    date: 'April 24, 2026',
-    highlights: [
-      'Per-user key-value attributes with tenant-level claim mappers projecting into JWT access and ID tokens',
-      '6 new REST API endpoints, 4 new scopes, full admin UI for attributes and claim mappers',
-      '41 reserved OIDC claim names blocked, 20-mapper soft cap, caching with 60s TTL',
-      'Refresh-token re-projection: attribute changes propagate immediately on token renewal',
-    ],
-  },
-  {
-    tag: 'v1.5.8',
-    title: 'CSP Form-Action Fix & Reverse-Proxy Support',
-    date: 'April 22, 2026',
-    highlights: [
-      'TenantCspPlugin with tenant-scoped form-action directives: fixes OAuth2 redirect CSP violations',
-      'X-Forwarded-* header support for correct URL generation behind TLS-terminating proxies',
-    ],
-  },
-  {
-    tag: 'v1.5.7',
-    title: 'Multi-Tenant CORS Policy',
-    date: 'April 21, 2026',
-    highlights: [
-      'Allowed origins auto-derived from client redirect URIs: zero manual CORS configuration',
-      'CORS credentials toggle, CorsOriginCache with 60s TTL, structured denied-origin logging',
-    ],
-  },
-  {
-    tag: 'v1.5.6',
-    title: 'Flyway Shadow JAR Fix',
-    date: 'April 21, 2026',
-    highlights: [
-      'Fix Flyway 10+ boot crash caused by duplicate SPI file handling in shadow JAR',
-    ],
-  },
-  {
-    tag: 'v1.5.5',
-    title: 'Ktor 3 & Gradle 9 Framework Upgrade',
-    date: 'April 20, 2026',
-    highlights: [
-      'Ktor 2 → 3.4.2 with 4 route-scoped plugins replacing legacy interceptors',
-      'Gradle 8 → 9.4.1 with full configuration cache support',
-      'Flyway 12.4.0, logstash-logback-encoder 8.1, Jackson 2.21.0',
-      'CI and Docker builds switched to wrapper-based (./gradlew)',
-    ],
-  },
-  {
-    tag: 'v1.5.4',
-    title: 'ORM & Migration Tool Upgrades',
-    date: 'April 10, 2026',
-    highlights: [
-      'Exposed ORM 0.55.0 → 0.61.0: zero code changes',
-      'Flyway 9.22.3 → 11.8.2: added PostgreSQL module artifact',
-    ],
-  },
-  {
-    tag: 'v1.5.3',
-    title: 'Netty CVE Patches & Kotlin 2.3',
-    date: 'April 10, 2026',
-    highlights: [
-      'Netty 4.1.132.Final: patches HTTP smuggling and HTTP/2 DoS (both High)',
-      'Kotlin 1.9.24 → 2.3.20: K2 compiler enabled, source-compatible',
-    ],
-  },
-  {
-    tag: 'v1.5.2',
-    title: 'Admin Key Rotation & JWT kid Headers',
-    date: 'April 10, 2026',
-    highlights: [
-      'Admin-initiated signing key rotation: generate a new RS256 key pair, promote it to active, demote the previous key to verification-only',
-      'JWT kid header on all issued tokens (access, id_token, client credentials) per RFC 7517: enables key identification during verification',
-      'Key retirement: disable old keys to remove them from JWKS when all tokens have expired',
-      'Signing keys management page in admin console: key history table with status badges (Active, Verification only, Retired)',
-      'Token verification gracefully handles rotated keys: reads kid from JWT header, falls back to active key for legacy tokens',
-      'New audit events: ADMIN_KEY_ROTATED and ADMIN_KEY_RETIRED',
-    ],
-  },
-  {
-    tag: 'v1.5.1',
-    title: 'Code Optimizations & N+1 Fixes',
-    date: 'April 10, 2026',
-    highlights: [
-      'AdminRouteContext helper: single-call extraction of session, workspace, and workspace pairs across all admin routes',
-      'SecureTokens singleton: replaces 12 scattered SecureRandom() instantiations with a shared thread-safe instance',
-      'Batch user hydration for role and group detail pages: eliminates N+1 queries on assigned user lists',
-      'Extracted password policy validation into a shared method: removes duplication across password reset, invite, and change flows',
-      'Typed ID extraction helper: reusable Parameters.typedId<T>() replaces 33 inline toIntOrNull() patterns',
-    ],
-  },
-  {
-    tag: 'v1.5.0',
-    title: 'User Invitations & Required Actions',
-    date: 'April 7, 2026',
-    highlights: [
-      'Invite users via email: admins create users and send branded invite emails instead of setting passwords directly',
-      'Accept-invite flow: branded page with real-time password validation, 72-hour token expiry, and automatic account activation',
-      'Required actions framework: extensible user action model (SET_PASSWORD) stored as PostgreSQL text[] array',
-      'Token purpose discriminator: invite and password-reset tokens are cryptographically separated, cross-purpose usage rejected',
-      'Resend invite from admin console with automatic old-token invalidation',
-      'New audit events: USER_INVITE_SENT and USER_INVITE_ACCEPTED',
-    ],
-  },
-  {
-    tag: 'v1.4.1',
-    title: 'Portal Social Accounts, Entity Picker & Pagination',
-    date: 'April 5, 2026',
-    highlights: [
-      'Portal connected social accounts: users can view linked Google and GitHub identities from the self-service portal',
-      'Entity picker component: search-as-you-type replaces native dropdowns for role and group assignment, with debounced htmx search and keyboard navigation',
-      'RBAC assigned users table: role detail page shows all assigned users with direct links and remove actions',
-      'Pagination for users (25/page) and sessions (100 cap) with position-aware subtitles and search composition',
-      'JavaScript modernization: var to const/let, arrow functions, template literals, optional chaining across all bundles',
-    ],
-  },
-  {
-    tag: 'v1.4.0',
-    title: 'Auto-Update Check & Release Infrastructure',
-    date: 'April 3, 2026',
-    highlights: [
-      'Auto-update check: server queries a version manifest on startup and surfaces available updates in the admin console',
-      'Version badge displayed in admin UI showing current running version',
-      'KAUTH_UPDATE_CHECK flag to disable for air-gapped deployments',
-      'Release infrastructure: CI manifest publishing, GitHub Pages CNAME, and release template',
-    ],
-  },
-  {
-    tag: 'v1.3.3',
-    title: 'REST API Partial Updates & UX Polish',
-    date: 'April 2, 2026',
-    highlights: [
-      'REST API partial updates: PUT /users and PUT /applications accept partial payloads, omitted fields retain current values',
-      'Toast notifications for user actions: enable/disable, revoke sessions, resend verification email',
-      'CSS tooltip component with disabled-state awareness',
-      'Audit log filter auto-submits on change, settings save buttons show "Saving…" feedback',
-    ],
-  },
-  {
-    tag: 'v1.3.2',
-    title: 'Workspace Session Management & Audit Log Redesign',
-    date: 'April 1, 2026',
-    highlights: [
-      'Workspace "Revoke all sessions": bulk revocation across all users with confirmation dialog and audit event',
-      'SMTP test email button: verify configuration from the settings page',
-      'Webhook recovery sweep: background retry every 5 minutes, auto-fails orphaned deliveries',
-      'Workspace logos in admin console topbar, switcher, and detail pages',
-      'Audit log redesigned: color-coded badges, human-readable labels, linked clients, grouped 55-event filter',
-      'Composite role expansion rewritten as single recursive CTE',
-      'Typed webhook events: compile-time safe WebhookEventType enum',
-    ],
-  },
-  {
-    tag: 'v1.3.1',
-    title: 'Client-Side Polish & CSP Compliance',
-    date: 'March 30, 2026',
-    highlights: [
-      'Real-time inline password validation checklist on all password fields: shows per-tenant policy as you type',
-      'Auto-dismissing toast notifications replace persistent URL banners across admin and portal',
-      'Full CSP compliance: zero unsafe-inline violations, all inline handlers replaced with event delegation',
-      'QRCode.js bundled locally: MFA enrollment works fully offline / air-gapped',
-      'CSS token architecture with shared structural tokens across all 4 bundles',
-    ],
-  },
-  {
-    tag: 'v1.3.0',
-    title: 'Security Hardening & CLI Tools',
-    date: 'March 30, 2026',
-    highlights: [
-      'KAUTH_SECRET_KEY required in all environments: no dev-mode fallback',
-      'RSA private keys encrypted at rest with AES-256-GCM: plaintext keys auto-migrated on startup',
-      'KAUTH_ADMIN_BYPASS removed: admin auth is exclusively OAuth PKCE',
-      'CLI subcommands: generate-secret-key and reset-admin-mfa via java -jar kauth.jar cli',
-      'MFA challenge rate limiting (5/5min) and password reset rate limiting (3/5min)',
-      'findById tenant scoping enforced at database query level: cross-tenant lookups structurally impossible',
-      'HTTP response compression, static asset caching, and 12 missing FK indexes',
-    ],
-  },
-  {
-    tag: 'v1.2.1',
-    title: 'New /authorize Endpoint & JS Bundling',
-    date: 'March 27, 2026',
-    highlights: [
-      '/authorize shorthand replaces verbose /protocol/openid-connect/auth path',
-      'JS bundled with esbuild:4 minified files with SRI integrity hashes on all script tags',
-      'Swagger UI bundled locally: API docs work in air-gapped environments',
-      'Password show/hide toggle on all password fields',
-      'Session revocation DB check on every request: admin revoke immediately invalidates cookies',
-      'Email templates redesigned with TenantTheme branding',
-    ],
-  },
-  {
-    tag: 'v1.2.0',
-    title: 'Security Hardening & Admin OAuth',
-    date: 'March 27, 2026',
-    highlights: [
-      'Admin console authenticates via OAuth Authorization Code + PKCE: eats its own dogfood',
-      'Admin role gating: only users with the admin role on the master tenant can access the console',
-      'Account lockout: configurable failed login threshold with automatic lockout duration and email notification',
-      'OIDC end-session logout: proper RP-initiated logout with id_token_hint and open redirect prevention',
-      'Password changed email notification on all password change paths',
-      'HMAC-signed admin cookies with dedicated key derivation',
-      'SecurityConfig extracted to dedicated table: password policy, MFA policy, and lockout config',
-      'CVE patches: Netty, Jackson, Logback, PostgreSQL JDBC',
-      'Content-Security-Policy header, SameSite cookie attributes, thread-safe JWT cache',
-    ],
-  },
-  {
-    tag: 'v1.1.x',
-    title: 'Reliability, Performance & External Databases',
-    date: 'March 24–26, 2026',
-    highlights: [
-      'HikariCP connection pooling: eliminates per-request TCP/TLS overhead',
-      'Async email delivery: SMTP calls no longer block the auth response',
-      'External database compose file: bring your own PostgreSQL (RDS, Supabase, Neon, Railway, Render)',
-      'Multi-arch Docker images (amd64 + arm64) built natively in CI',
-      'Composite database indexes for session lookups and audit log queries',
-      'Session cleanup background job: purges expired sessions hourly',
-      'Rate limit keys tenant-scoped: one tenant\'s traffic doesn\'t affect another',
-      'Route intercept pattern: eliminated ~80 duplicate database calls across route files',
-      'Zero-config quickstart with demo data pre-loaded',
-    ],
-  },
-  {
-    tag: 'v1.0.0',
-    title: 'Initial Stable Release',
-    date: 'March 17, 2026',
-    highlights: [
-      'OAuth 2.0 / OIDC provider: Authorization Code + PKCE, Client Credentials, token rotation, introspection, revocation, discovery',
-      'Multi-tenancy: isolated workspaces with per-tenant RS256 key pairs, user directories, and branding',
-      'RBAC: tenant-scoped and client-scoped roles, composite inheritance with cycle detection, group hierarchy',
-      'TOTP MFA (RFC 6238) with recovery codes and per-workspace policy enforcement',
-      'Social login: Google and GitHub OAuth with automatic account linking by email',
-      'User self-service portal: profile editing, password change, session management, MFA enrollment',
-      'Admin console: workspace settings, user/application/role/group management, audit log viewer',
-      'Webhooks: HMAC-SHA256 signed delivery for 8 event types with exponential backoff retry',
-      'REST API v1:30+ endpoints with OpenAPI 3.1 spec and Swagger UI',
-      'White-label theming:9 CSS custom properties injected server-side per tenant, 3 presets included',
-      'Audit logging:30+ immutable event types, append-only, queryable via API and admin UI',
-      'Security baseline: bcrypt, AES-256-GCM, SHA-256, RS256, rate limiting, CSRF, startup validation',
-      'Docker multi-stage build: published to GHCR with Flyway auto-migrations on startup',
-    ],
-  },
-];
-
-type PlannedItem = { title: string; description: string };
-
-const nearTerm: PlannedItem[] = [
-  { title: 'WebAuthn / Passkeys', description: 'Phishing-resistant, passwordless login using platform authenticators and security keys' },
-  { title: 'Prometheus metrics endpoint', description: 'Login rates, error rates, token issuance, and session counts exposed for monitoring' },
-  { title: 'SMS OTP', description: 'Pluggable SMS provider interface for one-time password delivery' },
-  { title: 'Typed TypeScript/JavaScript SDK', description: 'Wrapping the REST API and OIDC flows with full type safety' },
-  { title: 'Admin audit log export', description: 'Export filtered audit events as CSV or JSON from the admin console' },
-];
-
-const longTerm: PlannedItem[] = [
-  { title: 'Helm chart', description: 'Kubernetes deployment with configurable replicas, probes, and secret management' },
-  { title: 'LDAP / Active Directory sync', description: 'User and group sync with configurable interval' },
-  { title: 'SAML 2.0', description: 'SP-initiated and IdP-initiated flows for enterprise SSO' },
-  { title: 'External OIDC broker', description: 'Relay authentication to upstream providers (Azure AD, Okta)' },
-  { title: 'SCIM 2.0', description: 'Automated user provisioning from external HR and identity systems' },
-  { title: 'Per-tenant email templates', description: 'Full HTML email template customization per workspace' },
-  { title: 'Audit log export', description: 'Ship audit events to S3-compatible storage or SIEM webhook' },
-];
-
-const stats = [
-  { label: 'Versions Shipped', value: '48' },
-  { label: 'DB Migrations', value: '52' },
-  { label: 'REST Endpoints', value: '45+' },
-  { label: 'Audit Event Types', value: '65+' },
 ];
 ---
 
 <BaseLayout
-  title="Roadmap | Kotauth"
-  description="See what's shipped and what's coming in Kotauth. v1.19.2 is live with RFC 8707 resource indicators, audit HMAC chains, file-based secrets, and 48 versions shipped. WebAuthn, Prometheus metrics, and enterprise SSO are on the way."
+  title={i18n.pages.roadmap.title}
+  description={i18n.pages.roadmap.description}
   path="/roadmap"
 >
-  <div class="pt-[72px]">
-    <!-- Hero -->
-    <section class="py-20 lg:py-28 relative overflow-hidden">
-      <GradientGlow class="top-0 right-1/4" size={600} color="rgba(0, 119, 168, 0.18)" />
-      <div class="section-container relative z-10">
-        <div class="max-w-2xl">
-          <span class="eyebrow mb-4 block">Roadmap</span>
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-kotauth-text-primary leading-tight font-mono mb-6">
-            What's built.<br />
-            <span class="gradient-text">What's next.</span>
-          </h1>
-          <p class="text-lg text-kotauth-text-secondary mb-8 max-w-xl">
-            v1.19.2 is live. 48 versions shipped since March 2026. Every version and every planned feature is documented here.
-            No vaporware, no undated promises.
-          </p>
-          <div class="flex flex-wrap gap-4">
-            <a
-              href={DEMO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-11 font-mono text-sm transition-colors"
-            >
-              <Play class="w-4 h-4" />
-              Try the Demo
-            </a>
-            <a
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-11 font-mono text-sm transition-colors"
-            >
-              <GithubIcon class="w-4 h-4" />
-              View on GitHub
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
+  <!-- Page header -->
+  <section class="relative px-7 pt-32 pb-14 text-center overflow-hidden">
+    <div
+      class="absolute -top-[120px] left-1/2 -translate-x-1/2 w-[900px] h-[420px] pointer-events-none"
+      style="background:radial-gradient(ellipse at center,rgba(0,119,168,.1),transparent 70%);"
+    ></div>
+    <div class="relative max-w-[720px] mx-auto">
+      <span class="eyebrow">Roadmap</span>
+      <h1 class="font-heading font-bold text-4xl sm:text-5xl lg:text-[54px] leading-[1.06] tracking-[-0.03em] text-kotauth-text-primary mt-[14px] mb-[18px]">
+        What we are building next
+      </h1>
+      <p class="text-lg leading-[1.6] text-kotauth-text-secondary font-medium">
+        Kotauth is open source and built in the open. This is where things stand and where they are headed. Priorities shift with community input.
+      </p>
+    </div>
+  </section>
 
-    <!-- Stats bar -->
-    <section class="border-y border-kotauth-surface-2 bg-kotauth-bg-secondary">
-      <div class="section-container py-6">
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
-          {stats.map((stat) => (
-            <div class="text-center sm:text-left">
-              <p class="text-2xl font-bold text-kotauth-text-primary font-mono">{stat.value}</p>
-              <p class="text-xs text-kotauth-text-muted font-mono mt-0.5">{stat.label}</p>
+  <!-- Status legend -->
+  <section class="max-w-[920px] mx-auto px-7 pb-10">
+    <div class="flex flex-wrap justify-center gap-x-[22px] gap-y-3 text-[13px] font-semibold text-kotauth-text-secondary">
+      {columns.map((col) => (
+        <span class="inline-flex items-center gap-[7px]">
+          <span class={`w-[9px] h-[9px] inline-block ${col.legendDot}`}></span>
+          {col.status}
+        </span>
+      ))}
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="max-w-[920px] mx-auto px-7 pb-20">
+    {columns.map((col, i) => (
+      <div
+        class={`grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 py-[34px] border-t border-kotauth-surface-2 ${i === columns.length - 1 ? 'border-b' : ''}`}
+      >
+        <div>
+          <div class={`inline-flex items-center gap-2 px-[11px] py-[5px] mb-2 ${col.badgeWrap}`}>
+            <span class={`w-2 h-2 inline-block ${col.badgeDot}`}></span>
+            <span class={`text-[12.5px] font-bold ${col.badgeText}`}>{col.status}</span>
+          </div>
+          <p class="text-[13px] text-kotauth-text-muted leading-[1.5]">{col.description}</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-[14px]">
+          {col.items.map((item) => (
+            <div class={`px-5 py-[18px] ${col.cardClass}`}>
+              <h3 class={`font-heading text-[15px] font-bold mb-1 ${col.titleClass}`}>{item.title}</h3>
+              <p class={`text-[13px] leading-[1.5] ${col.bodyClass}`}>{item.body}</p>
             </div>
           ))}
         </div>
       </div>
-    </section>
+    ))}
+  </section>
 
-    <!-- Shipped Versions -->
-    <section class="py-20 lg:py-28">
-      <div class="section-container">
-        <div class="mb-14">
-          <div class="flex items-center gap-3 mb-3">
-            <div class="h-px flex-1 bg-kotauth-surface-2 max-w-[40px]"></div>
-            <span class="text-xs font-mono text-kotauth-success uppercase tracking-widest">
-              Shipped
-            </span>
-          </div>
-          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono">
-            Released versions
-          </h2>
-        </div>
-
-        <div>
-          {shippedVersions.map((version) => (
-            <VersionCard version={version} shipped={true} />
-          ))}
-        </div>
+  <!-- Shape it -->
+  <section class="max-w-[920px] mx-auto px-7 pb-28">
+    <div class="bg-kotauth-bg-secondary border border-kotauth-surface-2 px-10 py-11 text-center">
+      <h2 class="font-heading font-bold text-[28px] tracking-[-0.02em] text-kotauth-text-primary mb-[10px]">Have a say in what ships next</h2>
+      <p class="text-base leading-[1.6] text-kotauth-text-secondary font-medium max-w-[480px] mx-auto mb-6">
+        Roadmap priorities are shaped in public. Open a discussion, file a request, or upvote what matters to you.
+      </p>
+      <div class="flex flex-wrap justify-center gap-[13px]">
+        <a
+          href={`${GITHUB_URL}/discussions`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-[22px] h-12 text-[14.5px] font-semibold transition-colors"
+        >
+          Join the discussion
+        </a>
+        <a
+          href={`${GITHUB_URL}/issues/new`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 bg-white border border-kotauth-surface-2 text-kotauth-text-primary hover:border-kotauth-primary/40 px-[22px] h-12 text-[14.5px] font-semibold transition-colors"
+        >
+          Request a feature
+        </a>
       </div>
-    </section>
-
-    <!-- Divider -->
-    <div class="section-container">
-      <div class="border-t border-kotauth-surface-2"></div>
     </div>
-
-    <!-- Planned Features -->
-    <section class="py-20 lg:py-28">
-      <div class="section-container">
-        <div class="mb-14">
-          <div class="flex items-center gap-3 mb-3">
-            <div class="h-px flex-1 bg-kotauth-surface-2 max-w-[40px]"></div>
-            <span class="text-xs font-mono text-kotauth-text-muted uppercase tracking-widest">
-              Planned
-            </span>
-          </div>
-          <h2 class="text-2xl sm:text-3xl font-semibold text-kotauth-text-primary font-mono mb-3">
-            What's next
-          </h2>
-          <p class="text-kotauth-text-secondary max-w-xl">
-            Planned but not yet scheduled. Priority reflects market demand and dependency on existing foundations.
-          </p>
-        </div>
-
-        <div class="mb-12">
-          <h3 class="text-sm font-mono text-kotauth-primary uppercase tracking-widest mb-6">Near-term</h3>
-          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {nearTerm.map((item) => (
-              <div class="p-5 bg-kotauth-surface-1 border border-kotauth-surface-2 hover:border-kotauth-primary/30 transition-colors">
-                <p class="text-sm font-semibold text-kotauth-text-primary font-mono mb-2">{item.title}</p>
-                <p class="text-xs text-kotauth-text-tertiary leading-relaxed">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h3 class="text-sm font-mono text-kotauth-text-muted uppercase tracking-widest mb-6">Long-term</h3>
-          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {longTerm.map((item) => (
-              <div class="p-5 bg-kotauth-surface-1/50 border border-kotauth-surface-2/50 hover:border-kotauth-primary/20 transition-colors">
-                <p class="text-sm font-semibold text-kotauth-text-secondary font-mono mb-2">{item.title}</p>
-                <p class="text-xs text-kotauth-text-muted leading-relaxed">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="py-16 border-t border-kotauth-surface-2">
-      <div class="section-container">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div>
-            <h3 class="text-xl font-semibold text-kotauth-text-primary font-mono mb-1">
-              Want to shape what's next?
-            </h3>
-            <p class="text-kotauth-text-secondary text-sm">
-              Open an issue or start a discussion. This roadmap is driven by real use cases.
-            </p>
-          </div>
-          <div class="flex gap-3 flex-shrink-0">
-            <a
-              href={`${GITHUB_URL}/issues/new`}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-6 h-10 font-mono text-sm transition-colors"
-            >
-              Open an Issue
-            </a>
-            <a
-              href={`${GITHUB_URL}/discussions`}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-6 h-10 font-mono text-sm transition-colors"
-            >
-              Discussions
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+  </section>
 </BaseLayout>

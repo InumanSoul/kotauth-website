@@ -1,242 +1,97 @@
 ---
-import { Bot, Users, ShieldCheck, Building2, KeyRound, ChartBar, MonitorCheck, Tags, SlidersHorizontal, ArrowRight } from '@lucide/astro';
-import GradientGlow from '@/components/GradientGlow.astro';
 import { t, type Locale, defaultLocale } from '@/i18n';
-
-const MCP_DOCS_URL = 'https://docs.kotauth.dev/mcp/overview/';
-const NPM_URL = 'https://www.npmjs.com/package/@kotauth/mcp';
 
 const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 const i18n = t(locale);
+const mcp = i18n.mcpShowcase;
 
-const domainIcons = [Users, ShieldCheck, Building2, KeyRound, MonitorCheck, ChartBar, Tags, SlidersHorizontal];
-const domainCounts = [10, 5, 6, 3, 2, 1, 3, 3];
-const domains = i18n.mcpShowcase.domains.map((d, idx) => ({
-  icon: domainIcons[idx],
-  label: d.label,
-  count: domainCounts[idx],
-  examples: d.examples,
-}));
+// Split "tool_name ✓ result" into [name, result] for the two-line tool-call blocks.
+const toolCalls = [mcp.chat.tool1Result, mcp.chat.tool2Result].map((s) => {
+  const [name, ...rest] = s.split(' ✓ ');
+  return { name, result: rest.join(' ✓ ') };
+});
+
+// Audit log lines: split "EVENT detail" and color the event.
+const logLines = [
+  { raw: mcp.chat.loginFailed, color: '#f59e0b' },
+  { raw: mcp.chat.loginSuccess, color: '#34D399' },
+  { raw: mcp.chat.userUpdated, color: '#94A3B8' },
+].map(({ raw, color }) => {
+  const idx = raw.indexOf(' ');
+  return { event: raw.slice(0, idx), detail: raw.slice(idx + 1), color };
+});
 ---
 
-<section class="py-24 lg:py-32 relative overflow-hidden bg-kotauth-bg-secondary border-y border-kotauth-surface-2">
-  <GradientGlow
-    class="top-1/4 right-0 translate-x-1/3"
-    size={700}
-    color="rgba(0, 119, 168, 0.18)"
-  />
+<section class="bg-[#0A0F14] relative overflow-hidden">
+  <!-- ambient glow -->
+  <div
+    class="absolute top-[10%] right-[-5%] w-[600px] h-[600px] pointer-events-none"
+    style="background: radial-gradient(circle, rgba(99,102,241,0.14), rgba(0,119,168,0.1) 45%, transparent 70%);"
+  >
+  </div>
 
-  <div class="section-container relative z-10">
-    <div data-reveal class="text-center max-w-2xl mx-auto mb-16">
-      <span class="eyebrow mb-4 block">{i18n.mcpShowcase.eyebrow}</span>
-      <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-semibold text-kotauth-text-primary leading-tight mb-4 font-mono">
-        {i18n.mcpShowcase.titleStart}{' '}
-        <span class="gradient-text">{i18n.mcpShowcase.titleHighlight}</span>
+  <div class="relative max-w-[1180px] mx-auto px-7 py-[110px] grid lg:grid-cols-2 gap-12 lg:gap-[60px] items-center">
+    <!-- Left: copy + tool grid -->
+    <div>
+      <span class="font-mono text-[12.5px] font-medium tracking-[0.06em] uppercase text-[#00A3E0]">{mcp.eyebrow}</span>
+      <h2 class="font-heading font-bold text-[32px] sm:text-[40px] leading-[1.08] tracking-[-0.025em] text-[#F0F4F8] mt-3.5 mb-4">
+        {mcp.titleStart}{mcp.titleHighlight}
       </h2>
-      <p class="text-lg text-kotauth-text-secondary">
-        {i18n.mcpShowcase.subtitle}
-      </p>
+      <p class="text-[17px] leading-[1.62] font-medium text-[#94A3B8] mb-6">{mcp.subtitle}</p>
+
+      <div class="flex items-center gap-3 mb-6">
+        <code class="font-mono text-[13.5px] text-[#e6edf3] bg-[#0D1117] border border-[#1c2733] px-[13px] py-[9px]">{mcp.oneCommand}</code>
+        <span class="text-[13.5px] text-[#5b6775]">{mcp.oneCommandLabel}</span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-[9px]">
+        {mcp.domains.map((d) => (
+          <div class="flex items-center justify-between gap-2 bg-[#0d141b] border border-[#1c2733] px-[13px] py-2.5">
+            <span class="text-[13.5px] font-semibold text-[#cdd9e5]">{d.label}</span>
+            <span class="font-mono text-[11px] text-[#00A3E0] px-[7px] py-0.5" style="background: rgba(0,119,168,0.14);">{d.count}</span>
+          </div>
+        ))}
+      </div>
     </div>
 
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-
-      <!-- Chat conversation -->
-      <div data-reveal>
-        <div class="bg-kotauth-bg-code border border-kotauth-surface-2 overflow-hidden shadow-2xl shadow-kotauth-primary/5">
-          <!-- Window chrome -->
-          <div class="flex items-center gap-2 px-4 py-3 border-b border-kotauth-surface-2 bg-kotauth-surface-1/50">
-            <div class="flex gap-1.5">
-              <div class="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
-              <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
-              <div class="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
-            </div>
-            <div class="flex-1 flex justify-center">
-              <span class="text-[11px] font-mono text-kotauth-text-muted">{i18n.mcpShowcase.mcpSession}</span>
-            </div>
+    <!-- Right: MCP chat window -->
+    <div class="relative">
+      <div class="relative bg-[#0D1117] border border-[#1c2733] overflow-hidden" style="box-shadow: 0 30px 60px -24px rgba(0,0,0,0.5);">
+        <!-- title bar -->
+        <div class="flex items-center gap-2 px-4 py-[13px] border-b border-[#1c2733] bg-[#0b0f14]">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#ef4444] opacity-80"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-[#f59e0b] opacity-80"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-[#10b981] opacity-80"></span>
+          <span class="flex-1 text-center font-mono text-[11.5px] text-[#5b6775]">{mcp.mcpSession}</span>
+        </div>
+        <!-- conversation -->
+        <div class="p-[18px] flex flex-col gap-[13px]">
+          <!-- user -->
+          <div class="self-end max-w-[88%] text-[#e6edf3] px-3.5 py-[11px] text-[13.5px] leading-[1.5]" style="background: rgba(0,119,168,0.16); border: 1px solid rgba(0,119,168,0.3);">
+            {mcp.chat.userMessage}
           </div>
-
-          <!-- Chat body -->
-          <div data-mcp-chat class="p-5 space-y-4 min-h-[420px]">
-
-            <!-- User message -->
-            <div class="mcp-bubble mcp-bubble--user flex justify-end opacity-0">
-              <div class="max-w-[85%] bg-kotauth-primary/15 border border-kotauth-primary/25 px-4 py-2.5">
-                <p class="text-sm text-kotauth-text-primary leading-relaxed">
-                  {i18n.mcpShowcase.chat.userMessage}
-                </p>
+          <!-- assistant: actions -->
+          <div class="self-start max-w-[92%] bg-[#161F28] border border-[#1c2733] px-3.5 py-3">
+            <p class="text-[13.5px] leading-[1.5] text-[#94A3B8] mb-[11px]">{mcp.chat.assistantIntro}</p>
+            {toolCalls.map((tc, i) => (
+              <div class={`border-l-2 pl-[11px] ${i === 0 ? 'mb-[9px]' : ''}`} style="border-color: rgba(0,163,224,0.5);">
+                <div class="font-mono text-[12px] text-[#00A3E0]">{tc.name}</div>
+                <div class="font-mono text-[12px] text-[#34D399]">✓ {tc.result}</div>
               </div>
+            ))}
+          </div>
+          <!-- assistant: summary -->
+          <div class="self-start max-w-[92%] bg-[#161F28] border border-[#1c2733] px-3.5 py-3">
+            <p class="text-[13.5px] leading-[1.5] text-[#94A3B8] mb-[9px]">{mcp.chat.summaryIntro}</p>
+            <div class="bg-[#0b0f14] border border-[#1c2733] px-3 py-2.5 font-mono text-[11.5px] leading-[1.85]">
+              {logLines.map((l) => (
+                <div><span style={`color:${l.color};`}>{l.event}</span> <span class="text-[#5b6775]">{l.detail}</span></div>
+              ))}
             </div>
-
-            <!-- Assistant response -->
-            <div class="mcp-bubble mcp-bubble--assistant flex justify-start opacity-0">
-              <div class="max-w-[85%] bg-kotauth-surface-1 border border-kotauth-surface-2 px-4 py-2.5">
-                <p class="text-sm text-kotauth-text-secondary leading-relaxed mb-3">
-                  {i18n.mcpShowcase.chat.assistantIntro}
-                </p>
-                <!-- Tool call 1 -->
-                <div class="mcp-tool mcp-tool--1 opacity-0 border-l-2 border-kotauth-primary/40 pl-3 mb-2.5">
-                  <p class="text-xs font-mono text-kotauth-primary mb-0.5">get_user</p>
-                  <p class="text-xs font-mono text-kotauth-text-muted">{i18n.mcpShowcase.chat.tool1Result}</p>
-                </div>
-                <!-- Tool call 2 -->
-                <div class="mcp-tool mcp-tool--2 opacity-0 border-l-2 border-kotauth-primary/40 pl-3 mb-2.5">
-                  <p class="text-xs font-mono text-kotauth-primary mb-0.5">disable_user</p>
-                  <p class="text-xs font-mono text-kotauth-success">{i18n.mcpShowcase.chat.tool2Result}</p>
-                </div>
-                <!-- Tool call 3 -->
-                <div class="mcp-tool mcp-tool--3 opacity-0 border-l-2 border-kotauth-primary/40 pl-3 mb-2.5">
-                  <p class="text-xs font-mono text-kotauth-primary mb-0.5">revoke_session</p>
-                  <p class="text-xs font-mono text-kotauth-success">{i18n.mcpShowcase.chat.tool3Result}</p>
-                </div>
-                <!-- Tool call 4 -->
-                <div class="mcp-tool mcp-tool--4 opacity-0 border-l-2 border-kotauth-primary/40 pl-3 mb-2.5">
-                  <p class="text-xs font-mono text-kotauth-primary mb-0.5">query_audit_logs</p>
-                  <p class="text-xs font-mono text-kotauth-text-muted">{i18n.mcpShowcase.chat.tool4Result}</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Summary message -->
-            <div class="mcp-bubble mcp-bubble--summary flex justify-start opacity-0">
-              <div class="max-w-[85%] bg-kotauth-surface-1 border border-kotauth-surface-2 px-4 py-2.5">
-                <p class="text-sm text-kotauth-text-secondary leading-relaxed mb-2">
-                  {i18n.mcpShowcase.chat.summaryIntro}
-                </p>
-                <div class="bg-kotauth-bg-code/80 border border-kotauth-surface-2 px-3 py-2 text-xs font-mono text-kotauth-text-muted space-y-1">
-                  <p><span class="text-kotauth-warning">LOGIN_FAILED</span> &nbsp;{i18n.mcpShowcase.chat.loginFailed}</p>
-                  <p><span class="text-kotauth-success">LOGIN_SUCCESS</span> {i18n.mcpShowcase.chat.loginSuccess}</p>
-                  <p><span class="text-kotauth-text-secondary">USER_UPDATED</span> &nbsp;{i18n.mcpShowcase.chat.userUpdated}</p>
-                  <p><span class="text-kotauth-error">ADMIN_USER_DISABLED</span> &nbsp;{i18n.mcpShowcase.chat.adminDisabled}</p>
-                </div>
-                <p class="text-sm text-kotauth-text-secondary leading-relaxed mt-2">
-                  {i18n.mcpShowcase.chat.summaryAnalysis}
-                </p>
-              </div>
-            </div>
-
+            <p class="text-[13px] leading-[1.5] text-[#94A3B8] mt-[9px]">{mcp.chat.summaryAnalysis}</p>
           </div>
         </div>
-
-        <div class="mt-4 flex items-center gap-3">
-          <code class="text-xs font-mono text-kotauth-text-muted bg-kotauth-surface-1 border border-kotauth-surface-2 px-3 py-1.5 select-all">
-            npx @kotauth/mcp
-          </code>
-          <span class="text-xs text-kotauth-text-muted">{i18n.mcpShowcase.oneCommand}</span>
-        </div>
       </div>
-
-      <!-- Right column: tools grid + CTAs -->
-      <div>
-        <div data-reveal class="mb-8">
-          <h3 class="text-lg font-semibold text-kotauth-text-primary font-mono mb-2">
-            {i18n.mcpShowcase.toolsTitle}
-          </h3>
-          <p class="text-sm text-kotauth-text-secondary leading-relaxed">
-            {i18n.mcpShowcase.toolsDescription}
-          </p>
-        </div>
-
-        <div class="space-y-3 mb-8">
-          {domains.map((domain, index) => (
-            <div
-              data-reveal
-              data-reveal-delay={index * 60}
-              class="flex items-center gap-4 p-3 bg-kotauth-surface-1/50 border border-kotauth-surface-2/50 hover:border-kotauth-primary/20 transition-colors"
-            >
-              <div class="w-8 h-8 bg-kotauth-primary/10 flex items-center justify-center flex-shrink-0">
-                <domain.icon class="w-4 h-4 text-kotauth-primary" />
-              </div>
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-2">
-                  <span class="text-sm font-semibold text-kotauth-text-primary font-mono">{domain.label}</span>
-                  <span class="text-[10px] font-mono text-kotauth-primary bg-kotauth-primary/10 px-1.5 py-0.5">{domain.count}</span>
-                </div>
-                <p class="text-xs text-kotauth-text-muted font-mono truncate">{domain.examples}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div data-reveal class="flex flex-wrap gap-3">
-          <a
-            href={MCP_DOCS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 bg-kotauth-primary hover:bg-kotauth-primary-light text-white px-5 h-10 font-mono text-sm transition-colors"
-          >
-            <Bot class="w-4 h-4" />
-            {i18n.mcpShowcase.mcpDocs}
-          </a>
-          <a
-            href={NPM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 px-5 h-10 font-mono text-sm transition-colors"
-          >
-            {i18n.mcpShowcase.viewOnNpm}
-            <ArrowRight class="w-4 h-4" />
-          </a>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
-
-<style>
-  .mcp-bubble,
-  .mcp-tool {
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    transform: translateY(8px);
-  }
-  .mcp-bubble.visible,
-  .mcp-tool.visible {
-    opacity: 1 !important;
-    transform: translateY(0);
-  }
-</style>
-
-<script is:inline>
-  (function () {
-    const chat = document.querySelector('[data-mcp-chat]');
-    if (!chat) return;
-
-    const bubbles = chat.querySelectorAll('.mcp-bubble');
-    const tools = chat.querySelectorAll('.mcp-tool');
-
-    const delays = [
-      { el: bubbles[0], ms: 400 },
-      { el: bubbles[1], ms: 1200 },
-      { el: tools[0],   ms: 1800 },
-      { el: tools[1],   ms: 2400 },
-      { el: tools[2],   ms: 3000 },
-      { el: tools[3],   ms: 3600 },
-      { el: bubbles[2], ms: 4400 },
-    ];
-
-    var triggered = false;
-
-    function run() {
-      if (triggered) return;
-      triggered = true;
-      for (var i = 0; i < delays.length; i++) {
-        (function (entry) {
-          setTimeout(function () {
-            if (entry.el) entry.el.classList.add('visible');
-          }, entry.ms);
-        })(delays[i]);
-      }
-    }
-
-    var observer = new IntersectionObserver(function (entries) {
-      for (var j = 0; j < entries.length; j++) {
-        if (entries[j].isIntersecting) {
-          run();
-          observer.disconnect();
-        }
-      }
-    }, { threshold: 0.3 });
-
-    observer.observe(chat);
-  })();
-</script>

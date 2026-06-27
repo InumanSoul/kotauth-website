@@ -1,22 +1,17 @@
 ---
-import { MessageCircle } from '@lucide/astro';
 import GithubIcon from '@/components/icons/GithubIcon.astro';
-import TwitterIcon from '@/components/icons/TwitterIcon.astro';
 import Image from 'astro/components/Image.astro';
 import { t, type Locale, defaultLocale, getLocalizedPath } from '@/i18n';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const DOCS_URL = 'https://docs.kotauth.com/';
-const currentYear = new Date().getFullYear();
+const MCP_DOCS_URL = 'https://docs.kotauth.com/mcp/';
+const VERSION = 'v1.19.2';
 
 const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 const i18n = t(locale);
 
-type FooterLink = {
-  label: string;
-  href: string;
-  external: boolean;
-};
+type FooterLink = { label: string; href: string; external: boolean };
 
 const footerLinks: Record<string, { heading: string; links: FooterLink[] }> = {
   product: {
@@ -33,62 +28,39 @@ const footerLinks: Record<string, { heading: string; links: FooterLink[] }> = {
     links: [
       { label: i18n.footer.documentation, href: DOCS_URL, external: true },
       { label: i18n.footer.apiReference, href: `${DOCS_URL}api/overview/`, external: true },
+      { label: i18n.footer.mcpDocs, href: MCP_DOCS_URL, external: true },
       { label: 'GitHub', href: GITHUB_URL, external: true },
-      { label: i18n.footer.community, href: `${GITHUB_URL}/discussions`, external: true },
     ],
   },
   company: {
     heading: i18n.footer.company,
     links: [
-      { label: i18n.footer.blog, href: `${GITHUB_URL}/discussions/categories/announcements`, external: true },
       { label: i18n.footer.contact, href: getLocalizedPath('/contact', locale), external: false },
-      { label: i18n.footer.privacyPolicy, href: getLocalizedPath('/privacy', locale), external: false },
+      { label: i18n.footer.privacy, href: getLocalizedPath('/privacy', locale), external: false },
       { label: i18n.footer.terms, href: getLocalizedPath('/terms', locale), external: false },
     ],
   },
 };
 
-const socialLinks = [
-  { Icon: TwitterIcon, href: 'https://twitter.com/InumanSoul', label: 'Twitter' },
-  { Icon: GithubIcon, href: GITHUB_URL, label: 'GitHub' },
-  { Icon: MessageCircle, href: `${GITHUB_URL}/discussions`, label: 'Community' },
-];
-
-const linkClass = 'text-sm text-kotauth-text-tertiary hover:text-kotauth-text-primary transition-colors font-mono';
+const linkClass = 'text-sm text-kotauth-text-tertiary hover:text-kotauth-text-primary transition-colors';
 ---
 
-<footer class="bg-kotauth-bg-secondary border-t border-kotauth-surface-2">
+<footer class="bg-kotauth-bg-primary border-t border-kotauth-surface-2">
   <div class="section-container py-16">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
       <!-- Brand -->
       <div class="lg:col-span-2">
         <a href={getLocalizedPath('/', locale)} class="flex items-center gap-2.5 mb-4">
-          <Image src="/brand/kotauth-negative.svg" alt="KotAuth Logo" class="h-10" height="40" width="160" loading="lazy" />
+          <Image src="/brand/kotauth-positive.svg" alt="KotAuth Logo" class="h-9" height="36" width="144" loading="lazy" />
         </a>
-        <p class="text-kotauth-text-secondary max-w-sm mb-6">
+        <p class="text-sm text-kotauth-text-secondary max-w-xs leading-relaxed">
           {i18n.footer.brandDescription}
         </p>
-        <div class="flex gap-3">
-          {socialLinks.map(({ Icon, href, label }) => (
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="w-10 h-10 bg-kotauth-surface-1 flex items-center justify-center text-kotauth-text-tertiary hover:text-kotauth-text-primary hover:bg-kotauth-surface-2 transition-all"
-              aria-label={label}
-            >
-              <Icon class="w-5 h-5" />
-            </a>
-          ))}
-        </div>
-        <a href="https://peerpush.com/p/kotauth" target="_blank" rel="noopener" class="mt-5 inline-block">
-          <img src="https://peerpush.com/p/kotauth/badge.png" alt="Kotauth on PeerPush" width="230" height="54" loading="lazy" />
-        </a>
       </div>
 
       {Object.values(footerLinks).map(({ heading, links }) => (
         <div>
-          <h4 class="text-sm font-semibold text-kotauth-text-primary mb-4 font-mono">{heading}</h4>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-kotauth-text-primary mb-4">{heading}</h4>
           <ul class="space-y-3">
             {links.map((link) => (
               <li>
@@ -106,8 +78,8 @@ const linkClass = 'text-sm text-kotauth-text-tertiary hover:text-kotauth-text-pr
 
     <!-- Bottom bar -->
     <div class="mt-16 pt-8 border-t border-kotauth-surface-2 flex flex-col sm:flex-row justify-between items-center gap-4">
-      <p class="text-sm text-kotauth-text-muted font-mono">
-        &copy; {currentYear} {i18n.footer.copyright}{' '}
+      <p class="text-sm text-kotauth-text-muted">
+        &copy; 2026 Kotauth. {i18n.footer.openSource}{' '}
         <a
           href={`${GITHUB_URL}/blob/main/LICENSE`}
           target="_blank"
@@ -117,14 +89,7 @@ const linkClass = 'text-sm text-kotauth-text-tertiary hover:text-kotauth-text-pr
           {i18n.footer.mitLicense}
         </a>.
       </p>
-      <div class="flex gap-6">
-        <a href={getLocalizedPath('/privacy', locale)} class="text-sm text-kotauth-text-muted hover:text-kotauth-text-secondary transition-colors font-mono">
-          {i18n.footer.privacy}
-        </a>
-        <a href={getLocalizedPath('/terms', locale)} class="text-sm text-kotauth-text-muted hover:text-kotauth-text-secondary transition-colors font-mono">
-          {i18n.footer.terms}
-        </a>
-      </div>
+      <span class="text-sm text-kotauth-text-muted font-mono">{VERSION}</span>
     </div>
   </div>
 </footer>

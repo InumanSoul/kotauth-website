@@ -1,128 +1,128 @@
 ---
-import { ExternalLink, Play } from '@lucide/astro';
+import { ChevronDown } from '@lucide/astro';
 import GithubIcon from '@/components/icons/GithubIcon.astro';
 import { Image } from 'astro:assets';
 import { t, type Locale, defaultLocale, locales, localeLabels, getLocalizedPath, stripLocalePrefix } from '@/i18n';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const QUICKSTART_URL = 'https://docs.kotauth.com/getting-started/quickstart/';
-const DOCS_URL = 'https://docs.kotauth.com/getting-started/introduction/';
-const DEMO_URL = 'https://demo.kotauth.com';
+const DOCS_URL = 'https://docs.kotauth.com/';
+const MCP_DOCS_URL = 'https://docs.kotauth.com/mcp/';
 
 const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 const i18n = t(locale);
 const cleanPath = stripLocalePrefix(Astro.url.pathname);
+const currentPath = Astro.url.pathname;
 
-type NavLinkDef = {
-  label: string;
-  href: string;
-  external: boolean;
-};
-
-const navLinks: NavLinkDef[] = [
+const mainLinks = [
   { label: i18n.nav.features, href: getLocalizedPath('/features', locale), external: false },
   { label: i18n.nav.roadmap, href: getLocalizedPath('/roadmap', locale), external: false },
   { label: i18n.nav.docs, href: DOCS_URL, external: true },
   { label: i18n.nav.contact, href: getLocalizedPath('/contact', locale), external: false },
 ];
-
-const currentPath = Astro.url.pathname;
-const linkBase = 'text-sm font-mono transition-colors duration-150';
-const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
 ---
 
 <header
   id="navbar"
-  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/0"
 >
   <div class="section-container">
-    <nav class="flex items-center justify-between h-[72px]">
-      <!-- Logo -->
-      <a href={getLocalizedPath('/', locale)} class="flex items-center gap-2.5">
-        <Image
-          src="/brand/kotauth-negative.svg"
-          alt="KotAuth Logo"
-          class="h-10"
-          height="40"
-          width="160"
-          loading="eager"
-        />
-      </a>
+    <nav class="flex items-center justify-between h-[70px]">
+      <!-- Logo + links (left group) -->
+      <div class="flex items-center gap-11">
+        <a href={getLocalizedPath('/', locale)} class="flex items-center gap-2.5 flex-shrink-0">
+          <Image
+            src="/brand/kotauth-positive.svg"
+            alt="Kotauth Logo"
+            class="h-9"
+            height="36"
+            width="144"
+            loading="eager"
+          />
+        </a>
 
-      <!-- Desktop Navigation -->
-      <div class="hidden md:flex items-center gap-8">
-        {navLinks.map((link) => (
-          link.external ? (
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center gap-7">
+          {mainLinks.map((link) => (
             <a
               href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              class={`${linkBase} inline-flex items-center gap-1 text-kotauth-text-secondary hover:text-kotauth-text-primary`}
-            >
-              {link.label}
-              <ExternalLink class="w-3 h-3 opacity-50" />
-            </a>
-          ) : (
-            <a
-              href={link.href}
-              class={`${linkBase} ${
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener noreferrer' : undefined}
+              class={`inline-flex items-center gap-1.5 text-[14.5px] transition-colors ${
                 currentPath === link.href
-                  ? 'text-kotauth-primary'
-                  : 'text-kotauth-text-secondary hover:text-kotauth-text-primary'
+                  ? 'text-kotauth-text-primary font-semibold'
+                  : 'text-kotauth-text-secondary font-medium hover:text-kotauth-text-primary'
               }`}
             >
               {link.label}
-            </a>
-          )
-        ))}
-      </div>
-
-      <!-- Desktop CTAs -->
-      <div class="hidden md:flex items-center gap-3">
-        <div class="flex items-center border border-kotauth-surface-2 h-8">
-          {locales.map((l) => (
-            <a
-              href={getLocalizedPath(cleanPath, l)}
-              class={`text-xs font-mono px-2 h-full inline-flex items-center transition-colors ${
-                l === locale
-                  ? 'bg-kotauth-primary text-white'
-                  : 'text-kotauth-text-muted hover:text-kotauth-text-primary hover:bg-kotauth-surface-1'
-              }`}
-              aria-label={l === 'en' ? 'English' : 'Español'}
-            >
-              {localeLabels[l]}
+              {link.external && (
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17 17 7M9 7h8v8" /></svg>
+              )}
             </a>
           ))}
         </div>
+      </div>
+
+      <!-- Desktop CTAs -->
+      <div class="hidden md:flex items-center gap-3.5">
+        <!-- Language dropdown -->
+        <div class="relative lang-dropdown">
+          <button
+            type="button"
+            class="inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-kotauth-text-secondary hover:text-kotauth-text-primary px-2.5 h-9 bg-kotauth-surface-1 border border-kotauth-surface-2 hover:border-kotauth-surface-3 transition-colors"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            id="lang-btn"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></svg>
+            <span id="lang-label">{localeLabels[locale]}</span>
+            <ChevronDown class="w-3 h-3 opacity-60" />
+          </button>
+          <div
+            id="lang-menu"
+            role="listbox"
+            class="hidden absolute right-0 top-full mt-1 bg-white border border-kotauth-surface-2 shadow-sm min-w-[120px] py-1 z-10"
+          >
+            {locales.map((l) => (
+              <a
+                href={getLocalizedPath(cleanPath, l)}
+                role="option"
+                aria-selected={l === locale}
+                class={`block px-3 py-1.5 text-sm font-medium transition-colors ${
+                  l === locale
+                    ? 'text-kotauth-primary bg-kotauth-bg-secondary'
+                    : 'text-kotauth-text-secondary hover:text-kotauth-text-primary hover:bg-kotauth-bg-secondary'
+                }`}
+              >
+                {localeLabels[l]}
+              </a>
+            ))}
+          </div>
+        </div>
+
         <a
           href={GITHUB_URL}
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 text-sm font-mono px-3 h-8 text-kotauth-text-secondary hover:text-kotauth-text-primary hover:bg-kotauth-surface-1 transition-colors"
+          aria-label="GitHub"
+          class="inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-kotauth-text-primary px-2.5 h-9 bg-kotauth-surface-1 border border-kotauth-surface-2 hover:border-kotauth-surface-3 transition-colors"
         >
           <GithubIcon class="w-4 h-4" />
-          <span id="gh-stars" class="inline-flex items-center gap-1">GitHub</span>
+          <span id="gh-stars">50</span>
         </a>
-        <a
-          href={DEMO_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-1.5 text-sm font-mono px-3 h-8 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 hover:border-kotauth-primary/50 transition-colors"
-        >
-          <Play class="w-3.5 h-3.5" />
-          {i18n.nav.demo}
-        </a>
+
         <a
           href={QUICKSTART_URL}
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center text-sm font-mono px-3 h-8 bg-kotauth-primary hover:bg-kotauth-primary-light text-white transition-colors"
+          class="inline-flex items-center text-sm font-semibold px-4 h-9 bg-kotauth-primary hover:bg-kotauth-primary-light text-white transition-colors"
+          style="box-shadow: 0 1px 2px rgba(0,119,168,0.3);"
         >
           {i18n.nav.getStarted}
         </a>
       </div>
 
-      <!-- Mobile Menu (CSS-only, zero JS) -->
+      <!-- Mobile toggle (CSS-only) -->
       <input type="checkbox" id="mob-toggle" class="mob-toggle" aria-hidden="true" />
       <label for="mob-toggle" class="mob-hamburger flex flex-col justify-center items-center gap-[5px] w-10 h-10 cursor-pointer relative z-[60] md:hidden" aria-label="Toggle menu">
         <span></span>
@@ -131,40 +131,36 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
       </label>
       <label for="mob-toggle" class="mob-overlay" aria-hidden="true"></label>
       <div class="mob-panel">
-        <div class="flex flex-col gap-6 mt-16 p-10">
-          {navLinks.map((link) => (
-            link.external ? (
-              <a
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                class={`${mobLinkBase} inline-flex items-center gap-1.5 text-kotauth-text-secondary hover:text-kotauth-text-primary`}
-              >
-                {link.label}
-                <ExternalLink class="w-3.5 h-3.5 opacity-50" />
-              </a>
-            ) : (
-              <a
-                href={link.href}
-                class={`${mobLinkBase} ${
-                  currentPath === link.href
-                    ? 'text-kotauth-primary'
-                    : 'text-kotauth-text-secondary hover:text-kotauth-text-primary'
-                }`}
-              >
-                {link.label}
-              </a>
-            )
+        <div class="flex flex-col gap-5 mt-16 p-8">
+          {mainLinks.map((link) => (
+            <a
+              href={link.href}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener noreferrer' : undefined}
+              class={`inline-flex items-center gap-1.5 text-base transition-colors ${
+                currentPath === link.href
+                  ? 'text-kotauth-primary font-semibold'
+                  : 'text-kotauth-text-secondary font-medium hover:text-kotauth-text-primary'
+              }`}
+            >
+              {link.label}
+              {link.external && (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17 17 7M9 7h8v8" /></svg>
+              )}
+            </a>
           ))}
+          <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-base font-medium text-kotauth-text-secondary hover:text-kotauth-text-primary transition-colors">
+            <GithubIcon class="w-4 h-4" /> GitHub
+          </a>
           <hr class="border-kotauth-surface-2" />
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap gap-2">
             {locales.map((l) => (
               <a
                 href={getLocalizedPath(cleanPath, l)}
-                class={`text-sm font-mono px-3 py-1.5 transition-colors ${
+                class={`text-sm font-medium px-3 py-1.5 border transition-colors ${
                   l === locale
-                    ? 'bg-kotauth-primary text-white'
-                    : 'text-kotauth-text-muted hover:text-kotauth-text-primary border border-kotauth-surface-2'
+                    ? 'bg-kotauth-primary text-white border-kotauth-primary'
+                    : 'text-kotauth-text-secondary border-kotauth-surface-2 hover:border-kotauth-primary/40'
                 }`}
               >
                 {localeLabels[l]}
@@ -172,28 +168,10 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
             ))}
           </div>
           <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 text-kotauth-text-secondary hover:text-kotauth-text-primary font-mono transition-colors"
-          >
-            <GithubIcon class="w-4 h-4" />
-            GitHub
-          </a>
-          <a
-            href={DEMO_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center justify-center gap-2 py-2.5 border border-kotauth-surface-2 text-kotauth-text-primary hover:bg-kotauth-surface-1 font-mono text-sm transition-colors"
-          >
-            <Play class="w-4 h-4" />
-            {i18n.nav.tryDemo}
-          </a>
-          <a
             href={QUICKSTART_URL}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center justify-center gap-2 py-2.5 bg-kotauth-primary hover:bg-kotauth-primary-light text-white font-mono text-sm transition-colors"
+            class="inline-flex items-center justify-center py-2.5 bg-kotauth-primary hover:bg-kotauth-primary-light text-white text-sm font-medium transition-colors"
           >
             {i18n.nav.getStarted}
           </a>
@@ -205,10 +183,11 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
 
 <style>
   #navbar[data-scrolled] {
-    background-color: rgba(10, 15, 20, 0.8);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-bottom: 1px solid var(--kotauth-surface-2);
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid #E2E8F0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   }
 
   .mob-toggle {
@@ -222,26 +201,26 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
   .mob-hamburger span {
     display: block;
     width: 20px;
-    height: 2px;
-    background: var(--kotauth-text-primary);
+    height: 1.5px;
+    background: rgb(var(--kotauth-text-primary));
     transition: transform 0.3s ease, opacity 0.3s ease;
     transform-origin: center;
   }
 
   .mob-toggle:checked ~ .mob-hamburger span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
+    transform: translateY(6.5px) rotate(45deg);
   }
   .mob-toggle:checked ~ .mob-hamburger span:nth-child(2) {
     opacity: 0;
   }
   .mob-toggle:checked ~ .mob-hamburger span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+    transform: translateY(-6.5px) rotate(-45deg);
   }
 
   .mob-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
@@ -254,9 +233,9 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
     top: 0;
     right: 0;
     bottom: 0;
-    width: 300px;
-    background: var(--kotauth-bg-secondary);
-    border-left: 1px solid var(--kotauth-surface-2);
+    width: 280px;
+    background: rgb(var(--kotauth-bg-primary));
+    border-left: 1px solid rgb(var(--kotauth-surface-2));
     transform: translateX(100%);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 50;
@@ -269,13 +248,8 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
     .mob-panel { display: block; }
   }
 
-  .mob-toggle:checked ~ .mob-overlay {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .mob-toggle:checked ~ .mob-panel {
-    transform: translateX(0);
-  }
+  .mob-toggle:checked ~ .mob-overlay { opacity: 1; pointer-events: auto; }
+  .mob-toggle:checked ~ .mob-panel { transform: translateX(0); }
 </style>
 
 <script is:inline>
@@ -286,7 +260,7 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
     function onScroll() {
       if (!ticking) {
         requestAnimationFrame(function () {
-          if (window.scrollY > 50) {
+          if (window.scrollY > 40) {
             navbar.setAttribute('data-scrolled', '');
           } else {
             navbar.removeAttribute('data-scrolled');
@@ -299,6 +273,58 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
     window.addEventListener('scroll', onScroll, { passive: true });
   })();
 
+  // Generic dropdown handler
+  (function () {
+    function setupDropdown(btnId, menuId) {
+      var btn = document.getElementById(btnId);
+      var menu = document.getElementById(menuId);
+      if (!btn || !menu) return;
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var isOpen = !menu.classList.contains('hidden');
+        // Close all menus
+        document.querySelectorAll('.nav-dropdown [id$="-menu"]').forEach(function(m) { m.classList.add('hidden'); });
+        document.querySelectorAll('.nav-dropdown [id$="-btn"]').forEach(function(b) { b.setAttribute('aria-expanded', 'false'); });
+        document.getElementById('lang-menu').classList.add('hidden');
+        document.getElementById('lang-btn').setAttribute('aria-expanded', 'false');
+        if (!isOpen) {
+          menu.classList.remove('hidden');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    }
+
+    var langBtn = document.getElementById('lang-btn');
+    var langMenu = document.getElementById('lang-menu');
+    if (langBtn && langMenu) {
+      langBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var isOpen = !langMenu.classList.contains('hidden');
+        document.querySelectorAll('.nav-dropdown [id$="-menu"]').forEach(function(m) { m.classList.add('hidden'); });
+        if (!isOpen) {
+          langMenu.classList.remove('hidden');
+          langBtn.setAttribute('aria-expanded', 'true');
+        } else {
+          langMenu.classList.add('hidden');
+          langBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+      langMenu.addEventListener('click', function (e) { e.stopPropagation(); });
+    }
+
+    document.addEventListener('click', function () {
+      document.querySelectorAll('[id$="-menu"]').forEach(function(m) { m.classList.add('hidden'); });
+      document.querySelectorAll('[id$="-btn"]').forEach(function(b) { b.setAttribute('aria-expanded', 'false'); });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('[id$="-menu"]').forEach(function(m) { m.classList.add('hidden'); });
+        document.querySelectorAll('[id$="-btn"]').forEach(function(b) { b.setAttribute('aria-expanded', 'false'); });
+      }
+    });
+  })();
+
   (function () {
     var el = document.getElementById('gh-stars');
     if (!el) return;
@@ -308,7 +334,7 @@ const mobLinkBase = 'text-lg font-mono transition-colors duration-150';
         var n = d.stargazers_count;
         if (typeof n !== 'number') return;
         var label = n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k' : String(n);
-        el.innerHTML = '★ ' + label;
+        el.textContent = label;
       })
       .catch(function () {});
   })();

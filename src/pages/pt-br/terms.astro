@@ -1,0 +1,64 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { t, type Locale, defaultLocale } from '@/i18n';
+
+const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
+const i18n = t(locale);
+---
+
+<BaseLayout
+  title={i18n.pages.terms.title}
+  description={i18n.pages.terms.description}
+  path="/terms"
+>
+  <section class="bg-white">
+    <header class="max-w-[760px] mx-auto px-7 pt-32 pb-9">
+      <span class="eyebrow mb-3 block">Legal</span>
+      <h1 class="font-heading font-bold text-[38px] sm:text-[46px] leading-[1.08] tracking-[-0.03em] text-kotauth-text-primary mb-3">
+        Termos de Serviço
+      </h1>
+      <p class="font-mono text-[13px] text-kotauth-text-muted">Última atualização em junho de 2026</p>
+    </header>
+
+    <article class="max-w-[760px] mx-auto px-7 pb-[100px]">
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Estes termos regem o seu uso do site kotauth.com e dos materiais relacionados. O software Kotauth em si é licenciado separadamente sob a Licença MIT. Ao usar o site, você concorda com estes termos.
+      </p>
+
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">O software</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Kotauth é um software de código aberto fornecido sob a Licença MIT. Seus direitos de usar, modificar e distribuir o software são definidos por essa licença, que acompanha o código-fonte. Nada neste site limita os direitos que a Licença MIT lhe concede.
+      </p>
+
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Uso do site</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Você pode navegar e consultar este site para fins lícitos. Você concorda em não interromper o site, tentar obter acesso não autorizado ou usá-lo de qualquer forma que infrinja os direitos de terceiros.
+      </p>
+
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Ambiente de demonstração</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        A demo pública é fornecida apenas para avaliação. Os dados são pré-carregados e reiniciados periodicamente. Não armazene informações reais ou sensíveis na demo, pois ela é compartilhada e não é privada.
+      </p>
+
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Isenção de garantia</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        O site e o software são fornecidos "como estão" e "conforme disponíveis", sem garantias de qualquer tipo, expressas ou implícitas, incluindo adequação a uma finalidade específica e não violação, na máxima extensão permitida por lei.
+      </p>
+
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Limitação de responsabilidade</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Na máxima extensão permitida por lei, os mantenedores não são responsáveis por quaisquer danos indiretos, incidentais ou consequenciais decorrentes do seu uso do site, da demo ou do software.
+      </p>
+
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Alterações nestes termos</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Podemos atualizar estes termos de tempos em tempos. O uso contínuo do site após as alterações entrarem em vigor constitui aceitação dos termos revisados.
+      </p>
+
+      <h2 class="font-heading text-[22px] font-bold tracking-[-0.01em] text-kotauth-text-primary mt-[38px] mb-3">Contato</h2>
+      <p class="text-[16px] leading-[1.75] text-kotauth-text-secondary">
+        Dúvidas sobre estes termos? Fale conosco pela <a href="/contact" class="text-kotauth-primary font-semibold hover:text-kotauth-primary-light transition-colors">página de contato</a>.
+      </p>
+    </article>
+  </section>
+</BaseLayout>
