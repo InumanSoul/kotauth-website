@@ -80,12 +80,12 @@ const es: Translations = {
       'Auto-alojado, propiedad total de los datos',
       'Gratis con cualquier número de usuarios',
       'Despliegue con un solo comando de Docker',
+      'Passkeys / WebAuthn',
       'Panel de administración moderno',
       'Gestión nativa con IA (MCP)',
       'Pantallas de autenticación white-label',
       'Despliegue air-gapped',
       'Workspaces multi-tenant',
-      'Experiencia de desarrollo',
     ],
   },
 
@@ -185,7 +185,7 @@ const es: Translations = {
       },
       {
         title: 'Conjunto completo de pantallas',
-        body: 'Inicio de sesión, registro, contraseña olvidada/restablecida, aceptar invitación, TOTP MFA y verificación de email, todo listo para producción.',
+        body: 'Inicio de sesión, registro, registro de passkeys, contraseña olvidada/restablecida, aceptar invitación, TOTP MFA y verificación de email, todo listo para producción.',
       },
       {
         title: 'Tres presets, control total',

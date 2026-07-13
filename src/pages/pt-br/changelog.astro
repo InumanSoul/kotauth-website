@@ -13,9 +13,43 @@ type Release = { version: string; date: string; current?: boolean; items: Change
 
 const releases: Release[] = [
   {
+    version: '1.20.1',
+    date: 'July 10, 2026',
+    current: true,
+    items: [
+      { tag: 'Changed', text: 'Grade de Metodos de Login substitui o painel de dois cartoes na pagina de Politica de Seguranca: uma linha por metodo (Senha, Passkey, Magic link, Email OTP, Google, GitHub)' },
+      { tag: 'Changed', text: 'password_login_disabled consolidado em security_config.passwordLoginEnabled (migracao V55 preenche automaticamente)' },
+      { tag: 'Changed', text: 'Rail de Seguranca do admin reestruturado: Politica de Seguranca, MFA, Passkeys, Sessoes. O portal ganha um grupo pai de Seguranca' },
+      { tag: 'Fixed', text: 'A pagina de alteracao de senha agora ativa corretamente o grupo de navegacao de Seguranca' },
+    ],
+  },
+  {
+    version: '1.20.0',
+    date: 'July 9, 2026',
+    items: [
+      { tag: 'Added', text: 'Passkeys / WebAuthn: login sem senha via biometria do dispositivo (Face ID, Windows Hello) ou chaves de hardware (YubiKey). Cadastre no portal, faca login com um toque ou preenchimento automático condicional' },
+      { tag: 'Added', text: 'Toggle passkeys_enabled por tenant e modo somente-sem-senha (oculta o campo de senha, mostra apenas passkey + magic link)' },
+      { tag: 'Added', text: 'Gerenciamento de passkeys por usuario no admin: listar credenciais com nomes de dispositivo (busca AAGUID), revogar individualmente, redefinir todas. Novo comando CLI reset-admin-passkeys' },
+      { tag: 'Security', text: 'Passkey com verificacao de usuario satisfaz MFA: usuarios pulam TOTP ao fazer login com uma passkey' },
+      { tag: 'Security', text: 'Defesa contra replay por credencial via contador de assinatura WebAuthn; autenticadores clonados sao revogados automaticamente com evento de auditoria PASSKEY_REPLAY_REJECTED' },
+      { tag: 'Security', text: 'Gate duro de SMTP impede habilitar o modo somente-sem-senha sem entrega de email configurada' },
+      { tag: 'Security', text: 'Rate limiting no endpoint de autenticacao por passkey: 10 tentativas por 60s por IP, fail-closed em queda do Redis' },
+    ],
+  },
+  {
+    version: '1.19.3',
+    date: 'June 29, 2026',
+    items: [
+      { tag: 'Added', text: 'Indicador de recurso RFC 8707 no grant authorization_code: parametros de recurso vinculados ao codigo emitido e propagados para o claim aud do access token' },
+      { tag: 'Added', text: 'Estreitamento de escopo RFC 9068: solicitacoes de token direcionadas a APIs sao estreitadas para a intersecao dos escopos solicitados e dos escopos declarados das APIs' },
+      { tag: 'Added', text: 'Editor de escopos no Admin UI: cada API no registro do workspace pode declarar escopos aceitos, exibidos como badges inline' },
+      { tag: 'Changed', text: 'Pagina de Brand Identity do admin reestruturada em cartao Brand Identity + cartao Visual Theme' },
+      { tag: 'Changed', text: 'Dependencias atualizadas: JUnit 6.1.0, Exposed 1.3.0, imagem base JRE 25' },
+    ],
+  },
+  {
     version: '1.19.2',
     date: 'June 22, 2026',
-    current: true,
     items: [
       { tag: 'Changed', text: 'Dois arquivos compose na raiz (docker-compose.yml + docker-compose.prod.yml) substituem seis que ficavam em docker/' },
       { tag: 'Changed', text: 'Overlay de DB externo substituído por DB_URL no .env; overlay de demo substituído por KAUTH_DEMO_MODE=true no .env' },

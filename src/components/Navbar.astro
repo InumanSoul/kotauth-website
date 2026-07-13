@@ -1,8 +1,7 @@
 ---
-import { ChevronDown } from '@lucide/astro';
 import GithubIcon from '@/components/icons/GithubIcon.astro';
 import { Image } from 'astro:assets';
-import { t, type Locale, defaultLocale, locales, localeLabels, getLocalizedPath, stripLocalePrefix } from '@/i18n';
+import { t, type Locale, defaultLocale, getLocalizedPath } from '@/i18n';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const QUICKSTART_URL = 'https://docs.kotauth.com/getting-started/quickstart/';
@@ -11,7 +10,6 @@ const MCP_DOCS_URL = 'https://docs.kotauth.com/mcp/';
 
 const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 const i18n = t(locale);
-const cleanPath = stripLocalePrefix(Astro.url.pathname);
 const currentPath = Astro.url.pathname;
 
 const mainLinks = [
@@ -65,41 +63,6 @@ const mainLinks = [
 
       <!-- Desktop CTAs -->
       <div class="hidden md:flex items-center gap-3.5">
-        <!-- Language dropdown -->
-        <div class="relative lang-dropdown">
-          <button
-            type="button"
-            class="inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-kotauth-text-secondary hover:text-kotauth-text-primary px-2.5 h-9 bg-kotauth-surface-1 border border-kotauth-surface-2 hover:border-kotauth-surface-3 transition-colors"
-            aria-haspopup="listbox"
-            aria-expanded="false"
-            id="lang-btn"
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></svg>
-            <span id="lang-label">{localeLabels[locale]}</span>
-            <ChevronDown class="w-3 h-3 opacity-60" />
-          </button>
-          <div
-            id="lang-menu"
-            role="listbox"
-            class="hidden absolute right-0 top-full mt-1 bg-white border border-kotauth-surface-2 shadow-sm min-w-[120px] py-1 z-10"
-          >
-            {locales.map((l) => (
-              <a
-                href={getLocalizedPath(cleanPath, l)}
-                role="option"
-                aria-selected={l === locale}
-                class={`block px-3 py-1.5 text-sm font-medium transition-colors ${
-                  l === locale
-                    ? 'text-kotauth-primary bg-kotauth-bg-secondary'
-                    : 'text-kotauth-text-secondary hover:text-kotauth-text-primary hover:bg-kotauth-bg-secondary'
-                }`}
-              >
-                {localeLabels[l]}
-              </a>
-            ))}
-          </div>
-        </div>
-
         <a
           href={GITHUB_URL}
           target="_blank"
@@ -152,21 +115,6 @@ const mainLinks = [
           <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-base font-medium text-kotauth-text-secondary hover:text-kotauth-text-primary transition-colors">
             <GithubIcon class="w-4 h-4" /> GitHub
           </a>
-          <hr class="border-kotauth-surface-2" />
-          <div class="flex flex-wrap gap-2">
-            {locales.map((l) => (
-              <a
-                href={getLocalizedPath(cleanPath, l)}
-                class={`text-sm font-medium px-3 py-1.5 border transition-colors ${
-                  l === locale
-                    ? 'bg-kotauth-primary text-white border-kotauth-primary'
-                    : 'text-kotauth-text-secondary border-kotauth-surface-2 hover:border-kotauth-primary/40'
-                }`}
-              >
-                {localeLabels[l]}
-              </a>
-            ))}
-          </div>
           <a
             href={QUICKSTART_URL}
             target="_blank"
@@ -285,31 +233,11 @@ const mainLinks = [
         // Close all menus
         document.querySelectorAll('.nav-dropdown [id$="-menu"]').forEach(function(m) { m.classList.add('hidden'); });
         document.querySelectorAll('.nav-dropdown [id$="-btn"]').forEach(function(b) { b.setAttribute('aria-expanded', 'false'); });
-        document.getElementById('lang-menu').classList.add('hidden');
-        document.getElementById('lang-btn').setAttribute('aria-expanded', 'false');
         if (!isOpen) {
           menu.classList.remove('hidden');
           btn.setAttribute('aria-expanded', 'true');
         }
       });
-    }
-
-    var langBtn = document.getElementById('lang-btn');
-    var langMenu = document.getElementById('lang-menu');
-    if (langBtn && langMenu) {
-      langBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        var isOpen = !langMenu.classList.contains('hidden');
-        document.querySelectorAll('.nav-dropdown [id$="-menu"]').forEach(function(m) { m.classList.add('hidden'); });
-        if (!isOpen) {
-          langMenu.classList.remove('hidden');
-          langBtn.setAttribute('aria-expanded', 'true');
-        } else {
-          langMenu.classList.add('hidden');
-          langBtn.setAttribute('aria-expanded', 'false');
-        }
-      });
-      langMenu.addEventListener('click', function (e) { e.stopPropagation(); });
     }
 
     document.addEventListener('click', function () {

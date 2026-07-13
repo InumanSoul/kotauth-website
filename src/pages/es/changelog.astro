@@ -13,9 +13,43 @@ type Release = { version: string; date: string; current?: boolean; items: Change
 
 const releases: Release[] = [
   {
+    version: '1.20.1',
+    date: 'July 10, 2026',
+    current: true,
+    items: [
+      { tag: 'Changed', text: 'La cuadrícula de métodos de inicio de sesión reemplaza el panel de dos tarjetas en la página de política de seguridad: una fila por método (Contraseña, Passkey, Magic link, Email OTP, Google, GitHub)' },
+      { tag: 'Changed', text: 'password_login_disabled consolidado en security_config.passwordLoginEnabled (la migración V55 rellena automáticamente)' },
+      { tag: 'Changed', text: 'El rail de Seguridad del panel de administración se reestructuró: Política de seguridad, MFA, Passkeys, Sesiones. El portal gana un grupo padre de Seguridad' },
+      { tag: 'Fixed', text: 'La página de cambio de contraseña ahora activa correctamente el grupo de navegación de Seguridad' },
+    ],
+  },
+  {
+    version: '1.20.0',
+    date: 'July 9, 2026',
+    items: [
+      { tag: 'Added', text: 'Passkeys / WebAuthn: inicio de sesión sin contraseña mediante biometría del dispositivo (Face ID, Windows Hello) o llaves de hardware (YubiKey). Se registran en el portal y se inicia sesión con un toque o autocompletado condicional' },
+      { tag: 'Added', text: 'Toggle de passkeys_enabled por tenant y modo solo-sin-contraseña (oculta el campo de contraseña, muestra solo passkey + magic link)' },
+      { tag: 'Added', text: 'Gestión de passkeys por usuario desde admin: listar credenciales con nombres de dispositivo (búsqueda AAGUID), revocar individualmente, restablecer todas. Nuevo comando CLI reset-admin-passkeys' },
+      { tag: 'Security', text: 'Passkey con verificación de usuario satisface MFA: los usuarios omiten TOTP al iniciar sesión con una passkey' },
+      { tag: 'Security', text: 'Defensa contra repetición por credencial mediante el contador de firma WebAuthn; los autenticadores clonados se revocan automáticamente con evento de auditoría PASSKEY_REPLAY_REJECTED' },
+      { tag: 'Security', text: 'Puerta dura de SMTP impide habilitar el modo solo-sin-contraseña sin la entrega de email configurada' },
+      { tag: 'Security', text: 'Rate limiting en el endpoint de autenticación por passkey: 10 intentos por 60s por IP, fail-closed en caída de Redis' },
+    ],
+  },
+  {
+    version: '1.19.3',
+    date: 'June 29, 2026',
+    items: [
+      { tag: 'Added', text: 'Indicador de recurso RFC 8707 en el grant authorization_code: los parámetros de recurso se vinculan al código emitido y se propagan al claim aud del access token' },
+      { tag: 'Added', text: 'Estrechamiento de alcance RFC 9068: las solicitudes de token que apuntan a APIs se estrechan a la intersección de los scopes solicitados y los scopes declarados de las APIs' },
+      { tag: 'Added', text: 'Editor de scopes en el Admin UI: cada API en el registro del workspace puede declarar sus scopes aceptados, mostrados como badges en línea' },
+      { tag: 'Changed', text: 'La página de Brand Identity del admin se reestructuró en tarjeta de Brand Identity + tarjeta de Visual Theme' },
+      { tag: 'Changed', text: 'Dependencias actualizadas: JUnit 6.1.0, Exposed 1.3.0, imagen base JRE 25' },
+    ],
+  },
+  {
     version: '1.19.2',
     date: 'June 22, 2026',
-    current: true,
     items: [
       { tag: 'Changed', text: 'Dos archivos compose en la raíz (docker-compose.yml + docker-compose.prod.yml) reemplazan a los seis que vivían en docker/' },
       { tag: 'Changed', text: 'El overlay de DB externa se reemplaza por DB_URL en .env; el overlay de demo se reemplaza por KAUTH_DEMO_MODE=true en .env' },

@@ -10,7 +10,7 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const columns = [
   {
     status: 'Disponible',
-    description: 'Disponible hoy en la v1.19.2.',
+    description: 'Disponible hoy en la v1.20.1.',
     legendDot: 'bg-[#1F9D55]',
     badgeWrap: 'bg-[#EAF7EF] border border-[#CDEBD9]',
     badgeDot: 'bg-[#1F9D55]',
@@ -25,6 +25,8 @@ const columns = [
       { title: 'Pantallas de autenticación white-label', body: 'Renderizadas en el servidor y con tema por workspace.' },
       { title: 'Magic-link y Email OTP', body: 'Flujos sin contraseña que se mantienen compatibles con MFA.' },
       { title: 'Copia de seguridad y restauración cifradas', body: 'Instantáneas de tenant portátiles mediante CLI o API.' },
+      { title: 'Passkeys y WebAuthn', body: 'Inicio de sesión sin contraseña resistente al phishing mediante biometría o llaves de hardware.' },
+      { title: 'Suplantación de administrador', body: 'Sesiones de soporte con alcance y totalmente auditadas con claim act de RFC 8693.' },
     ],
   },
   {
@@ -39,9 +41,7 @@ const columns = [
     bodyClass: 'text-kotauth-text-secondary',
     items: [
       { title: 'SSO empresarial', body: 'Federación con LDAP y SAML para proveedores de identidad upstream.' },
-      { title: 'Passkeys y WebAuthn', body: 'Inicio de sesión resistente al phishing junto a los métodos existentes.' },
       { title: 'Streaming de eventos por webhook', body: 'Suscribe sistemas downstream a eventos de auditoría y de ciclo de vida.' },
-      { title: 'Suplantación de administrador', body: 'Sesiones de soporte con alcance y totalmente auditadas.' },
     ],
   },
   {

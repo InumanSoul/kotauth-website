@@ -10,7 +10,7 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const columns = [
   {
     status: 'Shipped',
-    description: 'Live today on v1.19.2.',
+    description: 'Live today on v1.20.1.',
     legendDot: 'bg-[#1F9D55]',
     badgeWrap: 'bg-[#EAF7EF] border border-[#CDEBD9]',
     badgeDot: 'bg-[#1F9D55]',
@@ -25,6 +25,8 @@ const columns = [
       { title: 'White-label auth screens', body: 'Server-rendered, themed per workspace.' },
       { title: 'Magic-link & Email OTP', body: 'Passwordless flows that stay MFA-aware.' },
       { title: 'Encrypted backup & restore', body: 'Portable tenant snapshots via CLI or API.' },
+      { title: 'Passkeys & WebAuthn', body: 'Phishing-resistant passwordless sign-in via biometrics or hardware keys.' },
+      { title: 'Admin impersonation', body: 'Scoped, fully audited support sessions with RFC 8693 act claim.' },
     ],
   },
   {
@@ -39,9 +41,7 @@ const columns = [
     bodyClass: 'text-kotauth-text-secondary',
     items: [
       { title: 'Enterprise SSO', body: 'LDAP and SAML federation for upstream identity providers.' },
-      { title: 'Passkeys & WebAuthn', body: 'Phishing-resistant sign-in alongside existing methods.' },
       { title: 'Webhook event streaming', body: 'Subscribe downstream systems to audit and lifecycle events.' },
-      { title: 'Admin impersonation', body: 'Scoped, fully audited support sessions.' },
     ],
   },
   {

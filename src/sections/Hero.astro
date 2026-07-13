@@ -4,7 +4,7 @@ import { t, type Locale, defaultLocale } from '@/i18n';
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const DEMO_URL = 'https://demo.kotauth.com';
 const QUICKSTART_URL = 'https://docs.kotauth.com/getting-started/quickstart/';
-const QUICKSTART_CMD = 'docker compose -f docker-compose.quickstart.yml up -d';
+const QUICKSTART_CMD = 'docker compose up -d';
 
 const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 const i18n = t(locale);
@@ -106,7 +106,7 @@ const alternatives = ['Clerk', 'Auth0', 'Keycloak', 'Zitadel', 'Authelia', 'Pock
           </div>
           <div class="flex flex-col items-center gap-1.5">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="#243240"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-4Z" /></svg>
-            <span class="text-[9px] text-[#3a4654] font-mono">v1.19.2</span>
+            <span class="text-[9px] text-[#3a4654] font-mono">v1.20.1</span>
           </div>
         </div>
         <!-- directory rail -->

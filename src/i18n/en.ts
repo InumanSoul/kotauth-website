@@ -78,12 +78,12 @@ const en = {
       'Self-hosted, full data ownership',
       'Free at any user count',
       'One-command Docker deploy',
+      'Passkeys / WebAuthn',
       'Modern admin UI',
       'AI-native management (MCP)',
       'White-label auth screens',
       'Air-gapped deployment',
       'Multi-tenant workspaces',
-      'Developer experience',
     ],
   },
 
@@ -183,7 +183,7 @@ const en = {
       },
       {
         title: 'Complete screen set',
-        body: 'Login, register, forgot/reset password, accept invite, TOTP MFA and email verification, all production-ready.',
+        body: 'Login, register, passkey enrollment, forgot/reset password, accept invite, TOTP MFA and email verification, all production-ready.',
       },
       {
         title: 'Three presets, full control',

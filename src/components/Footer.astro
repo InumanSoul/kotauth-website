@@ -1,15 +1,16 @@
 ---
 import GithubIcon from '@/components/icons/GithubIcon.astro';
 import Image from 'astro/components/Image.astro';
-import { t, type Locale, defaultLocale, getLocalizedPath } from '@/i18n';
+import { t, type Locale, defaultLocale, locales, localeLabels, getLocalizedPath, stripLocalePrefix } from '@/i18n';
 
 const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const DOCS_URL = 'https://docs.kotauth.com/';
 const MCP_DOCS_URL = 'https://docs.kotauth.com/mcp/';
-const VERSION = 'v1.19.2';
+const VERSION = 'v1.20.1';
 
 const locale = (Astro.currentLocale ?? defaultLocale) as Locale;
 const i18n = t(locale);
+const cleanPath = stripLocalePrefix(Astro.url.pathname);
 
 type FooterLink = { label: string; href: string; external: boolean };
 
@@ -89,7 +90,21 @@ const linkClass = 'text-sm text-kotauth-text-tertiary hover:text-kotauth-text-pr
           {i18n.footer.mitLicense}
         </a>.
       </p>
-      <span class="text-sm text-kotauth-text-muted font-mono">{VERSION}</span>
+      <div class="flex items-center gap-2">
+        {locales.map((l) => (
+          <a
+            href={getLocalizedPath(cleanPath, l)}
+            class={`text-xs font-semibold px-2.5 py-1 border transition-colors ${
+              l === locale
+                ? 'text-kotauth-primary border-kotauth-primary/40 bg-kotauth-primary/5'
+                : 'text-kotauth-text-muted border-kotauth-surface-2 hover:text-kotauth-text-secondary hover:border-kotauth-surface-3'
+            }`}
+          >
+            {localeLabels[l]}
+          </a>
+        ))}
+        <span class="text-sm text-kotauth-text-muted font-mono ml-2">{VERSION}</span>
+      </div>
     </div>
   </div>
 </footer>

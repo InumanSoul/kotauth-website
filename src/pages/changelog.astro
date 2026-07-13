@@ -13,9 +13,43 @@ type Release = { version: string; date: string; current?: boolean; items: Change
 
 const releases: Release[] = [
   {
+    version: '1.20.1',
+    date: 'July 10, 2026',
+    current: true,
+    items: [
+      { tag: 'Changed', text: 'Sign-in Methods grid replaces the two-card auth methods panel on the Security Policy page: one row per method (Password, Passkey, Email magic link, Email OTP, Google, GitHub)' },
+      { tag: 'Changed', text: 'password_login_disabled consolidated into security_config.passwordLoginEnabled (V55 migration auto-backfills)' },
+      { tag: 'Changed', text: 'Admin sidebar Security rail restructured: Security Policy, MFA, Passkeys, Sessions. Portal gains a Security parent group' },
+      { tag: 'Fixed', text: 'Change-password page now correctly activates the Security nav group' },
+    ],
+  },
+  {
+    version: '1.20.0',
+    date: 'July 9, 2026',
+    items: [
+      { tag: 'Added', text: 'Passkeys / WebAuthn: passwordless sign-in via device biometrics (Face ID, Windows Hello) or hardware keys (YubiKey). Enroll at the portal, sign in with one tap or conditional-mediation autofill' },
+      { tag: 'Added', text: 'Per-tenant passkeys_enabled toggle and passwordless-only mode (hides password field, shows passkey + magic link only)' },
+      { tag: 'Added', text: 'Admin per-user passkey management: list credentials with device names (AAGUID lookup), revoke individually, reset all. New reset-admin-passkeys CLI command' },
+      { tag: 'Security', text: 'Passkey with user verification satisfies MFA: users skip TOTP when signing in with a passkey' },
+      { tag: 'Security', text: 'Per-credential replay defense via WebAuthn sign counter; cloned authenticators are auto-revoked with PASSKEY_REPLAY_REJECTED audit event' },
+      { tag: 'Security', text: 'SMTP hard-gate prevents enabling passwordless-only mode without configured email delivery' },
+      { tag: 'Security', text: 'Rate limiting on passkey authentication endpoint: 10 attempts per 60s per IP, fail-closed on Redis outage' },
+    ],
+  },
+  {
+    version: '1.19.3',
+    date: 'June 29, 2026',
+    items: [
+      { tag: 'Added', text: 'RFC 8707 resource indicator on authorization_code grant: resource parameters bound to the issued code and propagated to the access token aud claim' },
+      { tag: 'Added', text: 'RFC 9068 scope narrowing: token requests targeting APIs are narrowed to the intersection of requested scopes and the APIs declared scopes' },
+      { tag: 'Added', text: 'Admin UI scopes editor: each API in the workspace registry can declare accepted scopes, displayed as inline badges' },
+      { tag: 'Changed', text: 'Brand Identity admin page restructured into Brand Identity card + Visual Theme card' },
+      { tag: 'Changed', text: 'Dependencies bumped: JUnit 6.1.0, Exposed 1.3.0, JRE 25 base image' },
+    ],
+  },
+  {
     version: '1.19.2',
     date: 'June 22, 2026',
-    current: true,
     items: [
       { tag: 'Changed', text: 'Two root compose files (docker-compose.yml + docker-compose.prod.yml) replace six that lived under docker/' },
       { tag: 'Changed', text: 'External-DB overlay replaced by DB_URL in .env; demo overlay replaced by KAUTH_DEMO_MODE=true in .env' },

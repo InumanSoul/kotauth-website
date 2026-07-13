@@ -73,7 +73,7 @@ const canonicalUrl = `${BASE_URL}${path}`;
       "operatingSystem": "Linux, Docker",
       "description": "Open-source, self-hosted authentication and identity management platform. OAuth2/OIDC compliant, multi-tenant, Docker-native.",
       "url": "https://kotauth.dev",
-      "softwareVersion": "1.19.2",
+      "softwareVersion": "1.20.1",
       "license": "https://opensource.org/licenses/MIT",
       "codeRepository": "https://github.com/InumanSoul/kotauth",
       "programmingLanguage": "Kotlin",
@@ -90,6 +90,7 @@ const canonicalUrl = `${BASE_URL}${path}`;
       "featureList": [
         "OAuth 2.0 and OpenID Connect",
         "Multi-tenant workspaces",
+        "Passkeys / WebAuthn passwordless sign-in",
         "MFA / TOTP support",
         "Magic-link passwordless authentication",
         "Email OTP passwordless authentication",
@@ -119,6 +120,24 @@ const canonicalUrl = `${BASE_URL}${path}`;
 
     <!-- LLMs -->
     <link rel="llms-txt" href="/llms.txt" />
+
+    <!-- Locale auto-detection (runs once per session on default-locale pages) -->
+    <script is:inline>
+      (function () {
+        var p = location.pathname;
+        if (p.startsWith('/es') || p.startsWith('/pt-br')) return;
+        if (sessionStorage.getItem('kauth-lang')) return;
+        sessionStorage.setItem('kauth-lang', '1');
+        var langs = navigator.languages || [navigator.language];
+        var map = { es: '/es', pt: '/pt-br', 'pt-br': '/pt-br' };
+        for (var i = 0; i < langs.length; i++) {
+          var tag = langs[i].toLowerCase();
+          if (tag === 'en' || tag.startsWith('en-')) return;
+          var match = map[tag] || map[tag.split('-')[0]];
+          if (match) { location.replace(p === '/' ? match : match + p); return; }
+        }
+      })();
+    </script>
 
     <!-- OpenPanel Analytics -->
     <script is:inline>
