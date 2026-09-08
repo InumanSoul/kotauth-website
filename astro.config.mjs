@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 
-// Static output goes to ./dist (Railpack / nginx / any static host serves that).
+// Static output goes to ./dist, served by Cloudflare Workers static assets.
 export default defineConfig({
   i18n: {
     defaultLocale: 'en',
