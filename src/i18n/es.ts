@@ -118,7 +118,7 @@ const es: Translations = {
       {
         title: 'Gestión Nativa de IA',
         description:
-          'Gestiona usuarios, roles, sesiones y registros de auditoría desde Claude, Cursor o cualquier cliente MCP. 33 herramientas en 8 dominios, acceso basado en alcances.',
+          'Gestiona usuarios, roles, sesiones y registros de auditoría desde Claude, Cursor o cualquier cliente MCP. 56 herramientas en 14 dominios, acceso basado en alcances.',
       },
       {
         title: 'Despliegue Nativo de Docker',
@@ -133,11 +133,11 @@ const es: Translations = {
     titleStart: 'Gestiona la identidad ',
     titleHighlight: 'en lenguaje natural.',
     subtitle:
-      'El primer IAM auto-alojado con soporte nativo del Protocolo de Contexto de Modelos. Conecta Claude, Cursor o cualquier cliente MCP. 33 herramientas con alcance, sin SDK, sin código personalizado.',
+      'El primer IAM auto-alojado con soporte nativo del Protocolo de Contexto de Modelos. Conecta Claude, Cursor o cualquier cliente MCP. 56 herramientas con alcance, sin SDK, sin código personalizado.',
     mcpSession: 'Sesión MCP',
     oneCommand: 'npx @kotauth/mcp',
     oneCommandLabel: 'un comando para conectar',
-    toolsTitle: '33 herramientas con alcance',
+    toolsTitle: '56 herramientas con alcance',
     toolsDescription:
       'Cada herramienta está protegida por alcances de clave API. Tu asistente de IA solo obtiene los permisos que eliges.',
     mcpDocs: 'Documentación MCP',
@@ -158,13 +158,19 @@ const es: Translations = {
     },
     domains: [
       { label: 'Usuarios', count: 10 },
-      { label: 'Roles', count: 5 },
+      { label: 'Aplicaciones', count: 8 },
+      { label: 'Servidores de recursos', count: 7 },
       { label: 'Grupos', count: 6 },
-      { label: 'Aplicaciones', count: 3 },
-      { label: 'Sesiones', count: 2 },
-      { label: 'Registros de auditoría', count: 1 },
+      { label: 'Roles', count: 5 },
+      { label: 'Claves API', count: 3 },
+      { label: 'Webhooks', count: 3 },
       { label: 'Atributos', count: 3 },
       { label: 'Mapeadores de claims', count: 3 },
+      { label: 'Sesiones', count: 2 },
+      { label: 'Passkeys', count: 2 },
+      { label: 'Auth / OTP', count: 2 },
+      { label: 'Registros de auditoría', count: 1 },
+      { label: 'Workspace', count: 1 },
     ],
   },
 

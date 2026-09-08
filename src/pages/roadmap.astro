@@ -10,7 +10,7 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const columns = [
   {
     status: 'Shipped',
-    description: 'Live today on v1.20.1.',
+    description: 'Live today on v1.24.0.',
     legendDot: 'bg-[#1F9D55]',
     badgeWrap: 'bg-[#EAF7EF] border border-[#CDEBD9]',
     badgeDot: 'bg-[#1F9D55]',
@@ -21,12 +21,17 @@ const columns = [
     items: [
       { title: 'OAuth 2.0 & OIDC core', body: 'Full provider with PKCE, token rotation and discovery.' },
       { title: 'Multi-tenant workspaces', body: 'Isolated directories, keys and policies per tenant.' },
-      { title: 'AI-native MCP server', body: '33 scoped tools across 8 domains.' },
+      { title: 'AI-native MCP server', body: '56 scoped tools across 14 domains.' },
       { title: 'White-label auth screens', body: 'Server-rendered, themed per workspace.' },
       { title: 'Magic-link & Email OTP', body: 'Passwordless flows that stay MFA-aware.' },
       { title: 'Encrypted backup & restore', body: 'Portable tenant snapshots via CLI or API.' },
       { title: 'Passkeys & WebAuthn', body: 'Phishing-resistant passwordless sign-in via biometrics or hardware keys.' },
       { title: 'Admin impersonation', body: 'Scoped, fully audited support sessions with RFC 8693 act claim.' },
+      { title: 'Webhook event streaming', body: 'Subscribe downstream systems to audit and lifecycle events.' },
+      { title: 'OIDC identity brokering', body: 'Federate sign-in through any OpenID Connect provider with JIT provisioning.' },
+      { title: 'SCIM 2.0 provisioning', body: 'RFC 7644 user and group sync with Entra ID and Okta dialects.' },
+      { title: 'Explicit grant types', body: 'Per-application OAuth2 grant declaration with token endpoint enforcement.' },
+      { title: 'Flexible sign-in identifiers', body: 'Per-workspace sign-in by username, email, or either.' },
     ],
   },
   {
@@ -41,7 +46,6 @@ const columns = [
     bodyClass: 'text-kotauth-text-secondary',
     items: [
       { title: 'Enterprise SSO', body: 'LDAP and SAML federation for upstream identity providers.' },
-      { title: 'Webhook event streaming', body: 'Subscribe downstream systems to audit and lifecycle events.' },
     ],
   },
   {
@@ -55,7 +59,6 @@ const columns = [
     titleClass: 'text-kotauth-text-primary',
     bodyClass: 'text-kotauth-text-secondary',
     items: [
-      { title: 'SCIM provisioning', body: 'Automated user lifecycle sync with external directories.' },
       { title: 'Fine-grained authorization', body: 'Relationship-based access control for complex permissions.' },
       { title: 'Self-service org management', body: 'Let end users create and administer their own organizations.' },
       { title: 'Audit log export', body: 'Stream to SIEM targets and object storage on a schedule.' },

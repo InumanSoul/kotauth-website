@@ -13,9 +13,50 @@ type Release = { version: string; date: string; current?: boolean; items: Change
 
 const releases: Release[] = [
   {
+    version: '1.24.0',
+    date: 'September 4, 2026',
+    current: true,
+    items: [
+      { tag: 'Added', text: 'Per-workspace sign-in identifier mode: USERNAME, EMAIL, or EITHER. The hosted login form adapts its label, input type and autocomplete hint to the chosen mode' },
+      { tag: 'Added', text: 'Auto-generated usernames for users provisioned without one (admin create, invite, JIT). Admin-editable usernames with full collision detection' },
+      { tag: 'Security', text: 'Username normalization enforced across every creation and rename path. Cross-namespace collision prevention rejects a username that matches another user\'s email and vice versa' },
+      { tag: 'Fixed', text: 'Admin username renames now actually persist to Postgres — the update query never wrote the username column, so renames silently had no effect' },
+    ],
+  },
+  {
+    version: '1.23.0',
+    date: 'September 3, 2026',
+    items: [
+      { tag: 'Added', text: 'Generic OIDC identity brokering: sign users in through any OpenID Connect provider. Strict issuer validation, RP-side PKCE, discovery-based endpoint resolution, and per-provider diagnostics' },
+      { tag: 'Added', text: 'Just-in-time user provisioning for brokered providers with per-provider domain allowlists' },
+      { tag: 'Added', text: 'SCIM 2.0 provisioning: RFC 7644 Users and Groups endpoints with filtering, pagination, PATCH, and per-connector Entra ID / Okta dialects' },
+      { tag: 'Changed', text: 'BREAKING: Deleting a group with subgroups now returns 409 Conflict instead of cascading the delete. Callers must delete or reparent subgroups first' },
+      { tag: 'Security', text: 'Brokered login state bound to browser cookie; workspace-scoped social-login and MFA challenge cookies; magic-link cross-workspace consumption fix' },
+    ],
+  },
+  {
+    version: '1.22.0',
+    date: 'August 21, 2026',
+    items: [
+      { tag: 'Added', text: 'Explicit grant types per application: authorization_code, client_credentials, refresh_token. The token endpoint refuses any grant a client is not registered for' },
+      { tag: 'Added', text: 'Client secret issued at creation for confidential applications. Redirect URI now required only when the application uses authorization_code' },
+      { tag: 'Changed', text: 'BREAKING: Bearer-only clients are backfilled with no grants and are refused at the token endpoint after upgrade. API consumers creating M2M clients must now send grantTypes explicitly' },
+      { tag: 'Fixed', text: 'Authorization code grant now verifies the code was issued to the redeeming client (RFC 6749 §4.1.3)' },
+    ],
+  },
+  {
+    version: '1.21.0',
+    date: 'July 17, 2026',
+    items: [
+      { tag: 'Added', text: '25 new REST API endpoints across users, applications, sessions, workspace, webhooks, resource servers, API keys and passkeys. Seven new scopes for fine-grained API key access' },
+      { tag: 'Added', text: 'SPLIT login layout: branded left panel with background image and tagline alongside the auth card' },
+      { tag: 'Added', text: 'Per-key per-tenant rate limiting on write endpoints (60 req/60s window). OpenAPI spec bumped to 1.1.0' },
+      { tag: 'Changed', text: 'BREAKING: DELETE /api/v1/applications now soft-deletes (is_deleted) instead of soft-disabling (enabled = false). Re-creating a soft-deleted client_id returns 409' },
+    ],
+  },
+  {
     version: '1.20.1',
     date: 'July 10, 2026',
-    current: true,
     items: [
       { tag: 'Changed', text: 'Sign-in Methods grid replaces the two-card auth methods panel on the Security Policy page: one row per method (Password, Passkey, Email magic link, Email OTP, Google, GitHub)' },
       { tag: 'Changed', text: 'password_login_disabled consolidated into security_config.passwordLoginEnabled (V55 migration auto-backfills)' },
@@ -186,7 +227,7 @@ const releases: Release[] = [
     version: '1.9.0',
     date: 'May 8, 2026',
     items: [
-      { tag: 'Added', text: 'AI-native MCP server (@kotauth/mcp): 33 tools across 8 domains exposed via Model Context Protocol' },
+      { tag: 'Added', text: 'AI-native MCP server (@kotauth/mcp): manage users, roles, sessions and audit logs from Claude, Cursor or any MCP client via Model Context Protocol' },
       { tag: 'Added', text: 'Scope-based access control on every MCP tool: API key grants only the permissions you choose' },
       { tag: 'Added', text: 'One-command connect: npx @kotauth/mcp' },
     ],

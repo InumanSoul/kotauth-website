@@ -13,9 +13,50 @@ type Release = { version: string; date: string; current?: boolean; items: Change
 
 const releases: Release[] = [
   {
+    version: '1.24.0',
+    date: 'September 4, 2026',
+    current: true,
+    items: [
+      { tag: 'Added', text: 'Modo de identificador de inicio de sesión por workspace: USERNAME, EMAIL o EITHER. El formulario de login se adapta al modo elegido' },
+      { tag: 'Added', text: 'Nombres de usuario autogenerados para usuarios aprovisionados sin uno (creación admin, invitación, JIT). Nombres de usuario editables por el admin con detección de colisiones' },
+      { tag: 'Security', text: 'Normalización de nombres de usuario aplicada en todas las rutas de creación y renombrado. Prevención de colisiones entre namespaces rechaza un username que coincida con el email de otro usuario y viceversa' },
+      { tag: 'Fixed', text: 'Los renombrados de username por admin ahora persisten en Postgres — la consulta de actualización nunca escribía la columna username, por lo que los renombrados silenciosamente no tenían efecto' },
+    ],
+  },
+  {
+    version: '1.23.0',
+    date: 'September 3, 2026',
+    items: [
+      { tag: 'Added', text: 'Brokering de identidad OIDC genérico: inicia sesión de usuarios a través de cualquier proveedor OpenID Connect. Validación estricta del emisor, PKCE del lado RP, resolución de endpoints por discovery y diagnósticos por proveedor' },
+      { tag: 'Added', text: 'Aprovisionamiento just-in-time de usuarios para proveedores con brokering con listas de dominios permitidos por proveedor' },
+      { tag: 'Added', text: 'Aprovisionamiento SCIM 2.0: endpoints de Users y Groups RFC 7644 con filtrado, paginación, PATCH y dialectos por conector para Entra ID / Okta' },
+      { tag: 'Changed', text: 'BREAKING: Eliminar un grupo con subgrupos ahora retorna 409 Conflict en lugar de eliminar en cascada. Los clientes deben eliminar o reasignar los subgrupos primero' },
+      { tag: 'Security', text: 'Estado de login con brokering vinculado a cookie del navegador; cookies de social login y desafío MFA con scope de workspace; corrección de consumo cross-workspace de magic-link' },
+    ],
+  },
+  {
+    version: '1.22.0',
+    date: 'August 21, 2026',
+    items: [
+      { tag: 'Added', text: 'Tipos de grant explícitos por aplicación: authorization_code, client_credentials, refresh_token. El endpoint de tokens rechaza cualquier grant para el que el cliente no esté registrado' },
+      { tag: 'Added', text: 'Client secret emitido al crear aplicaciones confidenciales. Redirect URI ahora requerido solo cuando la aplicación usa authorization_code' },
+      { tag: 'Changed', text: 'BREAKING: Los clientes bearer-only se retroalimentan sin grants y son rechazados en el endpoint de tokens tras la actualización. Los consumidores de API que crean clientes M2M deben ahora enviar grantTypes explícitamente' },
+      { tag: 'Fixed', text: 'El grant authorization_code ahora verifica que el código fue emitido para el cliente que lo presenta (RFC 6749 §4.1.3)' },
+    ],
+  },
+  {
+    version: '1.21.0',
+    date: 'July 17, 2026',
+    items: [
+      { tag: 'Added', text: '25 nuevos endpoints REST API para usuarios, aplicaciones, sesiones, workspace, webhooks, servidores de recursos, claves API y passkeys. Siete nuevos scopes para acceso granular por clave API' },
+      { tag: 'Added', text: 'Layout SPLIT de login: panel izquierdo con marca, imagen de fondo y tagline junto a la tarjeta de autenticación' },
+      { tag: 'Added', text: 'Rate limiting por clave y por tenant en endpoints de escritura (60 req/60s). Especificación OpenAPI actualizada a 1.1.0' },
+      { tag: 'Changed', text: 'BREAKING: DELETE /api/v1/applications ahora hace soft-delete (is_deleted) en lugar de soft-disable (enabled = false). Re-crear un client_id eliminado retorna 409' },
+    ],
+  },
+  {
     version: '1.20.1',
     date: 'July 10, 2026',
-    current: true,
     items: [
       { tag: 'Changed', text: 'La cuadrícula de métodos de inicio de sesión reemplaza el panel de dos tarjetas en la página de política de seguridad: una fila por método (Contraseña, Passkey, Magic link, Email OTP, Google, GitHub)' },
       { tag: 'Changed', text: 'password_login_disabled consolidado en security_config.passwordLoginEnabled (la migración V55 rellena automáticamente)' },
@@ -186,7 +227,7 @@ const releases: Release[] = [
     version: '1.9.0',
     date: 'May 8, 2026',
     items: [
-      { tag: 'Added', text: 'Servidor MCP nativo de IA (@kotauth/mcp): 33 herramientas en 8 dominios expuestas vía Model Context Protocol' },
+      { tag: 'Added', text: 'Servidor MCP nativo de IA (@kotauth/mcp): gestiona usuarios, roles, sesiones y registros de auditoría desde Claude, Cursor o cualquier cliente MCP vía Model Context Protocol' },
       { tag: 'Added', text: 'Control de acceso basado en alcances en cada herramienta MCP: la API key otorga solo los permisos que elijas' },
       { tag: 'Added', text: 'Conexión con un comando: npx @kotauth/mcp' },
     ],

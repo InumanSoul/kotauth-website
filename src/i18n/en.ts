@@ -116,7 +116,7 @@ const en = {
       {
         title: 'AI-Native Management',
         description:
-          'Manage users, roles, sessions and audit logs from Claude, Cursor or any MCP client. 33 tools across 8 domains, scope-based access.',
+          'Manage users, roles, sessions and audit logs from Claude, Cursor or any MCP client. 56 tools across 14 domains, scope-based access.',
       },
       {
         title: 'Docker-Native Deployment',
@@ -131,11 +131,11 @@ const en = {
     titleStart: 'Manage identity ',
     titleHighlight: 'in plain language.',
     subtitle:
-      'The first self-hosted IAM with native Model Context Protocol support. Connect Claude, Cursor or any MCP client. 33 scoped tools, no SDK, no custom code.',
+      'The first self-hosted IAM with native Model Context Protocol support. Connect Claude, Cursor or any MCP client. 56 scoped tools, no SDK, no custom code.',
     mcpSession: 'MCP Session',
     oneCommand: 'npx @kotauth/mcp',
     oneCommandLabel: 'one command to connect',
-    toolsTitle: '33 scoped tools',
+    toolsTitle: '56 scoped tools',
     toolsDescription:
       'Every tool is guarded by API key scopes. Your AI assistant only gets the permissions you choose.',
     mcpDocs: 'MCP Documentation',
@@ -156,13 +156,19 @@ const en = {
     },
     domains: [
       { label: 'Users', count: 10 },
-      { label: 'Roles', count: 5 },
+      { label: 'Applications', count: 8 },
+      { label: 'Resource Servers', count: 7 },
       { label: 'Groups', count: 6 },
-      { label: 'Applications', count: 3 },
-      { label: 'Sessions', count: 2 },
-      { label: 'Audit Logs', count: 1 },
+      { label: 'Roles', count: 5 },
+      { label: 'API Keys', count: 3 },
+      { label: 'Webhooks', count: 3 },
       { label: 'Attributes', count: 3 },
       { label: 'Claim Mappers', count: 3 },
+      { label: 'Sessions', count: 2 },
+      { label: 'Passkeys', count: 2 },
+      { label: 'Auth / OTP', count: 2 },
+      { label: 'Audit Logs', count: 1 },
+      { label: 'Workspace', count: 1 },
     ],
   },
 

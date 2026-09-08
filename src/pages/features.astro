@@ -34,6 +34,16 @@ const categories = [
         body: 'Passwordless sign-in via Face ID, Windows Hello or hardware keys. Per-credential replay defense, MFA-equivalent by default, and a passwordless-only mode that removes the password field entirely.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 10v4M8 12h8"/><rect x="3" y="6" width="18" height="12" rx="2"/></svg>',
       },
+      {
+        title: 'OIDC identity brokering',
+        body: 'Federate sign-in through any OpenID Connect provider. Strict issuer validation, RP-side PKCE, JIT user provisioning with domain allowlists, and per-provider diagnostics.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>',
+      },
+      {
+        title: 'Flexible sign-in identifiers',
+        body: 'Per-workspace sign-in by username, email, or either. Timing-safe dual lookups, collision prevention across namespaces, and auto-generated usernames for provisioned users.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg>',
+      },
     ],
   },
   {
@@ -54,6 +64,16 @@ const categories = [
         title: 'Custom JWT claims',
         body: 'Project user attributes into tokens with claim mappers. Shape the exact JWT each application receives, with no code required.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>',
+      },
+      {
+        title: 'SCIM 2.0 provisioning',
+        body: 'RFC 7644 user and group sync with filtering, pagination and PATCH. Per-connector Entra ID and Okta dialects handle vendor wire quirks automatically.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>',
+      },
+      {
+        title: 'Explicit grant types',
+        body: 'Each application declares its OAuth2 grants — authorization code, client credentials, or refresh token. The token endpoint refuses any grant a client is not registered for.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>',
       },
     ],
   },
@@ -80,7 +100,7 @@ const categories = [
       },
       {
         title: 'Immutable audit trail',
-        body: '65+ event types in an append-only log. Query by actor, action or time from the API or your AI assistant.',
+        body: '85+ event types in an append-only, HMAC-chained log. Query by actor, action or time from the API or your AI assistant.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>',
       },
     ],
@@ -96,7 +116,7 @@ const categories = [
       },
       {
         title: 'OpenAPI & built-in CLI',
-        body: 'Bundled Swagger UI and five built-in CLI tools. Everything is documented and everything is scriptable.',
+        body: 'Bundled Swagger UI and seven built-in CLI tools. Everything is documented and everything is scriptable.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>',
       },
       {

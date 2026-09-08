@@ -10,7 +10,7 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const columns = [
   {
     status: 'Disponível',
-    description: 'No ar hoje na v1.20.1.',
+    description: 'No ar hoje na v1.24.0.',
     legendDot: 'bg-[#1F9D55]',
     badgeWrap: 'bg-[#EAF7EF] border border-[#CDEBD9]',
     badgeDot: 'bg-[#1F9D55]',
@@ -21,12 +21,17 @@ const columns = [
     items: [
       { title: 'Núcleo OAuth 2.0 e OIDC', body: 'Provedor completo com PKCE, rotação de tokens e discovery.' },
       { title: 'Workspaces multi-tenant', body: 'Diretórios, chaves e políticas isolados por tenant.' },
-      { title: 'Servidor MCP nativo de IA', body: '33 ferramentas com escopo em 8 domínios.' },
+      { title: 'Servidor MCP nativo de IA', body: '56 ferramentas com escopo em 14 domínios.' },
       { title: 'Telas de auth white-label', body: 'Renderizadas no servidor, com tema por workspace.' },
       { title: 'Magic-link e Email OTP', body: 'Fluxos sem senha que permanecem compatíveis com MFA.' },
       { title: 'Backup e restauração criptografados', body: 'Snapshots de tenant portáteis via CLI ou API.' },
       { title: 'Passkeys e WebAuthn', body: 'Login sem senha resistente a phishing via biometria ou chaves de hardware.' },
       { title: 'Personificação de admin', body: 'Sessões de suporte com escopo e totalmente auditadas com claim act do RFC 8693.' },
+      { title: 'Streaming de eventos com webhooks', body: 'Inscreva sistemas downstream em eventos de auditoria e ciclo de vida.' },
+      { title: 'Brokering de identidade OIDC', body: 'Federe o login através de qualquer provedor OpenID Connect com provisionamento JIT.' },
+      { title: 'Provisionamento SCIM 2.0', body: 'Sincronização de usuários e grupos RFC 7644 com dialetos para Entra ID e Okta.' },
+      { title: 'Tipos de grant explícitos', body: 'Declaração de grants OAuth2 por aplicação com enforcement no endpoint de tokens.' },
+      { title: 'Identificadores de login flexíveis', body: 'Login por workspace por nome de usuário, email ou ambos.' },
     ],
   },
   {
@@ -41,7 +46,6 @@ const columns = [
     bodyClass: 'text-kotauth-text-secondary',
     items: [
       { title: 'SSO empresarial', body: 'Federação LDAP e SAML para provedores de identidade upstream.' },
-      { title: 'Streaming de eventos via webhook', body: 'Inscreva sistemas downstream em eventos de auditoria e ciclo de vida.' },
     ],
   },
   {
@@ -55,7 +59,6 @@ const columns = [
     titleClass: 'text-kotauth-text-primary',
     bodyClass: 'text-kotauth-text-secondary',
     items: [
-      { title: 'Provisionamento SCIM', body: 'Sincronização automatizada do ciclo de vida de usuários com diretórios externos.' },
       { title: 'Autorização granular', body: 'Controle de acesso baseado em relacionamentos para permissões complexas.' },
       { title: 'Gestão de organização self-service', body: 'Permita que usuários finais criem e administrem suas próprias organizações.' },
       { title: 'Exportação de log de auditoria', body: 'Envie para destinos SIEM e armazenamento de objetos de forma agendada.' },

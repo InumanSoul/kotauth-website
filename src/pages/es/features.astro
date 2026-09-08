@@ -34,6 +34,16 @@ const categories = [
         body: 'Inicio de sesión sin contraseña mediante Face ID, Windows Hello o llaves de hardware. Defensa contra repetición por credencial, equivalente a MFA por defecto y un modo solo-sin-contraseña que elimina el campo de contraseña por completo.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 10v4M8 12h8"/><rect x="3" y="6" width="18" height="12" rx="2"/></svg>',
       },
+      {
+        title: 'Brokering de identidad OIDC',
+        body: 'Federa el inicio de sesión a través de cualquier proveedor OpenID Connect. Validación estricta del emisor, PKCE del lado RP, aprovisionamiento JIT de usuarios con listas de dominios permitidos y diagnósticos por proveedor.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>',
+      },
+      {
+        title: 'Identificadores de inicio de sesión flexibles',
+        body: 'Inicio de sesión por workspace por nombre de usuario, email o ambos. Búsquedas duales timing-safe, prevención de colisiones entre namespaces y nombres de usuario autogenerados para usuarios aprovisionados.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg>',
+      },
     ],
   },
   {
@@ -54,6 +64,16 @@ const categories = [
         title: 'Claims JWT personalizados',
         body: 'Proyecta atributos de usuario en los tokens con claim mappers. Define el JWT exacto que recibe cada aplicación, sin escribir código.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>',
+      },
+      {
+        title: 'Aprovisionamiento SCIM 2.0',
+        body: 'Sincronización de usuarios y grupos RFC 7644 con filtrado, paginación y PATCH. Dialectos por conector para Entra ID y Okta manejan las diferencias del proveedor automáticamente.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>',
+      },
+      {
+        title: 'Tipos de grant explícitos',
+        body: 'Cada aplicación declara sus grants OAuth2 — código de autorización, credenciales de cliente o refresh token. El endpoint de tokens rechaza cualquier grant para el que el cliente no esté registrado.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>',
       },
     ],
   },
@@ -80,7 +100,7 @@ const categories = [
       },
       {
         title: 'Registro de auditoría inmutable',
-        body: 'Más de 65 tipos de eventos en un registro de solo anexado. Consulta por actor, acción o momento desde la API o tu asistente de IA.',
+        body: 'Más de 85 tipos de eventos en un registro de solo anexado y encadenado con HMAC. Consulta por actor, acción o momento desde la API o tu asistente de IA.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>',
       },
     ],
@@ -96,7 +116,7 @@ const categories = [
       },
       {
         title: 'OpenAPI y CLI integrada',
-        body: 'Swagger UI incluido y cinco herramientas de CLI integradas. Todo está documentado y todo es automatizable mediante scripts.',
+        body: 'Swagger UI incluido y siete herramientas de CLI integradas. Todo está documentado y todo es automatizable mediante scripts.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>',
       },
       {

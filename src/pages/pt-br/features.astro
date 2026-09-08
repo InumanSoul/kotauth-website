@@ -34,6 +34,16 @@ const categories = [
         body: 'Login sem senha via Face ID, Windows Hello ou chaves de hardware. Defesa contra replay por credencial, equivalente a MFA por padrão e um modo somente-sem-senha que remove o campo de senha completamente.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 10v4M8 12h8"/><rect x="3" y="6" width="18" height="12" rx="2"/></svg>',
       },
+      {
+        title: 'Brokering de identidade OIDC',
+        body: 'Federe o login através de qualquer provedor OpenID Connect. Validação rigorosa do emissor, PKCE do lado RP, provisionamento JIT de usuários com listas de domínios permitidos e diagnósticos por provedor.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>',
+      },
+      {
+        title: 'Identificadores de login flexíveis',
+        body: 'Login por workspace por nome de usuário, email ou ambos. Buscas duplas timing-safe, prevenção de colisões entre namespaces e nomes de usuário autogerados para usuários provisionados.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg>',
+      },
     ],
   },
   {
@@ -54,6 +64,16 @@ const categories = [
         title: 'JWT claims personalizados',
         body: 'Projete atributos de usuário nos tokens com claim mappers. Modele o JWT exato que cada aplicação recebe, sem precisar de código.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>',
+      },
+      {
+        title: 'Provisionamento SCIM 2.0',
+        body: 'Sincronização de usuários e grupos RFC 7644 com filtragem, paginação e PATCH. Dialetos por conector para Entra ID e Okta lidam com as diferenças do provedor automaticamente.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>',
+      },
+      {
+        title: 'Tipos de grant explícitos',
+        body: 'Cada aplicação declara seus grants OAuth2 — código de autorização, credenciais de cliente ou refresh token. O endpoint de tokens recusa qualquer grant para o qual o cliente não está registrado.',
+        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>',
       },
     ],
   },
@@ -80,7 +100,7 @@ const categories = [
       },
       {
         title: 'Trilha de auditoria imutável',
-        body: 'Mais de 65 tipos de evento em um log append-only. Consulte por ator, ação ou tempo a partir da API ou do seu assistente de IA.',
+        body: 'Mais de 85 tipos de evento em um log append-only encadeado com HMAC. Consulte por ator, ação ou tempo a partir da API ou do seu assistente de IA.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>',
       },
     ],
@@ -96,7 +116,7 @@ const categories = [
       },
       {
         title: 'OpenAPI e CLI integrada',
-        body: 'Swagger UI embutido e cinco ferramentas de CLI integradas. Tudo é documentado e tudo é automatizável por script.',
+        body: 'Swagger UI embutido e sete ferramentas de CLI integradas. Tudo é documentado e tudo é automatizável por script.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>',
       },
       {
