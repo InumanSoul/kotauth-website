@@ -13,9 +13,111 @@ type Release = { version: string; date: string; current?: boolean; items: Change
 
 const releases: Release[] = [
   {
+    version: '1.31.0',
+    date: 'November 24, 2026',
+    current: true,
+    items: [
+      { tag: 'Added', text: 'Un dominio público por workspace: las pantallas de inicio de sesión, el issuer y los enlaces por email pasan al origen propio del workspace. Las passkeys siguen funcionando mediante related origins de WebAuthn; la suplantación se queda en la dirección de la instancia' },
+      { tag: 'Added', text: 'Las copias de seguridad incluyen el sub de cada usuario, así un workspace movido a otra instancia conserva los identificadores que guardaron sus clientes' },
+      { tag: 'Added', text: 'Direcciones de cliente correctas detrás de una CDN y un reverse proxy con KAUTH_TRUSTED_PROXY_CIDRS y KAUTH_CLIENT_IP_HEADER' },
+      { tag: 'Changed', text: 'BREAKING: Los usuarios nuevos reciben un UUID aleatorio como sub en lugar del id de fila de la base de datos. Los existentes conservan el suyo; guarda sub como texto' },
+      { tag: 'Fixed', text: 'Discovery anuncia el mismo issuer que llevan los tokens' },
+    ],
+  },
+  {
+    version: '1.30.2',
+    date: 'November 24, 2026',
+    items: [
+      { tag: 'Security', text: 'Un webhook se conecta solo a la dirección que pasó la verificación SSRF, cerrando un hueco de DNS rebinding' },
+      { tag: 'Fixed', text: 'El inicio de sesión con código por email puede pedir scopes de API; un nombre de usuario ya no puede coincidir con el email de otro usuario, ni con escrituras concurrentes' },
+    ],
+  },
+  {
+    version: '1.30.1',
+    date: 'November 24, 2026',
+    items: [
+      { tag: 'Security', text: 'BREAKING: Los webhooks ya no pueden alcanzar direcciones privadas, loopback o de metadatos. Usa KAUTH_WEBHOOK_ALLOW_PRIVATE_NETWORKS=true para receptores internos' },
+      { tag: 'Security', text: 'Quitar una clave de KAUTH_BOOTSTRAP_API_KEYS ahora la revoca' },
+      { tag: 'Added', text: 'POST /users/{userId}/resend-invite en la API de administración' },
+      { tag: 'Fixed', text: 'Un usuario invitado que restablece su contraseña en lugar de aceptar la invitación puede iniciar sesión; los ID tokens vuelven a dirigirse al cliente cuando la app tiene audience' },
+    ],
+  },
+  {
+    version: '1.30.0',
+    date: 'November 24, 2026',
+    items: [
+      { tag: 'Added', text: 'Los tokens incluyen amr y acr, y los clientes pueden exigir multifactor por solicitud con acr_values (autenticación step-up)' },
+      { tag: 'Added', text: 'Los usuarios reciben un email cuando cambian sus factores de inicio de sesión' },
+      { tag: 'Changed', text: 'Un workspace que exige MFA hace que los usuarios lo configuren durante el inicio de sesión en lugar de rechazarlos' },
+      { tag: 'Security', text: 'Un refresh token solo funciona en su propio workspace y para su propio cliente habilitado' },
+    ],
+  },
+  {
+    version: '1.29.0',
+    date: 'November 23, 2026',
+    items: [
+      { tag: 'Added', text: 'La API REST puede leer y definir los scopes permitidos de un cliente en un resource server' },
+      { tag: 'Security', text: 'BREAKING: La API de código por email pide el segundo factor: POST /auth/verify-otp responde mfa_required para usuarios con MFA, y se completa con POST /auth/verify-mfa' },
+      { tag: 'Security', text: 'El inicio de sesión social ya no abre una sesión antes del segundo factor; cerrar sesión en todas partes termina todas las sesiones en Redis' },
+      { tag: 'Fixed', text: 'El ajuste de sesiones concurrentes máximas ahora funciona, por aplicación' },
+    ],
+  },
+  {
+    version: '1.28.1',
+    date: 'November 20, 2026',
+    items: [
+      { tag: 'Security', text: 'Todas las vías de inicio de sesión piden ahora el segundo factor: magic link, código por email, social y passkeys sin verificación de usuario, no solo contraseña' },
+    ],
+  },
+  {
+    version: '1.28.0',
+    date: 'November 20, 2026',
+    items: [
+      { tag: 'Added', text: 'Duración del access token por aplicación, expiración del magic link y ajustes de registro y bloqueo por código por email en la consola' },
+      { tag: 'Improved', text: 'La consola de administración funciona con teclado y lector de pantalla, y usa un vocabulario coherente en todos los flujos de creación' },
+      { tag: 'Security', text: 'El inicio de sesión con código por email ya no distingue una dirección conocida de una desconocida por el tiempo de respuesta' },
+      { tag: 'Fixed', text: '"Iniciar sesión con una passkey" funciona en navegadores con autocompletado de passkeys; los filtros SCIM ignoran mayúsculas donde el esquema lo indica' },
+    ],
+  },
+  {
+    version: '1.27.0',
+    date: 'November 17, 2026',
+    items: [
+      { tag: 'Added', text: 'Crea un workspace por API con POST /admin/api/v1/tenants y cambia sus ajustes con PATCH /t/{slug}/api/v1/workspace' },
+      { tag: 'Added', text: 'Una clave de API de bootstrap puede esperar a que se cree su workspace' },
+      { tag: 'Security', text: 'GET /authorize rechaza de entrada un cliente o redirect URI inválido en lugar de mostrar la pantalla de inicio de sesión' },
+      { tag: 'Fixed', text: 'DB_HOST, DB_PORT y DB_NAME ahora se leen; un workspace importado emite tokens sin reiniciar' },
+    ],
+  },
+  {
+    version: '1.26.0',
+    date: 'September 10, 2026',
+    items: [
+      { tag: 'Fixed', text: 'Un workspace restaurado conserva toda su configuración: resource servers, ajustes de proveedores de identidad, audiences de aplicación y accesos del launcher' },
+      { tag: 'Fixed', text: 'Las copias anteriores a 1.24 vuelven a restaurarse: los nombres de usuario heredados se reescriben con las reglas actuales' },
+      { tag: 'Fixed', text: 'Importar un workspace desde la consola queda registrado en el log de auditoría' },
+    ],
+  },
+  {
+    version: '1.25.3',
+    date: 'September 9, 2026',
+    items: [
+      { tag: 'Fixed', text: 'Un POST bajo un workspace redirige a la pantalla de inicio de sesión en lugar de devolver 500; los cuerpos de backup mal formados informan el error de parseo' },
+      { tag: 'Improved', text: '1.25.1–1.25.3 también traen títulos y breadcrumbs coherentes en la administración, y una CI que aplica cada migración a una base de datos real' },
+    ],
+  },
+  {
+    version: '1.25.0',
+    date: 'September 8, 2026',
+    items: [
+      { tag: 'Security', text: 'Autorizar un cliente contra una API ya no le concede todos los scopes que declara; cada cliente tiene una allowlist explícita de scopes' },
+      { tag: 'Added', text: 'Casillas por scope en la página de APIs autorizadas' },
+      { tag: 'Changed', text: 'Añadir un scope a una API no lo concede a los clientes existentes; los permisos existentes se migran al actualizar' },
+    ],
+  },
+  {
     version: '1.24.0',
     date: 'September 4, 2026',
-    current: true,
     items: [
       { tag: 'Added', text: 'Modo de identificador de inicio de sesión por workspace: USERNAME, EMAIL o EITHER. El formulario de login se adapta al modo elegido' },
       { tag: 'Added', text: 'Nombres de usuario autogenerados para usuarios aprovisionados sin uno (creación admin, invitación, JIT). Nombres de usuario editables por el admin con detección de colisiones' },

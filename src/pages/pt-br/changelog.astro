@@ -13,9 +13,111 @@ type Release = { version: string; date: string; current?: boolean; items: Change
 
 const releases: Release[] = [
   {
+    version: '1.31.0',
+    date: 'November 24, 2026',
+    current: true,
+    items: [
+      { tag: 'Added', text: 'Um domínio público por workspace: telas de login, o issuer e os links por email passam para a origem própria do workspace. Passkeys continuam funcionando via related origins do WebAuthn; a personificação fica no endereço da instância' },
+      { tag: 'Added', text: 'Os backups levam o sub de cada usuário, então um workspace movido para outra instância mantém os identificadores que seus clientes guardaram' },
+      { tag: 'Added', text: 'Endereços de cliente corretos atrás de uma CDN e um reverse proxy com KAUTH_TRUSTED_PROXY_CIDRS e KAUTH_CLIENT_IP_HEADER' },
+      { tag: 'Changed', text: 'BREAKING: Novos usuários recebem um UUID aleatório como sub em vez do id da linha no banco. Os existentes mantêm o seu; armazene sub como texto' },
+      { tag: 'Fixed', text: 'O discovery anuncia o mesmo issuer que os tokens carregam' },
+    ],
+  },
+  {
+    version: '1.30.2',
+    date: 'November 24, 2026',
+    items: [
+      { tag: 'Security', text: 'Um webhook se conecta apenas ao endereço que passou na verificação SSRF, fechando uma brecha de DNS rebinding' },
+      { tag: 'Fixed', text: 'O login com código por email pode pedir escopos de API; um nome de usuário não pode mais ser igual ao email de outro usuário, nem com escritas concorrentes' },
+    ],
+  },
+  {
+    version: '1.30.1',
+    date: 'November 24, 2026',
+    items: [
+      { tag: 'Security', text: 'BREAKING: Webhooks não podem mais alcançar endereços privados, loopback ou de metadados. Use KAUTH_WEBHOOK_ALLOW_PRIVATE_NETWORKS=true para receptores internos' },
+      { tag: 'Security', text: 'Remover uma chave de KAUTH_BOOTSTRAP_API_KEYS agora a revoga' },
+      { tag: 'Added', text: 'POST /users/{userId}/resend-invite na API de administração' },
+      { tag: 'Fixed', text: 'Um usuário convidado que redefine a senha em vez de aceitar o convite consegue fazer login; ID tokens voltam a ser endereçados ao cliente quando a app tem audience' },
+    ],
+  },
+  {
+    version: '1.30.0',
+    date: 'November 24, 2026',
+    items: [
+      { tag: 'Added', text: 'Os tokens trazem amr e acr, e clientes podem exigir multifator por requisição com acr_values (autenticação step-up)' },
+      { tag: 'Added', text: 'Usuários recebem um email quando seus fatores de login mudam' },
+      { tag: 'Changed', text: 'Um workspace que exige MFA faz os usuários configurá-lo durante o login em vez de recusá-los' },
+      { tag: 'Security', text: 'Um refresh token só funciona no seu próprio workspace e para o seu próprio cliente habilitado' },
+    ],
+  },
+  {
+    version: '1.29.0',
+    date: 'November 23, 2026',
+    items: [
+      { tag: 'Added', text: 'A API REST pode ler e definir os escopos permitidos de um cliente em um resource server' },
+      { tag: 'Security', text: 'BREAKING: A API de código por email pede o segundo fator: POST /auth/verify-otp responde mfa_required para usuários com MFA, concluído com POST /auth/verify-mfa' },
+      { tag: 'Security', text: 'O login social não abre mais uma sessão antes do segundo fator; sair de todos os lugares encerra todas as sessões no Redis' },
+      { tag: 'Fixed', text: 'A configuração de sessões simultâneas máximas agora funciona, por aplicação' },
+    ],
+  },
+  {
+    version: '1.28.1',
+    date: 'November 20, 2026',
+    items: [
+      { tag: 'Security', text: 'Todos os caminhos de login agora pedem o segundo fator: magic link, código por email, social e passkeys sem verificação de usuário, não só senha' },
+    ],
+  },
+  {
+    version: '1.28.0',
+    date: 'November 20, 2026',
+    items: [
+      { tag: 'Added', text: 'Duração do access token por aplicação, expiração do magic link e configurações de cadastro e bloqueio por código por email no console' },
+      { tag: 'Improved', text: 'O console de administração funciona com teclado e leitor de tela, e usa um vocabulário consistente em todos os fluxos de criação' },
+      { tag: 'Security', text: 'O login com código por email não distingue mais um endereço conhecido de um desconhecido pelo tempo de resposta' },
+      { tag: 'Fixed', text: '"Entrar com uma passkey" funciona em navegadores com preenchimento automático de passkeys; filtros SCIM ignoram maiúsculas onde o schema indica' },
+    ],
+  },
+  {
+    version: '1.27.0',
+    date: 'November 17, 2026',
+    items: [
+      { tag: 'Added', text: 'Crie um workspace pela API com POST /admin/api/v1/tenants e altere suas configurações com PATCH /t/{slug}/api/v1/workspace' },
+      { tag: 'Added', text: 'Uma chave de API de bootstrap pode esperar seu workspace ser criado' },
+      { tag: 'Security', text: 'GET /authorize recusa logo de início um cliente ou redirect URI inválido em vez de mostrar a tela de login' },
+      { tag: 'Fixed', text: 'DB_HOST, DB_PORT e DB_NAME agora são lidos; um workspace importado emite tokens sem reiniciar' },
+    ],
+  },
+  {
+    version: '1.26.0',
+    date: 'September 10, 2026',
+    items: [
+      { tag: 'Fixed', text: 'Um workspace restaurado mantém toda a sua configuração: resource servers, configurações de provedores de identidade, audiences de aplicação e atalhos do launcher' },
+      { tag: 'Fixed', text: 'Backups anteriores à 1.24 voltam a ser restaurados: nomes de usuário legados são reescritos com as regras atuais' },
+      { tag: 'Fixed', text: 'Importar um workspace pelo console fica registrado no log de auditoria' },
+    ],
+  },
+  {
+    version: '1.25.3',
+    date: 'September 9, 2026',
+    items: [
+      { tag: 'Fixed', text: 'Um POST sob um workspace redireciona para a tela de login em vez de retornar 500; corpos de backup malformados informam o erro de parse' },
+      { tag: 'Improved', text: '1.25.1–1.25.3 também trazem títulos e breadcrumbs consistentes na administração, e uma CI que aplica cada migração a um banco de dados real' },
+    ],
+  },
+  {
+    version: '1.25.0',
+    date: 'September 8, 2026',
+    items: [
+      { tag: 'Security', text: 'Autorizar um cliente em uma API não concede mais todos os escopos que ela declara; cada cliente tem uma allowlist explícita de escopos' },
+      { tag: 'Added', text: 'Caixas de seleção por escopo na página de APIs autorizadas' },
+      { tag: 'Changed', text: 'Adicionar um escopo a uma API não o concede a clientes existentes; as permissões existentes são migradas na atualização' },
+    ],
+  },
+  {
     version: '1.24.0',
     date: 'September 4, 2026',
-    current: true,
     items: [
       { tag: 'Added', text: 'Modo de identificador de login por workspace: USERNAME, EMAIL ou EITHER. O formulário de login se adapta ao modo escolhido' },
       { tag: 'Added', text: 'Nomes de usuário autogerados para usuários provisionados sem um (criação admin, convite, JIT). Nomes de usuário editáveis pelo admin com detecção de colisões' },
