@@ -1,6 +1,6 @@
 # Kotauth
 
-> Kotauth is an open-source, self-hosted identity and authentication platform. It provides OAuth 2.0, OpenID Connect, multi-tenant workspaces, magic-link passwordless auth, email OTP passwordless auth, white-label auth screens, transactional email branding, RBAC with client default roles, custom JWT claims with configurable token audience, admin impersonation, tenant backup & restore, Redis distributed sessions, i18n, webhooks, MFA with TOTP replay + lockout protection, refresh-token replay detection, bootstrap API keys, and non-root container hardening — packaged as a single Docker image deployable with one command.
+> Kotauth is an open-source, self-hosted identity and authentication platform. It provides OAuth 2.0 and OpenID Connect with explicit per-application grant types and per-client scope allowlists, multi-tenant workspaces with an optional public domain each, passkeys / WebAuthn, magic-link and email OTP passwordless auth, MFA required on every sign-in path with step-up via acr_values, social login and generic OIDC identity brokering with JIT provisioning, SCIM 2.0 provisioning, white-label auth screens, transactional email branding, RBAC with client default roles, custom JWT claims, admin impersonation, tenant backup & restore, Redis distributed sessions, i18n, SSRF-guarded webhooks, an HMAC-chained audit log, bootstrap API keys, and non-root container hardening — packaged as a single Docker image deployable with one command.
 
 Kotauth is built with Kotlin/Ktor and backed by PostgreSQL. It targets teams who want full control over their auth infrastructure without depending on third-party SaaS. Each workspace is fully isolated with its own RSA key pair, user base, and slug-routed API at `/t/{workspace}/api/v1`.
 
@@ -25,6 +25,8 @@ Kotauth is built with Kotlin/Ktor and backed by PostgreSQL. It targets teams who
 - [MFA / TOTP](https://docs.kotauth.com/authentication/mfa/): Multi-factor authentication with recovery codes, TOTP replay protection, and per-enrollment lockout
 - [User Invitations](https://docs.kotauth.com/authentication/user-invitations/): Admin-initiated invite emails with 72-hour activation
 - [Custom JWT Claims](https://docs.kotauth.com/authentication/custom-claims/): Per-user attributes projected into access and ID tokens
+- [Passkeys & WebAuthn](https://docs.kotauth.com/authentication/passkeys/): Phishing-resistant passwordless sign-in
+- [Admin Impersonation](https://docs.kotauth.com/authentication/impersonation/): Audited support sessions with the RFC 8693 act claim
 - [Authorization Code + PKCE](https://docs.kotauth.com/authentication/authorization-code/): OAuth 2.0 Authorization Code flow
 - [Client Credentials](https://docs.kotauth.com/authentication/client-credentials/): Machine-to-machine auth
 - [Token Lifecycle](https://docs.kotauth.com/authentication/token-lifecycle/): Access tokens, refresh tokens, replay detection, family revocation, expiration, and revocation
@@ -36,6 +38,7 @@ Kotauth is built with Kotlin/Ktor and backed by PostgreSQL. It targets teams who
 - [Authorization](https://docs.kotauth.com/oidc/authorization/): Authorization endpoint details
 - [Token](https://docs.kotauth.com/oidc/token/): Token endpoint and grant types
 - [UserInfo](https://docs.kotauth.com/oidc/userinfo/): UserInfo endpoint and claims
+- [Silent SSO](https://docs.kotauth.com/oidc/silent-sso/): prompt=none session checks
 - [Introspection & Revocation](https://docs.kotauth.com/oidc/introspection-revocation/): RFC 7662 and RFC 7009 support
 
 ## REST API
@@ -49,12 +52,16 @@ Kotauth is built with Kotlin/Ktor and backed by PostgreSQL. It targets teams who
 - [Audit Logs](https://docs.kotauth.com/api/audit-logs/): Audit trail with event filtering
 - [User Attributes](https://docs.kotauth.com/api/user-attributes/): Per-user key-value metadata
 - [Claim Mappers](https://docs.kotauth.com/api/claim-mappers/): Map user attributes to JWT claims
+- [API Keys](https://docs.kotauth.com/api/api-keys/): Scoped workspace API keys
+- [Resource Servers](https://docs.kotauth.com/api/resource-servers/): APIs, scopes and per-client authorization
+- [Webhooks API](https://docs.kotauth.com/api/webhooks/): Manage webhook endpoints
+- [Workspace](https://docs.kotauth.com/api/workspace/): Workspace settings
 
 ## AI-Native Management (MCP)
 
 - [Overview](https://docs.kotauth.com/mcp/overview/): Manage Kotauth from Claude, Cursor, or any MCP client
 - [Setup](https://docs.kotauth.com/mcp/setup/): Install and configure the MCP server
-- [Tool Reference](https://docs.kotauth.com/mcp/tools/): All 33 tools across 8 domains
+- [Tool Reference](https://docs.kotauth.com/mcp/tools/): All 56 tools across 14 domains
 - [Examples](https://docs.kotauth.com/mcp/examples/): Common workflows and recipes
 
 ## Deployment
@@ -65,17 +72,12 @@ Kotauth is built with Kotlin/Ktor and backed by PostgreSQL. It targets teams who
 - [Production](https://docs.kotauth.com/deployment/production/): Production hardening, non-root container (UID 10001), bootstrap API keys, and best practices
 - [Key Rotation](https://docs.kotauth.com/deployment/key-rotation/): RS256 signing key rotation with zero-downtime rollover
 - [Backup & Restore](https://docs.kotauth.com/deployment/backup-restore/): Encrypted tenant export and import
+- [Redis](https://docs.kotauth.com/deployment/redis/): Distributed sessions and rate limiting across replicas
+- [CLI](https://docs.kotauth.com/deployment/cli/): Built-in CLI subcommands
 
 ## Customization
 
 - [Theming](https://docs.kotauth.com/customization/theming/): Per-tenant CSS variables for white-label auth screens
 - [Email Branding](https://docs.kotauth.com/customization/email-branding/): Per-tenant transactional email branding — brand name, color, logo, support email, and from display name
 - [Webhooks](https://docs.kotauth.com/customization/webhooks/): HMAC-SHA256 signed event payloads with retry logic
-
-## Security
-
-- [Security Overview](https://docs.kotauth.com/security/overview/): Cryptographic primitives, transport hardening, and secrets storage policy
-- [Refresh Token Replay Detection](https://docs.kotauth.com/security/replay-detection/): Automatic family revocation on replay, confidential client auth on refresh grant
-- [TOTP Replay + Lockout](https://docs.kotauth.com/security/totp-protection/): Per-enrollment TOTP replay prevention and configurable lockout
-- [Container Hardening](https://docs.kotauth.com/security/container-hardening/): Non-root UID 10001, no-new-privileges, cap_drop ALL, read-only filesystem
-- [Bootstrap API Keys](https://docs.kotauth.com/security/bootstrap-api-keys/): KAUTH_BOOTSTRAP_API_KEYS env var, idempotent upsert, hash-api-key CLI
+- [Internationalization](https://docs.kotauth.com/customization/i18n/): Locale files for auth screens and emails
