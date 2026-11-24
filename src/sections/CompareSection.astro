@@ -13,12 +13,12 @@ const marks: { k: Mark; kc: Mark; saas: Mark }[] = [
   { k: 'yes', kc: 'yes',     saas: 'no'   },
   { k: 'yes', kc: 'yes',     saas: 'paid' },
   { k: 'yes', kc: 'no',      saas: 'dash' },
-  { k: 'yes', kc: 'no',      saas: 'yes'  },
+  { k: 'yes', kc: 'yes',     saas: 'yes'  },
   { k: 'yes', kc: 'no',      saas: 'no'   },
   { k: 'yes', kc: 'partial', saas: 'paid' },
   { k: 'yes', kc: 'yes',     saas: 'no'   },
   { k: 'yes', kc: 'yes',     saas: 'paid' },
-  { k: 'yes', kc: 'no',      saas: 'yes'  },
+  { k: 'yes', kc: 'yes',     saas: 'yes'  },
 ];
 
 const rows = i18n.compareSection.rows.map((feature, i) => ({ feature, ...marks[i] }));

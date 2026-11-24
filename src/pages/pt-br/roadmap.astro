@@ -10,7 +10,7 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const columns = [
   {
     status: 'Disponível',
-    description: 'No ar hoje na v1.24.0.',
+    description: 'No ar hoje na v1.31.0.',
     legendDot: 'bg-[#1F9D55]',
     badgeWrap: 'bg-[#EAF7EF] border border-[#CDEBD9]',
     badgeDot: 'bg-[#1F9D55]',
@@ -32,25 +32,17 @@ const columns = [
       { title: 'Provisionamento SCIM 2.0', body: 'Sincronização de usuários e grupos RFC 7644 com dialetos para Entra ID e Okta.' },
       { title: 'Tipos de grant explícitos', body: 'Declaração de grants OAuth2 por aplicação com enforcement no endpoint de tokens.' },
       { title: 'Identificadores de login flexíveis', body: 'Login por workspace por nome de usuário, email ou ambos.' },
-    ],
-  },
-  {
-    status: 'Em andamento',
-    description: 'Em desenvolvimento ativo para as próximas versões.',
-    legendDot: 'bg-kotauth-primary',
-    badgeWrap: 'bg-[#EAF6FB] border border-[#CDE8F5]',
-    badgeDot: 'bg-kotauth-primary',
-    badgeText: 'text-kotauth-primary',
-    cardClass: 'bg-white border border-kotauth-surface-2 border-l-[3px] border-l-kotauth-primary shadow-[0_1px_3px_rgba(15,22,41,0.04)]',
-    titleClass: 'text-kotauth-text-primary',
-    bodyClass: 'text-kotauth-text-secondary',
-    items: [
-      { title: 'SSO empresarial', body: 'Federação LDAP e SAML para provedores de identidade upstream.' },
+      { title: 'Allowlists de escopos por cliente', body: 'Limite cada aplicação aos escopos que ela pode solicitar.' },
+      { title: 'MFA em todos os caminhos de login', body: 'Senha, magic link, código por email e login social pedem o segundo fator, com cadastro durante o login.' },
+      { title: 'Autenticação step-up', body: 'Clientes pedem um fator mais forte por login com acr_values; os tokens trazem amr e acr.' },
+      { title: 'Sessões e refresh reforçados', body: 'Limites de sessões por aplicação; refresh tokens vinculados ao seu workspace e cliente.' },
+      { title: 'Domínio público por workspace', body: 'Sirva as telas de login e o issuer de um workspace no próprio domínio, passkeys incluídas.' },
+      { title: 'Proteção SSRF em webhooks', body: 'Entregas para endereços privados e de metadados são recusadas por padrão.' },
     ],
   },
   {
     status: 'Planejado',
-    description: 'Comprometido, escopo definido e na fila.',
+    description: 'Próximos no roadmap, em ordem de prioridade. Ainda sem data.',
     legendDot: 'bg-[#D9890E]',
     badgeWrap: 'bg-[#FBF1E2] border border-[#F0DCBC]',
     badgeDot: 'bg-[#D9890E]',
@@ -59,9 +51,11 @@ const columns = [
     titleClass: 'text-kotauth-text-primary',
     bodyClass: 'text-kotauth-text-secondary',
     items: [
-      { title: 'Autorização granular', body: 'Controle de acesso baseado em relacionamentos para permissões complexas.' },
-      { title: 'Gestão de organização self-service', body: 'Permita que usuários finais criem e administrem suas próprias organizações.' },
-      { title: 'Exportação de log de auditoria', body: 'Envie para destinos SIEM e armazenamento de objetos de forma agendada.' },
+      { title: 'SSO empresarial', body: 'Federação SAML 2.0 e LDAP / Active Directory.' },
+      { title: 'Mapeamento de claims para papéis', body: 'Mapeie claims de provedores de identidade federados para papéis e grupos.' },
+      { title: 'Tela de consentimento OAuth', body: 'Aprovação de permissões pelo usuário para clientes de terceiros.' },
+      { title: 'Métricas e chart Helm', body: 'Métricas Prometheus e manifestos Kubernetes para operação em produção.' },
+      { title: 'Exportação de log de auditoria', body: 'Exportação agendada para armazenamento de objetos ou um webhook SIEM.' },
     ],
   },
   {
@@ -76,9 +70,10 @@ const columns = [
     bodyClass: 'text-kotauth-text-muted',
     items: [
       { title: 'Device authorization flow', body: 'Faça login em dispositivos com entrada limitada, como TVs e CLIs.' },
-      { title: 'Autenticação step-up', body: 'Exija fatores mais fortes para operações sensíveis.' },
       { title: 'Policy-as-code', body: 'Políticas de segurança versionadas e aplicadas no momento do deploy.' },
       { title: 'Hooks de cobrança por organização', body: 'Sinais de uso para equipes que constroem produtos sobre o Kotauth.' },
+      { title: 'Autorização granular', body: 'Controle de acesso baseado em relacionamentos para permissões complexas.' },
+      { title: 'Gestão de organização self-service', body: 'Permita que usuários finais criem e administrem suas próprias organizações.' },
     ],
   },
 ];

@@ -62,7 +62,7 @@ const en = {
       },
       {
         title: 'Runs anywhere Docker runs',
-        body: 'A ~120 MB image, non-root and read-only by default. Cloud, on-prem, air-gapped, or your laptop. One command to start.',
+        body: 'A ~410 MB image, non-root and read-only by default. Cloud, on-prem, air-gapped, or your laptop. One command to start.',
       },
     ],
   },
@@ -121,7 +121,7 @@ const en = {
       {
         title: 'Docker-Native Deployment',
         description:
-          '~120 MB image on GHCR. Non-root, read-only, no-new-privileges. One-command quickstart, auto-migrations, fully air-gapped.',
+          '~410 MB image on GHCR. Non-root, read-only, no-new-privileges. One-command quickstart, auto-migrations, fully air-gapped.',
       },
     ],
   },
