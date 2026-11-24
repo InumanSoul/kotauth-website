@@ -13,9 +13,111 @@ type Release = { version: string; date: string; current?: boolean; items: Change
 
 const releases: Release[] = [
   {
+    version: '1.31.0',
+    date: 'November 24, 2026',
+    current: true,
+    items: [
+      { tag: 'Added', text: 'A public domain per workspace: sign-in pages, the issuer and emailed links move to the workspace\'s own origin. Passkeys keep working through WebAuthn related origins; impersonation stays on the instance address' },
+      { tag: 'Added', text: 'Backups carry each user\'s sub, so a workspace moved to another instance keeps the identifiers its clients stored' },
+      { tag: 'Added', text: 'Correct client addresses behind a CDN plus reverse proxy with KAUTH_TRUSTED_PROXY_CIDRS and KAUTH_CLIENT_IP_HEADER' },
+      { tag: 'Changed', text: 'BREAKING: New users get a random UUID as their sub instead of the database row id. Existing users keep theirs; store sub as text' },
+      { tag: 'Fixed', text: 'Discovery advertises the same issuer the tokens carry' },
+    ],
+  },
+  {
+    version: '1.30.2',
+    date: 'November 24, 2026',
+    items: [
+      { tag: 'Security', text: 'A webhook connects only to the address that passed the SSRF check, closing a DNS-rebinding gap' },
+      { tag: 'Fixed', text: 'Email-code sign-in can request API scopes; a username can no longer equal another user\'s email, even under concurrent writes' },
+    ],
+  },
+  {
+    version: '1.30.1',
+    date: 'November 24, 2026',
+    items: [
+      { tag: 'Security', text: 'BREAKING: Webhooks can no longer reach private, loopback or metadata addresses. Set KAUTH_WEBHOOK_ALLOW_PRIVATE_NETWORKS=true for internal receivers' },
+      { tag: 'Security', text: 'Removing a key from KAUTH_BOOTSTRAP_API_KEYS now revokes it' },
+      { tag: 'Added', text: 'POST /users/{userId}/resend-invite in the admin API' },
+      { tag: 'Fixed', text: 'An invited user who resets their password instead of accepting the invite can sign in; ID tokens are addressed to the client again when the app has an audience' },
+    ],
+  },
+  {
+    version: '1.30.0',
+    date: 'November 24, 2026',
+    items: [
+      { tag: 'Added', text: 'Tokens carry amr and acr, and clients can require multi-factor per request with acr_values (step-up authentication)' },
+      { tag: 'Added', text: 'Users are emailed when their sign-in factors change' },
+      { tag: 'Changed', text: 'A workspace that requires MFA has users set it up during sign-in instead of refusing them' },
+      { tag: 'Security', text: 'A refresh token works only in its own workspace, for its own enabled client' },
+    ],
+  },
+  {
+    version: '1.29.0',
+    date: 'November 23, 2026',
+    items: [
+      { tag: 'Added', text: 'The REST API can read and set a client\'s allowed scopes on a resource server' },
+      { tag: 'Security', text: 'BREAKING: The email-code API asks for the second factor: POST /auth/verify-otp answers mfa_required for users with MFA, completed with POST /auth/verify-mfa' },
+      { tag: 'Security', text: 'Social sign-in no longer opens a session before the second factor; signing out everywhere ends every session on Redis' },
+      { tag: 'Fixed', text: 'The max concurrent sessions setting now works, per application' },
+    ],
+  },
+  {
+    version: '1.28.1',
+    date: 'November 20, 2026',
+    items: [
+      { tag: 'Security', text: 'Every sign-in path now asks for the second factor: magic link, email code, social and passkeys without user verification, not only password' },
+    ],
+  },
+  {
+    version: '1.28.0',
+    date: 'November 20, 2026',
+    items: [
+      { tag: 'Added', text: 'Per-application access-token lifetime, magic-link expiry and email-code sign-up and lockout settings in the console' },
+      { tag: 'Improved', text: 'The admin console works with a keyboard and a screen reader, and uses consistent wording across every create flow' },
+      { tag: 'Security', text: 'Email-code sign-in no longer tells a known address from an unknown one by response time' },
+      { tag: 'Fixed', text: '"Sign in with a passkey" works in browsers that offer passkey autofill; SCIM filters ignore case where the schema says so' },
+    ],
+  },
+  {
+    version: '1.27.0',
+    date: 'November 17, 2026',
+    items: [
+      { tag: 'Added', text: 'Create a workspace over the API with POST /admin/api/v1/tenants and change its settings with PATCH /t/{slug}/api/v1/workspace' },
+      { tag: 'Added', text: 'A bootstrap API key can wait for its workspace to be created' },
+      { tag: 'Security', text: 'GET /authorize refuses a bad client or redirect URI up front instead of rendering the sign-in page' },
+      { tag: 'Fixed', text: 'DB_HOST, DB_PORT and DB_NAME are now read; an imported workspace issues tokens without a restart' },
+    ],
+  },
+  {
+    version: '1.26.0',
+    date: 'September 10, 2026',
+    items: [
+      { tag: 'Fixed', text: 'A restored workspace keeps its full configuration: resource servers, identity provider settings, application audiences and launcher tiles' },
+      { tag: 'Fixed', text: 'Pre-1.24 backups restore again: legacy usernames are rewritten to the current rules' },
+      { tag: 'Fixed', text: 'Importing a workspace through the console is recorded in the audit log' },
+    ],
+  },
+  {
+    version: '1.25.3',
+    date: 'September 9, 2026',
+    items: [
+      { tag: 'Fixed', text: 'A POST under a workspace redirects to the login page instead of returning 500; malformed backup bodies report the parse error' },
+      { tag: 'Improved', text: '1.25.1–1.25.3 also bring consistent admin page titles and breadcrumbs, and CI that applies every migration to a real database' },
+    ],
+  },
+  {
+    version: '1.25.0',
+    date: 'September 8, 2026',
+    items: [
+      { tag: 'Security', text: 'Authorizing a client against an API no longer grants it every scope that API declares; each client gets an explicit scope allowlist' },
+      { tag: 'Added', text: 'Per-scope checkboxes on the authorized APIs page' },
+      { tag: 'Changed', text: 'Adding a scope to an API does not grant it to existing clients; existing grants are backfilled on upgrade' },
+    ],
+  },
+  {
     version: '1.24.0',
     date: 'September 4, 2026',
-    current: true,
     items: [
       { tag: 'Added', text: 'Per-workspace sign-in identifier mode: USERNAME, EMAIL, or EITHER. The hosted login form adapts its label, input type and autocomplete hint to the chosen mode' },
       { tag: 'Added', text: 'Auto-generated usernames for users provisioned without one (admin create, invite, JIT). Admin-editable usernames with full collision detection' },

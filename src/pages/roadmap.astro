@@ -10,7 +10,7 @@ const GITHUB_URL = 'https://github.com/inumansoul/kotauth';
 const columns = [
   {
     status: 'Shipped',
-    description: 'Live today on v1.24.0.',
+    description: 'Live today on v1.31.0.',
     legendDot: 'bg-[#1F9D55]',
     badgeWrap: 'bg-[#EAF7EF] border border-[#CDEBD9]',
     badgeDot: 'bg-[#1F9D55]',
@@ -32,25 +32,17 @@ const columns = [
       { title: 'SCIM 2.0 provisioning', body: 'RFC 7644 user and group sync with Entra ID and Okta dialects.' },
       { title: 'Explicit grant types', body: 'Per-application OAuth2 grant declaration with token endpoint enforcement.' },
       { title: 'Flexible sign-in identifiers', body: 'Per-workspace sign-in by username, email, or either.' },
-    ],
-  },
-  {
-    status: 'In progress',
-    description: 'Actively in development for upcoming releases.',
-    legendDot: 'bg-kotauth-primary',
-    badgeWrap: 'bg-[#EAF6FB] border border-[#CDE8F5]',
-    badgeDot: 'bg-kotauth-primary',
-    badgeText: 'text-kotauth-primary',
-    cardClass: 'bg-white border border-kotauth-surface-2 border-l-[3px] border-l-kotauth-primary shadow-[0_1px_3px_rgba(15,22,41,0.04)]',
-    titleClass: 'text-kotauth-text-primary',
-    bodyClass: 'text-kotauth-text-secondary',
-    items: [
-      { title: 'Enterprise SSO', body: 'LDAP and SAML federation for upstream identity providers.' },
+      { title: 'Per-client scope allowlists', body: 'Limit each application to the scopes it may request.' },
+      { title: 'MFA on every sign-in path', body: 'Password, magic link, email code and social sign-in all ask for the second factor, with enrollment during sign-in.' },
+      { title: 'Step-up authentication', body: 'Clients request a stronger factor per sign-in with acr_values; tokens carry amr and acr.' },
+      { title: 'Session and refresh hardening', body: 'Per-application session limits; refresh tokens bound to their workspace and client.' },
+      { title: 'Per-workspace public domain', body: 'Serve a workspace\'s sign-in pages and issuer on its own domain, passkeys included.' },
+      { title: 'Webhook SSRF protection', body: 'Deliveries to private and metadata addresses are refused by default.' },
     ],
   },
   {
     status: 'Planned',
-    description: 'Committed, scoped, and queued.',
+    description: 'Next on the roadmap, in priority order. Not yet scheduled.',
     legendDot: 'bg-[#D9890E]',
     badgeWrap: 'bg-[#FBF1E2] border border-[#F0DCBC]',
     badgeDot: 'bg-[#D9890E]',
@@ -59,9 +51,11 @@ const columns = [
     titleClass: 'text-kotauth-text-primary',
     bodyClass: 'text-kotauth-text-secondary',
     items: [
-      { title: 'Fine-grained authorization', body: 'Relationship-based access control for complex permissions.' },
-      { title: 'Self-service org management', body: 'Let end users create and administer their own organizations.' },
-      { title: 'Audit log export', body: 'Stream to SIEM targets and object storage on a schedule.' },
+      { title: 'Enterprise SSO', body: 'SAML 2.0 and LDAP / Active Directory federation.' },
+      { title: 'Claim-to-role mapping', body: 'Map claims from brokered identity providers onto roles and groups.' },
+      { title: 'OAuth consent screen', body: 'User-facing grant approval for third-party clients.' },
+      { title: 'Metrics and Helm chart', body: 'Prometheus metrics and Kubernetes manifests for production operations.' },
+      { title: 'Audit log export', body: 'Scheduled export to object storage or a SIEM webhook.' },
     ],
   },
   {
@@ -76,9 +70,10 @@ const columns = [
     bodyClass: 'text-kotauth-text-muted',
     items: [
       { title: 'Device authorization flow', body: 'Sign in on input-constrained devices like TVs and CLIs.' },
-      { title: 'Step-up authentication', body: 'Demand stronger factors for sensitive operations.' },
       { title: 'Policy-as-code', body: 'Version-controlled security policies applied at deploy time.' },
       { title: 'Org-level billing hooks', body: 'Usage signals for teams building products on top of Kotauth.' },
+      { title: 'Fine-grained authorization', body: 'Relationship-based access control for complex permissions.' },
+      { title: 'Self-service org management', body: 'Let end users create and administer their own organizations.' },
     ],
   },
 ];

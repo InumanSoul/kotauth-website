@@ -26,7 +26,7 @@ const categories = [
       },
       {
         title: 'Multi-factor auth',
-        body: 'TOTP-based MFA with replay detection and lockout protection. Enforced per workspace and preserved across every passwordless flow.',
+        body: 'TOTP-based MFA with replay detection and lockout protection. Required on every sign-in path, passwordless and social included, with enrollment during sign-in, step-up per request via acr_values, and an email when a factor changes.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
       },
       {
@@ -52,7 +52,7 @@ const categories = [
     items: [
       {
         title: 'Isolated workspaces',
-        body: 'Separate user directories, per-tenant RS256 key pairs with admin-initiated rotation, slug-routed APIs and independent security policies.',
+        body: 'Separate user directories, per-tenant RS256 key pairs with admin-initiated rotation, slug-routed APIs, independent security policies, and an optional public domain per workspace.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01"/></svg>',
       },
       {
@@ -72,7 +72,7 @@ const categories = [
       },
       {
         title: 'Explicit grant types',
-        body: 'Each application declares its OAuth2 grants — authorization code, client credentials, or refresh token. The token endpoint refuses any grant a client is not registered for.',
+        body: 'Each application declares its OAuth2 grants — authorization code, client credentials, or refresh token. The token endpoint refuses any grant a client is not registered for, and each client gets an explicit scope allowlist per API.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>',
       },
     ],
@@ -95,7 +95,7 @@ const categories = [
       },
       {
         title: 'Account protection',
-        body: 'Account lockout, refresh-token replay detection with family revocation, and silent SSO with prompt=none.',
+        body: 'Account lockout, refresh-token replay detection with family revocation, refresh tokens bound to their workspace and client, per-application session limits, and silent SSO with prompt=none.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
       },
       {
@@ -132,7 +132,7 @@ const categories = [
     items: [
       {
         title: 'Docker-native',
-        body: 'A ~120 MB image on GHCR. Runs non-root as UID 10001, read-only filesystem, no-new-privileges. One-command quickstart and Flyway auto-migrations handle the rest. Fully air-gapped capable.',
+        body: 'A ~410 MB image on GHCR. Runs non-root as UID 10001, read-only filesystem, no-new-privileges. One-command quickstart and Flyway auto-migrations handle the rest. Fully air-gapped capable.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="10" width="4" height="4"/><rect x="8" y="10" width="4" height="4"/><rect x="13" y="10" width="4" height="4"/><rect x="8" y="5" width="4" height="4"/><path d="M19 11c1.5 0 2.5-1 2.5-1M3 14c0 3 2 5 7 5 7 0 11-4 11-8"/></svg>',
       },
       {

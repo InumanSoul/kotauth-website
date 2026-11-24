@@ -26,7 +26,7 @@ const categories = [
       },
       {
         title: 'Autenticación multifactor',
-        body: 'MFA basado en TOTP con detección de repetición y protección por bloqueo. Se aplica por workspace y se mantiene en cada flujo sin contraseña.',
+        body: 'MFA basado en TOTP con detección de repetición y protección por bloqueo. Obligatorio en todas las vías de inicio de sesión, incluidas las sin contraseña y las sociales, con registro durante el inicio de sesión, step-up por solicitud con acr_values y un email cuando cambia un factor.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
       },
       {
@@ -52,7 +52,7 @@ const categories = [
     items: [
       {
         title: 'Workspaces aislados',
-        body: 'Directorios de usuarios separados, pares de claves RS256 por tenant con rotación iniciada por el administrador, APIs enrutadas por slug y políticas de seguridad independientes.',
+        body: 'Directorios de usuarios separados, pares de claves RS256 por tenant con rotación iniciada por el administrador, APIs enrutadas por slug, políticas de seguridad independientes y un dominio público opcional por workspace.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01"/></svg>',
       },
       {
@@ -72,7 +72,7 @@ const categories = [
       },
       {
         title: 'Tipos de grant explícitos',
-        body: 'Cada aplicación declara sus grants OAuth2 — código de autorización, credenciales de cliente o refresh token. El endpoint de tokens rechaza cualquier grant para el que el cliente no esté registrado.',
+        body: 'Cada aplicación declara sus grants OAuth2 — código de autorización, credenciales de cliente o refresh token. El endpoint de tokens rechaza cualquier grant para el que el cliente no esté registrado, y cada cliente tiene una allowlist explícita de scopes por API.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>',
       },
     ],
@@ -95,7 +95,7 @@ const categories = [
       },
       {
         title: 'Protección de cuentas',
-        body: 'Bloqueo de cuentas, detección de repetición de refresh-tokens con revocación de familia y SSO silencioso con prompt=none.',
+        body: 'Bloqueo de cuentas, detección de repetición de refresh-tokens con revocación de familia, refresh tokens vinculados a su workspace y cliente, límites de sesiones por aplicación y SSO silencioso con prompt=none.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
       },
       {
@@ -132,7 +132,7 @@ const categories = [
     items: [
       {
         title: 'Nativo de Docker',
-        body: 'Una imagen de ~120 MB en GHCR. Se ejecuta sin root como UID 10001, con sistema de archivos de solo lectura y no-new-privileges. Un quickstart de un solo comando y las migraciones automáticas de Flyway se encargan del resto. Totalmente apto para entornos air-gapped.',
+        body: 'Una imagen de ~410 MB en GHCR. Se ejecuta sin root como UID 10001, con sistema de archivos de solo lectura y no-new-privileges. Un quickstart de un solo comando y las migraciones automáticas de Flyway se encargan del resto. Totalmente apto para entornos air-gapped.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="10" width="4" height="4"/><rect x="8" y="10" width="4" height="4"/><rect x="13" y="10" width="4" height="4"/><rect x="8" y="5" width="4" height="4"/><path d="M19 11c1.5 0 2.5-1 2.5-1M3 14c0 3 2 5 7 5 7 0 11-4 11-8"/></svg>',
       },
       {

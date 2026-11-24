@@ -64,7 +64,7 @@ const es: Translations = {
       },
       {
         title: 'Funciona donde funcione Docker',
-        body: 'Una imagen de ~120 MB, sin root y de solo lectura por defecto. Nube, on-premise, air-gapped o tu portátil. Un comando para empezar.',
+        body: 'Una imagen de ~410 MB, sin root y de solo lectura por defecto. Nube, on-premise, air-gapped o tu portátil. Un comando para empezar.',
       },
     ],
   },
@@ -123,7 +123,7 @@ const es: Translations = {
       {
         title: 'Despliegue Nativo de Docker',
         description:
-          'Imagen de ~120 MB en GHCR. No-root, solo lectura, sin nuevos privilegios. Inicio rápido con un comando, migraciones automáticas, totalmente air-gapped.',
+          'Imagen de ~410 MB en GHCR. No-root, solo lectura, sin nuevos privilegios. Inicio rápido con un comando, migraciones automáticas, totalmente air-gapped.',
       },
     ],
   },

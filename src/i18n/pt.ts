@@ -64,7 +64,7 @@ const pt: Translations = {
       },
       {
         title: 'Roda onde o Docker rodar',
-        body: 'Uma imagem de ~120 MB, sem root e somente leitura por padrão. Nuvem, on-premise, air-gapped ou seu notebook. Um comando para começar.',
+        body: 'Uma imagem de ~410 MB, sem root e somente leitura por padrão. Nuvem, on-premise, air-gapped ou seu notebook. Um comando para começar.',
       },
     ],
   },
@@ -123,7 +123,7 @@ const pt: Translations = {
       {
         title: 'Deploy Nativo de Docker',
         description:
-          'Imagem de ~120 MB no GHCR. Sem root, somente leitura, sem novos privilégios. Início rápido com um comando, migrações automáticas, totalmente air-gapped.',
+          'Imagem de ~410 MB no GHCR. Sem root, somente leitura, sem novos privilégios. Início rápido com um comando, migrações automáticas, totalmente air-gapped.',
       },
     ],
   },
