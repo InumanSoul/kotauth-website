@@ -26,7 +26,7 @@ const categories = [
       },
       {
         title: 'Autenticação multifator',
-        body: 'MFA baseado em TOTP com detecção de replay e proteção contra bloqueio. Aplicado por workspace e preservado em todos os fluxos sem senha.',
+        body: 'MFA baseado em TOTP com detecção de replay e proteção contra bloqueio. Obrigatório em todos os caminhos de login, incluindo sem senha e social, com cadastro durante o login, step-up por requisição via acr_values e um email quando um fator muda.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
       },
       {
@@ -52,7 +52,7 @@ const categories = [
     items: [
       {
         title: 'Workspaces isolados',
-        body: 'Diretórios de usuários separados, pares de chaves RS256 por tenant com rotação iniciada pelo admin, APIs roteadas por slug e políticas de segurança independentes.',
+        body: 'Diretórios de usuários separados, pares de chaves RS256 por tenant com rotação iniciada pelo admin, APIs roteadas por slug, políticas de segurança independentes e um domínio público opcional por workspace.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01"/></svg>',
       },
       {
@@ -72,7 +72,7 @@ const categories = [
       },
       {
         title: 'Tipos de grant explícitos',
-        body: 'Cada aplicação declara seus grants OAuth2 — código de autorização, credenciais de cliente ou refresh token. O endpoint de tokens recusa qualquer grant para o qual o cliente não está registrado.',
+        body: 'Cada aplicação declara seus grants OAuth2 — código de autorização, credenciais de cliente ou refresh token. O endpoint de tokens recusa qualquer grant para o qual o cliente não está registrado, e cada cliente tem uma allowlist explícita de escopos por API.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>',
       },
     ],
@@ -95,7 +95,7 @@ const categories = [
       },
       {
         title: 'Proteção de conta',
-        body: 'Bloqueio de conta, detecção de replay de refresh-token com revogação por família e SSO silencioso com prompt=none.',
+        body: 'Bloqueio de conta, detecção de replay de refresh-token com revogação por família, refresh tokens vinculados ao seu workspace e cliente, limites de sessões por aplicação e SSO silencioso com prompt=none.',
         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
       },
       {
